@@ -1,13 +1,27 @@
 import React from 'react';
+import CommentList from './CommentList';
+var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
+var ref = new Firebase(FIREBASE_URL);
+var openedCratesList = [];
 
 var InventoryPage = React.createClass({
+  getInitialState: function() {
+    return {data: [],
+      user: {}
+    };
+  },
   handleClick: function(event) {
     ref.unauth();
   },
-  showHome: function(event) {
-    renderHome();
-  },
-  render: function() {
+  componentDidMount: function() {
+    var itself = this;
+    var openedCrates = new Firebase(FIREBASE_URL + "/crates");
+    openedCratesList = [];
+    openedCrates.orderByChild("opened").equalTo(true).on("child_added", function(snapshot) {
+      console.log(snapshot.val());
+      openedCratesList.push(snapshot.val());
+        itself.setState({data: openedCratesList});
+    });
     var user = ref.getAuth();
     var userRef;
     userRef = ref.child('users').child(user.uid);
@@ -16,12 +30,18 @@ var InventoryPage = React.createClass({
       if (!user) {
         return;
       }
+      itself.setState({user: user});
     });
+},  
+  showHome: function(event) {
+    renderHome();
+  },
+  render: function() {
     return (
 
       <div>
       <header>
-      <div style={{color: 'white'}}><img className="user-avatar" src={user.profileImageURL}/>{user.name}</div>
+      <div style={{color: 'white'}}><img className="user-avatar" src={this.state.user.profileImageURL}/>{this.state.user.name}</div>
       </header>
       <div className="container-fluid body-content">
       <CommentList data={openedCratesList} />

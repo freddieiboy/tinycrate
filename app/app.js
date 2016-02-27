@@ -132,8 +132,6 @@ function getProfileImageURL(authData) {
   }
 }
 
-// getUnopenedCrates();
-getOpenedCrates();
 if (authData) {
   console.log("User " + authData.uid + " is logged in with " + authData.provider);
   // renderInventory();
@@ -170,14 +168,3 @@ function openCrate(crateId) {
   });
 }
 
-
-
-function getOpenedCrates() {
-  var openedCrates = new Firebase(FIREBASE_URL + "/crates");
-  openedCratesList = [];
-  openedCrates.orderByChild("opened").equalTo(true).on("child_added", function(snapshot) {
-    console.log(snapshot.val());
-    openedCratesList.push(snapshot.val());
-      // renderHome();
-  });
-}
