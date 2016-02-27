@@ -1,5 +1,6 @@
 import React from 'react';
 import CommentList from './CommentList';
+import { Router, Route, Link, browserHistory } from 'react-router';
 var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var openedCratesList = [];
@@ -34,7 +35,7 @@ var InventoryPage = React.createClass({
     });
 },  
   showHome: function(event) {
-    renderHome();
+    browserHistory.push("/");
   },
   render: function() {
     return (

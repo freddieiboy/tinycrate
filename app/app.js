@@ -8,6 +8,7 @@ import Comment from './components/Comment';
 import CrateList from './components/CrateList';
 import Crate from './components/Crate';
 import CreatePage from './components/CreatePage';
+import { Router, Route, Link, browserHistory } from 'react-router';
 
 var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -28,10 +29,10 @@ var App = React.createClass({
     return {data: []};
   },
   showInventory: function(event) {
-    renderInventory();
+    browserHistory.push("inventory");
   },
   showCreate: function(event) {
-    renderCreate();
+    browserHistory.push("create");
   },
   componentDidMount: function() {
     var itself = this;
@@ -79,8 +80,6 @@ ref.onAuth(function(authData) {
       name: getName(authData),
       profileImageURL: getProfileImageURL(authData)
     });
-    // renderInventory();
-    // renderHome();
   } else {
     renderLogin();
   }
@@ -134,8 +133,6 @@ function getProfileImageURL(authData) {
 
 if (authData) {
   console.log("User " + authData.uid + " is logged in with " + authData.provider);
-  // renderInventory();
-  // renderHome();
 } else {
   console.log("User is logged out");
   renderLogin();

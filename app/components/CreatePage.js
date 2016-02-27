@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Router, Route, Link, browserHistory } from 'react-router';
 var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var authData = ref.getAuth();
@@ -9,7 +9,7 @@ const itself = this;
 
 var CreatePage = React.createClass({
   showHome: function(event) {
-    renderHome();
+    browserHistory.push("/");
   },
   crateText: function(e) {
     if (e.which == 13) {
