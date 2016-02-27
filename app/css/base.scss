@@ -1,0 +1,145 @@
+body {
+  background: #46535c;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+  padding: 30px;
+}
+
+a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-family: "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
+  font-size: 12px;
+  margin: 0 2px;
+  padding: 0 5px;
+}
+
+h1, h2, h3, h4 {
+  font-weight: bold;
+  margin: 0 0 15px;
+  padding: 0;
+}
+
+h1 {
+  border-bottom: 1px solid #ddd;
+  font-size: 2.5em;
+  font-weight: bold;
+  margin: 0 0 15px;
+  padding: 0;
+}
+
+h2 {
+  border-bottom: 1px solid #eee;
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+p, ul {
+  margin: 15px 0;
+}
+
+ul {
+  padding-left: 30px;
+}
+
+.Absolute-Center {
+  bottom: 0; left: 0; top: 0; right: 0;
+  margin: auto;
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  text-align: center;
+}
+
+html {
+  height: 100%;
+}
+html body {
+  height: 100%;
+  overflow: hidden;
+}
+html body .container-fluid.body-content {
+  position: absolute;
+  top: 85px;
+  bottom: 50px;
+  right: 0;
+  left: 0;
+  overflow-y: auto;
+  background-color: #fff
+}
+html body .container-fluid.body-content-home {
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  right: 0;
+  left: 0;
+  overflow-y: auto;
+  background-color: #46535c
+}
+html body .container-fluid.body-content-create {
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  right: 0;
+  left: 0;
+  overflow-y: auto;
+  background-color: #f5f8fa
+}
+
+header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: #293640;
+    height: 85px;
+}
+.homeHeader {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: #293640;
+    height: 50px;
+}
+footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #46535d;
+    height: 50px;
+}
+
+.user-avatar {
+  padding: 15px;
+}
+
+.crate {
+  width: 96px;
+  height: 96px;
+}
+
+.inventoryFeedAvatar {
+  width: 32px;
+  height: 32px;
+}
