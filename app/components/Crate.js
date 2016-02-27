@@ -8,8 +8,14 @@ var Crate = React.createClass({
   render: function() {
     return (
       <div>
-      <img src={'img/crate.png'} className="crate" onClick={this.openCrate}/>
-      {this.props.id}
+        <div className="crate-holder" onClick={this.openCrate}>
+          <div className="crate-top"></div>
+          <div className="crate-bottom"></div>
+          <div className="crate-shadow"></div>
+        </div>
+
+        {this.props.id}
+        
       </div>
     );
   }
