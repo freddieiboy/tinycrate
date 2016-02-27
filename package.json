@@ -4,11 +4,18 @@
   "description": "Code from the React tutorial.",
   "main": "server.js",
   "dependencies": {
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.2.0",
     "body-parser": "^1.4.3",
     "express": "^4.4.5",
-    "react-dom": "^0.14.0"
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jsx-loader": "^0.13.2",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -28,7 +35,7 @@
     "url": "https://github.com/reactjs/react-tutorial/issues"
   },
   "homepage": "https://github.com/reactjs/react-tutorial",
-  "engines" : {
-    "node" : "0.12.x"
+  "engines": {
+    "node": "0.12.x"
   }
 }

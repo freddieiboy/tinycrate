@@ -69,3 +69,77 @@ ul {
   height: 300px;
   text-align: center;
 }
+
+html {
+  height: 100%;
+}
+html body {
+  height: 100%;
+  overflow: hidden;
+}
+html body .container-fluid.body-content {
+  position: absolute;
+  top: 85px;
+  bottom: 50px;
+  right: 0;
+  left: 0;
+  overflow-y: auto;
+  background-color: #fff
+}
+html body .container-fluid.body-content-home {
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  right: 0;
+  left: 0;
+  overflow-y: auto;
+  background-color: #46535c
+}
+html body .container-fluid.body-content-create {
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  right: 0;
+  left: 0;
+  overflow-y: auto;
+  background-color: #f5f8fa
+}
+
+header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: #293640;
+    height: 85px;
+}
+.homeHeader {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: #293640;
+    height: 50px;
+}
+footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #46535d;
+    height: 50px;
+}
+
+.user-avatar {
+  padding: 15px;
+}
+
+.crate {
+  width: 96px;
+  height: 96px;
+}
+
+.inventoryFeedAvatar {
+  width: 32px;
+  height: 32px;
+}
