@@ -1,5 +1,3 @@
-import css from '!style!css!sass!./css/base.scss';
-import '!style!css!sass!milligram/dist/milligram.css';
 
 var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -13,196 +11,167 @@ var data = [
   {id: 3, name: "DJ Khaled", text: "Major 🔑🔑🔑 Alert!!", image: "http://imc.ulximg.com/image/src/artist/1392850906_2f16e083616376c167fda25befb0472c.jpg/40b5f63611a9262fc955282ec0ec47f7/1392850906_dj_khaled_27.jpg"}
 ];
 
-var LoginPage = React.createClass({
-  twitterLogin: function(event) {
-    ref.authWithOAuthPopup("twitter", function(error, authData) {
-      if (error) {
-        console.log("Login Failed!", error);
-      } else {
-        console.log("Authenticated successfully with payload:", authData);
-      }
-    });
-  },
-  facebookLogin: function(event) {
-    ref.authWithOAuthPopup("facebook", function(error, authData) {
-      if (error) {
-        console.log("Login Failed!", error);
-      } else {
-        console.log("Authenticated successfully with payload:", authData);
-      }
-    });
-  },
-  render: function() {
-    return (
-      <div className="Absolute-Center">
-      <p style={{color: 'white', fontSize: '25px'}}>📦 TinyCrate 📦</p>
-      <div></div>
-      <img src="./img/sign-in-with-twitter-gray.png" onClick={this.twitterLogin}></img>
-      <img src="./img/facebook-login-button.png" style={{width: '158px'}} onClick={this.facebookLogin}></img>
-      </div>
-    );
-  }
-});
 
-var InventoryPage = React.createClass({
-  handleClick: function(event) {
-    ref.unauth();
-  },
-  showHome: function(event) {
-    renderHome();
-  },
-  render: function() {
-    var user = ref.getAuth();
-    var userRef;
-    userRef = ref.child('users').child(user.uid);
-    userRef.once('value', function (snap) {
-      user = snap.val();
-      if (!user) {
-        return;
-      }
-    });
-    return (
 
-      <div>
-      <header>
-      <div style={{color: 'white'}}><img className="user-avatar" src={user.profileImageURL}/>{user.name}</div>
-      </header>
-      <div className="container-fluid body-content">
-      <CommentList data={openedCratesList} />
-      </div>
-      <footer>
-      <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showHome}>Go Back</p>
-      </footer>
-      </div>
+// var InventoryPage = React.createClass({
+//   handleClick: function(event) {
+//     ref.unauth();
+//   },
+//   showHome: function(event) {
+//     renderHome();
+//   },
+//   render: function() {
+//     var user = ref.getAuth();
+//     var userRef;
+//     userRef = ref.child('users').child(user.uid);
+//     userRef.once('value', function (snap) {
+//       user = snap.val();
+//       if (!user) {
+//         return;
+//       }
+//     });
+//     return (
+//
+//       <div>
+//       <header>
+//       <div style={{color: 'white'}}><img className="user-avatar" src={user.profileImageURL}/>{user.name}</div>
+//       </header>
+//       <div className="container-fluid body-content">
+//       <CommentList data={openedCratesList} />
+//       </div>
+//       <footer>
+//       <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showHome}>Go Back</p>
+//       </footer>
+//       </div>
+//
+//       // <div className="Absolute-Center">
+//       // <img src={user.profileImageURL}/>
+//       // <p style={{color: 'white'}}>Hello {user.name}!</p>
+//       // <button onClick={this.handleClick}>Logout</button>
+//       // </div>
+//     );
+//   }
+// });
 
-      // <div className="Absolute-Center">
-      // <img src={user.profileImageURL}/>
-      // <p style={{color: 'white'}}>Hello {user.name}!</p>
-      // <button onClick={this.handleClick}>Logout</button>
-      // </div>
-    );
-  }
-});
+// var HomePage = React.createClass({
+//   showInventory: function(event) {
+//     renderInventory();
+//   },
+//   showCreate: function(event) {
+//     renderCreate();
+//   },
+//   render: function() {
+//     return (
+//       <div>
+//       <div className="homeHeader">
+//       <div style={{color: 'white'}} onClick={this.showInventory}>TinyCrate</div>
+//       </div>
+//       <div className="container-fluid body-content-home">
+//       <CrateList data={unopenedCratesList} />
+//
+//       </div>
+//       <footer>
+//       <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showCreate}>New Crate</p>
+//       </footer>
+//       </div>
+//     );
+//   }
+// });
 
-var HomePage = React.createClass({
-  showInventory: function(event) {
-    renderInventory();
-  },
-  showCreate: function(event) {
-    renderCreate();
-  },
-  render: function() {
-    return (
-      <div>
-      <div className="homeHeader">
-      <div style={{color: 'white'}} onClick={this.showInventory}>TinyCrate</div>
-      </div>
-      <div className="container-fluid body-content-home">
-      <CrateList data={unopenedCratesList} />
+// var CreatePage = React.createClass({
+//   showHome: function(event) {
+//     renderHome();
+//   },
+//   componentDidMount: function() {
+//     $('#crateText').keypress(function (e) {
+//           if (e.keyCode == 13) {
+//             var text = $('#crateText').val();
+//             sendCrate(text);
+//             $('#crateText').val('');
+//           }
+//         });
+//   },
+//   render: function() {
+//     return (
+//       <div>
+//       <div className="homeHeader">
+//       <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showHome}>Go Back</p>
+//       </div>
+//       <div className="container-fluid body-content-create">
+//       <div>
+//       To: name
+//       </div>
+//
+//       </div>
+//       <footer>
+//       <input type="text" id="crateText" placeholder='what the crate...' style={{color: 'white'}}/>
+//       </footer>
+//       </div>
+//     );
+//   }
+// });
 
-      </div>
-      <footer>
-      <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showCreate}>New Crate</p>
-      </footer>
-      </div>
-    );
-  }
-});
+// var CommentList = React.createClass({
+//   render: function() {
+//     var commentNodes = this.props.data.map(function(comment) {
+//       return (
+//         <Comment name={comment.authorDisplayName} key={comment.id} image={comment.authorProfileImageURL}>
+//           {comment.text}
+//         </Comment>
+//       );
+//     });
+//     return (
+//       <div className="commentList" style={{padding: '15px'}}>
+//         {commentNodes}
+//       </div>
+//     );
+//   }
+// });
 
-var CreatePage = React.createClass({
-  showHome: function(event) {
-    renderHome();
-  },
-  componentDidMount: function() {
-    $('#crateText').keypress(function (e) {
-          if (e.keyCode == 13) {
-            var text = $('#crateText').val();
-            sendCrate(text);
-            $('#crateText').val('');
-          }
-        });
-  },
-  render: function() {
-    return (
-      <div>
-      <div className="homeHeader">
-      <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showHome}>Go Back</p>
-      </div>
-      <div className="container-fluid body-content-create">
-      <div>
-      To: name
-      </div>
+// var Comment = React.createClass({
+//   render: function() {
+//     return (
+//       <div className="comment">
+//       <img src={this.props.image} className="inventoryFeedAvatar"/> {this.props.name}
+//         <p className="commentAuthor">
+//           {this.props.children}
+//         </p>
+//
+//       </div>
+//     );
+//   }
+// });
 
-      </div>
-      <footer>
-      <input type="text" id="crateText" placeholder='what the crate...' style={{color: 'white'}}/>
-      </footer>
-      </div>
-    );
-  }
-});
+// var CrateList = React.createClass({
+//   render: function() {
+//     var crateNodes = this.props.data.map(function(crate) {
+//       return (
+//         <Crate name={crate.crate} id={crate.id}>
+//         </Crate>
+//       );
+//     });
+//     return (
+//       <div className="crateList" style={{padding: '15px'}}>
+//         {crateNodes}
+//       </div>
+//     );
+//   }
+// });
 
-var CommentList = React.createClass({
-  render: function() {
-    var commentNodes = this.props.data.map(function(comment) {
-      return (
-        <Comment name={comment.authorDisplayName} key={comment.id} image={comment.authorProfileImageURL}>
-          {comment.text}
-        </Comment>
-      );
-    });
-    return (
-      <div className="commentList" style={{padding: '15px'}}>
-        {commentNodes}
-      </div>
-    );
-  }
-});
-
-var Comment = React.createClass({
-  render: function() {
-    return (
-      <div className="comment">
-      <img src={this.props.image} className="inventoryFeedAvatar"/> {this.props.name}
-        <p className="commentAuthor">
-          {this.props.children}
-        </p>
-
-      </div>
-    );
-  }
-});
-
-var CrateList = React.createClass({
-  render: function() {
-    var crateNodes = this.props.data.map(function(crate) {
-      return (
-        <Crate name={crate.crate} id={crate.id}>
-        </Crate>
-      );
-    });
-    return (
-      <div className="crateList" style={{padding: '15px'}}>
-        {crateNodes}
-      </div>
-    );
-  }
-});
-
-var Crate = React.createClass({
-  openCrate: function(event) {
-    console.log("opened crate: " + this.props.id);
-    openCrate(this.props.id);
-  },
-  render: function() {
-    return (
-      <div>
-      <img src={'img/crate.png'} className="crate" onClick={this.openCrate}/>
-      {this.props.id}
-      </div>
-    );
-  }
-});
+// var Crate = React.createClass({
+//   openCrate: function(event) {
+//     console.log("opened crate: " + this.props.id);
+//     openCrate(this.props.id);
+//   },
+//   render: function() {
+//     return (
+//       <div>
+//       <img src={'img/crate.png'} className="crate" onClick={this.openCrate}/>
+//       {this.props.id}
+//       </div>
+//     );
+//   }
+// });
 
 ref.onAuth(function(authData) {
   if (authData) {
