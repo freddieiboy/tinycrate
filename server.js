@@ -1,25 +1,34 @@
 var path = require('path');
 var express = require('express');
-var bodyParser = require('body-parser');
+var webpack = require('webpack');
+var config = require('./webpack.config.dev.js');
+
+var isDeveloping = process.env.NODE_ENV !== 'production';
+var port = isDeveloping ? 3000 : process.env.PORT;
 var app = express();
 
-app.set('port', (process.env.PORT || 3000));
+if (isDeveloping) {
+	var compiler = webpack(config);
+	app.use(require('webpack-dev-middleware')(compiler, {
+		noInfo: true,
+		publicPath: config.output.publicPath
+	}));
 
-app.use('/', express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+	app.use(require('webpack-hot-middleware')(compiler));
 
-// Additional middleware which will set headers that we need on each request.
-app.use(function(req, res, next) {
-    // Set permissive CORS header - this allows this server to be used only as
-    // an API server in conjunction with something like webpack-dev-server.
-    res.setHeader('Access-Control-Allow-Origin', '*');
+	app.get('*', function response(req, res) {
+		res.sendFile(path.join(__dirname, 'app/index.html'));
+	});
+} else {
+	app.use(express.static(__dirname + '/dist'));
+	app.get('*', function response(req, res) {
+		res.sendFile(path.join(__dirname, 'dist/index.html'));
+	});
+}
 
-    // Disable caching so we'll always get the latest comments.
-    res.setHeader('Cache-Control', 'no-cache');
-    next();
-});
-
-app.listen(app.get('port'), function() {
-  console.log('Server started: http://localhost:' + app.get('port') + '/');
+app.listen(port, '0.0.0.0', function onStart(err) {
+  if (err) {
+    console.log(err);
+  }
+  console.info('==> 🌎 Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port);
 });
