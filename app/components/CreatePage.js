@@ -12,7 +12,7 @@ var CreatePage = React.createClass({
     renderHome();
   },
   crateText: function(e) {
-    if (e.keyCode == 13) {
+    if (e.which == 13) {
       var text = e.target.value;
       this.sendCrate(text)
       $('#crateText').val('');
@@ -51,7 +51,7 @@ var CreatePage = React.createClass({
           <div>To: name</div>
         </div>
         <footer>
-          <input type="text" id="crateText" placeholder='what the crate...' style={{color: 'white'}} onKeyPress={this.crateText}/>
+          <input type="text" id="crateText" placeholder='what the crate...' style={{color: 'white'}} onKeyUp={this.crateText}/>
         </footer>
       </div>
     );
