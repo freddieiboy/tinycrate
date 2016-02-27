@@ -10,7 +10,7 @@ var Crate = React.createClass({
   pressCrate: function() {
     this.setState({isPressed: true})
   },
-  openCrate: function(event) {
+  crateClick: function(event) {
     console.log("opened crate: " + this.props.id);
     openCrate(this.props.id);
   },
@@ -30,17 +30,23 @@ var Crate = React.createClass({
 console.log(this.state.isPressed);
     return (
       <div>
-        <div className="crate-holder" onClick={this.openCrate} onMouseDown={this.pressCrate}>
+        <div className="crate-holder" onClick={this.crateClick} onMouseDown={this.pressCrate}>
           <div className={crateTop}></div>
           <div className={crateBottom}></div>
           <div className={crateShadow}></div>
         </div>
-
-        {this.props.id}
-
       </div>
     );
   }
 });
+
+
+function openCrate(crateId) {
+  var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
+  var crate = new Firebase(FIREBASE_URL + "/crates/" + crateId);
+  crate.update({
+    "opened": true
+  });
+}
 
 module.exports = Crate;

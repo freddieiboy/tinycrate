@@ -40,7 +40,7 @@ var App = React.createClass({
     unopenedCrates.orderByChild("opened").equalTo(false).on("child_added", function(snapshot) {
 
         console.log(snapshot.val());
-      unopenedCratesList.push(snapshot.val());
+      unopenedCratesList.push({id: snapshot.key(), crate: snapshot.val()});
   
   itself.setState({data:  unopenedCratesList});
 });
@@ -161,10 +161,4 @@ if (authData) {
 //     });
 // }
 
-function openCrate(crateId) {
-  var crate = new Firebase(FIREBASE_URL + "/crates/" + crateId);
-  crate.update({
-    "opened": true
-  });
-}
 
