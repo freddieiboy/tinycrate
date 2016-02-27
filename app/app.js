@@ -24,12 +24,27 @@ var data = [
 
 
 var App = React.createClass({
+  getInitialState: function() {
+    return {data: []};
+  },
   showInventory: function(event) {
     renderInventory();
   },
   showCreate: function(event) {
     renderCreate();
   },
+  componentDidMount: function() {
+    var itself = this;
+    var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
+    unopenedCratesList = [];
+    unopenedCrates.orderByChild("opened").equalTo(false).on("child_added", function(snapshot) {
+
+        console.log(snapshot.val());
+      unopenedCratesList.push(snapshot.val());
+  
+  itself.setState({data:  unopenedCratesList});
+});
+},
   render: function() {
     return (
       <div>
@@ -47,6 +62,10 @@ var App = React.createClass({
       </div>
     );
   }
+
+
+
+
 });
 
 module.exports = App;
@@ -113,7 +132,7 @@ function getProfileImageURL(authData) {
   }
 }
 
-getUnopenedCrates();
+// getUnopenedCrates();
 getOpenedCrates();
 if (authData) {
   console.log("User " + authData.uid + " is logged in with " + authData.provider);
@@ -151,16 +170,7 @@ function openCrate(crateId) {
   });
 }
 
-function getUnopenedCrates() {
-  var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
-  unopenedCratesList = [];
-  unopenedCrates.orderByChild("opened").equalTo(false).on("child_added", function(snapshot) {
-    console.log(snapshot.val());
-    unopenedCratesList.push({id: snapshot.key(), crate: snapshot.val()});
-      renderHome();
-  });
-        renderHome();
-}
+
 
 function getOpenedCrates() {
   var openedCrates = new Firebase(FIREBASE_URL + "/crates");

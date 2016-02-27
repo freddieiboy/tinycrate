@@ -1,3 +1,5 @@
+import React from 'react';
+
 var Crate = React.createClass({
   openCrate: function(event) {
     console.log("opened crate: " + this.props.id);
@@ -12,3 +14,5 @@ var Crate = React.createClass({
     );
   }
 });
+
+module.exports = Crate;
