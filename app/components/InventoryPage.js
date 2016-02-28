@@ -66,12 +66,12 @@ var InventoryPage = React.createClass({
                 </div>
               </div>
               <div className="column user-info-holder">
-                <div className="name float-left">{this.state.user.name}</div>
+                <div className="info">
+                  <div className="name ">{this.state.user.name}</div>
+                  <div className="username ">@{this.state.user.username}</div>
+                </div>
               </div>
-              <div className="column user-info-holder">
-                <div className="username float-left">@{this.state.user.username}</div>
-              </div>
-              <div className="column">
+              <div className="column button-holder" style={{height: '100%'}}>
                 <button style={{float: 'right'}} onClick={this.logout}>Logout</button>
               </div>
             </div>

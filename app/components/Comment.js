@@ -4,11 +4,11 @@ var Comment = React.createClass({
   render: function() {
     return (
       <div className="comment">
-      <img src={this.props.image} className="inventoryFeedAvatar"/> {this.props.name}
+        <img src={this.props.image} className="inventoryFeedAvatar"/>
+        <div className="name">{this.props.name}</div>
         <p className="commentAuthor">
           {this.props.children}
         </p>
-
       </div>
     );
   }

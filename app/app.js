@@ -48,7 +48,7 @@ var App = React.createClass({
       }
       itself.setState({data:  unopenedCratesList});
     });
-    
+
     unopenedCrates.orderByChild("public").equalTo(true).on("child_added", function(snapshot) {
       var crate = snapshot.val();
       crate.key = snapshot.key();
@@ -80,7 +80,7 @@ render: function() {
         <div style={{color: 'white'}} onClick={this.showInventory}>TinyCrate</div>
       </div>
 
-      <div style={{padding: '15px', paddingTop: '40px'}} className="container-fluid body-content-home">
+      <div style={{padding: '40px'}} className="container-fluid body-content-home">
         <AbsoluteGrid items={this.state.data} displayObject={(<CrateList onDelete={this.deleteObj}/>)} responsive={true} itemWidth={92} />
       </div>
 

@@ -38,10 +38,25 @@
     width: 100%;
     position: relative;
     .user-avatar {
-      padding: 15px;
-      border-radius: 35px;
+      // padding: 15px;
+      border-radius: 50px;
+      border: 5px solid $greenLight;
+      // outline-style: outset;
       margin: 0 auto;
       display: inherit;
+      position: absolute;
+      width: 75px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .button-holder {
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    button {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -52,15 +67,45 @@
   .inventoryFeedAvatar {
     width: 32px;
     height: 32px;
+    border-radius: 30px;
+    margin-top: 20px;
   }
 
+  .column.user-info-holder {
+    padding: 0;
+  }
   .user-info-holder {
-    margin: 20px;
-    .name {
-      color: white;
-    }
-    .username {
-      color: $mediumBg;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    padding: 0;
+    .info {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      .name {
+        color: white;
+        // padding-right: 10px;
+      }
+      .username {
+        color: $mediumBg;
+      }
     }
   }
+}
+
+.comment {
+  border-bottom: 2px solid $lightBg;
+  padding: 10px;
+  .name {
+    display: inline;
+    padding-left: 17px;
+    font-weight: bold;
+    color: #b1b1b1;
+  }
+}
+
+.commentAuthor {
+  padding-left: 50px;
 }
