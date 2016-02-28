@@ -28,8 +28,8 @@ var LoginPage = React.createClass({
       <div className="Absolute-Center">
       <p style={{color: 'white', fontSize: '25px'}}>📦 TinyCrate 📦</p>
       <div></div>
-      <img src="sign-in-with-twitter-gray.png" onClick={this.twitterLogin}></img>
-      <img src="facebook-login-button.png" style={{width: '158px'}} onClick={this.facebookLogin}></img>
+      <button onClick={this.twitterLogin} onTouch={this.twitterLogin}>Twitter Login</button>
+      <button onClick={this.facebookLogin}>Facebook Login</button>
       </div>
     );
   }

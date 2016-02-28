@@ -9,6 +9,7 @@ import CrateList from './components/CrateList';
 import Crate from './components/Crate';
 import CreatePage from './components/CreatePage';
 import { Router, Route, Link, browserHistory } from 'react-router';
+import AbsoluteGrid from 'react-absolute-grid';
 
 import firebase from 'firebase';
 var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
@@ -79,8 +80,8 @@ render: function() {
         <div style={{color: 'white'}} onClick={this.showInventory}>TinyCrate</div>
       </div>
 
-      <div className="container-fluid body-content-home">
-        <CrateList data={this.state.data} onDelete={this.deleteObj} />
+      <div style={{padding: '15px', paddingTop: '40px'}} className="container-fluid body-content-home">
+        <AbsoluteGrid items={this.state.data} displayObject={(<CrateList onDelete={this.deleteObj}/>)} responsive={true} itemWidth={92} />
       </div>
 
       <footer>
