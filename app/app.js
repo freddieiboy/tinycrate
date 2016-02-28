@@ -77,7 +77,7 @@ render: function() {
   return (
     <div>
       <div className="homeHeader">
-        <div style={{color: 'white'}} onClick={this.showInventory}>TinyCrate</div>
+        <div className="logoType" onClick={this.showInventory}>TinyCrate</div>
       </div>
 
       <div style={{padding: '40px'}} className="container-fluid body-content-home">

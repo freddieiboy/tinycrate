@@ -95,7 +95,7 @@ html body {
   }
   &.body-content-home {
     position: absolute;
-    top: 50px;
+    top: 80px;
     bottom: 50px;
     right: 0;
     left: 0;
@@ -115,12 +115,18 @@ html body {
 
 
 .homeHeader {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    background-color: #293640;
-    height: 50px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: $bg;
+  height: 75px;
+  padding: 15px 38px;
+  margin-bottom: 30px;
+  .logoType {
+    font-size: 22px;
+    color: white;
+  }
 }
 
 
@@ -146,4 +152,8 @@ footer {
   bottom: 0;
   background-color: #46535d;
   height: 100px;
+}
+
+.downArrow {
+  width: 25px;
 }
