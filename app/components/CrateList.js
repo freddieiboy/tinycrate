@@ -3,9 +3,10 @@ import Crate from './Crate';
 
 var CrateList = React.createClass({
   render: function() {
+    var onDelete = this.props.onDelete;
     var crateNodes = this.props.data.map(function(crate) {
       return (
-        <Crate name={crate.crate} id={crate.id}>
+        <Crate id={crate.key} onDelete={onDelete}>
         </Crate>
       );
     });
@@ -16,5 +17,6 @@ var CrateList = React.createClass({
     );
   }
 });
+
 
 module.exports = CrateList;

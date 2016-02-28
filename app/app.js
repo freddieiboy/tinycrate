@@ -39,12 +39,28 @@ var App = React.createClass({
     var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
     unopenedCratesList = [];
     unopenedCrates.orderByChild("opened").equalTo(false).on("child_added", function(snapshot) {
-
         console.log(snapshot.val());
-      unopenedCratesList.push({id: snapshot.key(), crate: snapshot.val()});
+        var crate = snapshot.val();
+        crate.key = snapshot.key();
+        unopenedCratesList.push(crate);
   
   itself.setState({data:  unopenedCratesList});
 });
+},
+deleteObj: function(data_id) {
+  var itself = this;
+  console.log("deleting: " + data_id);
+  
+  var links = this.state.data;
+  console.log("OLD LINKS: " + JSON.stringify(links));
+  
+  var newlinks = links.filter(function(elem) {
+    return elem.key != data_id;
+  });
+
+  console.log("NEW LINKS: " + JSON.stringify(newlinks));
+
+  itself.setState({data: newlinks});
 },
   render: function() {
     return (
@@ -54,7 +70,7 @@ var App = React.createClass({
         </div>
 
         <div className="container-fluid body-content-home">
-          <CrateList data={unopenedCratesList} />
+          <CrateList data={unopenedCratesList} onDelete={this.deleteObj} />
         </div>
 
         <footer>
