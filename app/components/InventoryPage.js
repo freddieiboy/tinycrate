@@ -27,6 +27,7 @@ var InventoryPage = React.createClass({
       if(crate.opened === true) {
           openedCratesList.push(crate);
       }
+      openedCratesList.reverse();
       itself.setState({data:  openedCratesList});
     });
 
