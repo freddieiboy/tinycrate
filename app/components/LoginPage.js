@@ -68,7 +68,7 @@ function getUsername(authData) {
 function getProfileImageURL(authData) {
   switch(authData.provider) {
     case 'twitter':
-    return authData.twitter.profileImageURL;
+    return authData.twitter.profileImageURL.replace("_normal", "");
     case 'facebook':
     return authData.facebook.profileImageURL;
   }
