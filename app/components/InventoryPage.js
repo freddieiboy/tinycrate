@@ -33,7 +33,7 @@ var InventoryPage = React.createClass({
       }
       itself.setState({user: user});
     });
-},  
+},
   showHome: function(event) {
     browserHistory.push("/");
   },
@@ -41,22 +41,16 @@ var InventoryPage = React.createClass({
     return (
 
       <div>
-      <header>
-      <div style={{color: 'white'}}><img className="user-avatar" src={this.state.user.profileImageURL}/>{this.state.user.name}</div>
-      </header>
-      <div className="container-fluid body-content">
-      <CommentList data={openedCratesList} />
+        <header>
+          <div style={{color: 'white'}}><img className="user-avatar" src={this.state.user.profileImageURL}/>{this.state.user.name}</div>
+        </header>
+        <div className="container-fluid body-content">
+          <CommentList data={openedCratesList} />
+        </div>
+        <footer>
+          <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showHome}>Go Back</p>
+        </footer>
       </div>
-      <footer>
-      <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showHome}>Go Back</p>
-      </footer>
-      </div>
-
-      // <div className="Absolute-Center">
-      // <img src={user.profileImageURL}/>
-      // <p style={{color: 'white'}}>Hello {user.name}!</p>
-      // <button onClick={this.handleClick}>Logout</button>
-      // </div>
     );
   }
 });

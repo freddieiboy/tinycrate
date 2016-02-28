@@ -10,6 +10,7 @@ import Crate from './components/Crate';
 import CreatePage from './components/CreatePage';
 import { Router, Route, Link, browserHistory } from 'react-router';
 
+import firebase from 'firebase';
 var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var authData = ref.getAuth();
@@ -43,17 +44,16 @@ var App = React.createClass({
         var crate = snapshot.val();
         crate.key = snapshot.key();
         unopenedCratesList.push(crate);
-  
   itself.setState({data:  unopenedCratesList});
 });
 },
 deleteObj: function(data_id) {
   var itself = this;
   console.log("deleting: " + data_id);
-  
+
   var links = this.state.data;
   console.log("OLD LINKS: " + JSON.stringify(links));
-  
+
   var newlinks = links.filter(function(elem) {
     return elem.key != data_id;
   });
@@ -101,34 +101,6 @@ ref.onAuth(function(authData) {
   }
 });
 
-function renderLogin() {
-  ReactDOM.render(
-    <LoginPage />,
-    document.getElementById('content')
-  );
-}
-
-function renderInventory() {
-  ReactDOM.render(
-    <InventoryPage />,
-    document.getElementById('content')
-  );
-}
-
-function renderHome() {
-  ReactDOM.render(
-    <App />,
-    document.getElementById('content')
-  );
-}
-
-function renderCreate() {
-  ReactDOM.render(
-    <CreatePage />,
-    document.getElementById('content')
-  );
-}
-
 function getName(authData) {
   switch(authData.provider) {
     case 'twitter':
@@ -153,25 +125,3 @@ if (authData) {
   console.log("User is logged out");
   renderLogin();
 }
-
-// function sendCrate(text) {
-//   var postsRef = ref.child("crates");
-//     var newPostRef = postsRef.push();
-//         var user = ref.getAuth();
-//     var userRef = ref.child('users').child(user.uid);
-//     userRef.once('value', function (snap) {
-//       var user = snap.val();
-//       if (!user) {
-//         return;
-//       }
-//       newPostRef.set({
-//         authorUId: authData.uid,
-//         authorDisplayName: user.name,
-//         authorProfileImageURL: user.profileImageURL,
-//         text: text,
-//         opened: false
-//       });
-//     });
-// }
-
-

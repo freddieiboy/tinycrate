@@ -1,5 +1,6 @@
 import React from 'react';
 import Comment from './Comment';
+import firebase from 'firebase';
 
 var CommentList = React.createClass({
   render: function() {
