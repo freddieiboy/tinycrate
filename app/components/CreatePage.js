@@ -72,7 +72,8 @@ var CreatePage = React.createClass({
           authorProfileImageURL: user.profileImageURL,
           recipientUId: recipientUser.uid,
           text: text,
-          opened: false
+          opened: false,
+          createdAt: Firebase.ServerValue.TIMESTAMP
         });
       } else {
         newPostRef.set({
@@ -81,7 +82,8 @@ var CreatePage = React.createClass({
           public: true,
           authorProfileImageURL: user.profileImageURL,
           text: text,
-          opened: false
+          opened: false,
+          createdAt: Firebase.ServerValue.TIMESTAMP
         });
       }
     });
