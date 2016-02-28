@@ -89,6 +89,7 @@ var CreatePage = React.createClass({
           opened: false,
           createdAt: Firebase.ServerValue.TIMESTAMP
         });
+        itself.showHome();
       } else {
         newPostRef.set({
           authorUId: authData.uid,
@@ -99,6 +100,7 @@ var CreatePage = React.createClass({
           opened: false,
           createdAt: Firebase.ServerValue.TIMESTAMP
         });
+        itself.showHome();
       }
     });
   },
