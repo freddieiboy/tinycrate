@@ -12,7 +12,7 @@ var CrateList = React.createClass({
     });
     return (
       <div className="crateList" style={{padding: '15px'}}>
-        {crateNodes}
+          {crateNodes}
       </div>
     );
   }

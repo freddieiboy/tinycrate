@@ -62,23 +62,23 @@ deleteObj: function(data_id) {
 
   itself.setState({data: newlinks});
 },
-  render: function() {
-    return (
-      <div>
-        <div className="homeHeader">
-          <div style={{color: 'white'}} onClick={this.showInventory}>TinyCrate</div>
-        </div>
-
-        <div className="container-fluid body-content-home">
-          <CrateList data={this.state.data} onDelete={this.deleteObj} />
-        </div>
-
-        <footer>
-          <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showCreate}>New Crate</p>
-        </footer>
+render: function() {
+  return (
+    <div>
+      <div className="homeHeader">
+        <div style={{color: 'white'}} onClick={this.showInventory}>TinyCrate</div>
       </div>
-    );
-  }
+
+      <div className="container-fluid body-content-home">
+        <CrateList data={this.state.data} onDelete={this.deleteObj} />
+      </div>
+
+      <footer>
+        <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showCreate}>New Crate</p>
+      </footer>
+    </div>
+  );
+}
 
 });
 

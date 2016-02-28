@@ -8,6 +8,11 @@ const itself = this;
 
 
 var CreatePage = React.createClass({
+  getInitialState: function() {
+    return {
+      text: ''
+    }
+  },
   showHome: function(event) {
     browserHistory.push("/");
   },
@@ -15,11 +20,7 @@ var CreatePage = React.createClass({
     if (e.which == 13) {
       var text = e.target.value;
       this.sendCrate(text)
-      $('#crateText').val('');
     }
-  },
-  trying: function() {
-    console.log("WORKINGGGGGG")
   },
   sendCrate: function(text) {
     var postsRef = ref.child("crates");
@@ -51,7 +52,7 @@ var CreatePage = React.createClass({
           <div>To: name</div>
         </div>
         <footer>
-          <input type="text" id="crateText" placeholder='what the crate...' style={{color: 'white'}} onKeyUp={this.crateText}/>
+          <input type="text" id="crateText" defaultValue={this.state.text} placeholder='what the crate...' style={{color: 'white'}} onKeyUp={this.crateText}/>
         </footer>
       </div>
     );
