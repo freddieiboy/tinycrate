@@ -5,15 +5,12 @@ import mojs from 'mo-js';
 var Crate = React.createClass({
   getInitialState: function() {
     return {
-      isPressed: false
+      isPressed: false,
+      popping: false
     }
   },
-  componentWillUnmount: function() {
-    console.log('A thing left.');
-    this.setupPop().start();
-  },
-  pressCrate: function() {
-    this.setState({isPressed: true})
+  pop: function() {
+    this.setupPop()
   },
   crateClick: function(event) {
     console.log("opened crate: " + this.props.id);
@@ -31,13 +28,19 @@ var Crate = React.createClass({
         console.log("Data could not be saved." + error);
       } else {
         console.log("Data saved successfully.");
-        itself.props.onDelete(itself.props.id);
+        itself.setState({popping: true})
+        itself.pop()
+
+        setTimeout(function() {
+          itself.setState({popping: false})
+          itself.setState({isPressed: false})
+          itself.props.onDelete(itself.props.id);
+        }, 700);
       }
     });
   },
   setupPop: function() {
-		var el = document.getElementById('crate-container'),
-			// elSpan = document.getElementById('icobutton-label'),
+		var el = this.refs.thisCrate,
 			// mo.js timeline obj
 			timeline = new mojs.Timeline(),
 
@@ -83,25 +86,32 @@ var Crate = React.createClass({
 
 		timeline.add(tween1, tween2, tween3);
 
-		return timeline
+		return timeline.start()
 	},
+  pressCrate: function() {
+    this.setState({isPressed: true})
+  },
   render: function() {
     var crateTop = classNames({
       'crate-top': !this.state.isPressed,
       'crate-top-pressed': this.state.isPressed,
+      'popping': this.state.popping
     });
     var crateBottom = classNames({
       'crate-bottom': !this.state.isPressed,
       'crate-bottom-pressed': this.state.isPressed,
+      'popping': this.state.popping
+
     });
     var crateShadow = classNames({
       'crate-shadow': !this.state.isPressed,
       'crate-shadow-pressed': this.state.isPressed,
+      'popping': this.state.popping
     });
 console.log(this.state.isPressed);
     return (
       <div>
-        <div className="crate-holder" id="crate-container" onClick={this.deleteObj} onMouseDown={this.pressCrate}>
+        <div className="crate-holder" ref="thisCrate" onClick={this.deleteObj} onMouseDown={this.pressCrate}>
           <div className={crateTop}></div>
           <div className={crateBottom}></div>
           <div className={crateShadow}></div>
