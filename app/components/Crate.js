@@ -111,7 +111,7 @@ var Crate = React.createClass({
 console.log(this.state.isPressed);
     return (
       <div>
-        <div className="crate-holder animated bounce" ref="thisCrate" onClick={this.deleteObj} onMouseDown={this.pressCrate} onTouchEnd={this.deleteObj} onTouchStart={this.pressCrate}>
+        <div className="crate-holder animated bounce" ref="thisCrate" onMouseDown={this.pressCrate} onTouchEnd={this.deleteObj} onTouchStart={this.pressCrate}>
           <div className={crateTop}></div>
           <div className={crateBottom}></div>
           <div className={crateShadow}></div>
