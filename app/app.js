@@ -77,6 +77,8 @@ render: function() {
   return (
     <div>
       <div className="homeHeader">
+        <div className="logoType">TinyCrate</div>
+
         <div className="inventoryAction float-right" onClick={this.showInventory}>
           <div className="float-right">
             <img src="http://i.imgur.com/n77pEs0.png" style={{ width: '35px' }}/>
@@ -92,7 +94,6 @@ render: function() {
       </div>
 
       <footer className="homeFooter">
-        <div className="logoType float-left" style={{ padding: '18px 28px' }}>TinyCrate</div>
 
         <div className="newCrateAction" onClick={this.showCreate}>
           <div className="newCrate float-right" style={{ marginRight: '25px', paddingTop: '15px' }}>
