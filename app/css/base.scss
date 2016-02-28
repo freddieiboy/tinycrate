@@ -121,12 +121,15 @@ html body {
   top: 0;
   background-color: $bg;
   height: 65px;
-  padding: 15px 38px;
-  .logoType {
-    font-size: 22px;
-    color: white;
-  }
+  padding: 15px 22px 38px 38px;
 }
+
+.logoType {
+  font-size: 22px;
+  color: white;
+  display: inline;
+}
+
 .homeFooter {
   height: 75px;
 }

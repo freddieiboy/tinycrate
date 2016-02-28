@@ -77,7 +77,14 @@ render: function() {
   return (
     <div>
       <div className="homeHeader">
-        <div className="logoType" onClick={this.showInventory}>TinyCrate</div>
+        <div className="inventoryAction float-right" onClick={this.showInventory}>
+          <div className="float-right">
+            <img src="http://i.imgur.com/n77pEs0.png" style={{ width: '35px' }}/>
+          </div>
+          <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
+            <p>Inventory</p>
+          </div>
+        </div>
       </div>
 
       <div style={{padding: '40px 22px'}} className="container-fluid body-content-home">
@@ -85,6 +92,8 @@ render: function() {
       </div>
 
       <footer className="homeFooter">
+        <div className="logoType float-left" style={{ padding: '18px 28px' }}>TinyCrate</div>
+
         <div className="newCrateAction" onClick={this.showCreate}>
           <div className="newCrate float-right" style={{ marginRight: '25px', paddingTop: '15px' }}>
             <img src="http://i.imgur.com/WxqtbpO.png" style={{ width: '35px' }}/>
