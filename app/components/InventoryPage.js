@@ -59,18 +59,17 @@ var InventoryPage = React.createClass({
         <header>
           <div className="container" style={{height: '100%'}}>
             <div className="row" style={{height: '100%'}}>
-              <div className="column column-50" style={{height: '100%'}}>
+              <div className="column " style={{height: '100%'}}>
                 <div className="user-avatar-holder" style={{height: '100%'}}>
                   <img className="user-avatar" src={this.state.user.profileImageURL}/>
                   {console.log(this.state.user)}
                 </div>
               </div>
-              <div className="column column-50 user-info-holder">
+              <div className="column user-info-holder">
                 <div className="name float-left">{this.state.user.name}</div>
               </div>
-              <div className="column column-50 user-info-holder">
+              <div className="column user-info-holder">
                 <div className="username float-left">@{this.state.user.username}</div>
-
               </div>
               {/*<div className="column">
                 <button style={{float: 'right'}} onClick={this.logout}>Logout</button>
