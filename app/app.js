@@ -80,12 +80,17 @@ render: function() {
         <div className="logoType" onClick={this.showInventory}>TinyCrate</div>
       </div>
 
-      <div style={{padding: '40px'}} className="container-fluid body-content-home">
+      <div style={{padding: '40px 22px'}} className="container-fluid body-content-home">
         <AbsoluteGrid items={this.state.data} displayObject={(<CrateList onDelete={this.deleteObj}/>)} responsive={true} itemWidth={92} />
       </div>
 
-      <footer>
-        <p style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '15px'}} onClick={this.showCreate}>New Crate</p>
+      <footer className="homeFooter">
+        <div className="newCrateAction" onClick={this.showCreate}>
+          <div className="newCrate float-right" style={{ marginRight: '25px', paddingTop: '15px' }}>
+            <img src="http://i.imgur.com/WxqtbpO.png" style={{ width: '35px' }}/>
+          </div>
+          <p style={{color: 'white', float: 'right', paddingTop: '20px', paddingRight: '15px'}} >New Crate</p>
+        </div>
       </footer>
     </div>
   );
