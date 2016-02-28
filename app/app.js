@@ -98,7 +98,11 @@ render: function() {
 
       <div style={{padding: '40px 22px'}} className="container-fluid body-content-home">
         <AbsoluteGrid items={this.state.data} displayObject={(<CrateList onDelete={this.deleteObj}/>)} responsive={true} itemWidth={92} />
-        {emptyState}
+        <div className="outerEmpty">
+          <div className="innerEmpty">
+            {emptyState}
+          </div>
+        </div>
       </div>
 
       <footer className="homeFooter animated">
