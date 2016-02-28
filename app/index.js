@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import App from './app'
+import LoginPage from './components/LoginPage';
 import InventoryPage from './components/InventoryPage';
 import CreatePage from './components/CreatePage';
 import { Router, Route, Link, browserHistory } from 'react-router';
@@ -11,6 +12,7 @@ import '!style!css!sass!milligram/dist/milligram.css';
 render((
   <Router history={browserHistory}>
     <Route path="/" component={App}/>
+    <Route path="/login" component={LoginPage}/>
     <Route path="/inventory" component={InventoryPage}/>
     <Route path="/create" component={CreatePage}/>
   </Router>

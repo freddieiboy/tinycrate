@@ -80,48 +80,19 @@ deleteObj: function(data_id) {
     );
   }
 
-
-
-
 });
 
 module.exports = App;
 
 // from tinycrate.js
 
-ref.onAuth(function(authData) {
-  if (authData) {
-    ref.child("users").child(authData.uid).set({
-      provider: authData.provider,
-      name: getName(authData),
-      profileImageURL: getProfileImageURL(authData)
-    });
-  } else {
-    renderLogin();
-  }
-});
-
-function getName(authData) {
-  switch(authData.provider) {
-    case 'twitter':
-    return authData.twitter.displayName;
-    case 'facebook':
-    return authData.facebook.displayName;
-  }
-}
-
-function getProfileImageURL(authData) {
-  switch(authData.provider) {
-    case 'twitter':
-    return authData.twitter.profileImageURL;
-    case 'facebook':
-    return authData.facebook.profileImageURL;
-  }
+function login() {
+  browserHistory.push("login");
 }
 
 if (authData) {
   console.log("User " + authData.uid + " is logged in with " + authData.provider);
 } else {
   console.log("User is logged out");
-  renderLogin();
+  login();
 }

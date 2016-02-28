@@ -11,8 +11,9 @@ var InventoryPage = React.createClass({
       user: {}
     };
   },
-  handleClick: function(event) {
+  logout: function(event) {
     ref.unauth();
+    browserHistory.push("/login");
   },
   componentDidMount: function() {
     var itself = this;
@@ -42,7 +43,9 @@ var InventoryPage = React.createClass({
 
       <div>
         <header>
-          <div style={{color: 'white'}}><img className="user-avatar" src={this.state.user.profileImageURL}/>{this.state.user.name}</div>
+          <div style={{color: 'white'}}><img className="user-avatar" src={this.state.user.profileImageURL}/>{this.state.user.name}
+          <button style={{float: 'right'}} onClick={this.logout}>Logout</button>
+          </div>
         </header>
         <div className="container-fluid body-content">
           <CommentList data={openedCratesList} />
