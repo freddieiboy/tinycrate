@@ -39,14 +39,24 @@ var App = React.createClass({
     var itself = this;
     var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
     unopenedCratesList = [];
-    unopenedCrates.orderByChild("opened").equalTo(false).on("child_added", function(snapshot) {
-        console.log(snapshot.val());
-        var crate = snapshot.val();
-        crate.key = snapshot.key();
+    unopenedCrates.orderByChild("recipientUId").equalTo(authData.uid).on("child_added", function(snapshot) {
+      var crate = snapshot.val();
+      crate.key = snapshot.key();
+      if(crate.opened === false) {
         unopenedCratesList.push(crate);
-  itself.setState({data:  unopenedCratesList});
-});
-},
+      }
+      itself.setState({data:  unopenedCratesList});
+    });
+    
+    unopenedCrates.orderByChild("public").equalTo(true).on("child_added", function(snapshot) {
+      var crate = snapshot.val();
+      crate.key = snapshot.key();
+      if(crate.opened === false) {
+        unopenedCratesList.push(crate);
+      }
+      itself.setState({data:  unopenedCratesList});
+    });
+  },
 deleteObj: function(data_id) {
   var itself = this;
   console.log("deleting: " + data_id);

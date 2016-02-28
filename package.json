@@ -21,6 +21,7 @@
     "extract-text-webpack-plugin": "1.0.1",
     "firebase": "2.4.1",
     "html-webpack-plugin": "2.9.0",
+    "jquery": "^2.2.1",
     "milligram": "1.1.0",
     "mo-js": "0.147.4",
     "node-sass": "3.4.2",

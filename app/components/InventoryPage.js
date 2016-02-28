@@ -19,12 +19,26 @@ var InventoryPage = React.createClass({
     var itself = this;
     var openedCrates = new Firebase(FIREBASE_URL + "/crates");
     openedCratesList = [];
-    openedCrates.orderByChild("opened").equalTo(true).on("child_added", function(snapshot) {
-      console.log(snapshot.val());
-      openedCratesList.push(snapshot.val());
-        itself.setState({data: openedCratesList});
-    });
     var user = ref.getAuth();
+    
+    openedCrates.orderByChild("recipientUId").equalTo(user.uid).on("child_added", function(snapshot) {
+      var crate = snapshot.val();
+      crate.key = snapshot.key();
+      if(crate.opened === true) {
+          openedCratesList.push(crate);
+      }
+      itself.setState({data:  openedCratesList});
+    });
+    
+    openedCrates.orderByChild("public").equalTo(true).on("child_added", function(snapshot) {
+      var crate = snapshot.val();
+      crate.key = snapshot.key();
+      if(crate.opened === true) {
+          openedCratesList.push(crate);
+      }
+      itself.setState({data:  openedCratesList});
+    });
+  
     var userRef;
     userRef = ref.child('users').child(user.uid);
     userRef.once('value', function (snap) {
