@@ -6,7 +6,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
 	devtool: 'source-map',
 	entry: [
-		path.join(__dirname, 'app/tinycrate.js')
+		path.join(__dirname, 'app/index.js')
 	],
 	output: {
 		path: path.join(__dirname, '/dist'),
