@@ -74,6 +74,13 @@ deleteObj: function(data_id) {
   itself.setState({data: newlinks});
 },
 render: function() {
+  var emptyState;
+  if (this.state.data.length == 0) {
+    emptyState = <img className="emptystate" src="http://i.imgur.com/1knKuGL.png"></img>;
+  } else {
+    emptyState = '';
+  }
+
   return (
     <div>
       <div className="homeHeader">
@@ -91,9 +98,10 @@ render: function() {
 
       <div style={{padding: '40px 22px'}} className="container-fluid body-content-home">
         <AbsoluteGrid items={this.state.data} displayObject={(<CrateList onDelete={this.deleteObj}/>)} responsive={true} itemWidth={92} />
+        {emptyState}
       </div>
 
-      <footer className="homeFooter">
+      <footer className="homeFooter animated">
 
         <div className="newCrateAction" onClick={this.showCreate}>
           <div className="newCrate float-right" style={{ marginRight: '25px', paddingTop: '15px' }}>
