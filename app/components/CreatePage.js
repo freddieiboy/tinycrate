@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import Autocomplete from 'react-autocomplete';
+import { Notification } from 'react-notification';
 import $ from 'jquery';
 import FilePicker from 'component-file-picker';
 
@@ -17,7 +18,8 @@ var CreatePage = React.createClass({
     return {
       text: '',
       image: '',
-      users: []
+      users: [],
+      showNotification: false
     }
   },
   componentDidMount: function() {
@@ -35,18 +37,43 @@ var CreatePage = React.createClass({
     browserHistory.push("/");
   },
   handleSendCrateKeyboard: function(e) {
+    var itself = this;
+    var text = e.target.value;
     if (e.which == 13) {
       var text = e.target.value;
-      this.sendCrate(text)
+      if (text.length > 0) {
+        this.setState({showNotification: true});
+        setTimeout(function(){
+          itself.sendCrate(text);
+        }, 2000);
+      } else {
+        alert("Your message cannot be empty!");
+      }
     }
   },
   handleSendCrateClick: function(e) {
+    var itself = this;
     var text = $("#message").val();
     if (text.length > 0) {
-      this.sendCrate(text);
+      this.setState({showNotification: true});
+      setTimeout(function(){
+        itself.sendCrate(text);
+      }, 2000);
     } else {
       alert("Your message cannot be empty!");
     }
+  },
+  getNotificationStyles() {
+    let bar = {
+      background: '#8BC34A'
+    };
+    
+    let active = {
+      left: '3rem',
+      bottom: '12rem'
+    };
+    
+    return { bar, active };
   },
   selectFile: function() {
     var itself = this;
@@ -152,6 +179,12 @@ var CreatePage = React.createClass({
             </div>
           </div>
         </footer>
+        <Notification
+        isActive={this.state.showNotification}
+        message={"Your crate has been sent!"}
+        dismissAfter={2000}
+        style={this.getNotificationStyles()}
+        />
       </div>
     );
   }
