@@ -14,6 +14,7 @@ var CreatePage = React.createClass({
   getInitialState: function() {
     return {
       text: '',
+      image: '',
       users: []
     }
   },
@@ -38,17 +39,21 @@ var CreatePage = React.createClass({
     }
   },
   selectFile: function() {
+    var itself = this;
     FilePicker({ accept: [ 'image/*'] }, function(files){
       var reader = new FileReader();
       var file = files[0];
       reader.onload = function(upload) {
         // base64 string of image
-        console.log(upload.target.result);
+        itself.setState({image: upload.target.result});
+        $("#imagePreview").attr('src', itself.state.image);
+        // console.log(upload.target.result);
       }
       reader.readAsDataURL(file);
     });
   },
   sendCrate: function(text) {
+    var itself = this;
     var postsRef = ref.child("crates");
     var newPostRef = postsRef.push();
     var user = ref.getAuth();
@@ -72,6 +77,7 @@ var CreatePage = React.createClass({
           authorProfileImageURL: user.profileImageURL,
           recipientUId: recipientUser.uid,
           text: text,
+          image: (itself.state.image == '') ? null : itself.state.image,
           opened: false,
           createdAt: Firebase.ServerValue.TIMESTAMP
         });
@@ -111,8 +117,9 @@ var CreatePage = React.createClass({
         </div>
         <footer>
         <div className="container" style={{paddingTop: '10px'}}>
-          <div className="row">
-            <button onClick={this.selectFile}>select image</button>
+          <div className="row" style={{paddingBottom: '15px'}}>
+          <button style={{position: 'absolute'}} onClick={this.selectFile}>select image</button>
+          <img id="imagePreview" src={'http://www-cdr.stanford.edu/~petrie/blank.gif'} style={{width: '32px', height: '32px', marginLeft: '160px'}} />
           </div>
           <div className="row">
           <input type="text" id="crateText" defaultValue={this.state.text} placeholder='what the crate...' style={{color: 'white'}} onKeyUp={this.crateText}/>
