@@ -66,13 +66,14 @@ var CreatePage = React.createClass({
   getNotificationStyles() {
     let bar = {
       background: '#8BC34A'
+      // try
     };
-    
+
     let active = {
       left: '3rem',
       bottom: '12rem'
     };
-    
+
     return { bar, active };
   },
   selectFile: function() {
