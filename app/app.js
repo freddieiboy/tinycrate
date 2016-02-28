@@ -70,7 +70,7 @@ deleteObj: function(data_id) {
         </div>
 
         <div className="container-fluid body-content-home">
-          <CrateList data={unopenedCratesList} onDelete={this.deleteObj} />
+          <CrateList data={this.state.data} onDelete={this.deleteObj} />
         </div>
 
         <footer>
