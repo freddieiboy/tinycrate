@@ -32,10 +32,18 @@ var CreatePage = React.createClass({
   showHome: function(event) {
     browserHistory.push("/");
   },
-  crateText: function(e) {
+  handleSendCrateKeyboard: function(e) {
     if (e.which == 13) {
       var text = e.target.value;
       this.sendCrate(text)
+    }
+  },
+  handleSendCrateClick: function(e) {
+    var text = $("#message").val();
+    if (text.length > 0) {
+      this.sendCrate(text);
+    } else {
+      alert("Your message cannot be empty!");
     }
   },
   selectFile: function() {
@@ -121,8 +129,9 @@ var CreatePage = React.createClass({
           <button style={{position: 'absolute'}} onClick={this.selectFile}>select image</button>
           <img id="imagePreview" src={'http://www-cdr.stanford.edu/~petrie/blank.gif'} style={{width: '32px', height: '32px', marginLeft: '160px'}} />
           </div>
-          <div className="row">
-          <input type="text" id="crateText" defaultValue={this.state.text} placeholder='what the crate...' style={{color: 'white'}} onKeyUp={this.crateText}/>
+          <div>
+          <input id="message" placeholder='crate message...' style={{width: '65%'}} onKeyUp={this.handleSendCrateKeyboard}></input>
+          <button style={{marginLeft: '15px'}} onClick={this.handleSendCrateClick}>send</button>
           </div>
         </div>
         </footer>
