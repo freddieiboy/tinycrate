@@ -2,6 +2,7 @@ import React from 'react';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import Autocomplete from 'react-autocomplete';
 import $ from 'jquery';
+import FilePicker from 'component-file-picker';
 var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var authData = ref.getAuth();
@@ -35,6 +36,17 @@ var CreatePage = React.createClass({
       var text = e.target.value;
       this.sendCrate(text)
     }
+  },
+  selectFile: function() {
+    FilePicker({ accept: [ 'image/*'] }, function(files){
+      var reader = new FileReader();
+      var file = files[0];
+      reader.onload = function(upload) {
+        // base64 string of image
+        console.log(upload.target.result);
+      }
+      reader.readAsDataURL(file);
+    });
   },
   sendCrate: function(text) {
     var postsRef = ref.child("crates");
@@ -96,7 +108,14 @@ var CreatePage = React.createClass({
           />
         </div>
         <footer>
+        <div className="container" style={{paddingTop: '10px'}}>
+          <div className="row">
+            <button onClick={this.selectFile}>select image</button>
+          </div>
+          <div className="row">
           <input type="text" id="crateText" defaultValue={this.state.text} placeholder='what the crate...' style={{color: 'white'}} onKeyUp={this.crateText}/>
+          </div>
+        </div>
         </footer>
       </div>
     );
