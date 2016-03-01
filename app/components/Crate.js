@@ -168,6 +168,17 @@ var Crate = React.createClass({
         background: color.darkColor
       }
     }
+    var comment = this.props.msg.text
+    var author = this.props.msg.authorDisplayName
+    var image = this.props.msg.image
+    var profile = this.props.msg.authorProfileImageURL
+
+    //TODO: use this for the preview msg
+    // <img className="preview-img" src={profile} alt=""/>
+    // <p>{author}</p>
+    // <p>{comment}</p>
+    // <img src={image} alt=""/>
+
     return (
       <div>
         <div className="crate-holder animated bounce" ref="thisCrate"  onMouseDown={this.pressCrate} onTouchEnd={this.deleteObj} onTouchStart={this.pressCrate}>
