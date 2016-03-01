@@ -81,6 +81,7 @@ render: function() {
     emptyState = '';
   }
 
+  // console.log(this.state.data)
   return (
     <div>
       <div className="homeHeader">
@@ -97,7 +98,7 @@ render: function() {
       </div>
 
       <div style={{padding: '40px 22px'}} className="container-fluid body-content-home">
-        <AbsoluteGrid items={this.state.data} displayObject={(<CrateList onDelete={this.deleteObj}/>)} responsive={true} itemWidth={92} />
+        <AbsoluteGrid items={this.state.data} displayObject={(<CrateList onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemWidth={92} />
         <div className="outerEmpty">
           <div className="innerEmpty">
             {emptyState}

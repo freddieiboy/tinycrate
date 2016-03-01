@@ -43,7 +43,7 @@ $radius: 15px;
 	width: 103%;
 	top: 0;
 	left: -1%;
-	background: url($topPressedEl) no-repeat;
+	// background: url($topPressedEl) no-repeat;
 }
 
 .crate-bottom-pressed {
@@ -51,12 +51,12 @@ $radius: 15px;
 	width: 110%;
 	top: 4%;
 	left: -3.2%;
-	background: url($bottomPressedEl) no-repeat;
+	// background: url($bottomPressedEl) no-repeat;
 }
 
 .crate-shadow-pressed {
 	@extend .crate-shadow;
-	top: -2%;
+	top: -9%;
 }
 
 .popping {

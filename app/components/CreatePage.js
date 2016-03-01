@@ -90,6 +90,20 @@ var CreatePage = React.createClass({
       reader.readAsDataURL(file);
     });
   },
+  selectRandomNumber: function() {
+    function randomColor() {
+      var colors = [
+        "green",
+        "yellow",
+        "orange",
+        "blue",
+        "pink",
+        "purple"
+      ];
+      return colors[Math.floor(Math.random() * 6)];
+    }
+    return randomColor()
+  },
   sendCrate: function(text) {
     var itself = this;
     var postsRef = ref.child("crates");
@@ -115,6 +129,7 @@ var CreatePage = React.createClass({
           authorProfileImageURL: user.profileImageURL,
           recipientUId: recipientUser.uid,
           text: text,
+          crateColor: itself.selectRandomNumber(),
           image: (itself.state.image == '') ? null : itself.state.image,
           opened: false,
           createdAt: Firebase.ServerValue.TIMESTAMP
@@ -125,6 +140,7 @@ var CreatePage = React.createClass({
           authorUId: authData.uid,
           authorDisplayName: user.name,
           public: true,
+          crateColor: itself.selectRandomNumber(),
           authorProfileImageURL: user.profileImageURL,
           text: text,
           opened: false,

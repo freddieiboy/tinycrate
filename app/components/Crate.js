@@ -108,12 +108,52 @@ var Crate = React.createClass({
       'crate-shadow-pressed': this.state.isPressed,
       'popping': this.state.popping
     });
-console.log(this.state.isPressed);
+
+    const green = {
+      lightColor: '#61F9CE',
+      darkColor: '#0AB3A2',
+    }
+
+    const yellow = {
+      lightColor: '#FFD687',
+      darkColor: '#FFAC53',
+    }
+
+    const orange = {
+      lightColor: '#FF7853',
+      darkColor: '#E95832',
+    }
+
+    const blue = {
+      lightColor: '#23CFFC',
+      darkColor: '#009AC2',
+    }
+
+    const pink = {
+      lightColor: '#FF7493',
+      darkColor: '#E93A53',
+    }
+
+    const purple = {
+      lightColor: '#F477FB',
+      darkColor: '#C93BD9',
+    }
+    const color = eval(this.props.color);
+
+    var top = {
+      backgroundColor: color.lightColor
+    }
+
+    var bottom = {
+      backgroundColor: color.darkColor
+    }
+    // console.log(bottom)
+    console.log(this.props.color);
     return (
       <div>
-        <div className="crate-holder animated bounce" ref="thisCrate" onMouseDown={this.pressCrate} onTouchEnd={this.deleteObj} onTouchStart={this.pressCrate}>
-          <div className={crateTop}></div>
-          <div className={crateBottom}></div>
+        <div className="crate-holder animated bounce" ref="thisCrate" onClick={this.deleteObj} onMouseDown={this.pressCrate} onTouchEnd={this.deleteObj} onTouchStart={this.pressCrate}>
+          <div className={crateTop} style={top}></div>
+          <div className={crateBottom} style={bottom}></div>
           <div className={crateShadow}></div>
         </div>
       </div>
