@@ -147,8 +147,6 @@ var Crate = React.createClass({
     var bottom = {
       backgroundColor: color.darkColor
     }
-    // console.log(bottom)
-    console.log(this.props.color);
     return (
       <div>
         <div className="crate-holder animated bounce" ref="thisCrate" onClick={this.deleteObj} onMouseDown={this.pressCrate} onTouchEnd={this.deleteObj} onTouchStart={this.pressCrate}>
