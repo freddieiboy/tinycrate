@@ -42,21 +42,20 @@ $radius: 15px;
 	@extend .crate-top;
 	width: 103%;
 	top: 0;
-	left: -1%;
-	// background: url($topPressedEl) no-repeat;
+	left: 2%;
 }
 
 .crate-bottom-pressed {
 	@extend .crate-bottom;
 	width: 110%;
 	top: 4%;
-	left: -3.2%;
-	// background: url($bottomPressedEl) no-repeat;
+	left: -0.2%;
 }
 
 .crate-shadow-pressed {
 	@extend .crate-shadow;
 	top: -9%;
+  left: 1px;
 }
 
 .popping {

@@ -14,18 +14,18 @@ var Comment = React.createClass({
   render: function() {
     return (
       <div className="comment">
-      <Modal
+        <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           style={modalStyles} >
           <img src={this.props.image} onClick={this.closeModal}/>
-      </Modal>
-        <img src={this.props.authorProfilePicture} className="inventoryFeedAvatar"/>
-        <div className="name">{this.props.name}</div>
-        <img src={this.props.image} className="inventoryFeedImage" onClick={this.openModal}/>
-        <p className="commentAuthor">
-          {this.props.children}
-        </p>
+        </Modal>
+          <img src={this.props.authorProfilePicture} className="inventoryFeedAvatar"/>
+          <div className="name">{this.props.name}</div>
+          <img src={this.props.image} className="inventoryFeedImage" onClick={this.openModal}/>
+          <p className="commentAuthor">
+            {this.props.children}
+          </p>
       </div>
     );
   }
