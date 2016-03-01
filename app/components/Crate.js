@@ -94,18 +94,18 @@ var Crate = React.createClass({
   render: function() {
     var crateTop = classNames({
       'crate-top': !this.state.isPressed,
-      'crate-top-pressed': this.state.isPressed,
+      'crate-top-pressed shake shake-little shake-constant': this.state.isPressed,
       'popping': this.state.popping
     });
     var crateBottom = classNames({
       'crate-bottom': !this.state.isPressed,
-      'crate-bottom-pressed': this.state.isPressed,
+      'crate-bottom-pressed shake shake-little shake-constant': this.state.isPressed,
       'popping': this.state.popping
 
     });
     var crateShadow = classNames({
       'crate-shadow': !this.state.isPressed,
-      'crate-shadow-pressed': this.state.isPressed,
+      'crate-shadow-pressed shake shake-little shake-constant': this.state.isPressed,
       'popping': this.state.popping
     });
 

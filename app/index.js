@@ -8,6 +8,8 @@ import { Router, Route, Link, browserHistory } from 'react-router';
 
 import css from '!style!css!sass!./css/base.scss';
 import '!style!css!sass!milligram/dist/milligram.css';
+import '!style!css!sass!csshake/dist/csshake.css';
+
 
 render((
   <Router history={browserHistory}>
