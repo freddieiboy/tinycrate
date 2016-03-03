@@ -454,3 +454,11 @@ input[role="combobox"]{
   width: 100%;
   height: 100%;
 }
+
+.emoji {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  top: 1%;
+}
