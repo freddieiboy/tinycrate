@@ -181,7 +181,7 @@ var Crate = React.createClass({
 
     return (
       <div>
-        <div className="crate-holder animated bounce" ref="thisCrate"  onMouseDown={this.pressCrate} onTouchEnd={this.deleteObj} onTouchStart={this.pressCrate}>
+        <div className="crate-holder animated bounce" ref="thisCrate" onClick={this.deleteObj} onMouseDown={this.pressCrate} onTouchEnd={this.deleteObj} onTouchStart={this.pressCrate}>
           <div className={crateTop} style={top}></div>
           <div className={crateBottom} style={bottom}></div>
           <div className={crateShadow}></div>

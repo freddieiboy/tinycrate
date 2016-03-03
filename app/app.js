@@ -8,6 +8,7 @@ import Comment from './components/Comment';
 import CrateList from './components/CrateList';
 import Crate from './components/Crate';
 import CreatePage from './components/CreatePage';
+import Empty from './components/Empty';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import AbsoluteGrid from 'react-absolute-grid';
 
@@ -76,7 +77,7 @@ deleteObj: function(data_id) {
 render: function() {
   var emptyState;
   if (this.state.data.length == 0) {
-    emptyState = <img className="emptystate" src="http://i.imgur.com/1knKuGL.png"></img>;
+    emptyState = <Empty />;
   } else {
     emptyState = '';
   }
@@ -99,11 +100,7 @@ render: function() {
 
       <div style={{padding: '40px 22px'}} className="container-fluid body-content-home">
         <AbsoluteGrid items={this.state.data} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
-        <div className="outerEmpty">
-          <div className="innerEmpty">
-            {emptyState}
-          </div>
-        </div>
+        {emptyState}
       </div>
 
       <footer className="homeFooter animated">
