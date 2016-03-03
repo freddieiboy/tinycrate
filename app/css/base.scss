@@ -9,6 +9,7 @@ body {
   line-height: 1.7;
   margin: 0;
   padding: 30px;
+  -webkit-text-size-adjust: 100%;
 }
 
 a {
@@ -462,5 +463,4 @@ input[role="combobox"]{
   transform: translateX(-50%);
   top: 1%;
   font-size: 46px;
-  -webkit-text-size-adjust: 100%;
 }
