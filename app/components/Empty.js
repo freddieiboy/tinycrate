@@ -13,11 +13,11 @@ var Empty = React.createClass({
   },
   render: function() {
     return(
-      <div className="empty-holder" onTouchEnd={this.emojiRandomizer}>
+      <div className="empty-holder" onClick={this.emojiRandomizer} onTouchEnd={this.emojiRandomizer}>
         <div className="outerEmpty">
           <div className="innerEmpty">
             {/*<div className="emoji" style={{fontSize: '46px', position: 'absolute', left: '47px', top: '40px'}}>*/}
-            <div className="emoji" style={{fontSize: '46px'}}>
+            <div className="emoji">
               <div className="empty-emoji animated pulse">{this.state.emptyEmoji}</div>
             </div>
             <img className="emptystate" src="http://i.imgur.com/5QybnJn.png"></img>
