@@ -179,9 +179,19 @@ var Crate = React.createClass({
     // <p>{comment}</p>
     // <img src={image} alt=""/>
 
+    /*
+      Freddie: onClick also fires on mobile so the explosion animation fires twice.
+      MouseUp is also lost outside of element on desktop.
+      This is why there is currently no onClick.
+    */
+
     return (
       <div>
-        <div className="crate-holder animated bounce" ref="thisCrate" onClick={this.deleteObj} onMouseDown={this.pressCrate} onTouchEnd={this.deleteObj} onTouchStart={this.pressCrate}>
+        <div className="crate-holder animated bounce" ref="thisCrate"
+          onMouseUp={this.deleteObj}
+          onMouseDown={this.pressCrate}
+          onTouchEnd={this.deleteObj}
+          onTouchStart={this.pressCrate}>
           <div className={crateTop} style={top}></div>
           <div className={crateBottom} style={bottom}></div>
           <div className={crateShadow}></div>

@@ -22,7 +22,7 @@ var Empty = React.createClass({
       var emoji = 'emoji';
     }
     return(
-      <div className="empty-holder" onTouchEnd={this.emojiRandomizer}>
+      <div className="empty-holder" onClick={this.emojiRandomizer} onTouchTap={this.emojiRandomizer}>
         <div className="outerEmpty">
           <div className="innerEmpty">
             {/*<div className="emoji" style={{fontSize: '46px', position: 'absolute', left: '47px', top: '40px'}}>*/}
