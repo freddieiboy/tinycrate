@@ -19,7 +19,7 @@ var Crate = React.createClass({
   deleteObj: function(event) {
     var itself = this;
     console.log("create delete");
-    var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
+    var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
     var crate = new Firebase(FIREBASE_URL + "/crates/" + this.props.id);
     crate.update({
       "opened": true

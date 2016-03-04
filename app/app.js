@@ -19,7 +19,7 @@ import { Router, Route, Link, browserHistory } from 'react-router';
 import AbsoluteGrid from 'react-absolute-grid';
 
 import firebase from 'firebase';
-var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
+var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var authData = ref.getAuth();
 

@@ -6,7 +6,7 @@ import $ from 'jquery';
 import FilePicker from 'component-file-picker';
 
 
-var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
+var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var authData = ref.getAuth();
 

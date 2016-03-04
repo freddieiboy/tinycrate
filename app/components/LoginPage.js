@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import { Router, Route, Link, browserHistory } from 'react-router';
-var FIREBASE_URL = "https://crackling-fire-5975.firebaseio.com";
+var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 
 var LoginPage = React.createClass({
