@@ -93,73 +93,9 @@ var Crate = React.createClass({
 		return timeline.start()
 	},
   render: function() {
-    // var crateTop = classNames({
-    //   'crate-top': !this.state.isPressed,
-    //   'crate-top-pressed shake shake-little shake-constant': this.state.isPressed,
-    //   'popping': this.state.popping
-    // });
-    // var crateBottom = classNames({
-    //   'crate-bottom': !this.state.isPressed,
-    //   'crate-bottom-pressed shake shake-little shake-constant': this.state.isPressed,
-    //   'popping': this.state.popping
-    //
-    // });
-    // var crateShadow = classNames({
-    //   'crate-shadow': !this.state.isPressed,
-    //   'crate-shadow-pressed shake shake-little shake-constant': this.state.isPressed,
-    //   'popping': this.state.popping
-    // });
-    //
-    const green = {
-      lightColor: '#61F9CE',
-      darkColor: '#0AB3A2',
-    }
-
-    const yellow = {
-      lightColor: '#FFD687',
-      darkColor: '#FFAC53',
-    }
-
-    const orange = {
-      lightColor: '#FF7853',
-      darkColor: '#E95832',
-    }
-
-    const blue = {
-      lightColor: '#23CFFC',
-      darkColor: '#009AC2',
-    }
-
-    const pink = {
-      lightColor: '#FF7493',
-      darkColor: '#E93A53',
-    }
-
-    const purple = {
-      lightColor: '#F477FB',
-      darkColor: '#C93BD9',
-    }
-    const color = eval(this.props.color);
-
-    // if (this.state.isPressed) {
-    //   // var top = {
-    //   //   background: 'url(' + color.topPressedEl + ') no-repeat'
-    //   // }
-    //   // var bottom = {
-    //   //   background: 'url(' + color.bottomPressedEl + ') no-repeat'
-    //   // }
-    //   console.log('state is pressed')
-    // } else {
-    //   // var top = {
-    //   //   background: color.lightColor
-    //   // }
-    //   // var bottom = {
-    //   //   background: color.darkColor
-    //   // }
-    // }
 
     var crateState;
-    this.state.isPressed ? crateState = <PressedCrate /> : crateState = <DefaultCrate />
+    this.state.isPressed ? crateState = <PressedCrate popping={this.state.popping} color={this.props.color} /> : crateState = <DefaultCrate color={this.props.color}/>
 
     /*
       Freddie: onClick also fires on mobile so the explosion animation fires twice.
@@ -170,10 +106,10 @@ var Crate = React.createClass({
     return (
       <div>
         <div className="crate-holder animated bounce" ref="thisCrate"
-          onMouseUp={this.deleteObj}
           onMouseDown={this.pressCrate}
-          onTouchEnd={this.deleteObj}
-          onTouchStart={this.pressCrate}>
+          onMouseUp={this.deleteObj}
+          onTouchStart={this.pressCrate}
+          onTouchEnd={this.deleteObj}>
           {crateState}
         </div>
       </div>
