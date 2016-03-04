@@ -6,6 +6,12 @@ import InventoryPage from './components/InventoryPage';
 import CreatePage from './components/CreatePage';
 import { Router, Route, Link, browserHistory } from 'react-router';
 
+// import $ from 'jquery';
+// import FastClick from 'fastclick';
+// $(function() {
+//     FastClick.attach(document.body);
+// });
+
 import css from '!style!css!sass!./css/base.scss';
 import '!style!css!sass!milligram/dist/milligram.css';
 import '!style!css!sass!csshake/dist/csshake.css';

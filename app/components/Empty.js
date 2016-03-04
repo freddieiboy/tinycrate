@@ -1,5 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
+// import Tappable from 'react-tappable';
+import Hammer from 'react-hammerjs';
 
 var Empty = React.createClass({
   getInitialState: function() {
@@ -22,17 +24,19 @@ var Empty = React.createClass({
       var emoji = 'emoji';
     }
     return(
-      <div className="empty-holder" onClick={this.emojiRandomizer} onTouchTap={this.emojiRandomizer}>
-        <div className="outerEmpty">
-          <div className="innerEmpty">
-            {/*<div className="emoji" style={{fontSize: '46px', position: 'absolute', left: '47px', top: '40px'}}>*/}
-            <div className={emoji}>
-              <div className="empty-emoji animated pulse">{this.state.emptyEmoji}</div>
+      <Hammer onPress={this.emojiRandomizer} onPressUp={this.emojiRandomizer}>
+        <div className="empty-holder">
+          <div className="outerEmpty">
+            <div className="innerEmpty">
+              {/*<div className="emoji" style={{fontSize: '46px', position: 'absolute', left: '47px', top: '40px'}}>*/}
+              <div className={emoji}>
+                <div className="empty-emoji animated pulse">{this.state.emptyEmoji}</div>
+              </div>
+              <img className="emptystate" src="http://i.imgur.com/5QybnJn.png"></img>
             </div>
-            <img className="emptystate" src="http://i.imgur.com/5QybnJn.png"></img>
           </div>
         </div>
-      </div>
+      </Hammer>
     )
   }
 });

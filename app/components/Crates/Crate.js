@@ -1,6 +1,8 @@
 import React from 'react';
 import { DefaultCrate, PressedCrate, popAnimation } from './CrateUtils';
-import classNames from 'classnames';
+// import classNames from 'classnames';
+// import Tappable from 'react-tappable';
+import NativeListener from 'react-native-listener';
 
 var Crate = React.createClass({
   getInitialState: function() {
@@ -10,7 +12,13 @@ var Crate = React.createClass({
     }
   },
   pressCrate: function() {
-    this.setState({isPressed: true})
+    return this.setState({isPressed: true})
+  },
+  unpressCrate: function() {
+    return this.setState({isPressed: false})
+  },
+  testComment: function() {
+    return console.log('testing comment')
   },
   deleteObj: function(event) {
     var itself = this;
@@ -41,6 +49,8 @@ var Crate = React.createClass({
       MouseUp is also lost outside of element on desktop.
       This is why there is currently no onClick.
     */
+    console.log(this.state.isPressed)
+
     var crateState;
     if (this.state.isPressed) {
       crateState = <PressedCrate popping={this.state.popping} color={this.props.color} />
@@ -48,16 +58,24 @@ var Crate = React.createClass({
       crateState = <DefaultCrate color={this.props.color}/>
     }
 
+    // return (
+    //   <Tappable onTap={this.testComment} classBase="pressed" component="div">
+    //     <div className="crate-holder animated bounce" ref="thisCrate">
+    //       {crateState}
+    //     </div>
+    //   </Tappable>
+    // );
+
     return (
-      <div>
-        <div className="crate-holder animated bounce" ref="thisCrate"
-          onMouseDown={this.pressCrate}
-          onMouseUp={this.deleteObj}
-          onTouchStart={this.pressCrate}
-          onTouchEnd={this.deleteObj}>
+      <NativeListener
+        onMouseDown={this.pressCrate}
+        onMouseUp={this.unpressCrate}
+        onTouchStart={this.pressCrate}
+        onTouchEnd={this.uhpressCrate}>
+        <div className="crate-holder animated bounce" ref="thisCrate">
           {crateState}
         </div>
-      </div>
+      </NativeListener>
     );
   }
 });
