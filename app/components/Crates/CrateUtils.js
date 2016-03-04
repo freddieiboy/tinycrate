@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
+import mojs from 'mo-js';
 
 /*
 Crate Utilities. Don't pass state to these components. Presentational Components only!
 
 DefaultCrate = Crate style when it loads.
 PressedCrate = Crate style when pressed.
+popAnimation = Animation function.
 */
 
 export class DefaultCrate extends Component {
@@ -54,6 +56,56 @@ export class PressedCrate extends Component {
   }
 }
 
+export function popAnimation(el) {
+  // var el = this.refs.thisCrate,
+    // mo.js timeline obj
+    var timeline = new mojs.Timeline(),
+
+    // tweens for the animation:
+
+    // burst animation
+    tween1 = new mojs.Burst({
+      parent: el,
+      duration: 1500,
+      shape : 'circle',
+      fill : [ '#988ADE', '#DE8AA0', '#8AAEDE', '#8ADEAD', '#DEC58A', '#8AD1DE' ],
+      x: '50%',
+      y: '50%',
+      opacity: 0.6,
+      childOptions: { radius: {20:0} },
+      radius: {40:120},
+      count: 6,
+      isSwirl: true,
+      isRunLess: true,
+      easing: mojs.easing.bezier(0.1, 1, 0.3, 1)
+    }),
+    // ring animation
+    tween2 = new mojs.Transit({
+      parent: el,
+      duration: 750,
+      type: 'circle',
+      radius: {0: 50},
+      fill: 'transparent',
+      stroke: '#988ADE',
+      strokeWidth: {15:0},
+      opacity: 0.6,
+      x: '50%',
+      y: '50%',
+      isRunLess: true,
+      easing: mojs.easing.bezier(0, 1, 0.5, 1)
+    }),
+    // icon scale animation
+    tween3 = new mojs.Tween({
+      duration : 700,
+      onUpdate: function(progress) {
+      }
+    });
+
+  timeline.add(tween1, tween2, tween3);
+
+  return timeline.start()
+}
+
 // Crate Color Properties Objects
 
 const green = {
@@ -87,7 +139,7 @@ const purple = {
 }
 
 
-//TODO: use this in Crate.js
+//TODO: props use in Crate.js
 // var comment = this.props.msg.text
 // var author = this.props.msg.authorDisplayName
 // var image = this.props.msg.image
