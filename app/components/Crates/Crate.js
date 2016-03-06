@@ -1,6 +1,6 @@
 import React from 'react';
 import { DefaultCrate, PressedCrate, popAnimation } from './CrateUtils';
-// import NativeListener from 'react-native-listener';
+import $ from 'jquery';
 
 var Crate = React.createClass({
   getInitialState: function() {
@@ -10,13 +10,11 @@ var Crate = React.createClass({
     }
   },
   pressCrate: function() {
-    return this.setState({isPressed: true})
+    this.setState({isPressed: true, testText: true})
+    stopPropagation()
   },
   unpressCrate: function() {
-    return this.setState({isPressed: false})
-  },
-  testComment: function() {
-    return console.log('testing comment')
+    this.setState({isPressed: false, testText: false})
   },
   deleteObj: function(event) {
     var itself = this;
@@ -47,7 +45,7 @@ var Crate = React.createClass({
       MouseUp is also lost outside of element on desktop.
       This is why there is currently no onClick.
     */
-    console.log(this.state.isPressed)
+    console.log(this.state.testText)
 
     var crateState;
     if (this.state.isPressed) {
@@ -56,13 +54,17 @@ var Crate = React.createClass({
       crateState = <DefaultCrate color={this.props.color}/>
     }
 
+    $('.crate-holder').click(function(event){
+        event.stopPropagation();
+    });
+
     return (
-      <div
-        onMouseDown={this.pressCrate}
-        onMouseUp={this.deleteObj}
-        onTouchStart={this.pressCrate}
-        onTouchEnd={this.uhpressCrate}>
-        <div className="crate-holder animated bounce" ref="thisCrate">
+      <div>
+        <div className="crate-holder animated bounce" ref="thisCrate"
+          onMouseDown={this.pressCrate}
+          onMouseUp={this.deleteObj}
+          onTouchStart={this.pressCrate}
+          onTouchEnd={this.deleteObj}>
           {crateState}
         </div>
       </div>
