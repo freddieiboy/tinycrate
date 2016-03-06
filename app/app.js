@@ -15,7 +15,7 @@ import AbsoluteGrid from 'react-absolute-grid';
 import firebase from 'firebase';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
-var authData = ref.getAuth();
+var authData;
 
 var unopenedCratesList = [];
 var openedCratesList = [];
@@ -37,7 +37,13 @@ var App = React.createClass({
   showCreate: function(event) {
     browserHistory.push("create");
   },
+  componentWillMount: function() {
+    authData = ref.getAuth();
+  },
   componentDidMount: function() {
+    if(!authData) {
+      return;
+    }
     var itself = this;
     var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
     unopenedCratesList = [];
