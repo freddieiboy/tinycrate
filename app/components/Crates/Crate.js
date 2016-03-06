@@ -56,18 +56,10 @@ var Crate = React.createClass({
       crateState = <DefaultCrate color={this.props.color}/>
     }
 
-    // return (
-    //   <Tappable onTap={this.testComment} classBase="pressed" component="div">
-    //     <div className="crate-holder animated bounce" ref="thisCrate">
-    //       {crateState}
-    //     </div>
-    //   </Tappable>
-    // );
-
     return (
-      <di
+      <div
         onMouseDown={this.pressCrate}
-        onMouseUp={this.unpressCrate}
+        onMouseUp={this.deleteObj}
         onTouchStart={this.pressCrate}
         onTouchEnd={this.uhpressCrate}>
         <div className="crate-holder animated bounce" ref="thisCrate">

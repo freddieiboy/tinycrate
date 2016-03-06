@@ -23,7 +23,7 @@ var Empty = React.createClass({
       var emoji = 'emoji';
     }
     return(
-      <Hammer onPress={this.emojiRandomizer} onPressUp={this.emojiRandomizer}>
+      <Hammer onTap={this.emojiRandomizer}>
         <div className="empty-holder">
           <div className="outerEmpty">
             <div className="innerEmpty">
