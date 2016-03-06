@@ -1,6 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-// import Tappable from 'react-tappable';
 import Hammer from 'react-hammerjs';
 
 var Empty = React.createClass({

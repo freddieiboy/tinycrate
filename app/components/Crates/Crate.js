@@ -1,8 +1,6 @@
 import React from 'react';
 import { DefaultCrate, PressedCrate, popAnimation } from './CrateUtils';
-// import classNames from 'classnames';
-// import Tappable from 'react-tappable';
-import NativeListener from 'react-native-listener';
+// import NativeListener from 'react-native-listener';
 
 var Crate = React.createClass({
   getInitialState: function() {
@@ -67,7 +65,7 @@ var Crate = React.createClass({
     // );
 
     return (
-      <NativeListener
+      <di
         onMouseDown={this.pressCrate}
         onMouseUp={this.unpressCrate}
         onTouchStart={this.pressCrate}
@@ -75,7 +73,7 @@ var Crate = React.createClass({
         <div className="crate-holder animated bounce" ref="thisCrate">
           {crateState}
         </div>
-      </NativeListener>
+      </div>
     );
   }
 });

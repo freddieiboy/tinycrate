@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import {injectTapEventPlugin} from 'react-tap-event-plugin';
-// injectTapEventPlugin();
 
 import LoginPage from './components/LoginPage';
 import InventoryPage from './components/InventoryPage';
