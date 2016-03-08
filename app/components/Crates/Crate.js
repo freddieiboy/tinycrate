@@ -9,8 +9,9 @@ var Crate = React.createClass({
       popping: false
     }
   },
-  pressCrate: function() {
+  pressCrate: function(event) {
     this.setState({isPressed: true, testText: true})
+    event.preventDefault();
   },
   deleteObj: function(event) {
     var itself = this;
@@ -34,12 +35,15 @@ var Crate = React.createClass({
         }, 700);
       }
     });
+    event.preventDefault();
   },
   render: function() {
     var crateState = this.state.isPressed;
     return (
       <div>
         <div className="crate-holder animated bounce" ref="thisCrate"
+          onMouseDown={this.pressCrate}
+          onMouseUp={this.deleteObj}
           onTouchStart={this.pressCrate}
           onTouchEnd={this.deleteObj}>
           <div className="crate-insides" style={{pointerEvents: 'none'}}>
