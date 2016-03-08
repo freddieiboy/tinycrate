@@ -1,6 +1,5 @@
 import React from 'react';
 import Crate from './Crate';
-import CrateUtils from './CrateUtils';
 
 var CrateList = React.createClass({
   render: function() {

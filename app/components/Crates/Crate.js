@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Components } from 'react';
 import { DefaultCrate, PressedCrate, popAnimation } from './CrateUtils';
 import $ from 'jquery';
 
@@ -11,10 +11,6 @@ var Crate = React.createClass({
   },
   pressCrate: function() {
     this.setState({isPressed: true, testText: true})
-    stopPropagation()
-  },
-  unpressCrate: function() {
-    this.setState({isPressed: false, testText: false})
   },
   deleteObj: function(event) {
     var itself = this;
@@ -40,32 +36,19 @@ var Crate = React.createClass({
     });
   },
   render: function() {
-    /*
-      Freddie: onClick also fires on mobile so the explosion animation fires twice.
-      MouseUp is also lost outside of element on desktop.
-      This is why there is currently no onClick.
-    */
-    console.log(this.state.testText)
-
-    var crateState;
-    if (this.state.isPressed) {
-      crateState = <PressedCrate popping={this.state.popping} color={this.props.color} />
-    } else {
-      crateState = <DefaultCrate color={this.props.color}/>
-    }
-
-    $('.crate-holder').click(function(event){
-        event.stopPropagation();
-    });
-
+    var crateState = this.state.isPressed;
     return (
       <div>
         <div className="crate-holder animated bounce" ref="thisCrate"
-          onMouseDown={this.pressCrate}
-          onMouseUp={this.deleteObj}
           onTouchStart={this.pressCrate}
           onTouchEnd={this.deleteObj}>
-          {crateState}
+          <div className="crate-insides" style={{pointerEvents: 'none'}}>
+            { crateState === true ? (
+              <PressedCrate popping={this.state.popping} color={this.props.color} />
+            ) : crateState === false ? (
+              <DefaultCrate color={this.props.color}/>
+            ) : null}
+          </div>
         </div>
       </div>
     );
