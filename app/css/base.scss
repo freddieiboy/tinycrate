@@ -92,7 +92,7 @@ html body {
     right: 0;
     left: 0;
     overflow-y: auto;
-    background-color: #fff
+    background-color: $backgroundWhite;
   }
   &.body-content-home {
     position: absolute;
@@ -101,7 +101,7 @@ html body {
     right: 0;
     left: 0;
     overflow-y: auto;
-    background-color: #46535c
+    background-color: $backgroundWhite;
   }
   &.body-content-create {
     position: absolute;
@@ -110,7 +110,7 @@ html body {
     right: 0;
     left: 0;
     overflow-y: auto;
-    background-color: #f5f8fa
+    background-color: $backgroundWhite;
   }
 }
 
@@ -120,10 +120,10 @@ html body {
   left: 0;
   right: 0;
   top: 0;
-  background-color: #404C56;
+  background-color: #404C56; // use $backgroundWhite
   height: 65px;
   padding: 15px 22px 38px 28px;
-  border-bottom: 1px solid #344048;
+  // border-bottom: 1px solid #344048;
 }
 
 .logoType {
@@ -135,7 +135,7 @@ html body {
 .homeFooter {
   height: 75px;
   border-top: 1px solid;
-  background-color: #404C56;
+  background-color: #404C56; // we're going to use the user's color
 }
 
 
@@ -151,7 +151,7 @@ header {
   top: 0;
   background-color: #293640;
   height: 200px;
-  border-bottom: 45px solid $darkBg;
+  // border-bottom: 45px solid $darkBg;
 }
 
 footer {
@@ -472,8 +472,4 @@ input[role="combobox"]{
   -webkit-transform: scale(2);
   left: 42%;
   top: 10%;
-}
-
-.pressed-active {
-  border: 1px solid red;
 }

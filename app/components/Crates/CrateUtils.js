@@ -102,33 +102,33 @@ export function popAnimation(el) {
 // Crate Color Properties Objects
 
 const green = {
-  lightColor: '#61F9CE',
-  darkColor: '#0AB3A2',
+  lightColor: '#49FFCC',
+  darkColor: '#1ADEDB',
 }
 
 const yellow = {
-  lightColor: '#FFD687',
-  darkColor: '#FFAC53',
+  lightColor: '#FCE973',
+  darkColor: '#FFC868',
 }
 
 const orange = {
-  lightColor: '#FF7853',
-  darkColor: '#E95832',
+  lightColor: '#FD9C44',
+  darkColor: '#F67A1B',
 }
 
 const blue = {
-  lightColor: '#23CFFC',
-  darkColor: '#009AC2',
+  lightColor: '#57E3FD',
+  darkColor: '#2BBFD9',
 }
 
 const pink = {
-  lightColor: '#FF7493',
-  darkColor: '#E93A53',
+  lightColor: '#FB70AF',
+  darkColor: '#EE3B76',
 }
 
 const purple = {
-  lightColor: '#F477FB',
-  darkColor: '#C93BD9',
+  lightColor: '#FF5DFA',
+  darkColor: '#C746E9',
 }
 
 
