@@ -1,18 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin({
-  shouldRejectClick: function (lastTouchEventTimestamp, clickEventTimestamp) {
-    return true;
-  }
-});
 
 import LoginPage from './components/LoginPage';
 import InventoryPage from './components/InventoryPage';
 import CommentList from './components/CommentList';
 import Comment from './components/Comment';
-import CrateList from './components/CrateList';
-import Crate from './components/Crate';
+import CrateList from './components/Crates/CrateList';
+import Crate from './components/Crates/Crate';
 import CreatePage from './components/CreatePage';
 import Empty from './components/Empty';
 import { Router, Route, Link, browserHistory } from 'react-router';
@@ -104,7 +98,7 @@ render: function() {
         </div>
       </div>
 
-      <div style={{padding: '40px 22px'}} className="container-fluid body-content-home">
+      <div style={{padding: '22px'}} className="container-fluid body-content-home">
         <AbsoluteGrid items={this.state.data} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
         {emptyState}
       </div>
