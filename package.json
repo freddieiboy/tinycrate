@@ -39,6 +39,7 @@
     "react-dom": "0.14.7",
     "react-hammerjs": "0.4.5",
     "react-modal": "^0.6.1",
+    "react-motion": "0.4.2",
     "react-native-listener": "1.0.1",
     "react-notification": "^4.2.0",
     "react-router": "^2.0.0",
