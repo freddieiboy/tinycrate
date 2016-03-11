@@ -38,7 +38,7 @@ var Crate = React.createClass({
     event.preventDefault();
   },
   render: function() {
-    var crateState = this.state.isPressed;
+    var isPressed = this.state.isPressed;
     return (
       <div>
         <div className="crate-holder animated bounce" ref="thisCrate"
@@ -47,11 +47,11 @@ var Crate = React.createClass({
           onTouchStart={this.pressCrate}
           onTouchEnd={this.deleteObj}>
           <div className="crate-insides" style={{pointerEvents: 'none'}}>
-            { crateState === true ? (
+            { isPressed ? (
               <PressedCrate popping={this.state.popping} color={this.props.color} />
-            ) : crateState === false ? (
+            ) : (
               <DefaultCrate color={this.props.color}/>
-            ) : null}
+            )}
           </div>
         </div>
       </div>

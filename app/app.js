@@ -6,6 +6,7 @@ import InventoryPage from './components/InventoryPage';
 import CommentList from './components/CommentList';
 import Comment from './components/Comment';
 import CrateList from './components/Crates/CrateList';
+import {green, pink} from './components/Crates/CrateUtils';
 import Crate from './components/Crates/Crate';
 import CreatePage from './components/CreatePage';
 import Empty from './components/Empty';
@@ -26,6 +27,36 @@ var data = [
   {id: 3, name: "DJ Khaled", text: "Major 🔑🔑🔑 Alert!!", image: "http://imc.ulximg.com/image/src/artist/1392850906_2f16e083616376c167fda25befb0472c.jpg/40b5f63611a9262fc955282ec0ec47f7/1392850906_dj_khaled_27.jpg"}
 ];
 
+const styles = {
+  homeHeader: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 65,
+    padding: '15px 22px 38px 28px'
+  },
+  homeFooter: {
+    height: '4em',
+    backgroundColor: green.lightColor// TODO: going to use the users color
+  },
+  optionsMenu: {
+    position: 'absolute',
+    top: '-2.5em',
+    right: '2.5em',
+    width: '5em',
+    height: '5em',
+    borderRadius: '50%',
+    backgroundColor: '#fff',
+    boxShadow: '1px 2px 4px 0px rgba(0,0,0,0.21)'
+  },
+  createIcon: {
+    height: '2.5em',
+    width: '2.5em',
+    backgroundColor: pink.lightColor,
+    borderRadius: 6
+  }
+}
 
 var App = React.createClass({
   getInitialState: function() {
@@ -82,18 +113,13 @@ render: function() {
     emptyState = '';
   }
 
-  // console.log(this.state.data)
   return (
     <div>
-      <div className="homeHeader">
+      <div className="homeHeader" style={styles.homeHeader}>
         <h5 className="logoType">TinyCrate</h5>
-
         <div className="inventoryAction float-right" onClick={this.showInventory}>
-          <div className="float-right">
-            <img src="http://i.imgur.com/n77pEs0.png" style={{ width: '35px' }}/>
-          </div>
           <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
-            <p>Inventory</p>
+            <p style={{color: '#000'}}>Inventory</p>
           </div>
         </div>
       </div>
@@ -103,13 +129,10 @@ render: function() {
         {emptyState}
       </div>
 
-      <footer className="homeFooter animated">
-
-        <div className="newCrateAction" onClick={this.showCreate}>
-          <div className="newCrate float-right" style={{ marginRight: '25px', paddingTop: '15px' }}>
-            <img src="http://i.imgur.com/WxqtbpO.png" style={{ width: '35px' }}/>
-          </div>
-          <p style={{color: 'white', float: 'right', paddingTop: '20px', paddingRight: '15px'}} >New Crate</p>
+      <footer className="homeFooter" style={styles.homeFooter}>
+        <div className="optionsMenu actionButton animated pulse" onClick={this.showCreate} style={styles.optionsMenu}>
+          <div className="actionIcon" style={styles.createIcon}></div>
+          <div className="actionIcon" style={{fontSize: '2em', color: '#fff'}}>+</div>
         </div>
       </footer>
     </div>

@@ -101,32 +101,32 @@ export function popAnimation(el) {
 
 // Crate Color Properties Objects
 
-const green = {
+export const green = {
   lightColor: '#49FFCC',
   darkColor: '#1ADEDB',
 }
 
-const yellow = {
+export const yellow = {
   lightColor: '#FCE973',
   darkColor: '#FFC868',
 }
 
-const orange = {
+export const orange = {
   lightColor: '#FD9C44',
   darkColor: '#F67A1B',
 }
 
-const blue = {
+export const blue = {
   lightColor: '#57E3FD',
   darkColor: '#2BBFD9',
 }
 
-const pink = {
+export const pink = {
   lightColor: '#FB70AF',
   darkColor: '#EE3B76',
 }
 
-const purple = {
+export const purple = {
   lightColor: '#FF5DFA',
   darkColor: '#C746E9',
 }

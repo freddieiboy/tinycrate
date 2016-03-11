@@ -84,7 +84,7 @@ var InventoryPage = React.createClass({
         <footer>
           <img className="downArrow" src="http://i.imgur.com/cWmUR9n.png" style={{ float: 'right', margin: '12px' }}></img>
 
-          <p class="goBackInventory" style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '10px'}} onClick={this.showHome}>
+          <p className="goBackInventory" style={{color: 'white', float: 'right', paddingTop: '10px', paddingBottom: '10px', paddingRight: '10px'}} onClick={this.showHome}>
             Go Back
           </p>
         </footer>
