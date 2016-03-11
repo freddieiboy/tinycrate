@@ -86,7 +86,7 @@ render: function() {
   return (
     <div>
       <div className="homeHeader">
-        <div className="logoType">TinyCrate</div>
+        <h5 className="logoType">TinyCrate</h5>
 
         <div className="inventoryAction float-right" onClick={this.showInventory}>
           <div className="float-right">
