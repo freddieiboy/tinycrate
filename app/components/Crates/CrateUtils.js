@@ -110,9 +110,10 @@ export function pop1(el, color) {
   return timeline.start()
 }
 
-export function pop2(el, color) {
+export function pop2(el, color, thisrefs) {
   /* Icon 7 */
       const evalColor = eval(color);
+      const bounceItem = thisrefs;
       var timeline = new mojs.Timeline(),
 
       // burst animation
@@ -167,13 +168,13 @@ export function pop2(el, color) {
       tween4 = new mojs.Tween({
         duration : 700,
         onUpdate: function(progress) {
-          // if(progress > 0.3) {
-          //   var elasticOutProgress = mojs.easing.elastic.out(1.43*progress-0.43);
-          //   el7span.style.WebkitTransform = el7span.style.transform = 'scale3d(' + elasticOutProgress + ',' + elasticOutProgress + ',1)';
-          // }
-          // else {
-          //   el7span.style.WebkitTransform = el7span.style.transform = 'scale3d(0,0,1)';
-          // }
+          if(progress > 0.3) {
+            var elasticOutProgress = mojs.easing.elastic.out(1.43*progress-0.43);
+            bounceItem.style.WebkitTransform = bounceItem.style.transform = 'scale3d(' + '1,' + elasticOutProgress + ',1) translate(-50%, -50%)';
+          }
+          else {
+            bounceItem.style.WebkitTransform = bounceItem.style.transform = 'scale3d(0,0,1) translate(-50%, -50%)';
+          }
         }
       })
 
@@ -220,6 +221,9 @@ export const empty = {
   darkColor: '#CBEBF0'
 }
 
+export const emptyAlt = {
+  lightColor: '#CBEBF0'
+}
 
 //TODO: props use in Crate.js
 // var comment = this.props.msg.text

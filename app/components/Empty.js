@@ -1,6 +1,6 @@
 import React from 'react';
 import {Emojis} from './Emojis';
-import {DefaultCrate, PressedCrate} from './Crates/CrateUtils';
+import {DefaultCrate, PressedCrate, pop1, pop2} from './Crates/CrateUtils';
 import $ from 'jquery';
 import Hammer from 'react-hammerjs';
 
@@ -16,15 +16,16 @@ var Empty = React.createClass({
   },
   pickRandomEmoji: function() {
     var random = Math.floor(Math.random()*Emojis.length)
+    pop2(this.refs.thisEmptyCrate, 'emptyAlt', this.refs.thisEmptyEmoji);
     this.setState({emoji: random, isPressed: false});
   },
   render: function() {
     var emoji;
-    this.state.isPressed ? emoji = 'emojiPressed emoji noTouch' : emoji = 'emoji noTouch'
+    this.state.isPressed ? emoji = 'emojiPressed noTouch' : emoji = 'noTouch'
     return(
       <div style={{height: '100%', position: 'relative'}}>
         <div className="emptyCrate" style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-          <div className={emoji} style={styles.emoji}>
+          <div className={emoji} id="emoji" style={styles.emoji} ref="thisEmptyEmoji">
             {Emojis[this.state.emoji]}
           </div>
           <div style={styles.crateSize}
