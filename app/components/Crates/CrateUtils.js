@@ -59,9 +59,10 @@ const styles = {
   }
 }
 
-export function popAnimation(el) {
+export function popAnimation(el, color) {
   // var el = this.refs.thisCrate,
     // mo.js timeline obj
+    const evalColor = eval(color);
     var timeline = new mojs.Timeline(),
 
     // tweens for the animation:
@@ -71,7 +72,7 @@ export function popAnimation(el) {
       parent: el,
       duration: 1500,
       shape : 'circle',
-      fill : [ '#988ADE', '#DE8AA0', '#8AAEDE', '#8ADEAD', '#DEC58A', '#8AD1DE' ],
+      fill : evalColor.lightColor,
       x: '50%',
       y: '50%',
       opacity: 0.6,
@@ -89,7 +90,7 @@ export function popAnimation(el) {
       type: 'circle',
       radius: {0: 50},
       fill: 'transparent',
-      stroke: '#988ADE',
+      stroke: evalColor.lightColor,
       strokeWidth: {15:0},
       opacity: 0.6,
       x: '50%',

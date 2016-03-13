@@ -26,7 +26,7 @@ var Crate = React.createClass({
       } else {
         console.log("Data saved successfully.");
         itself.setState({popping: true})
-        popAnimation(itself.refs.thisCrate)
+        popAnimation(itself.refs.thisCrate, itself.props.color)
 
         setTimeout(function() {
           itself.setState({popping: false})
