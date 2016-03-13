@@ -29,6 +29,7 @@ var Empty = React.createClass({
             {Emojis[this.state.emoji]}
           </div>
           <div style={styles.crateSize}
+            ref="thisEmptyCrate"
             onMouseDown={this.pressCrate}
             onTouchStart={this.pressCrate}
             onMouseUp={this.pickRandomEmoji}

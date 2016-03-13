@@ -166,7 +166,7 @@ export function pop2(el, color, thisrefs) {
       }),
       // icon scale animation
       tween4 = new mojs.Tween({
-        duration : 700,
+        duration : 400,
         onUpdate: function(progress) {
           if(progress > 0.3) {
             var elasticOutProgress = mojs.easing.elastic.out(1.43*progress-0.43);
