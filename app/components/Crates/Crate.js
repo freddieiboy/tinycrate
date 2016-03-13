@@ -18,23 +18,26 @@ var Crate = React.createClass({
     console.log("create delete");
     var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
     var crate = new Firebase(FIREBASE_URL + "/crates/" + this.props.id);
-    crate.update({
-      "opened": true
-    }, function(error) {
-      if (error) {
-        console.log("Data could not be saved." + error);
-      } else {
-        console.log("Data saved successfully.");
-        itself.setState({popping: true})
-        pop1(itself.refs.thisCrate, itself.props.color);
+    itself.setState({popping: true})
+    if (this.state.popping == false) {
+      pop1(itself.refs.thisCrate, itself.props.color);
+      crate.update({
+        "opened": true
+      }, function(error) {
+        if (error) {
+          console.log("Data could not be saved." + error);
+        } else {
+          console.log("Data saved successfully.");
 
-        setTimeout(function() {
-          itself.setState({popping: false})
-          itself.setState({isPressed: false})
-          itself.props.onDelete(itself.props.id);
-        }, 700);
-      }
-    });
+          setTimeout(function() {
+            itself.setState({popping: false})
+            itself.setState({isPressed: false})
+            itself.props.onDelete(itself.props.id);
+          }, 700);
+        }
+      });
+    }
+
     event.preventDefault();
   },
   render: function() {

@@ -225,6 +225,11 @@ export const emptyAlt = {
   lightColor: '#CBEBF0'
 }
 
+export const productHunt = {
+  lightColor: '#DA552F',
+  darkColor: '#CC4124'
+}
+
 //TODO: props use in Crate.js
 // var comment = this.props.msg.text
 // var author = this.props.msg.authorDisplayName
