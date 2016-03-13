@@ -59,7 +59,7 @@ const styles = {
   }
 }
 
-export function popAnimation(el, color) {
+export function pop1(el, color) {
   // var el = this.refs.thisCrate,
     // mo.js timeline obj
     const evalColor = eval(color);
@@ -108,6 +108,79 @@ export function popAnimation(el, color) {
   timeline.add(tween1, tween2, tween3);
 
   return timeline.start()
+}
+
+export function pop2(el, color) {
+  /* Icon 7 */
+      const evalColor = eval(color);
+      var timeline = new mojs.Timeline(),
+
+      // burst animation
+      tween1 = new mojs.Burst({
+        parent: el,
+        duration: 900,
+        delay: 200,
+        shape : 'circle',
+        fill: evalColor.lightColor,
+        x: '50%',
+        y: '50%',
+        opacity: 0.6,
+        childOptions: { radius: {'rand(20,5)':0} },
+        radius: {90:150},
+        count: 18,
+        isSwirl: true,
+        swirlSize: 15,
+        isRunLess: true,
+        easing: mojs.easing.bezier(0.1, 1, 0.3, 1)
+      }),
+      // ring animation
+      tween2 = new mojs.Transit({
+        parent: el,
+        duration: 1100,
+        type: 'circle',
+        radius: {30: 100},
+        fill: 'transparent',
+        stroke: evalColor.lightColor,
+        strokeWidth: {30:0},
+        opacity: 0.6,
+        x: '50%',
+        y: '50%',
+        isRunLess: true,
+        easing: mojs.easing.bezier(0.1, 1, 0.3, 1)
+      }),
+      tween3 = new mojs.Transit({
+        parent: el,
+        duration: 1200,
+        delay: 320,
+        type: 'circle',
+        radius: {30: 80},
+        fill: 'transparent',
+        stroke: evalColor.lightColor,
+        strokeWidth: {20:0},
+        opacity: 0.3,
+        x: '50%',
+        y: '50%',
+        isRunLess: true,
+        easing: mojs.easing.bezier(0.1, 1, 0.3, 1)
+      }),
+      // icon scale animation
+      tween4 = new mojs.Tween({
+        duration : 700,
+        onUpdate: function(progress) {
+          // if(progress > 0.3) {
+          //   var elasticOutProgress = mojs.easing.elastic.out(1.43*progress-0.43);
+          //   el7span.style.WebkitTransform = el7span.style.transform = 'scale3d(' + elasticOutProgress + ',' + elasticOutProgress + ',1)';
+          // }
+          // else {
+          //   el7span.style.WebkitTransform = el7span.style.transform = 'scale3d(0,0,1)';
+          // }
+        }
+      })
+
+      timeline.add(tween1, tween2, tween3, tween4);
+
+      return timeline.start()
+  /* Icon 7 */
 }
 
 // Crate Color Properties Objects

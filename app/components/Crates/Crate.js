@@ -1,5 +1,5 @@
 import React, { Components } from 'react';
-import { DefaultCrate, PressedCrate, popAnimation } from './CrateUtils';
+import { DefaultCrate, PressedCrate, pop1, pop2 } from './CrateUtils';
 import $ from 'jquery';
 
 var Crate = React.createClass({
@@ -26,7 +26,7 @@ var Crate = React.createClass({
       } else {
         console.log("Data saved successfully.");
         itself.setState({popping: true})
-        popAnimation(itself.refs.thisCrate, itself.props.color)
+        pop1(itself.refs.thisCrate, itself.props.color);
 
         setTimeout(function() {
           itself.setState({popping: false})
