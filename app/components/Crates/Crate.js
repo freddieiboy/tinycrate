@@ -46,7 +46,7 @@ var Crate = React.createClass({
           onMouseUp={this.deleteObj}
           onTouchStart={this.pressCrate}
           onTouchEnd={this.deleteObj}>
-          <div className="crate-insides" style={{pointerEvents: 'none'}}>
+          <div className="noTouch">
             { isPressed ? (
               <PressedCrate popping={this.state.popping} color={this.props.color} />
             ) : (

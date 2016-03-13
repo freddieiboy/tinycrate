@@ -1,42 +1,66 @@
 import React from 'react';
+import {Emojis} from './Emojis';
+import {DefaultCrate, PressedCrate} from './Crates/CrateUtils';
 import $ from 'jquery';
 import Hammer from 'react-hammerjs';
 
 var Empty = React.createClass({
   getInitialState: function() {
     return {
-      emptyEmoji: '❤︎'
+      emoji: 0,
+      isPressed: false
     }
   },
-  emojiRandomizer: function() {
-    var emojis = ['😬','💛','💩','😽','📦','🎁','😱','😜','😍','😑','😨','🐈'];
-    var randomEmoji = emojis[Math.floor(Math.random()*emojis.length)]
-    return this.setState({emptyEmoji: randomEmoji})
+  pressCrate: function() {
+    this.setState({isPressed: true});
+  },
+  pickRandomEmoji: function() {
+    var random = Math.floor(Math.random()*Emojis.length)
+    console.log(random)
+    this.setState({emoji: random, isPressed: false});
   },
   render: function() {
-    var is_ios = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
     var emoji;
-
-    if (is_ios) {
-      var emoji = 'emoji ios-emoji';
-    } else {
-      var emoji = 'emoji';
-    }
+    this.state.isPressed ? emoji = 'emojiPressed emoji noTouch' : emoji = 'emoji noTouch'
     return(
-      <Hammer onTap={this.emojiRandomizer}>
-        <div className="empty-holder">
-          <div className="outerEmpty">
-            <div className="innerEmpty">
-              <div className={emoji}>
-                <div className="empty-emoji animated pulse">{this.state.emptyEmoji}</div>
-              </div>
-              <img className="emptystate" src="http://i.imgur.com/5QybnJn.png"></img>
+      <div style={{height: '100%', position: 'relative'}}>
+        <div className="emptyCrate" style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
+          <div className={emoji} style={styles.emoji}>
+            {Emojis[this.state.emoji]}
+          </div>
+          <div style={styles.crateSize}
+            onMouseDown={this.pressCrate}
+            onTouchStart={this.pressCrate}
+            onMouseUp={this.pickRandomEmoji}
+            onTouchEnd={this.pickRandomEmoji}>
+            <div className="noTouch">
+              { this.state.isPressed ? (
+                <PressedCrate color={'empty'} />
+              ) : (
+                <DefaultCrate color={'empty'}/>
+              )}
             </div>
           </div>
         </div>
-      </Hammer>
+      </div>
     )
   }
 });
 
 module.exports = Empty;
+
+const styles = {
+  crateSize: {
+    width: 80,
+  },
+  emoji: {
+    top: '33%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    height: 40,
+    width: 40,
+    padding: '4',
+    borderRadius: '50%',
+    position: 'absolute'
+  }
+}

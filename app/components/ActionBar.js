@@ -34,7 +34,7 @@ var ActionBar = React.createClass({
   },
   finalPos: function(id) {
     return {
-      left: spring(this.state.mainButtonPosition - (this.state.mainButtonWidth * id), {stiffness: 220, damping: 17}),
+      left: spring(this.state.mainButtonPosition - (this.state.mainButtonWidth * id), {stiffness: 320, damping: 17}),
       opacity: spring(1)
     }
   },
@@ -42,55 +42,30 @@ var ActionBar = React.createClass({
     const isOpened = !this.state.isOpened;
     return Object.assign({}, isOpened && this.initPos(), !isOpened && this.finalPos(position))
   },
-  trythis: function() {
-    alert('this is pressing')
-  },
   render: function() {
     const isOpened = !this.state.isOpened;
     return (
-        <footer className="homeFooter" style={styles.homeFooter}>
-
-          <Hammer onTap={this.openAction} threshold={400}>
-            <div className="optionsMenu actionButton animated pulse"style={styles.optionsMenu}>
-              <div className="actionIcon" style={styles.createIcon}></div>
-              <div className="actionIcon" style={{fontSize: '2em', color: '#fff'}}>+</div>
-            </div>
-          </Hammer>
-
-          <Motion style={this.setBtnPosition(1)}>
-            {({left, opacity}) =>
-              <div className="photoButton actionButton" style={{left: left, opacity: opacity}} onClick={this.trythis}>
-                <div className="actionIcon" style={{top: '2.2em'}}>
-                  <Camera />
-                </div>
-              </div>}
-          </Motion>
-
-          <Motion style={this.setBtnPosition(2)}>
-            {({left, opacity}) =>
-              <div className="photoButton actionButton" style={{left: left, opacity: opacity}}>
-                <div className="actionIcon" style={{top: '2.2em'}}>
-                  <Camera />
-                </div>
-              </div>}
-          </Motion>
-          <Motion style={this.setBtnPosition(3)}>
-            {({left, opacity}) =>
-              <div className="photoButton actionButton" style={{left: left, opacity: opacity}}>
-                <div className="actionIcon" style={{top: '2.2em'}}>
-                  <Camera />
-                </div>
-              </div>}
-          </Motion>
-
-        </footer>
+      <footer className="homeFooter" style={styles.homeFooter}>
+        <Hammer onTap={this.openAction} threshold={400}>
+          <div className="optionsMenu actionButton animated pulse"style={styles.optionsMenu}>
+            <div className="actionIcon" style={styles.createIcon}></div>
+            <div className="actionIcon" style={{fontSize: '2em', color: '#fff'}}>+</div>
+          </div>
+        </Hammer>
+        <Motion style={this.setBtnPosition(1)}>
+          {({left, opacity}) =>
+            <div className="photoButton actionButton" style={{left: left, opacity: opacity}} onClick={this.props.showCreate}>
+              <div className="actionIcon" style={{top: '2.2em'}}>
+                <Camera />
+              </div>
+            </div>}
+        </Motion>
+      </footer>
     )
   }
 });
 
 module.exports = ActionBar;
-
-// onClick={this.props.showCreate} => changes route. Add this back when done.
 
 const styles = {
   homeFooter: {
@@ -124,3 +99,19 @@ const styles = {
     boxShadow: '1px 2px 4px 0px rgba(0,0,0,0.21)',
   }
 }
+
+/*
+This is how you add a button. Set the position with setBtnPosition(pos)
+The main button is [0]. The position directly next to it is [1].
+[2] is second and so forth.
+
+<Motion style={this.setBtnPosition(pos)}>
+  {({left, opacity}) =>
+    <div className="actionButton" style={{left: left, opacity: opacity}}>
+      <div className="actionIcon" style={{top: '2.2em'}}>
+        ** ADD COMPONENT HERE **
+        Ex. <Camera />
+      </div>
+    </div>}
+</Motion>
+*/

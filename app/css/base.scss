@@ -1,5 +1,4 @@
 @import 'colors';
-@import 'crate-styles';
 @import 'inventory-page';
 @import 'typography';
 @import 'animation';
@@ -165,28 +164,6 @@ input[role="combobox"]{
   height: 50px;
 }
 
-.empty-holder {
-  width: 100%;
-  height: 100%;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-}
-
-.emoji {
-  position: absolute;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-  top: 1%;
-  font-size: 46px;
-}
-
-.ios-emoji {
-  font-size: 30px;
-  -webkit-transform: scale(2);
-  left: 42%;
-  top: 10%;
-}
-
 .photoButton {
   position: absolute;
   top: -2em;
@@ -195,4 +172,22 @@ input[role="combobox"]{
   border-radius: 50%;
   background-color: #fff;
   box-shadow: 1px 2px 4px 0px rgba(0,0,0,0.21);
+}
+
+.crate-holder {
+	width: 80px;
+  height: 100%;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.noTouch {
+  pointer-events: none;
+}
+
+.emojiPressed {
+  margin-top: 23px;
+  transform:  scale(1, .8) translate(-50%, -50%) !important;
 }

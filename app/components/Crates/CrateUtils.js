@@ -12,8 +12,8 @@ popAnimation = Animation function.
 export const DefaultCrate = ({color}) => {
   const evalColor = eval(color);
   return (
-    <div className="default-crate">
-      <svg viewBox="0 0 157 171" version="1.1">
+    <div className="default-crate" style={styles.shadow}>
+      <svg viewBox="0 0 157 165" version="1.1">
         <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
           <g transform="translate(-105.000000, -387.000000)">
             <g id="default-crate" transform="translate(105.000000, 387.000000)">
@@ -23,18 +23,15 @@ export const DefaultCrate = ({color}) => {
           </g>
         </g>
       </svg>
-      <div className="crate-shadow"></div>
     </div>
   )
 }
 
 export const PressedCrate = ({popping, color}) => {
   const evalColor = eval(color);
-  var pressedState = 'pressed-crate';
-  popping ? pressedState = 'pressed-crate popping' : pressedState = 'pressed-crate'
   return(
-    <div className={pressedState}>
-      <svg viewBox="0 0 157 128" version="1.1">
+    <div className={popping ? 'hide' : {}} style={styles.shadowPressed}>
+      <svg viewBox="0 0 157 128" version="1.1" >
         <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
           <g transform="translate(-367.000000, -430.000000)">
             <g transform="translate(367.000000, 430.000000)">
@@ -44,9 +41,22 @@ export const PressedCrate = ({popping, color}) => {
           </g>
         </g>
       </svg>
-      <div className="crate-shadow-pressed"></div>
     </div>
   )
+}
+
+const styles = {
+  shadow: {
+    height: 83,
+    borderRadius: 13,
+  	boxShadow: '0px 12px 10px 0px rgba(5,156,150,0.34)'
+  },
+  shadowPressed: {
+    marginTop: 30,
+    height: 59,
+    borderRadius: 27,
+  	boxShadow: '0px 11px 10px 0px rgba(5,156,150,0.34)'
+  }
 }
 
 export function popAnimation(el) {
@@ -129,6 +139,11 @@ export const pink = {
 export const purple = {
   lightColor: '#FF5DFA',
   darkColor: '#C746E9',
+}
+
+export const empty = {
+  lightColor: '#E9FAFD',
+  darkColor: '#CBEBF0'
 }
 
 
