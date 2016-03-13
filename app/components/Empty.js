@@ -16,7 +16,6 @@ var Empty = React.createClass({
   },
   pickRandomEmoji: function() {
     var random = Math.floor(Math.random()*Emojis.length)
-    console.log(random)
     this.setState({emoji: random, isPressed: false});
   },
   render: function() {
