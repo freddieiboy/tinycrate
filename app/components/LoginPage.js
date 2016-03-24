@@ -37,13 +37,28 @@ var LoginPage = React.createClass({
 
 ref.onAuth(function(authData) {
   if (authData) {
-    ref.child("users").child(authData.uid).set({
-      provider: authData.provider,
-      name: getName(authData),
-      username: getUsername(authData),
-      profileImageURL: getProfileImageURL(authData)
+    ref.child('users').child(authData.uid).transaction(function(currentData) {
+      if (currentData === null) {
+        return {
+          provider: authData.provider,
+          name: getName(authData),
+          username: getUsername(authData),
+          profileImageURL: getProfileImageURL(authData)
+        };
+      } else {
+        browserHistory.push("/");
+        return;
+      }
+    }, function(error, committed, snapshot) {
+      if (error) {
+        console.log('Transaction failed abnormally!', error);
+      } else if (!committed) {
+        // user already exists
+      } else {
+        // user created successfully
+        browserHistory.push("/");
+      }
     });
-    browserHistory.push("/");
   }
 });
 
