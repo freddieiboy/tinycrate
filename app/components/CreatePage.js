@@ -9,6 +9,7 @@ import FilePicker from 'component-file-picker';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var authData = ref.getAuth();
+var userRef = ref.child('users').child(authData.uid);
 
 const itself = this;
 
@@ -108,8 +109,6 @@ var CreatePage = React.createClass({
     var itself = this;
     var postsRef = ref.child("crates");
     var newPostRef = postsRef.push();
-    var user = ref.getAuth();
-    var userRef = ref.child('users').child(user.uid);
 
     var username = $('input[role="combobox"]').val();
     var recipientUser = this.state.users.filter(function(elem) {
@@ -148,6 +147,8 @@ var CreatePage = React.createClass({
         });
         itself.showHome();
       }
+      // increment 'giftedCount' after gifting a crate
+      incrementGiftedCount();
     });
   },
   render: function() {
@@ -223,6 +224,15 @@ let styles = {
   menu: {
     border: 'solid 1px #ccc'
   }
+}
+
+function incrementGiftedCount() {
+  userRef.child("giftedCount").transaction(function(giftedCount) {
+    if(giftedCount === null) {
+      return 1;
+    }
+    return giftedCount + 1;
+  });
 }
 
 module.exports = CreatePage;
