@@ -2,6 +2,11 @@ import React, { Components } from 'react';
 import { DefaultCrate, PressedCrate, pop1, pop2 } from './CrateUtils';
 import $ from 'jquery';
 
+var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
+var ref = new Firebase(FIREBASE_URL);
+var user = ref.getAuth();
+var userRef = ref.child('users').child(user.uid);
+
 var Crate = React.createClass({
   getInitialState: function() {
     return {
@@ -16,8 +21,7 @@ var Crate = React.createClass({
   deleteObj: function(event) {
     var itself = this;
     console.log("create delete");
-    var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
-    var crate = new Firebase(FIREBASE_URL + "/crates/" + this.props.id);
+    var crate = ref.child('crates').child(this.props.id);
     itself.setState({popping: true})
     if (this.state.popping == false) {
       pop1(itself.refs.thisCrate, itself.props.color);
@@ -28,6 +32,9 @@ var Crate = React.createClass({
           console.log("Data could not be saved." + error);
         } else {
           console.log("Data saved successfully.");
+
+          // increment 'unwrappedCount' after opening a crate
+          incrementUnwrappedCount();
 
           setTimeout(function() {
             itself.setState({popping: false})
@@ -62,6 +69,13 @@ var Crate = React.createClass({
   }
 });
 
-
+function incrementUnwrappedCount() {
+  userRef.child("unwrappedCount").transaction(function(unwrappedCount) {
+    if(unwrappedCount === null) {
+      return 1;
+    }
+    return unwrappedCount + 1;
+  });
+}
 
 module.exports = Crate;
