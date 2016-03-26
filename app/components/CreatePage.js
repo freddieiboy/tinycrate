@@ -4,6 +4,7 @@ import Autocomplete from 'react-autocomplete';
 import { Notification } from 'react-notification';
 import $ from 'jquery';
 import FilePicker from 'component-file-picker';
+import ActionBar from './ActionBar';
 
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
@@ -183,19 +184,15 @@ var CreatePage = React.createClass({
             </div>
           </div>
         </div>
+        <Notification
+        isActive={this.state.showNotification}
+        message={"Your crate has been sent!"}
+        dismissAfter={2000}
+        style={this.getNotificationStyles()}
+        />
+        <ActionBar />
 
-        <footer className="footerCreate">
-          <div className="container" style={{paddingTop: '10px'}}>
-            <div className="row" style={{paddingBottom: '15px'}}>
-              <button style={{position: 'absolute'}} onClick={this.selectFile}>select image</button>
-              <img id="imagePreview" src={'http://www-cdr.stanford.edu/~petrie/blank.gif'} style={{width: '32px', height: '32px', marginLeft: '160px'}} />
-            </div>
-            <div>
-              <input id="message" placeholder='crate message...' className="inputSend" style={{width: '65%'}} onKeyUp={this.handleSendCrateKeyboard}></input>
-              <button style={{marginLeft: '15px', float: 'right'}} onClick={this.handleSendCrateClick}>send</button>
-            </div>
-          </div>
-        </footer>
+
         <Notification
         isActive={this.state.showNotification}
         message={"Your crate has been sent!"}
@@ -206,6 +203,19 @@ var CreatePage = React.createClass({
     );
   }
 });
+
+// <footer className="footerCreate">
+//   <div className="container" style={{paddingTop: '10px'}}>
+//     <div className="row" style={{paddingBottom: '15px'}}>
+//       <button style={{position: 'absolute'}} onClick={this.selectFile}>select image</button>
+//       <img id="imagePreview" src={'http://www-cdr.stanford.edu/~petrie/blank.gif'} style={{width: '32px', height: '32px', marginLeft: '160px'}} />
+//     </div>
+//     <div>
+//       <input id="message" placeholder='crate message...' className="inputSend" style={{width: '65%'}} onKeyUp={this.handleSendCrateKeyboard}></input>
+//       <button style={{marginLeft: '15px', float: 'right'}} onClick={this.handleSendCrateClick}>send</button>
+//     </div>
+//   </div>
+// </footer>
 
 let styles = {
   item: {

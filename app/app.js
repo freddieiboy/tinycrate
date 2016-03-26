@@ -24,17 +24,17 @@ var openedCratesList = [];
 
 var App = React.createClass({
   getInitialState: function() {
-    return {data: []};
+    return {
+      data: []
+    };
   },
   showInventory: function(event) {
     browserHistory.push("inventory");
   },
-  showCreate: function(event) {
-    browserHistory.push("create");
-  },
   componentDidMount: function() {
     var itself = this;
     var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
+
     unopenedCratesList = [];
     //TODO: refactor these two functions. console.log is being called like 200 times. why?
     unopenedCrates.orderByChild("recipientUId").equalTo(authData.uid).on("child_added", function(snapshot) {
@@ -93,7 +93,7 @@ var App = React.createClass({
           <AbsoluteGrid items={this.state.data} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
           {emptyState}
         </div>
-        <ActionBar showCreate={this.showCreate} />
+        <ActionBar />
       </div>
     );
   }

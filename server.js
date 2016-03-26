@@ -17,7 +17,7 @@ if (isDeveloping) {
 	app.use(require('webpack-hot-middleware')(compiler));
 
 	app.get('*', function response(req, res) {
-		res.sendFile(path.join(__dirname, 'app/index.html'));
+		res.sendFile(path.join(__dirname, 'app/index.tpl.html'));
 	});
 } else {
 	app.use(express.static(__dirname + '/dist'));
