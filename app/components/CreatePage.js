@@ -5,6 +5,7 @@ import { Notification } from 'react-notification';
 import $ from 'jquery';
 import FilePicker from 'component-file-picker';
 import ActionBar from './ActionBar';
+import Hammer from 'react-hammerjs';
 
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
@@ -154,11 +155,6 @@ var CreatePage = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="homeHeader clearfix" onClick={this.showHome}>
-          <img className="downArrow" src="http://i.imgur.com/cWmUR9n.png" style={{float: 'right', margin: '4px 12px'}}></img>
-          <p style={{color: 'white', float: 'right', paddingTop: '4px', paddingBottom: '10px', paddingRight: '15px'}} >Go Back</p>
-        </div>
-
         <div className="container-fluid body-content-create">
           <form className="toForm">
             <fieldset>
@@ -190,8 +186,6 @@ var CreatePage = React.createClass({
         dismissAfter={2000}
         style={this.getNotificationStyles()}
         />
-        <ActionBar />
-
 
         <Notification
         isActive={this.state.showNotification}
