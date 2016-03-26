@@ -6,6 +6,7 @@ import $ from 'jquery';
 import FilePicker from 'component-file-picker';
 import ActionBar from './ActionBar';
 import Hammer from 'react-hammerjs';
+import {Motion, spring} from 'react-motion';
 
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
@@ -21,7 +22,8 @@ var CreatePage = React.createClass({
       text: '',
       image: '',
       users: [],
-      showNotification: false
+      showNotification: false,
+      isOpened: false
     }
   },
   componentDidMount: function() {
@@ -34,6 +36,12 @@ var CreatePage = React.createClass({
       }
       itself.setState({users: twitterUsers});
     });
+
+    this.setState({isOpened: true});
+  },
+  componentWillUnmount: function() {
+    this.setState({isOpened: false});
+    console.log("CRUEL WORLD")
   },
   showHome: function(event) {
     browserHistory.push("/");
@@ -152,47 +160,65 @@ var CreatePage = React.createClass({
       }
     });
   },
+  opacity0: function() {
+    return {opacity: spring(0)}
+  },
+  opacity1: function() {
+    return {opacity: spring(1)}
+  },
+  loaded: function() {
+    const isOpened = !this.state.isOpened;
+    return Object.assign({}, isOpened && this.opacity0(), !isOpened && this.opacity1())
+  },
   render: function() {
+
     return (
       <div>
-        <div className="container-fluid body-content-create">
-          <form className="toForm">
-            <fieldset>
-              <label className="labelInput">To: name</label>
-              <Autocomplete
-              initialValue=""
-              style={{ display: 'block '}}
-              items={this.state.users}
-              getItemValue={(item) => item.username}
-              renderItem={(item, isHighlighted) => (
-                <div
-                style={isHighlighted ? styles.highlightedItem : styles.item}
-                key={item.name}
-                id={item.name}
-                >{item.username}</div>
-              )}
+        <Motion style={this.loaded()}>
+          {({opacity}) =>
+            <div style={{opacity: opacity}}>
+              <p onClick={() => this.setState({isOpened: false})}>HEY</p>
+              <div className="container-fluid body-content-create">
+                <form className="toForm">
+                  <fieldset>
+                    <label className="labelInput">To: name</label>
+                    <Autocomplete
+                    initialValue=""
+                    style={{ display: 'block '}}
+                    items={this.state.users}
+                    getItemValue={(item) => item.username}
+                    renderItem={(item, isHighlighted) => (
+                      <div
+                      style={isHighlighted ? styles.highlightedItem : styles.item}
+                      key={item.name}
+                      id={item.name}
+                      >{item.username}</div>
+                    )}
+                    />
+                  </fieldset>
+                </form>
+                <div className="outerEmpty createContainerImg">
+                  <div className="innerEmpty">
+                    <img src="http://i.imgur.com/mfbK1EY.png" alt="" className="emptystate"/>
+                  </div>
+                </div>
+              </div>
+              <Notification
+              isActive={this.state.showNotification}
+              message={"Your crate has been sent!"}
+              dismissAfter={2000}
+              style={this.getNotificationStyles()}
               />
-            </fieldset>
-          </form>
-          <div className="outerEmpty createContainerImg">
-            <div className="innerEmpty">
-              <img src="http://i.imgur.com/mfbK1EY.png" alt="" className="emptystate"/>
-            </div>
-          </div>
-        </div>
-        <Notification
-        isActive={this.state.showNotification}
-        message={"Your crate has been sent!"}
-        dismissAfter={2000}
-        style={this.getNotificationStyles()}
-        />
 
-        <Notification
-        isActive={this.state.showNotification}
-        message={"Your crate has been sent!"}
-        dismissAfter={2000}
-        style={this.getNotificationStyles()}
-        />
+              <Notification
+              isActive={this.state.showNotification}
+              message={"Your crate has been sent!"}
+              dismissAfter={2000}
+              style={this.getNotificationStyles()}
+              />
+            </div>
+          }
+        </Motion>
       </div>
     );
   }
