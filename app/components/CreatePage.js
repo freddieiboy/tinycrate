@@ -10,6 +10,7 @@ var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var authData = ref.getAuth();
 var userRef = ref.child('users').child(authData.uid);
+var user;
 
 const itself = this;
 
@@ -116,7 +117,7 @@ var CreatePage = React.createClass({
     }).pop();
 
     userRef.once('value', function (snap) {
-      var user = snap.val();
+      user = snap.val();
       if (!user) {
         return;
       }
@@ -149,6 +150,8 @@ var CreatePage = React.createClass({
       }
       // increment 'giftedCount' after gifting a crate
       incrementGiftedCount();
+      // update the list of recent giftees which shows on the user's profile
+      updateRecentGiftees(recipientUser);
     });
   },
   render: function() {
@@ -232,6 +235,14 @@ function incrementGiftedCount() {
       return 1;
     }
     return giftedCount + 1;
+  });
+}
+
+function updateRecentGiftees(giftee) {
+  userRef.child("giftees").child(giftee.uid).transaction(function(giftee) {
+    return {
+      giftedAt: Firebase.ServerValue.TIMESTAMP
+    };
   });
 }
 

@@ -29,6 +29,9 @@ var App = React.createClass({
   showInventory: function(event) {
     browserHistory.push("inventory");
   },
+  showProfile: function(event) {
+    browserHistory.push("user/" + authData[authData.provider].username);
+  },
   showCreate: function(event) {
     browserHistory.push("create");
   },
@@ -85,6 +88,11 @@ var App = React.createClass({
           <div className="inventoryAction float-right" onClick={this.showInventory}>
             <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
               <p style={{color: '#000'}}>Inventory</p>
+            </div>
+          </div>
+          <div className="inventoryAction float-right" onClick={this.showProfile}>
+            <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
+              <p style={{color: '#000'}}>My Profile</p>
             </div>
           </div>
         </div>
