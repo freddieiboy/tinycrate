@@ -7,7 +7,8 @@ var openedCratesList = [];
 
 var InventoryPage = React.createClass({
   getInitialState: function() {
-    return {data: [],
+    return {
+      data: [],
       user: {}
     };
   },

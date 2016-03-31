@@ -122,7 +122,7 @@ export function pop2(el, color, thisrefs) {
         duration: 900,
         delay: 200,
         shape : 'circle',
-        fill: evalColor.lightColor,
+        fill: color.darkColor,
         x: '50%',
         y: '50%',
         opacity: 0.6,
@@ -141,7 +141,7 @@ export function pop2(el, color, thisrefs) {
         type: 'circle',
         radius: {30: 100},
         fill: 'transparent',
-        stroke: evalColor.lightColor,
+        stroke: color.darkColor,
         strokeWidth: {30:0},
         opacity: 0.6,
         x: '50%',
@@ -156,7 +156,7 @@ export function pop2(el, color, thisrefs) {
         type: 'circle',
         radius: {30: 80},
         fill: 'transparent',
-        stroke: evalColor.lightColor,
+        stroke: color.darkColor,
         strokeWidth: {20:0},
         opacity: 0.3,
         x: '50%',
@@ -170,10 +170,10 @@ export function pop2(el, color, thisrefs) {
         onUpdate: function(progress) {
           if(progress > 0.3) {
             var elasticOutProgress = mojs.easing.elastic.out(1.43*progress-0.43);
-            bounceItem.style.WebkitTransform = bounceItem.style.transform = 'scale3d(' + '1,' + elasticOutProgress + ',1) translate(-50%, -50%)';
+            bounceItem.style.WebkitTransform = bounceItem.style.transform = 'scale3d(' + '1,' + elasticOutProgress + ',1)';
           }
           else {
-            bounceItem.style.WebkitTransform = bounceItem.style.transform = 'scale3d(0,0,1) translate(-50%, -50%)';
+            bounceItem.style.WebkitTransform = bounceItem.style.transform = 'scale3d(0,0,1)';
           }
         }
       })
@@ -230,13 +230,13 @@ export const productHunt = {
   darkColor: '#CC4124'
 }
 
-//TODO: props use in Crate.js
+//TODO:10 props use in Crate.js
 // var comment = this.props.msg.text
 // var author = this.props.msg.authorDisplayName
 // var image = this.props.msg.image
 // var profile = this.props.msg.authorProfileImageURL
 
-//TODO: for use this for the preview msg
+//#Beta:10 for use this for the preview msg
 // <img className="preview-img" src={profile} alt=""/>
 // <p>{author}</p>
 // <p>{comment}</p>

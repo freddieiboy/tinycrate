@@ -1,0 +1,77 @@
+@import 'colors';
+
+.profile-page-holder {
+  
+  header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: white;
+    height: 200px;
+    border-bottom: 45px solid $lightBg;
+  }
+  
+  .container-fluid {
+    &.body-content {
+      position: absolute;
+      top: 200px;
+      bottom: 50px;
+      right: 0;
+      left: 0;
+      overflow-y: auto;
+      background-color: #fff
+    }
+  }
+  
+  .user-avatar-holder {
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    .user-avatar {
+      border-radius: 50px;
+      border: 3px solid white;
+      margin: 0 auto;
+      display: inherit;
+      position: absolute;
+      width: 40px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  
+  .button-holder {
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  
+  .column.user-info-holder {
+    padding: 0;
+  }
+  .user-info-holder {
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    padding: 0;
+    .info {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      .name {
+        color: $mediumBg;
+      }
+      .count {
+        color: $pinkLight;
+      }
+    }
+  }
+}
