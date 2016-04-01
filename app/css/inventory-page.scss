@@ -64,20 +64,6 @@
     }
   }
 
-  .inventoryFeedAvatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 30px;
-    margin-top: 20px;
-    border: 3px solid $greenDark;
-  }
-
-  .inventoryFeedImage {
-    width: 96px;
-    height: 96px;
-    float: right;
-  }
-
   .column.user-info-holder {
     padding: 0;
   }
@@ -100,6 +86,20 @@
       }
     }
   }
+}
+
+.inventoryFeedAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 30px;
+  margin-top: 20px;
+  border: 3px solid $greenDark;
+}
+
+.inventoryFeedImage {
+  width: 96px;
+  height: 96px;
+  float: right;
 }
 
 .comment {
