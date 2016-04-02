@@ -90,7 +90,7 @@ var Dashboard = React.createClass({
 
         <div className="inventoryAction float-right" onClick={this.showProfile}>
           <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
-            <p style={{color: '#000'}}>My Profile</p>
+            <p style={{color: '#000'}}><span style={{cursor: 'pointer'}}>My Profile</span></p>
           </div>
         </div>
 

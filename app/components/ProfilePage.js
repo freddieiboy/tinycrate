@@ -151,12 +151,12 @@ var ProfilePage = React.createClass({
         <div className="Grid Grid--gutters u-textCenter">
           {isMe ?
           <div className="Grid-cell">
-            <h5 style={this.state.currentTab == ProfileTabs.RECENT_CRATES ? styles.activeTab : styles.inactiveTab} onClick={this.recentCratesTab}>Recent Crates</h5>
+            <h5 style={this.state.currentTab == ProfileTabs.RECENT_CRATES ? styles.activeTab : styles.inactiveTab} onClick={this.recentCratesTab}><span style={{cursor: 'pointer'}}>Recent Crates</span></h5>
           </div>
           : ''
           }
           <div className="Grid-cell">
-            <h5 style={this.state.currentTab == ProfileTabs.SUBSCRIPTIONS ? styles.activeTab : styles.inactiveTab} onClick={this.subscriptionsTab}>Subscriptions</h5>
+            <h5 style={this.state.currentTab == ProfileTabs.SUBSCRIPTIONS ? styles.activeTab : styles.inactiveTab} onClick={this.subscriptionsTab}><span style={{cursor: 'pointer'}}>Subscriptions</span></h5>
           </div>
         </div>
   
