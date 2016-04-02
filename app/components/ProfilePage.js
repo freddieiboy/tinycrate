@@ -103,44 +103,63 @@ var ProfilePage = React.createClass({
       </div>
       
       <header>
-        <div className="container" style={{height: '100%'}}>
-          <div className="row" style={{height: '100%'}}>
-            <div className="column " style={{height: '100%'}}>
-              <div className="user-avatar-holder" style={{height: '100%'}}>
-                <ProfileCrate profileImageURL={this.state.user.profileImageURL} />
-              </div>
-            </div>
-            <div className="column user-info-holder">
-              <div className="info">
-                <div className="name ">{this.state.user.name}</div>
-                <div className="name ">@{this.state.user.username}</div>
-                <div className="count">gifted: {this.state.user.giftedCount}</div>
-                <div className="count">unwrapped: {this.state.user.unwrappedCount}</div>
-              </div>
-            </div>
-            <div className="column button-holder" style={{height: '100%'}}>
-              <button style={{float: 'right'}} onClick={this.profileButton}>
-              {isMe ? 'Settings' : 'Add Gifter +'} 
-              </button>
-            </div>
+      <div className="Grid Grid--gutters u-textCenter container" style={{height: '70%'}}>
+        <div className="Grid-cell" style={{height: '100%'}}>
+          <div className="user-avatar-holder" style={{height: '100%'}}>
+            <ProfileCrate profileImageURL={this.state.user.profileImageURL} />
           </div>
         </div>
-      </header>
+        <div className="Grid-cell user-info-holder">
+          <div className="info">
+            <div className="name ">{this.state.user.name}</div>
+            <div className="name ">@{this.state.user.username}</div>
+          </div>
+        </div>
+        <div className="Grid-cell button-holder" style={{height: '100%'}}>
+          <button style={{float: 'right'}} onClick={this.profileButton}>
+            {isMe ? 'Settings' : 'Add Gifter +'} 
+          </button>
+        </div>
+      </div>
       
+      
+      <div className="Grid Grid--gutters u-textCenter container statsHeader" style={{height: '50%'}}>
+        <div className="Grid-cell user-info-holder">
+          <div className="info">
+            <div className="count ">1</div>
+            <div className="count ">Level</div>
+          </div>
+        </div>
+        <div className="Grid-cell user-info-holder">
+          <div className="info">
+            <div className="count ">{this.state.user.unwrappedCount}</div>
+            <div className="count ">Unwrapped</div>
+          </div>
+        </div>
+        <div className="Grid-cell user-info-holder">
+          <div className="info">
+            <div className="count ">{this.state.user.giftedCount}</div>
+            <div className="count ">Gifted</div>
+          </div>
+        </div>
+      </div>
+      
+      </header>
+
         <div style={{padding: '22px'}} className="container-fluid body-content">
-        
-        <div className="row">
-        {isMe ?
-          <div className="column" style={{height: '100%'}}>
+
+        <div className="Grid Grid--gutters u-textCenter">
+          {isMe ?
+          <div className="Grid-cell">
             <h5 style={this.state.currentTab == ProfileTabs.RECENT_CRATES ? styles.activeTab : styles.inactiveTab} onClick={this.recentCratesTab}>Recent Crates</h5>
           </div>
           : ''
-        }
-          <div className="column">
+          }
+          <div className="Grid-cell">
             <h5 style={this.state.currentTab == ProfileTabs.SUBSCRIPTIONS ? styles.activeTab : styles.inactiveTab} onClick={this.subscriptionsTab}>Subscriptions</h5>
           </div>
         </div>
-
+  
         {profileTabContent}
 
         </div>

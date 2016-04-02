@@ -9,13 +9,18 @@
     top: 0;
     background-color: white;
     height: 200px;
-    border-bottom: 45px solid $lightBg;
   }
   
+  .statsHeader {
+    background-color: $lightBg;
+    max-width: 100%;
+    text-align: center;
+  }
+
   .container-fluid {
     &.body-content {
       position: absolute;
-      top: 200px;
+      top: 240px;
       bottom: 50px;
       right: 0;
       left: 0;
