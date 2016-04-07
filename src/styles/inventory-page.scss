@@ -1,0 +1,123 @@
+@import 'colors';
+
+.inventory-page-holder {
+
+  header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: #293640;
+    height: 200px;
+    border-bottom: 45px solid $darkBg;
+  }
+
+  .container-fluid {
+    &.body-content {
+      position: absolute;
+      top: 200px;
+      bottom: 50px;
+      right: 0;
+      left: 0;
+      overflow-y: auto;
+      background-color: #fff
+    }
+  }
+
+  footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #46535d;
+    height: 50px;
+  }
+
+  .user-avatar-holder {
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    .user-avatar {
+      // padding: 15px;
+      border-radius: 50px;
+      border: 5px solid $greenLight;
+      // outline-style: outset;
+      margin: 0 auto;
+      display: inherit;
+      position: absolute;
+      width: 75px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .button-holder {
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .inventoryFeedAvatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 30px;
+    margin-top: 20px;
+    border: 3px solid $greenDark;
+  }
+
+  .inventoryFeedImage {
+    width: 96px;
+    height: 96px;
+    float: right;
+  }
+
+  .column.user-info-holder {
+    padding: 0;
+  }
+  .user-info-holder {
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    padding: 0;
+    .info {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      .name {
+        color: white;
+        // padding-right: 10px;
+      }
+      .username {
+        color: $mediumBg;
+      }
+    }
+  }
+}
+
+.comment {
+  border-bottom: 2px solid $lightBg;
+  padding: 10px;
+  font-size: 22px;
+  .name {
+    display: inline;
+    padding-left: 17px;
+    font-weight: bold;
+    color: #b1b1b1;
+  }
+}
+
+.commentAuthor {
+  padding-left: 50px;
+}
+
+.goBackInventory {
+  padding-right: 50px;
+}
