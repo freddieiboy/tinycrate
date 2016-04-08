@@ -5,7 +5,7 @@ import $ from 'jquery';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var user = ref.getAuth();
-var userRef = ref.child('users').child(user.uid);
+// var userRef = ref.child('users').child(user.uid);
 
 class Crate extends Component {
   constructor(props) {

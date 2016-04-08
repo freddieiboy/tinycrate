@@ -102,6 +102,11 @@ class ActionBar extends Component {
       "purple"
     ];
     this.props.actions.selectCrateColor(colors[Math.floor(Math.random() * 6)]);
+    // const giftee = this.props.store.giftee;
+    // const uidd = 'twitter:48171141'; //from profile
+    // const myIndex = giftee.indexOf(uidd);
+    // const two = giftee.slice(0, myIndex).concat(giftee.slice(myIndex + 1))
+    console.log(this.props.store.giftee);
   }
   selectFile = () => {
     FilePicker({ accept: [ 'image/*'] }, (files) => {
@@ -124,6 +129,7 @@ class ActionBar extends Component {
     var newPostRef = postsRef.push();
     var user = reff.getAuth();
     var userRef = reff.child('users').child(user.uid);
+    const receipients = store.giftee;
 
     //NOTE NOTE NOTE: user redux to access receipient data too.
     userRef.once('value', (snap) => {
@@ -131,18 +137,20 @@ class ActionBar extends Component {
       if (!user) {
         return;
       }
-      if (store.giftee) {
-        newPostRef.set({
-          authorUId: store.userAuth.uid,
-          authorDisplayName: store.userAuth.name,
-          authorProfileImageURL: store.userAuth.profileImageURL,
-          recipientUId: store.giftee.uid,
-          text: store.newCrateText,
-          crateColor: store.newCrateColor,
-          image: (store.newCratePhoto == '') ? null : store.newCratePhoto,
-          opened: false,
-          createdAt: Firebase.ServerValue.TIMESTAMP
-        });
+      if (receipients) {
+        receipients.map(users => {
+          newPostRef.set({
+            authorUId: store.userAuth.uid,
+            authorDisplayName: store.userAuth.name,
+            authorProfileImageURL: store.userAuth.profileImageURL,
+            recipientUId: users,
+            text: store.newCrateText,
+            crateColor: store.newCrateColor,
+            image: (store.newCratePhoto == '') ? null : store.newCratePhoto,
+            opened: false,
+            createdAt: Firebase.ServerValue.TIMESTAMP
+          });
+        })
         this.closeAction();
       } else {
         alert("Your crate needs a receipient!");
@@ -237,7 +245,7 @@ class ActionBar extends Component {
               <div className="title" style={{textAlign: 'center'}}>
                 <h4>Select Giftees</h4>
               </div>
-              <SubscribersList subscribers={this.props.store.subscribers} newGifteeAction={this.props.actions.newGiftee}/>
+              <SubscribersList subscribers={this.props.store.subscribers} newGifteeAction={this.props.actions.newGiftee} removeGifteeAction={this.props.actions.removeGiftee}/>
             </div>
           ) : null}
         </div>

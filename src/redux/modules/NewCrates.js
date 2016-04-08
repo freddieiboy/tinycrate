@@ -66,10 +66,17 @@ export const loadSubscribers = (obj) => {
   }
 }
 
-export const newGiftee = (username) => {
+export const newGiftee = (uid) => {
   return {
     type: 'NEW_GIFTEE',
-    giftee: username
+    giftee: uid
+  }
+}
+
+export const removeGiftee = (uid) => {
+  return {
+    type: 'REMOVE_GIFTEE',
+    giftee: uid
   }
 }
 
@@ -95,7 +102,7 @@ const initialState = {
   newCrateText: '',
   newCratePhoto: '',
   subscribers: {},
-  giftee: ''
+  giftee: []
 }
 
 export default function NewCrates (state = initialState, action) {
@@ -152,7 +159,13 @@ export default function NewCrates (state = initialState, action) {
     case 'NEW_GIFTEE':
       return {
         ...state,
-        giftee: action.giftee
+        giftee: state.giftee.concat(action.giftee)
+      }
+    case 'REMOVE_GIFTEE':
+      const index = state.giftee.indexOf(action.giftee);
+      return {
+        ...state,
+       giftee: state.giftee.slice(0, index).concat(state.giftee.slice(index + 1))
       }
     case 'FLUSH_NEW_CRATE_STATE':
       return {

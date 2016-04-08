@@ -5,6 +5,7 @@ import Hammer from 'react-hammerjs';
 import {flattenObject} from '../utilities';
 import {CheckIcon} from 'components/NewCrates/Icons';
 
+//TODO: make userContainer actually scalable. only mobile for now.
 
 class Subscriber extends Component {
   constructor(props) {
@@ -14,16 +15,18 @@ class Subscriber extends Component {
     }
   }
   selectSubscriber = () => {
+    const filterForUserInfo = this.props.storeSubs.filter((user) => {
+      return user.username === this.props.username;
+    });
+    const gifteeInfo = flattenObject(filterForUserInfo);
+    
     if (this.state.isSelected) {
       this.setState({isSelected: false});
-      this.props.newGifteeAction(null);
+      // var index =
+      this.props.removeGifteeAction(gifteeInfo.uid);
     } else {
       this.setState({isSelected: true});
-      const filterForUserInfo = this.props.storeSubs.filter((user) => {
-        return user.username === this.props.username;
-      });
-      const gifteeInfo = flattenObject(filterForUserInfo);
-      this.props.newGifteeAction(gifteeInfo);
+      this.props.newGifteeAction(gifteeInfo.uid);
     }
   }
   render() {

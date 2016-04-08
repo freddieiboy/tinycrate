@@ -7,7 +7,7 @@ class SubscribersList extends Component {
     let {subscribers} = this.props;
     const arr = $.makeArray(subscribers);
     const subNodes = $.map(arr, (val, key) => {
-      return <Subscriber newGifteeAction={this.props.newGifteeAction} key={key} name={val.name} username={val.username} storeSubs={subscribers}/>
+      return <Subscriber newGifteeAction={this.props.newGifteeAction} key={key} name={val.name} username={val.username} storeSubs={subscribers} removeGifteeAction={this.props.removeGifteeAction}/>
     });
     return (
       <div className="SubscribersList">
