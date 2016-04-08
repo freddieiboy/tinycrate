@@ -19,7 +19,7 @@ class Subscriber extends Component {
       return user.username === this.props.username;
     });
     const gifteeInfo = flattenObject(filterForUserInfo);
-    
+
     if (this.state.isSelected) {
       this.setState({isSelected: false});
       // var index =
@@ -80,7 +80,7 @@ class Subscriber extends Component {
     return (
       <div>
         <Hammer onTap={this.selectSubscriber}>
-          <div key={this.props.key} className="clearfix" style={ifStyle(
+          <div key={this.props.id} className="clearfix" style={ifStyle(
               styles.userContainer,
               this.state.isSelected && styles.selectedUserContainer
             )}>

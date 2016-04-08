@@ -41,7 +41,7 @@ class CrateTemplate extends Component {
         transform: 'translate(-50%, -50%)',
         height: crateSize/2,
         width: crateSize/2,
-        padding: '4',
+        padding: '4px',
         borderRadius: '50%',
         position: 'absolute',
       },

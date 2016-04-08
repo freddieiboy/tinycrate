@@ -27,7 +27,7 @@ class Crate extends Component {
       pop1(this.refs.thisCrate, this.props.color);
       crate.update({
         "opened": true
-      }, function(error) {
+      }, (error) => {
         if (error) {
           console.log("Data could not be saved." + error);
         } else {

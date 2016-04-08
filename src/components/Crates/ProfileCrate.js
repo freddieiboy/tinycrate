@@ -33,7 +33,7 @@ class ProfileCrate extends Component {
         transform: 'translate(-50%, -50%)',
         height: 40,
         width: 40,
-        padding: '4',
+        padding: '4px',
         borderRadius: '50%',
         position: 'absolute'
       }
