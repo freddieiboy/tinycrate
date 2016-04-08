@@ -47,7 +47,10 @@ class ActionBar extends Component {
   }
   openAction = () => {
     if (!this.props.store.isOpened) {
-      $('#message').focus();
+      // this.props.dispatch(push('/create'))
+      setTimeout(() => {
+        document.getElementById('message').focus();
+      }, 200)
       this.props.actions.openActionBar();
     } else {
       console.log('already opened!')
@@ -61,6 +64,7 @@ class ActionBar extends Component {
   closeAction = () => {
     this.props.store.isOpened ? this.props.actions.closeActionBar() : null
     this.props.actions.flushNewCrateState();
+    $('#message').blur();
   }
   initPos = () => {
     return {
@@ -102,13 +106,6 @@ class ActionBar extends Component {
       "purple"
     ];
     this.props.actions.selectCrateColor(colors[Math.floor(Math.random() * 6)]);
-    // const giftee = this.props.store.giftee;
-    // const uidd = 'twitter:48171141'; //from profile
-    // const myIndex = giftee.indexOf(uidd);
-    // const two = giftee.slice(0, myIndex).concat(giftee.slice(myIndex + 1))
-    console.log(this.props.store.giftee.length);
-    console.log(typeof this.props.store.giftee)
-    console.log(this.props.store.giftee)
   }
   selectFile = () => {
     FilePicker({ accept: [ 'image/*'] }, (files) => {
@@ -117,7 +114,6 @@ class ActionBar extends Component {
       reader.onload = (upload) => {
         // base64 string of image
         this.props.actions.addNewCratePhoto(upload.target.result)
-        // this.setState({image: upload.target.result});
         $("#imagePreview").attr('src', this.props.store.newCratePhoto);
       }
       reader.readAsDataURL(file);
@@ -159,17 +155,9 @@ class ActionBar extends Component {
     });
   }
   handleSendCrateKeyboard = (e) => {
-    // var itself = this;
-    // var text = e.target.value;
     if (e.which == 13) {
-      // var text = e.target.value;
       if (this.props.store.newCrateText.length > 0) {
-        // this.setState({showNotification: true});
-        setTimeout(() => {
-          // this.sendCrate(text);
-          this.sendCrate();
-        // }, 2000);
-      }, 0);
+        this.sendCrate();
       } else {
         alert("Your message cannot be empty!");
       }

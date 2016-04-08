@@ -9,7 +9,8 @@ export default function configureStore (initialState = {}, history) {
   if (__DEBUG__) {
     const devTools = window.devToolsExtension
       ? window.devToolsExtension()
-      : require('containers/DevTools').default.instrument()
+      : f => f
+      // : require('containers/DevTools').default.instrument()
     middleware = compose(middleware, devTools)
   }
 
