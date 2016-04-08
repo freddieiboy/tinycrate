@@ -73,6 +73,18 @@ export const newGiftee = (username) => {
   }
 }
 
+export const flushNewCrateState = () => {
+  return {
+    type: 'FLUSH_NEW_CRATE_STATE',
+    isOpened: false,
+    isCreatingCrate: false,
+    isSelectingUsers: false,
+    newCratePhoto: '',
+    newCrateText: '',
+    giftee: ''
+  }
+}
+
 const initialState = {
   isOpened: false,
   isCreatingCrate: false,
@@ -140,6 +152,16 @@ export default function NewCrates (state = initialState, action) {
     case 'NEW_GIFTEE':
       return {
         ...state,
+        giftee: action.giftee
+      }
+    case 'FLUSH_NEW_CRATE_STATE':
+      return {
+        ...state,
+        isOpened: action.isOpened,
+        isCreatingCrate: action.isCreatingCrate,
+        isSelectingUsers: action.isSelectingUsers,
+        newCratePhoto: action.newCratePhoto,
+        newCrateText: action.newCrateText,
         giftee: action.giftee
       }
     default:

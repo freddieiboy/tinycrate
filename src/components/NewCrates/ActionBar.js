@@ -8,6 +8,7 @@ import Hammer from 'react-hammerjs';
 import {Motion, spring} from 'react-motion';
 
 import FilePicker from 'component-file-picker';
+import {flattenObject} from '../utilities';
 import $ from 'jquery';
 import CrateTemplate from 'components/Crates/CrateTemplate';
 import {green, pink} from 'components/Crates/CrateUtils';
@@ -24,7 +25,7 @@ const FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 class ActionBar extends Component {
   constructor(props) {
     super(props);
-    this.selectRandomColor();
+    this.randomColor();
   }
   componentDidMount = () => {
     this.props.actions.getBtnPosition($('.optionsMenu').position().left);
@@ -59,7 +60,7 @@ class ActionBar extends Component {
   }
   closeAction = () => {
     this.props.store.isOpened ? this.props.actions.closeActionBar() : null
-    //TODO: flush redux on exit
+    this.props.actions.flushNewCrateState();
   }
   initPos = () => {
     return {
@@ -91,19 +92,16 @@ class ActionBar extends Component {
     const isOpened = !this.props.store.isOpened;
     return Object.assign({}, isOpened && this.footerHeight0(), !isOpened && this.footerHeight1())
   }
-  selectRandomColor = () => {
-    const randomColor = () => {
-      const colors = [
-        "green",
-        "yellow",
-        "orange",
-        "blue",
-        "pink",
-        "purple"
-      ];
-      return colors[Math.floor(Math.random() * 6)];
-    }
-    this.props.actions.selectCrateColor(randomColor())
+  randomColor = () => {
+    const colors = [
+      "green",
+      "yellow",
+      "orange",
+      "blue",
+      "pink",
+      "purple"
+    ];
+    this.props.actions.selectCrateColor(colors[Math.floor(Math.random() * 6)]);
   }
   selectFile = () => {
     FilePicker({ accept: [ 'image/*'] }, (files) => {
@@ -119,7 +117,7 @@ class ActionBar extends Component {
     });
   }
   sendCrate = () => {
-    // var itself = this;
+    let {store, actions} = this.props;
     var reff = new Firebase(FIREBASE_URL);
     var authData = reff.getAuth();
     var postsRef = reff.child("crates");
@@ -127,44 +125,27 @@ class ActionBar extends Component {
     var user = reff.getAuth();
     var userRef = reff.child('users').child(user.uid);
 
-    //NOTE: get active user
-    var username = $('input[role="combobox"]').val();
-    var recipientUser = this.props.store.subscribers.filter((elem) => {
-      return elem.username === this.props.store.giftee;
-    }).pop();
-
-    //NOTE: will the above work? check it out
+    //NOTE NOTE NOTE: user redux to access receipient data too.
     userRef.once('value', (snap) => {
       var user = snap.val();
       if (!user) {
         return;
       }
-      if(recipientUser) {
-        console.log(recipientUser.uid);
+      if (store.giftee) {
         newPostRef.set({
-          authorUId: authData.uid,
-          authorDisplayName: user.name,
-          authorProfileImageURL: user.profileImageURL,
-          recipientUId: recipientUser.uid,
-          text: this.props.store.newCrateText,
-          crateColor: this.selectRandomNumber(),
-          image: (this.state.image == '') ? null : this.state.image,
+          authorUId: store.userAuth.uid,
+          authorDisplayName: store.userAuth.name,
+          authorProfileImageURL: store.userAuth.profileImageURL,
+          recipientUId: store.giftee.uid,
+          text: store.newCrateText,
+          crateColor: store.newCrateColor,
+          image: (store.newCratePhoto == '') ? null : store.newCratePhoto,
           opened: false,
           createdAt: Firebase.ServerValue.TIMESTAMP
         });
         this.closeAction();
       } else {
-        newPostRef.set({
-          authorUId: authData.uid,
-          authorDisplayName: user.name,
-          public: true,
-          crateColor: this.props.store.newCrateColor,
-          authorProfileImageURL: user.profileImageURL,
-          text: this.props.store.newCrateText,
-          opened: false,
-          createdAt: Firebase.ServerValue.TIMESTAMP
-        });
-        this.closeAction();
+        alert("Your crate needs a receipient!");
       }
     });
   }
@@ -178,7 +159,8 @@ class ActionBar extends Component {
         setTimeout(() => {
           // this.sendCrate(text);
           this.sendCrate();
-        }, 2000);
+        // }, 2000);
+      }, 0);
       } else {
         alert("Your message cannot be empty!");
       }
@@ -255,7 +237,7 @@ class ActionBar extends Component {
               <div className="title" style={{textAlign: 'center'}}>
                 <h4>Select Giftees</h4>
               </div>
-              <SubscribersList subscribers={this.props.store.subscribers} newGiftee={this.props.actions.newGiftee}/>
+              <SubscribersList subscribers={this.props.store.subscribers} newGifteeAction={this.props.actions.newGiftee}/>
             </div>
           ) : null}
         </div>
@@ -301,11 +283,13 @@ class ActionBar extends Component {
               </Motion>
               <Motion style={this.setBtnPosition(2)}>
                 {({left, opacity}) =>
-                  <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
-                    <div className="actionIcon">
-                      <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={store.userAuth.profileImageURL}/>
+                  <Hammer onTap={this.randomColor}>
+                    <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
+                      <div className="actionIcon">
+                        <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={store.userAuth.profileImageURL}/>
+                      </div>
                     </div>
-                  </div>}
+                  </Hammer>}
               </Motion>
               <Motion style={this.setBtnPosition(3)}>
                 {({left, opacity}) =>
@@ -365,7 +349,8 @@ const mapStateToProps = (state) => ({
     newCrateColor: state.NewCrates.newCrateColor,
     newCrateText: state.NewCrates.newCrateText,
     newCratePhoto: state.NewCrates.newCratePhoto,
-    subscribers: state.NewCrates.subscribers
+    subscribers: state.NewCrates.subscribers,
+    giftee: state.NewCrates.giftee
   }
 })
 

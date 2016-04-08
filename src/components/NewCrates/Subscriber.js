@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import CrateTemplate from 'components/Crates/CrateTemplate';
 import {ifStyle} from '../utilities';
 import Hammer from 'react-hammerjs';
+import {flattenObject} from '../utilities';
+import {CheckIcon} from 'components/NewCrates/Icons';
+
 
 class Subscriber extends Component {
   constructor(props) {
@@ -13,51 +16,89 @@ class Subscriber extends Component {
   selectSubscriber = () => {
     if (this.state.isSelected) {
       this.setState({isSelected: false});
-      console.log(this.props.username + 'is not selected')
-      this.props.newGiftee(null);
+      this.props.newGifteeAction(null);
     } else {
       this.setState({isSelected: true});
-      console.log(this.props.username)
-      this.props.newGiftee(this.props.username);
+      const filterForUserInfo = this.props.storeSubs.filter((user) => {
+        return user.username === this.props.username;
+      });
+      const gifteeInfo = flattenObject(filterForUserInfo);
+      this.props.newGifteeAction(gifteeInfo);
     }
   }
   render() {
     const styles = {
-      userBlock: {
+      userContainer: {
         display: 'block',
-        marginBottom: 15,
-        borderBottom: '1px solid grey'
+        padding: '10px 0 10px 0',
+        borderBottom: '1px solid #F1F1F1'
+      },
+      selectedUserContainer: {
+        backgroundColor: '#F7F7F7',
+        borderBottom: '1px solid transparent'
+      },
+      userProfileCrate: {
+        float: 'left',
+        margin: '10px 20px 0 40px'
+      },
+      name: {
+        float: 'left',
+        margin: '15px 0 0 0'
+      },
+      selectedName: {
+        fontWeight: 'bold'
+      },
+      username: {
+        float: 'left',
+        margin: '15px 0 0 10px',
+        color: '#C1C9D0'
       },
       selectIconHolder: {
         float: 'right',
         marginRight: 20,
-        marginTop: 7
+        marginTop: 15
       },
       selectIcon: {
         backgroundColor: 'transparent',
         height: 30,
         width: 30,
         borderRadius: '50%',
-        border: '1px solid grey'
+        border: '1px solid #F1F1F1'
       },
-      selected: {
+      selectedIcon: {
         backgroundColor: '#FB70AF',
         border: 'none'
       },
+      checkIcon: {
+        paddingLeft: '6px',
+        paddingTop: '3px'
+      }
     }
     return (
-      <div key={this.props.key} className="clearfix" style={styles.userBlock}>
-        <div className="left" style={{float: 'left', marginRight: 20, marginLeft: 40}}>
-          <CrateTemplate color={'blue'} crateSize={40} pop={false}/>
-        </div>
-        <h5 style={{float: 'left', margin: '.5em 0 0 0'}}>{this.props.name}</h5>
-        <p style={{float: 'left', marginTop: 10, marginLeft: 10}}>@{this.props.username}</p>
+      <div>
         <Hammer onTap={this.selectSubscriber}>
-          <div className="selectIconHolder" style={styles.selectIconHolder}>
-            <div className="selectIcon" style={ifStyle(
-                styles.selectIcon,
-                this.state.isSelected && styles.selected,
-              )}></div>
+          <div key={this.props.key} className="clearfix" style={ifStyle(
+              styles.userContainer,
+              this.state.isSelected && styles.selectedUserContainer
+            )}>
+            <div className="userCrate noTouch" style={styles.userProfileCrate}>
+              <CrateTemplate color={'blue'} crateSize={40} pop={false}/>
+            </div>
+            <h5 style={ifStyle(
+                styles.name,
+                this.state.isSelected && styles.selectedName
+              )}>{this.props.name}</h5>
+            <p style={styles.username}>@{this.props.username}</p>
+            <div className="selectIconHolder" style={styles.selectIconHolder}>
+              <div className="selectIcon" style={ifStyle(
+                  styles.selectIcon,
+                  this.state.isSelected && styles.selectedIcon
+                )}>
+                <div className="checkIcon" style={styles.checkIcon}>
+                  <CheckIcon />
+                </div>
+              </div>
+            </div>
           </div>
         </Hammer>
       </div>

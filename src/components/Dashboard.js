@@ -60,8 +60,6 @@ class Dashboard extends Component {
   }
   componentDidMount = () => {
     var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
-    console.log(this.state.data);
-
     unopenedCratesList = [];
     //#Beta:0 refactor these two functions. console.log is being called like 200 times. why?
     unopenedCrates.orderByChild("recipientUId").equalTo(authData.uid).on("child_added", (snapshot) => {

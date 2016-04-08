@@ -6,6 +6,8 @@ import {pop1, pop2} from './CrateUtils';
 import Hammer from 'react-hammerjs';
 import {ifStyle} from '../utilities';
 
+// <CrateTemplate color={'empty'} crateSize={80} cratePreview={Emojis[store.emoji]} pop={true}/>
+
 class CrateTemplate extends Component {
   constructor(props) {
     super(props);
@@ -17,8 +19,8 @@ class CrateTemplate extends Component {
     this.setState({isPressed: true});
   }
   setupPop = () => {
+    //TODO: let dev select what type of pop to use
     this.setState({isPressed: false});
-
     if(this.state.isPressed && this.props.pop === true) {
       pop2(this.refs.thisEmptyCrate, eval(this.props.color), this.refs.thisCratePreview);
     }
