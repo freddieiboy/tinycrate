@@ -176,7 +176,7 @@ class ActionBar extends Component {
     const styles = {
       optionsMenu: {
         position: 'absolute',
-        top: '-2.5em',
+        top: '-39px',
         right: '2.5em',
         width: '5em',
         height: '5em',
@@ -188,13 +188,13 @@ class ActionBar extends Component {
       createBgIcon: {
         height: '2.5em',
         width: '2.5em',
-        backgroundColor: pink.lightColor,
+        // backgroundColor: pink.lightColor,
         borderRadius: 6
       },
       nextBgIcon: {
         height: '3em',
         width: '3em',
-        backgroundColor: pink.lightColor,
+        // backgroundColor: pink.lightColor,
         borderRadius: '50%'
       },
       buttonStyle: {
@@ -261,8 +261,8 @@ class ActionBar extends Component {
               ) : (
               <Hammer onTap={this.openAction}>
                 <div className="optionsMenu actionButton animated pulse" style={styles.optionsMenu}>
-                  <div className="actionIcon" style={styles.createBgIcon}></div>
-                  <div className="actionIcon" style={{fontSize: '2em', color: '#fff'}}>+</div>
+                  <div className="actionIcon"></div>
+                  <div className="actionIcon" style={{fontSize: '2em', color: '#FB70AF', fontSize: '50px', fontWeight: 'bold'}}>+</div>
                 </div>
               </Hammer>
               )}

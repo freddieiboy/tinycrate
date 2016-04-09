@@ -24,19 +24,26 @@ export const CancelIcon = () =>
       </g>
   </svg>
 
-export const AirplaneIcon = () =>
-  <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-      <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-          <g transform="translate(-321.000000, -665.000000)" fill="#FFF">
-              <g transform="translate(321.000000, 657.000000)">
-                  <path d="M15.8994949,4.65685425 L27.1421356,27.1421356 L4.65685425,27.1421356 L15.8994949,4.65685425 Z M15.8994949,10.9808396 L18.0074901,27.1421356 L13.7914998,27.1421356 L15.8994949,10.9808396 Z" id="Combined-Shape" transform="translate(15.899495, 15.899495) rotate(-315.000000) translate(-15.899495, -15.899495) "></path>
-              </g>
-          </g>
-      </g>
+export const AirplaneIcon = ({color = '#FB70AF'}) =>
+  <svg style={{transform: 'rotate(25deg) scale(1.2)'}} width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+        <g transform="translate(-325.000000, -661.000000)" fill="#FB70AF">
+            <path d="M325.729272,684.073003 L334.777372,684.073003 L336.91721,668.14037 L339.040922,684.13439 L348.129833,684.110842 L336.898696,661.663023 L325.729272,684.073003 Z"></path>
+        </g>
+    </g>
   </svg>
+  // <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+  //     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+  //         <g transform="translate(-321.000000, -665.000000)" fill="#FB70AF">
+  //             <g transform="translate(321.000000, 657.000000)">
+  //                 <path d="M15.8994949,4.65685425 L27.1421356,27.1421356 L4.65685425,27.1421356 L15.8994949,4.65685425 Z M15.8994949,10.9808396 L18.0074901,27.1421356 L13.7914998,27.1421356 L15.8994949,10.9808396 Z" id="Combined-Shape" transform="translate(15.899495, 15.899495) rotate(-315.000000) translate(-15.899495, -15.899495) "></path>
+  //             </g>
+  //         </g>
+  //     </g>
+  // </svg>
 
 export const NextIcon = () =>
-  <svg width="13px" height="21px" fill="#fff" viewBox="0 0 13 21" version="1.1">
+  <svg style={{transform: 'scale(1.2)'}} width="13px" height="21px" fill="#fff" viewBox="0 0 13 21" version="1.1" fill="#FB70AF">
     <path d="M0.58127699,19.6691101 C-0.186066088,18.915479 -0.18153675,17.6891531 0.568463924,16.9525545 L7.52826474,10.1171212 L0.568463924,3.28168793 C-0.191802693,2.53500683 -0.191415863,1.32401765 0.58127699,0.56513236 C1.34862007,-0.188498751 2.59725835,-0.18405035 3.34725902,0.552548255 L10.3070598,7.38798155 L11.6964574,8.75255139 C12.4638005,9.5061825 12.4691502,10.7228058 11.6964574,11.4816911 L10.3070598,12.8462609 L3.34725902,19.6816942 C2.58699241,20.4283753 1.35396984,20.4279954 0.58127699,19.6691101 Z"></path>
   </svg>
 
