@@ -21,6 +21,8 @@ class ProfileCrate extends Component {
     this.props.onOpen(this.props.username);
   }
   render() {
+    //TODO: use crateTemplate in here.
+
     var emoji;
     this.state.isPressed ? emoji = 'emojiPressed noTouch' : emoji = 'noTouch'
     const styles = {

@@ -48,10 +48,8 @@ class ActionBar extends Component {
   openAction = () => {
     if (!this.props.store.isOpened) {
       // this.props.dispatch(push('/create'))
-      setTimeout(() => {
-        $('#message').focus();
-      }, 200)
       this.props.actions.openActionBar();
+      $('#message').focus();
     } else {
       console.log('already opened!')
     }
@@ -108,6 +106,7 @@ class ActionBar extends Component {
     this.props.actions.selectCrateColor(colors[Math.floor(Math.random() * 6)]);
   }
   selectFile = () => {
+    $('#message').blur();
     FilePicker({ accept: [ 'image/*'] }, (files) => {
       var reader = new FileReader();
       var file = files[0];
@@ -224,7 +223,7 @@ class ActionBar extends Component {
           {store.isCreatingCrate ? (
             <div className="container-fluid body-content-create">
               <div className="centerCrate" style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-                <CrateTemplate color={store.newCrateColor} crateSize={200} pop={true} crateType={'pop'} cratePreview={store.newCratePhoto}/>
+                <CrateTemplate color={store.newCrateColor} crateSize={150} pop={true} crateType={'pop'} cratePreview={store.newCratePhoto}/>
               </div>
             </div>
           ) : null}
