@@ -5,6 +5,7 @@ import * as crateActions from '../../redux/modules/crates';
 import {pop1, pop2} from './CrateUtils';
 import Hammer from 'react-hammerjs';
 import {ifStyle} from '../utilities';
+import {EmojiContainer} from '../Emojis';
 
 // <CrateTemplate color={'empty'} crateSize={80} cratePreview={Emojis[store.emoji]} pop={true}/>
 
@@ -30,6 +31,7 @@ class CrateTemplate extends Component {
       crateSize,
       color,
       cratePreview,
+      crateType
     } = this.props;
     const styles = {
       crateSize: {
@@ -71,6 +73,8 @@ class CrateTemplate extends Component {
         marginTop: crateSize/3
       }
     }
+    const num = cratePreview;
+    console.log(typeof num)
     return (
       <div className="CrateTemplate">
 
@@ -80,7 +84,9 @@ class CrateTemplate extends Component {
               this.state.isPressed && styles.imagePressed,
             )} ref="thisEmptyImage">
             <div className="cratePreview" ref="thisCratePreview">
-              { cratePreview ? cratePreview : null}
+              { crateType === 'empty' ? (
+                EmojiContainer[this.props.store.emoji]
+              ) : null}
             </div>
           </div>
 
@@ -88,7 +94,10 @@ class CrateTemplate extends Component {
             ref="thisEmptyCrate"
             className="thisEmptyCrate"
             onMouseDown={this.pressCrate}
-            onMouseUp={this.setupPop}>
+            onMouseUp={this.setupPop}
+            onTouchStart={this.pressCrate}
+            onTouchEnd={this.setupPop}>
+
             <div className="noTouch">
               { this.state.isPressed ? (
                 <div className="crate1">
@@ -154,4 +163,10 @@ const productHunt = {
   darkColor: '#CC4124'
 }
 
-export default CrateTemplate;
+const mapStateToProps = (state, ownProps) => ({
+  store: {
+    emoji: state.crates.emoji
+  }
+})
+
+export default connect(mapStateToProps)(CrateTemplate)

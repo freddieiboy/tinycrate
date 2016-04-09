@@ -244,7 +244,7 @@ const VideoGames = () =>
   	<ellipse fill="#ed4c5c" cx="19.05" cy="35.07" rx="5.085" ry="2.246"/>
   </svg>
 
-export const Emojis = [
+export const EmojiContainer = [
   <Heart />,
   <Happy />,
   <Frog />,
@@ -263,4 +263,4 @@ export const Emojis = [
   <VideoGames />
 ]
 
-export const randomEmojiNumber = () => Math.floor(Math.random()*Emojis.length);
+export const randomEmojiNumber = () => Math.floor(Math.random()*EmojiContainer.length);
