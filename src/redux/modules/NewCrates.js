@@ -24,6 +24,14 @@ export const selectGiftees = () => {
   }
 }
 
+export const editNewCrate = () => {
+  return {
+    type: 'EDIT_NEW_CRATE',
+    isCreatingCrate: true,
+    isSelectingUsers: false
+  }
+}
+
 export const selectCrateColor = (color) => {
   return {
     type: 'SELECT_CRATE_COLOR',
@@ -121,6 +129,12 @@ export default function NewCrates (state = initialState, action) {
         isSelectingUsers: action.isSelectingUsers
       }
     case 'SELECTING_GIFTEES':
+      return {
+        ...state,
+        isCreatingCrate: action.isCreatingCrate,
+        isSelectingUsers: action.isSelectingUsers
+      }
+    case 'EDIT_NEW_CRATE':
       return {
         ...state,
         isCreatingCrate: action.isCreatingCrate,

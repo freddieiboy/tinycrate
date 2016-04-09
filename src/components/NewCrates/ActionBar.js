@@ -96,7 +96,12 @@ class ActionBar extends Component {
   }
   loaded = () => {
     const isOpened = !this.props.store.isOpened;
-    return Object.assign({}, isOpened && this.footerHeight0(), !isOpened && this.footerHeight1())
+    return Object.assign(
+      {},
+      isOpened && this.footerHeight0(),
+      !isOpened && this.footerHeight1(),
+      this.props.store.isSelectingUsers && this.footerHeight0()
+    )
   }
   randomColor = () => {
     const colors = [
@@ -184,6 +189,9 @@ class ActionBar extends Component {
   handleChange = (event) => {
     this.props.actions.addNewCrateText(event.target.value);
   }
+  editCrate = () => {
+    this.props.actions.editNewCrate();
+  }
   render() {
     let {
       actions,
@@ -204,18 +212,16 @@ class ActionBar extends Component {
         boxShadow: '1px 2px 4px 0px rgba(0,0,0,0.21)',
         zIndex: '100'
       },
-      createBgIcon: {
-        height: '2.5em',
-        width: '2.5em',
-        // backgroundColor: pink.lightColor,
-        borderRadius: 6
-      },
-      nextBgIcon: {
-        height: '3em',
-        width: '3em',
-        // backgroundColor: pink.lightColor,
-        borderRadius: '50%'
-      },
+      // createBgIcon: {
+      //   height: '2.5em',
+      //   width: '2.5em',
+      //   borderRadius: 6
+      // },
+      // nextBgIcon: {
+      //   height: '3em',
+      //   width: '3em',
+      //   borderRadius: '50%'
+      // },
       buttonStyle: {
         position: 'absolute',
         top: '-2em',
@@ -296,36 +302,63 @@ class ActionBar extends Component {
                 </Hammer>
               ) : null}
 
-              <Motion style={this.setBtnPosition(1)}>
-                {({left, opacity}) =>
-                  <Hammer onTap={this.selectFile}>
-                    <div className="actionButton" style={{left: left, opacity: opacity}} >
-                      <div className="actionIcon" style={{top: '2.2em'}}>
-                        <CameraIcon color={ifPhoto}/>
+              {store.isSelectingUsers ? (
+                <div>
+                  <Motion style={this.setBtnPosition(1)}>
+                    {({left, opacity}) =>
+                      <Hammer onTap={this.editCrate}>
+                        <div className="actionButton" style={{left: left, opacity: opacity}} >
+                          <div className="actionIcon noTouch" style={{top: '2.2em'}}>
+                            <CrateTemplate color={store.newCrateColor} crateSize={30} pop={true} crateType={'pop'}/>
+                          </div>
+                        </div>
+                      </Hammer>}
+                  </Motion>
+                  <Motion style={this.setBtnPosition(2)}>
+                    {({left, opacity}) =>
+                    <Hammer onTap={this.closeAction}>
+                      <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
+                        <div className="actionIcon">
+                          <CancelIcon />
+                        </div>
                       </div>
-                    </div>
-                  </Hammer>}
-              </Motion>
-              <Motion style={this.setBtnPosition(2)}>
-                {({left, opacity}) =>
-                  <Hammer onTap={this.randomColor}>
-                    <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
-                      <div className="actionIcon">
-                        <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={store.userAuth.profileImageURL}/>
+                    </Hammer>}
+                  </Motion>
+                </div>
+              ) : (
+                <div>
+                  <Motion style={this.setBtnPosition(1)}>
+                    {({left, opacity}) =>
+                      <Hammer onTap={this.selectFile}>
+                        <div className="actionButton" style={{left: left, opacity: opacity}} >
+                          <div className="actionIcon" style={{top: '2.2em'}}>
+                            <CameraIcon color={ifPhoto}/>
+                          </div>
+                        </div>
+                      </Hammer>}
+                  </Motion>
+                  <Motion style={this.setBtnPosition(2)}>
+                    {({left, opacity}) =>
+                      <Hammer onTap={this.randomColor}>
+                        <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
+                          <div className="actionIcon">
+                            <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={store.userAuth.profileImageURL}/>
+                          </div>
+                        </div>
+                      </Hammer>}
+                  </Motion>
+                  <Motion style={this.setBtnPosition(3)}>
+                    {({left, opacity}) =>
+                    <Hammer onTap={this.closeAction}>
+                      <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
+                        <div className="actionIcon">
+                          <CancelIcon />
+                        </div>
                       </div>
-                    </div>
-                  </Hammer>}
-              </Motion>
-              <Motion style={this.setBtnPosition(3)}>
-                {({left, opacity}) =>
-                <Hammer onTap={this.closeAction}>
-                  <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
-                    <div className="actionIcon">
-                      <CancelIcon />
-                    </div>
-                  </div>
-                </Hammer>}
-              </Motion>
+                    </Hammer>}
+                  </Motion>
+                </div>
+              )}
 
               {/*NOTE: This input shows up after init click.*/}
               { store.isOpened ? (
