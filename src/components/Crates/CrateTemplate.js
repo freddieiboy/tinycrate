@@ -37,12 +37,20 @@ class CrateTemplate extends Component {
       crateSize: {
         width: crateSize,
       },
+      cratePreview: {
+        height: crateSize/1.7,
+        width: crateSize/1.7,
+        borderRadius: '50%',
+        background: 'url('+ this.props.cratePreview +') center',
+        backgroundSize: 'cover',
+
+      },
       image: {
         top: crateSize/3,
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        height: crateSize/2,
-        width: crateSize/2,
+        height: crateSize/1.7,
+        width: crateSize/1.7,
         padding: '4px',
         borderRadius: '50%',
         position: 'absolute',
@@ -73,11 +81,8 @@ class CrateTemplate extends Component {
         marginTop: crateSize/3
       }
     }
-    const num = cratePreview;
-    console.log(typeof num)
     return (
       <div className="CrateTemplate">
-
 
           <div className="crateImage noTouch" style={ifStyle(
               styles.image,
@@ -86,7 +91,9 @@ class CrateTemplate extends Component {
             <div className="cratePreview" ref="thisCratePreview">
               { crateType === 'empty' ? (
                 EmojiContainer[this.props.store.emoji]
-              ) : null}
+              ) : (
+                <div style={styles.cratePreview}></div>
+              )}
             </div>
           </div>
 

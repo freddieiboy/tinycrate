@@ -49,7 +49,7 @@ class ActionBar extends Component {
     if (!this.props.store.isOpened) {
       // this.props.dispatch(push('/create'))
       setTimeout(() => {
-        document.getElementById('message').focus();
+        $('#message').focus();
       }, 200)
       this.props.actions.openActionBar();
     } else {
@@ -224,9 +224,8 @@ class ActionBar extends Component {
           {store.isCreatingCrate ? (
             <div className="container-fluid body-content-create">
               <div className="centerCrate" style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-                <CrateTemplate color={store.newCrateColor} crateSize={150} pop={true}/>
+                <CrateTemplate color={store.newCrateColor} crateSize={200} pop={true} crateType={'pop'} cratePreview={store.newCratePhoto}/>
               </div>
-              <img id="imagePreview" style={{height: 50, width: 50, border: '1px solid black'}}></img>
             </div>
           ) : null}
           {store.isSelectingUsers ? (
