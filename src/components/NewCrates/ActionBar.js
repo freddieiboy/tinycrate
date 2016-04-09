@@ -8,7 +8,7 @@ import Hammer from 'react-hammerjs';
 import {Motion, spring} from 'react-motion';
 
 import FilePicker from 'component-file-picker';
-import {flattenObject} from '../utilities';
+import {flattenObject, ifStyle} from '../utilities';
 import $ from 'jquery';
 import CrateTemplate from 'components/Crates/CrateTemplate';
 import {green, pink} from 'components/Crates/CrateUtils';
@@ -55,9 +55,13 @@ class ActionBar extends Component {
     }
   }
   selectUsers = () => {
-    console.log('select users now');
-    this.props.actions.selectGiftees();
-    $('#message').blur();
+    let {store, actions} = this.props;
+    if (store.newCrateText.length > 0 || store.newCratePhoto.length > 0) {
+      actions.selectGiftees();
+      $('#message').blur();
+    } else {
+      alert("Your message cannot be empty!");
+    }
   }
   closeAction = () => {
     this.props.store.isOpened ? this.props.actions.closeActionBar() : null
@@ -153,12 +157,27 @@ class ActionBar extends Component {
       }
     });
   }
-  handleSendCrateKeyboard = (e) => {
-    if (e.which == 13) {
-      if (this.props.store.newCrateText.length > 0) {
+  handleSend = (e) => {
+    let {store, actions} = this.props;
+    let text = store.newCrateText.length;
+    let photo = store.newCratePhoto.length;
+    let giftee = store.giftee.length;
+
+    let hasContentAndGiftee = giftee > 0 && (text > 0 || photo > 0);
+    let noGifteeButContent = giftee <= 0 && (text > 0 || photo > 0);
+    let noContentButGiftee = giftee > 0 && (text <= 0 && photo <= 0);
+
+    if (e.which == 13 || e.which == undefined) {
+      if (hasContentAndGiftee) {
         this.sendCrate();
-      } else {
-        alert("Your message cannot be empty!");
+      } else if (noGifteeButContent) {
+        if (!store.isSelectingUsers) {
+          this.selectUsers();
+        } else {
+          alert("Your crate needs a receipient!");
+        }
+      } else if (noContentButGiftee) {
+        alert("Your message cannot be empty!")
       }
     }
   }
@@ -215,8 +234,14 @@ class ActionBar extends Component {
         width: '100%',
         marginTop: 70,
         marginBottom: 0
+      },
+      done: {
+        color: '#FB70AF'
       }
     }
+    const ifSelected = store.giftee.length > 0 ? '#FB70AF' : undefined;
+    const ifMsg = store.newCrateText.length > 0 || store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
+    const ifPhoto = store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
     return (
       <div>
         <div className="newCrateHolder">
@@ -241,37 +266,42 @@ class ActionBar extends Component {
           <Motion style={this.loaded()}>
             {({height}) =>
             <footer className="homeFooter" style={{backgroundColor: green.lightColor, height: height}}>
+
+              {!store.isOpened ? (
+                <Hammer onTap={this.openAction}>
+                  <div className="optionsMenu actionButton animated pulse" style={styles.optionsMenu}>
+                    <div className="actionIcon"></div>
+                    <div className="actionIcon" style={{fontSize: '2em', color: '#FB70AF', fontSize: '50px', fontWeight: 'bold'}}>+</div>
+                  </div>
+                </Hammer>
+              ) : null}
+
               {store.isOpened ? (
               <Hammer onTap={this.selectUsers}>
                 <div className="optionsMenu actionButton" style={styles.optionsMenu}>
-                    {store.isSelectingUsers ? (
-                      <div className="actionIcon" style={{top: '2.7em'}}>
-                        <AirplaneIcon />
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="actionIcon" style={styles.nextBgIcon}/>
-                        <div className="actionIcon" style={{top: '2.7em'}}>
-                          <NextIcon />
-                        </div>
-                      </div>
-                    )}
+                  <div className="actionIcon" style={{top: '2.7em'}}>
+                    <NextIcon color={ifMsg}/>
+                  </div>
                 </div>
               </Hammer>
-              ) : (
-              <Hammer onTap={this.openAction}>
-                <div className="optionsMenu actionButton animated pulse" style={styles.optionsMenu}>
-                  <div className="actionIcon"></div>
-                  <div className="actionIcon" style={{fontSize: '2em', color: '#FB70AF', fontSize: '50px', fontWeight: 'bold'}}>+</div>
-                </div>
-              </Hammer>
-              )}
+              ) : null}
+
+              {store.isSelectingUsers ? (
+                <Hammer onTap={this.handleSend}>
+                  <div className="optionsMenu actionButton" style={styles.optionsMenu}>
+                    <div className="actionIcon" style={{top: '2.7em'}}>
+                      <AirplaneIcon color={ifSelected}/>
+                    </div>
+                  </div>
+                </Hammer>
+              ) : null}
+
               <Motion style={this.setBtnPosition(1)}>
                 {({left, opacity}) =>
                   <Hammer onTap={this.selectFile}>
                     <div className="actionButton" style={{left: left, opacity: opacity}} >
                       <div className="actionIcon" style={{top: '2.2em'}}>
-                        <CameraIcon />
+                        <CameraIcon color={ifPhoto}/>
                       </div>
                     </div>
                   </Hammer>}
@@ -300,7 +330,7 @@ class ActionBar extends Component {
               {/*NOTE: This input shows up after init click.*/}
               { store.isOpened ? (
                 <div className="clearfix" style={{padding: '0 20px 0 20px'}}>
-                  <input id="message" placeholder='crate message...' className="inputSend" style={styles.inputSend} value={store.newCrateText} onChange={this.handleChange} onKeyUp={this.handleSendCrateKeyboard}></input>
+                  <input id="message" placeholder='crate message...' className="inputSend" style={styles.inputSend} value={store.newCrateText} onChange={this.handleChange} onKeyUp={this.handleSend}></input>
                 </div>
               ) : (
                 null
