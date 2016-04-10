@@ -181,4 +181,18 @@ input[role="combobox"]{
 .emojiPressed {
   margin-top: 23px;
   transform:  scale(1, .8) translate(-50%, -50%) !important;
-}}
+}
+
+.scroll {
+  overflow-y: scroll;
+  overflow-x: none;
+  // z-index: 11;
+  // width: 100%;
+  // position: absolute;
+  -webkit-overflow-scrolling: touch;
+  max-height: 400px;
+  // margin-bottom: -1px;
+  // margin-top: -1px;
+}
+
+}

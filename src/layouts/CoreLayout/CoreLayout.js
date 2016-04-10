@@ -6,6 +6,7 @@ import * as FireConfig from '../../redux/modules/FireConfig';
 import * as userAuth from '../../redux/modules/userAuth';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import $ from 'jquery';
 
 // Note: Stateless/function components *will not* hot reload!
 // react-transform *only* works on component classes.
@@ -19,8 +20,13 @@ import {bindActionCreators} from 'redux';
 const CoreLayout = ({ children, actions }) => {
   actions.setFirebaseRef("https://burning-heat-5122.firebaseio.com");
   actions.startListeningToAuth();
+  const styles = {
+    body: {
+      overflowY: 'hidden'
+    }
+  }
   return (
-    <div className='page-container'>
+    <div className='page-container' style={styles.body}>
       <div className='view-container'>
         {children}
         <ActionBar />

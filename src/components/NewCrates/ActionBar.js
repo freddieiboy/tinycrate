@@ -361,7 +361,7 @@ class ActionBar extends Component {
               )}
 
               {/*NOTE: This input shows up after init click.*/}
-              { store.isOpened ? (
+              { store.isCreatingCrate ? (
                 <div className="clearfix" style={{padding: '0 20px 0 20px'}}>
                   <input id="message" placeholder='crate message...' className="inputSend" style={styles.inputSend} value={store.newCrateText} onChange={this.handleChange} onKeyUp={this.handleSend}></input>
                 </div>

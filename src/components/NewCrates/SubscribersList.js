@@ -10,7 +10,7 @@ class SubscribersList extends Component {
       return <Subscriber newGifteeAction={this.props.newGifteeAction} key={key} id={key} name={val.name} username={val.username} storeSubs={subscribers} removeGifteeAction={this.props.removeGifteeAction}/>
     });
     return (
-      <div className="SubscribersList">
+      <div className="SubscribersList scroll">
         {subNodes}
       </div>
     )
