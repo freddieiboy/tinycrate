@@ -171,13 +171,13 @@ class ProfilePage extends Component {
         <div className="Grid Grid--gutters u-textCenter">
           {this.state.isMe ?
           <div className="Grid-cell">
-            <h5 style={this.state.currentTab == ProfileTabs.RECENT_CRATES ? styles.activeTab : styles.inactiveTab} onClick={this.recentCratesTab}>Recent Crates</h5>
+            <h5 style={this.state.currentTab == ProfileTabs.RECENT_CRATES ? styles.activeTab : styles.inactiveTab} onClick={this.recentCratesTab}><span style={{cursor: 'pointer'}}>Recent Crates</span></h5>
             {this.state.isMe}
           </div>
           : ''
           }
           <div className="Grid-cell">
-            <h5 style={this.state.currentTab == ProfileTabs.SUBSCRIPTIONS ? styles.activeTab : styles.inactiveTab} onClick={this.subscriptionsTab}>Subscriptions</h5>
+            <h5 style={this.state.currentTab == ProfileTabs.SUBSCRIPTIONS ? styles.activeTab : styles.inactiveTab} onClick={this.subscriptionsTab}><span style={{cursor: 'pointer'}}>Subscriptions</span></h5>
           </div>
         </div>
 

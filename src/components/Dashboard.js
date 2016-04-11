@@ -119,7 +119,7 @@ class Dashboard extends Component {
         <Hammer onTap={this.showProfile}>
           <div className="inventoryAction float-right">
             <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
-              <a style={{color: '#000'}}>Profile</a>
+              <a style={{color: '#000'}}><span style={{cursor: 'pointer'}}>Profile</span></a>
             </div>
           </div>
         </Hammer>
