@@ -6,6 +6,7 @@ import Dashboard from 'components/Dashboard';
 import LoginPage from 'components/LoginPage';
 import ProfilePage from 'components/ProfilePage';
 import InventoryPage from 'components/InventoryPage';
+import CratePage from 'components/CratePage';
 // import CreatePage from 'components/CreatePage';
 import NotFound from 'components/NotFound';
 
@@ -23,6 +24,7 @@ export default (store) => (
     <Route path='login' component={LoginPage} />
     <Route path='inventory' component={InventoryPage}/>
     <Route path='user/:userId' component={ProfilePage}/>
+    <Route path='crate/:crateId' component={CratePage}/>
     <Route path='home' component={HomeView} />
     <Route path='*' component={NotFound} />
   </Route>

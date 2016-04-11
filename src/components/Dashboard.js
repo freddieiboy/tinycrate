@@ -94,6 +94,7 @@ class Dashboard extends Component {
     console.log("NEW LINKS: " + JSON.stringify(newlinks));
 
     this.setState({data: newlinks});
+    this.props.dispatch(push("crate/" + data_id));
   }
   render() {
     let {
