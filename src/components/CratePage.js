@@ -72,6 +72,13 @@ class CratePage extends Component {
     } else {
       emptyState = '';
     }
+    
+    var crateHeroContent;
+    if (this.state.openedCrate.image) {
+      crateHeroContent = <img src={this.state.openedCrate.image} style={{maxWidth: '100%', height: '265px', display: 'block', marginRight: 'auto', marginLeft: 'auto'}}/>;
+    } else {
+      crateHeroContent = <p style={{maxWidth: '100%', fontSize: '20px', textAlign: 'center', padding: '10px', position:'relative', top: '50%', transform: 'translateY(-50%)'}}>{this.state.openedCrate.text}</p>;
+    }
 
     var timestamp = moment(this.state.openedCrate.createdAt).fromNow();
 
@@ -81,7 +88,7 @@ class CratePage extends Component {
       <div className="cratePageImage">
       <div className="Grid Grid--gutters u-textCenter" style={{height: '70%'}}>
         <div className="Grid-cell" style={{height: '100%'}}>
-        <img src={this.state.openedCrate.image} style={{maxWidth: '100%', height: '265px', display: 'block', marginRight: 'auto', marginLeft: 'auto'}}/>
+          {crateHeroContent}
         </div>
       </div>
       <div className="Grid Grid--gutters u-textCenter cratePageInfo" style={{height: '30%'}}>
@@ -90,7 +97,10 @@ class CratePage extends Component {
         </div>
         <div className="Grid-cell user-info-holder">
           <div>{this.state.openedCrate.authorDisplayName}</div>
-          <div>{this.state.openedCrate.text}</div>
+          {this.state.openedCrate.image ?
+            <div>{this.state.openedCrate.text}</div>
+            : ''
+          }
           <div style={{color: "#949aa0"}}> {timestamp}</div>
         </div>
         <div className="Grid-cell">
