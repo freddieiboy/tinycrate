@@ -243,13 +243,18 @@ class ActionBar extends Component {
       },
       done: {
         color: '#FB70AF'
+      },
+      hide: {
+        display: 'none'
       }
     }
     const ifSelected = store.giftee.length > 0 ? '#FB70AF' : undefined;
     const ifMsg = store.newCrateText.length > 0 || store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
     const ifPhoto = store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
     return (
-      <div>
+      <div style={ifStyle(
+          store.isHidden && styles.hide
+        )}>
         <div className="newCrateHolder">
           {store.isCreatingCrate ? (
             <div className="container-fluid body-content-create">
@@ -408,7 +413,8 @@ const mapStateToProps = (state) => ({
     newCrateText: state.NewCrates.newCrateText,
     newCratePhoto: state.NewCrates.newCratePhoto,
     subscribers: state.NewCrates.subscribers,
-    giftee: state.NewCrates.giftee
+    giftee: state.NewCrates.giftee,
+    isHidden: state.NewCrates.isHidden
   }
 })
 

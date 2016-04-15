@@ -22,7 +22,6 @@ import Hammer from 'react-hammerjs';
 import firebase from 'firebase';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
-var authData = ref.getAuth();
 
 import * as FireConfig from '../redux/modules/FireConfig';
 import * as FireRef from '../redux/modules/FireRef';
@@ -39,27 +38,10 @@ class Dashboard extends Component {
       data: []
       //TODO: remove this when you do firebase redux
     };
-    let {store, dispatch} = this.props;
-    if (store.userAuth.currently === 'LOGGED_IN') {
-      console.log("User " + store.userAuth.uid + " is logged in with " + store.userAuth.provider);
-    } else {
-      console.log("User is logged out");
-      this.props.dispatch(push("login"));
-    }
-  }
-  showInventory = (event) => {
-    this.props.dispatch(push("create"));
-  }
-  showProfile = () => {
-    let username = this.props.store.userAuth.username;
-    this.props.dispatch(push("user/" + username));
-  }
-  logout = () => {
-    this.props.actions.logoutUser();
-    //TODO: move this over to the profile. Profile component should be a function in order for refresh to work.
   }
   componentDidMount = () => {
     var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
+    var authData = ref.getAuth();
     unopenedCratesList = [];
     //#Beta:0 refactor these two functions. console.log is being called like 200 times. why?
     unopenedCrates.orderByChild("recipientUId").equalTo(authData.uid).on("child_added", (snapshot) => {
@@ -80,6 +62,23 @@ class Dashboard extends Component {
       // console.log(unopenedCratesList);
       this.setState({data:  unopenedCratesList});
     })
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
+      console.log("User is logged out");
+      this.props.dispatch(push("login"));
+    }
+  }
+  showInventory = (event) => {
+    this.props.dispatch(push("create"));
+  }
+  showProfile = () => {
+    let username = this.props.store.userAuth.username;
+    this.props.dispatch(push("user/" + username));
+  }
+  logout = () => {
+    this.props.actions.logoutUser();
+    //TODO: move this over to the profile. Profile component should be a function in order for refresh to work.
   }
   deleteObj = (data_id) => {
     console.log("deleting: " + data_id);

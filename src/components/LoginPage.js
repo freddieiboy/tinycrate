@@ -5,26 +5,36 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import * as userAuth from '../redux/modules/userAuth';
+import * as newCrates from '../redux/modules/NewCrates';
 import Hammer from 'react-hammerjs';
 
-const LoginPage = ({ store, actions, dispatch }) => {
-  if (store.userAuth.currently === 'LOGGED_IN') {
-    console.log('you are logged in');
-    dispatch(push('/'));
-  } else {
-    console.log('you are NOT logged in from login screen');
+class LoginPage extends Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.store.userAuth.currently === 'LOGGED_IN') {
+      console.log('you are logged in');
+      nextProps.dispatch(push('/'));
+      this.props.actions.showActionBar();
+    } else {
+      console.log('you are NOT logged in from login screen');
+    }
   }
-  return (
-    <div className="Absolute-Center">
-      <p style={{color: 'white', fontSize: '25px'}}>📦 TinyCrate 📦</p>
-      <Hammer onTap={() => actions.attemptLogin('twitter')}>
-        <button>Twitter Login</button>
-      </Hammer>
-      <Hammer onTap={actions.attemptLogin}>
-        <button>Facebook Login</button>
-      </Hammer>
-    </div>
-  );
+  render() {
+    let {
+      store,
+      actions
+    } = this.props;
+    return (
+      <div className="Absolute-Center">
+        <p style={{color: 'white', fontSize: '25px'}}>📦 TinyCrate 📦</p>
+        <Hammer onTap={() => actions.attemptLogin('twitter')}>
+          <button>Twitter Login</button>
+        </Hammer>
+        <Hammer>
+          <button>Facebook Login</button>
+        </Hammer>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => ({
@@ -35,7 +45,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  actions: bindActionCreators(userAuth, dispatch)
+  actions: bindActionCreators(Object.assign({}, newCrates, userAuth), dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

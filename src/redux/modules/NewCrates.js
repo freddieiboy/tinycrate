@@ -100,7 +100,22 @@ export const flushNewCrateState = () => {
   }
 }
 
+export const hideActionBar = () => {
+  return {
+    type: 'HIDE_ACTION_BAR',
+    isHidden: true
+  }
+}
+
+export const showActionBar = () => {
+  return {
+    type: 'SHOW_ACTION_BAR',
+    isHidden: false
+  }
+}
+
 const initialState = {
+  isHidden: false,
   isOpened: false,
   isCreatingCrate: false,
   isSelectingUsers: false,
@@ -198,6 +213,16 @@ export default function NewCrates (state = initialState, action) {
         newCratePhoto: action.newCratePhoto,
         newCrateText: action.newCrateText,
         giftee: action.giftee
+      }
+    case 'HIDE_ACTION_BAR':
+      return {
+        ...state,
+        isHidden: action.isHidden
+      }
+    case 'SHOW_ACTION_BAR':
+      return {
+        ...state,
+        isHidden: action.isHidden
       }
     default:
       return state;
