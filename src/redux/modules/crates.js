@@ -14,10 +14,18 @@ export const setUserData = (data) => {
   }
 }
 
+export const setupCratesList = (data) => {
+  return {
+    type: 'UNOPENED_CRATES_LIST',
+    cratesList: data
+  }
+}
+
 // REDUCERS + INITITAL STATE
 const initialState = {
   emoji: 0,
-  data: []
+  data: [],
+  cratesList: []
 }
 export default function crates (state = initialState, action) {
   switch (action.type) {
@@ -31,6 +39,11 @@ export default function crates (state = initialState, action) {
       return {
         ...state,
         data: action.data
+      }
+    case 'UNOPENED_CRATES_LIST':
+      return {
+        ...state,
+        cratesList: action.cratesList
       }
     default:
       return state;

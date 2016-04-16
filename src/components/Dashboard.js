@@ -41,7 +41,7 @@ class Dashboard extends Component {
       _isMounted: false
     };
   }
-  componentDidMount = () => {
+  componentWillMount = () => {
     this.setState({_isMounted: true}, () => {
       console.log(this.state._isMounted === true)
     })
@@ -61,7 +61,9 @@ class Dashboard extends Component {
         if(crate.opened === false) {
           unopenedCratesList.push(crate);
         }
-        this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
+        // this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
+        // this.setState({data: unopenedCratesList})
+        this.props.actions.setupCratesList(unopenedCratesList);
       })
 
       unopenedCrates.orderByChild("public").equalTo(true).on("child_added", (snapshot) => {
@@ -71,7 +73,8 @@ class Dashboard extends Component {
           unopenedCratesList.push(crate);
         }
         // console.log(unopenedCratesList);
-        this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
+        // this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
+        this.setState({data: unopenedCratesList})
       })
     }
   }
