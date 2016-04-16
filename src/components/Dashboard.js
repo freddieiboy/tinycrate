@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import {bindActionCreators, store, getState} from 'redux';
-import {push} from 'react-router-redux';
+import { routerActions } from 'react-router-redux'
 import { connect } from 'react-redux';
 import * as cratesRedux from '../redux/modules/crates';
 import * as userAuth from '../redux/modules/userAuth';
@@ -41,27 +41,24 @@ class Dashboard extends Component {
       // _isMounted: false
     };
   }
-  componentDidMount = () => {
-    // this.setState({_isMounted: true}, () => {
-    //   console.log(this.state._isMounted === true)
-    // })
+  componentDidMount() {
+    let {store, actions} = this.props;
 
-      // if (this.props.store.userAuth.currently !== 'LOGGED_IN') {
-      //   console.log("User is logged out");
-      //   setTimeout(() => {
-      //     this.props.dispatch(push("login"));
-      //   }, 1)
-      // }
-
+    actions.showActionBar();
+    if (store.userAuth.currently !== 'LOGGED_IN') {
+      console.log("User is logged out");
+      setTimeout(() => {
+        actions.push('login')
+      }, 500)
+    }
     var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
     unopenedCratesList = [];
-    //#Beta:0 refactor these two functions. console.log is being called like 200 times. why?
     if (authData === null) {
       //TODO: this makes it so ONLY 'LOGGED_IN' is allowed to access the app.
-      this.context.router.push('login');
+      actions.push('login');
       // this.props.dispatch(push('login'));
     } else {
-      this.props.actions.showActionBar();
+      actions.showActionBar();
 
       unopenedCrates.orderByChild("recipientUId").equalTo(authData.uid).on("child_added", (snapshot) => {
         var crate = snapshot.val();
@@ -71,24 +68,21 @@ class Dashboard extends Component {
         }
         // this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
         // this.setState({data: unopenedCratesList})
-        this.props.actions.setupCratesList(unopenedCratesList);
+        actions.setupCratesList(unopenedCratesList);
       })
     }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
       console.log("User is logged out");
-      this.context.router.push('login');
+      setTimeout(() => {
+        this.props.actions.push('login')
+      }, 1000)
     }
-    // console.log(nextProps)
   }
   shouldComponentUpdate = (nextProps) => {
     return nextProps.store != this.props.store;
   }
-  // showInventory = (event) => {
-  //   this.context.router.push('create');
-  //   // this.props.dispatch(push("create"));
-  // }
   showProfile = () => {
     let username = this.props.store.userAuth.username;
     // this.context.router.push('user/' + username);
@@ -170,10 +164,6 @@ Dashboard.PropTypes = {
   emoji: PropTypes.number.isRequired,
 }
 
-Dashboard.contextTypes = {
-  router: PropTypes.object,
-}
-
 const mapStateToProps = (state) => ({
   store: {
     data: state.crates.data,
@@ -184,7 +174,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  actions: bindActionCreators(Object.assign({}, cratesRedux, userAuth, newCrates), dispatch)
+  actions: bindActionCreators(Object.assign({}, routerActions, cratesRedux, userAuth, newCrates), dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

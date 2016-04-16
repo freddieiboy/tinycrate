@@ -8,9 +8,8 @@ import userAuth from './modules/userAuth';
 
 export default combineReducers({
   userAuth,
-  FireRef,
   FireConfig,
   NewCrates,
   crates,
   router
-});
+})

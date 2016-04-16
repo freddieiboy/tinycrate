@@ -25,7 +25,7 @@ export default (store) => (
     <Route path='inventory' component={InventoryPage}/>
     <Route path='user/:userId' component={ProfilePage}/>
     <Route path='crate/:crateId' component={CratePage}/>
-    <Route path='home' component={HomeView} />
+    <Route path='test' component={HomeView} />
     <Route path='*' component={NotFound} />
   </Route>
 );

@@ -3,13 +3,17 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as newCrates from '../redux/modules/NewCrates';
 
-const NotFound = ({actions}) => {
-  actions.hideActionBar();
-  return (
-    <div className="404">
-      <h1>404 Your page does not exist!</h1>
-    </div>
-  )
+class NotFound extends Component {
+  componentDidMount() {
+    this.props.actions.hideActionBar();
+  }
+  render() {
+    return (
+     <div className="404">
+       <h1>404 Your page does not exist!</h1>
+     </div>
+   )
+  }
 }
 
 const mapDispatchToProps = (dispatch) => ({
@@ -18,3 +22,11 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(null, mapDispatchToProps)(NotFound)
+
+// import React from 'react';
+//
+// const NotFound = () =>
+//   <h1>NOT FOUND SONNN</h1>
+//
+//
+// export default NotFound;

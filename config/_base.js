@@ -20,7 +20,7 @@ const config = {
   // Server Configuration
   // ----------------------------------
   server_host : 'localhost',
-  server_port : process.env.PORT || 4000,
+  server_port : process.env.PORT || 3000,
 
   // ----------------------------------
   // Compiler Configuration
@@ -30,7 +30,7 @@ const config = {
   compiler_hash_type       : 'hash',
   compiler_fail_on_warning : false,
   compiler_quiet           : false,
-  compiler_public_path     : '',
+  compiler_public_path     : '/',
   compiler_stats           : {
     chunks : false,
     chunkModules : false,
