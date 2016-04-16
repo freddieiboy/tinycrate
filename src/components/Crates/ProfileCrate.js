@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import {EmojiContainer} from '../Emojis';
-import {DefaultCrate, PressedCrate, pop1, pop2} from './CrateUtils';
+import {DefaultCrate, PressedCrate, pop1, pop2, openCrate} from './CrateUtils';
 import $ from 'jquery';
 import Hammer from 'react-hammerjs';
+
+var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
+var ref = new Firebase(FIREBASE_URL);
 
 class ProfileCrate extends Component {
   constructor(props) {
@@ -23,7 +26,12 @@ class ProfileCrate extends Component {
     if(this.props.username) {
       this.props.onOpen(this.props.username);
     } else {
-      this.props.onOpen(this.props.id);
+      var crate = ref.child('crates').child(this.props.id);
+      openCrate(crate, () => {
+        setTimeout(() => {
+          this.props.onOpen(this.props.id);
+        }, 700);
+      });
     }
   }
   render() {
