@@ -4,6 +4,7 @@ import {push} from 'react-router-redux';
 import { connect } from 'react-redux';
 import * as cratesRedux from '../redux/modules/crates';
 import * as userAuth from '../redux/modules/userAuth';
+import * as newCrates from '../redux/modules/NewCrates';
 import ReactDOM from 'react-dom';
 
 import LoginPage from './LoginPage';
@@ -23,8 +24,9 @@ import firebase from 'firebase';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 
-import * as FireConfig from '../redux/modules/FireConfig';
-import * as FireRef from '../redux/modules/FireRef';
+// import * as FireConfig from '../redux/modules/FireConfig';
+// import * as FireRef from '../redux/modules/FireRef';
+var authData = ref.getAuth();
 // var refs = new Firebase(config.firebaseRef);
 // var refs = new Firebase("https://burning-heat-5122.firebaseio.com");
 
@@ -35,39 +37,52 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
-      //TODO: remove this when you do firebase redux
+      data: [],
+      _isMounted: false
     };
   }
   componentDidMount = () => {
-    var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
-    var authData = ref.getAuth();
-    unopenedCratesList = [];
-    //#Beta:0 refactor these two functions. console.log is being called like 200 times. why?
-    unopenedCrates.orderByChild("recipientUId").equalTo(authData.uid).on("child_added", (snapshot) => {
-      var crate = snapshot.val();
-      crate.key = snapshot.key();
-      if(crate.opened === false) {
-        unopenedCratesList.push(crate);
-      }
-      this.setState({data:  unopenedCratesList});
+    this.setState({_isMounted: true}, () => {
+      console.log(this.state._isMounted === true)
     })
 
-    unopenedCrates.orderByChild("public").equalTo(true).on("child_added", (snapshot) => {
-      var crate = snapshot.val();
-      crate.key = snapshot.key();
-      if(crate.opened === false) {
-        unopenedCratesList.push(crate);
-      }
-      // console.log(unopenedCratesList);
-      this.setState({data:  unopenedCratesList});
-    })
+    var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
+    unopenedCratesList = [];
+    //#Beta:0 refactor these two functions. console.log is being called like 200 times. why?
+    if (authData === null) {
+      //TODO: this makes it so ONLY 'LOGGED_IN' is allowed to access the app.
+      this.props.dispatch(push('login'));
+    } else {
+      this.props.actions.showActionBar();
+
+      unopenedCrates.orderByChild("recipientUId").equalTo(authData.uid).on("child_added", (snapshot) => {
+        var crate = snapshot.val();
+        crate.key = snapshot.key();
+        if(crate.opened === false) {
+          unopenedCratesList.push(crate);
+        }
+        this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
+      })
+
+      unopenedCrates.orderByChild("public").equalTo(true).on("child_added", (snapshot) => {
+        var crate = snapshot.val();
+        crate.key = snapshot.key();
+        if(crate.opened === false) {
+          unopenedCratesList.push(crate);
+        }
+        // console.log(unopenedCratesList);
+        this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
+      })
+    }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
       console.log("User is logged out");
       this.props.dispatch(push("login"));
     }
+  }
+  componentWillUnmount = () => {
+    this.setState({_isMounted: false})
   }
   showInventory = (event) => {
     this.props.dispatch(push("create"));
@@ -115,7 +130,7 @@ class Dashboard extends Component {
           <h1 className="logoType">TinyCrate</h1>
         </div>
 
-        <Hammer onTap={this.showProfile}>
+        <Hammer onTap={() => console.log(this.state._isMounted)}>
           <div className="inventoryAction float-right">
             <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
               <a style={{color: '#000'}}><span style={{cursor: 'pointer'}}>Profile</span></a>
@@ -159,7 +174,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  actions: bindActionCreators(Object.assign({}, cratesRedux, FireConfig, FireRef, userAuth), dispatch)
+  actions: bindActionCreators(Object.assign({}, cratesRedux, userAuth, newCrates), dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

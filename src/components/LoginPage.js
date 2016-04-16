@@ -6,16 +6,18 @@ import {bindActionCreators} from 'redux';
 import {push} from 'react-router-redux';
 import * as userAuth from '../redux/modules/userAuth';
 import * as newCrates from '../redux/modules/NewCrates';
+import * as FireConfig from '../redux/modules/FireConfig';
 import Hammer from 'react-hammerjs';
 
 class LoginPage extends Component {
-  componentWillReceiveProps(nextProps) {
+  componentDidMount = () => {
+    this.props.actions.startListeningToAuth();
+  }
+  componentWillReceiveProps = (nextProps) => {
     if (nextProps.store.userAuth.currently === 'LOGGED_IN') {
       console.log('you are logged in');
       nextProps.dispatch(push('/'));
       this.props.actions.showActionBar();
-    } else {
-      console.log('you are NOT logged in from login screen');
     }
   }
   render() {
@@ -45,7 +47,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  actions: bindActionCreators(Object.assign({}, newCrates, userAuth), dispatch)
+  actions: bindActionCreators(Object.assign({}, newCrates, userAuth, FireConfig), dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

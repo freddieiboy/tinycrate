@@ -115,7 +115,7 @@ export const showActionBar = () => {
 }
 
 const initialState = {
-  isHidden: false,
+  isHidden: true,
   isOpened: false,
   isCreatingCrate: false,
   isSelectingUsers: false,

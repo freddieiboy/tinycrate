@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import ActionBar from 'components/NewCrates/ActionBar';
 import '../../styles/core.scss';
-import * as FireRef from '../../redux/modules/FireRef';
-import * as FireConfig from '../../redux/modules/FireConfig';
-import * as userAuth from '../../redux/modules/userAuth';
+// import * as FireRef from '../../redux/modules/FireRef';
+// import * as FireConfig from '../../redux/modules/FireConfig';
+// import * as userAuth from '../../redux/modules/userAuth';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import $ from 'jquery';
@@ -17,9 +17,7 @@ import $ from 'jquery';
 //
 // CoreLayout is a pure function of its props, so we can
 // define it with a plain javascript function...
-const CoreLayout = ({ children, actions }) => {
-  actions.setFirebaseRef("https://burning-heat-5122.firebaseio.com");
-  actions.startListeningToAuth();
+const CoreLayout = ({children}) => {
   const styles = {
     body: {
       overflowY: 'hidden'
@@ -34,16 +32,17 @@ const CoreLayout = ({ children, actions }) => {
     </div>
   );
 }
-
-CoreLayout.propTypes = {
-  children: PropTypes.element
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  dispatch,
-  actions: bindActionCreators(Object.assign({}, FireRef, FireConfig, userAuth), dispatch)
-})
-
-export default connect(null, mapDispatchToProps)(CoreLayout)
+//
+// CoreLayout.propTypes = {
+//   children: PropTypes.element
+// };
+//
+// const mapDispatchToProps = (dispatch) => ({
+//   dispatch,
+//   actions: bindActionCreators(Object.assign({}, FireConfig, userAuth), dispatch)
+// })
+//
+// export default connect(null, mapDispatchToProps)(CoreLayout)
+export default CoreLayout;
 
 //NOTE: this is exported to => routes/index.js
