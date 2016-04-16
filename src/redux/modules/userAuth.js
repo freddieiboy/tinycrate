@@ -49,8 +49,12 @@ export const attemptLogin = (provider) => {
 			dispatch({ type: 'ATTEMPTING_LOGIN' });
 			fireRef.authWithOAuthPopup('twitter', (error) => {
 				if (error) {
-					dispatch({ type: 'DISPLAY_ERROR', error: 'Login failed! ' + error });
-					dispatch({ type: 'LOGOUT' });
+					if (error.code === "TRANSPORT_UNAVAILABLE") {
+						fireRef.authWithOAuthRedirect("twitter", function(error) {
+							dispatch({ type: 'DISPLAY_ERROR', error: 'Login failed! ' + error });
+							dispatch({ type: 'LOGOUT' });
+						});
+					}
 				}
 			});
 		}
