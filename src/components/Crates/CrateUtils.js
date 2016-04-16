@@ -3,7 +3,7 @@ import mojs from 'mo-js';
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
-var userRef = ref.child('users').child(ref.getAuth().uid);
+// var userRef = ref.child('users').child(ref.getAuth().uid);
 
 /*
 DEPRECATED!

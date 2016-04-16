@@ -136,7 +136,7 @@ class Dashboard extends Component {
           <h1 className="logoType">TinyCrate</h1>
         </div>
 
-        <Hammer onTap={this.showProfile}>
+        <Hammer onTap={() => this.context.router.push('corgis')}>
           <div className="inventoryAction float-right">
             <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
               <a style={{color: '#000'}}><span style={{cursor: 'pointer'}}>Profile</span></a>
