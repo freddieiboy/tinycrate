@@ -1,6 +1,10 @@
 import React from 'react';
 import mojs from 'mo-js';
 
+var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
+var ref = new Firebase(FIREBASE_URL);
+var userRef = ref.child('users').child(ref.getAuth().uid);
+
 /*
 DEPRECATED!
 Crate Utilities. Don't pass state to these components. Presentational Components only!
@@ -58,6 +62,29 @@ const styles = {
     borderRadius: 27,
   	boxShadow: '0px 11px 10px 0px rgba(5,156,150,0.34)'
   }
+}
+
+export function openCrate(crate, callback) {
+  crate.update({
+    "opened": true
+  }, (error) => {
+    if (error) {
+      console.log("Crate could not be opened: " + error);
+    } else {
+      // increment 'unwrappedCount' after opening a crate
+      incrementUnwrappedCount();
+    }
+    callback(error);
+  });
+}
+
+const incrementUnwrappedCount = () => {
+  userRef.child("unwrappedCount").transaction(unwrappedCount => {
+    if(unwrappedCount === null) {
+      return 1;
+    }
+    return unwrappedCount + 1;
+  });
 }
 
 export function pop1(el, color) {

@@ -62,6 +62,12 @@ class CratePage extends Component {
     $("#imagePreview").attr('src', this.props.store.newCratePhoto);
   }
   onOpen = (crateId) => {
+    var oldCrates = this.state.data;
+    // locally removes the crate by filtering it out by its id
+    var newCrates = oldCrates.filter(function(crate) {
+      return crate.key != crateId;
+    });
+    this.setState({data: newCrates});
     this.props.dispatch(push("/crate/" + crateId));
   }
   render() {
