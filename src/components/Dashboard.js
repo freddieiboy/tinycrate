@@ -37,21 +37,29 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      _isMounted: false
+      data: []
+      // _isMounted: false
     };
   }
-  componentWillMount = () => {
-    this.setState({_isMounted: true}, () => {
-      console.log(this.state._isMounted === true)
-    })
+  componentDidMount = () => {
+    // this.setState({_isMounted: true}, () => {
+    //   console.log(this.state._isMounted === true)
+    // })
+
+      // if (this.props.store.userAuth.currently !== 'LOGGED_IN') {
+      //   console.log("User is logged out");
+      //   setTimeout(() => {
+      //     this.props.dispatch(push("login"));
+      //   }, 1)
+      // }
 
     var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
     unopenedCratesList = [];
     //#Beta:0 refactor these two functions. console.log is being called like 200 times. why?
     if (authData === null) {
       //TODO: this makes it so ONLY 'LOGGED_IN' is allowed to access the app.
-      this.props.dispatch(push('login'));
+      this.context.router.push('login');
+      // this.props.dispatch(push('login'));
     } else {
       this.props.actions.showActionBar();
 
@@ -65,34 +73,28 @@ class Dashboard extends Component {
         // this.setState({data: unopenedCratesList})
         this.props.actions.setupCratesList(unopenedCratesList);
       })
-
-      unopenedCrates.orderByChild("public").equalTo(true).on("child_added", (snapshot) => {
-        var crate = snapshot.val();
-        crate.key = snapshot.key();
-        if(crate.opened === false) {
-          unopenedCratesList.push(crate);
-        }
-        // console.log(unopenedCratesList);
-        // this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
-        this.setState({data: unopenedCratesList})
-      })
     }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
       console.log("User is logged out");
-      this.props.dispatch(push("login"));
+      this.context.router.push('login');
     }
+    // console.log(nextProps)
   }
-  componentWillUnmount = () => {
-    this.setState({_isMounted: false})
+  shouldComponentUpdate = (nextProps) => {
+    return nextProps.store != this.props.store;
   }
-  showInventory = (event) => {
-    this.props.dispatch(push("create"));
-  }
+  // showInventory = (event) => {
+  //   this.context.router.push('create');
+  //   // this.props.dispatch(push("create"));
+  // }
   showProfile = () => {
     let username = this.props.store.userAuth.username;
-    this.props.dispatch(push("user/" + username));
+    // this.context.router.push('user/' + username);
+    // this.props.dispatch(push('corgi'))
+    this.context.router.push('corgi');
+    // this.props.dispatch(push("user/" + username));
   }
   logout = () => {
     this.props.actions.logoutUser();
@@ -111,7 +113,8 @@ class Dashboard extends Component {
     console.log("NEW LINKS: " + JSON.stringify(newlinks));
 
     this.setState({data: newlinks});
-    this.props.dispatch(push("crate/" + data_id));
+    this.context.router.push('crate/' + data_id);
+    // this.props.dispatch(push("crate/" + data_id));
   }
   render() {
     let {
@@ -133,7 +136,7 @@ class Dashboard extends Component {
           <h1 className="logoType">TinyCrate</h1>
         </div>
 
-        <Hammer onTap={() => console.log(this.state._isMounted)}>
+        <Hammer onTap={this.showProfile}>
           <div className="inventoryAction float-right">
             <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
               <a style={{color: '#000'}}><span style={{cursor: 'pointer'}}>Profile</span></a>
@@ -165,6 +168,10 @@ Dashboard.PropTypes = {
   data: PropTypes.array.isRequired,
   setEmojiNumber: PropTypes.object.isRequired,
   emoji: PropTypes.number.isRequired,
+}
+
+Dashboard.contextTypes = {
+  router: PropTypes.object,
 }
 
 const mapStateToProps = (state) => ({

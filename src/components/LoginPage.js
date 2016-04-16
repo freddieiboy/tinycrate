@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import firebase from 'firebase'
 import { Router, Route, Link, browserHistory } from 'react-router'
 import {connect} from 'react-redux';
@@ -16,7 +16,8 @@ class LoginPage extends Component {
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.store.userAuth.currently === 'LOGGED_IN') {
       console.log('you are logged in');
-      nextProps.dispatch(push('/'));
+      this.context.router.push('/');
+      // nextProps.dispatch(push('/'));
       this.props.actions.showActionBar();
     }
   }
@@ -37,6 +38,10 @@ class LoginPage extends Component {
       </div>
     );
   }
+}
+
+LoginPage.contextTypes = {
+  router: PropTypes.object,
 }
 
 const mapStateToProps = (state) => ({

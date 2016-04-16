@@ -1,9 +1,20 @@
 import React, {Component} from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as newCrates from '../redux/modules/NewCrates';
 
-const NotFound = () =>
-  <div className="404">
-    <h1>404 Your page does not exist!</h1>
-    {console.log('NotFound Mounted')}
-  </div>
+const NotFound = ({actions}) => {
+  actions.hideActionBar();
+  return (
+    <div className="404">
+      <h1>404 Your page does not exist!</h1>
+    </div>
+  )
+}
 
-export default NotFound;
+const mapDispatchToProps = (dispatch) => ({
+  dispatch,
+  actions: bindActionCreators(newCrates, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(NotFound)
