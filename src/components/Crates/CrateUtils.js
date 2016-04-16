@@ -3,7 +3,6 @@ import mojs from 'mo-js';
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
-// var userRef = ref.child('users').child(ref.getAuth().uid);
 
 /*
 DEPRECATED!
@@ -79,6 +78,7 @@ export function openCrate(crate, callback) {
 }
 
 const incrementUnwrappedCount = () => {
+  var userRef = ref.child('users').child(ref.getAuth().uid);
   userRef.child("unwrappedCount").transaction(unwrappedCount => {
     if(unwrappedCount === null) {
       return 1;

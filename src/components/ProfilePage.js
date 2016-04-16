@@ -17,6 +17,7 @@ var recentGifteesList = [];
 
 var subscriptionsList = [];
 var openedCratesList = [];
+var currentProfileId;
 
 var ProfileTabs = {
   SUBSCRIPTIONS: 0,
@@ -30,29 +31,38 @@ class ProfilePage extends Component {
       data: [],
       user: {},
       currentTab: ProfileTabs.SUBSCRIPTIONS,
-      isMe: false
+      isMe: false,
+      isBlocked: false
     }
   }
   loadProfileForUser = (userId) => {
     subscriptionsList = [];
     openedCratesList = [];
     var isMe = false;
+    var isBlocked = false;
     getUserByUsername(userId, user => {
       userRef = ref.child('users').child(user.uid);
       getSubscriptions();
+      
+      // set isBlocked if the current profile user appears in the auth user's blockedUsers list
+      if(this.props.store.userAuth.user.blockedUsers) {
+        if(user.uid in this.props.store.userAuth.user.blockedUsers) {
+          isBlocked = true;
+        }
+      }
       
       if(user.uid === this.props.store.userAuth.uid) {
         isMe = true;
         getRecentCrates(user.uid);
       }
       
-      this.setState({user: user, data: subscriptionsList, isMe: isMe});
+      this.setState({user: user, data: subscriptionsList, isMe: isMe, isBlocked: isBlocked});
       
       if(isMe) {
         this.setState({currentTab: ProfileTabs.RECENT_CRATES});
       }
-      
-    })
+
+    });
   }
   profileButton = (event) => {
     if(this.state.isMe) {
@@ -63,6 +73,15 @@ class ProfilePage extends Component {
       alert("You are now subscribed to " + this.state.user.username);
     }
   }
+  blockButton = (event) => {
+    if(this.state.isBlocked) {
+      unblockUser(this.state.user.uid, this.props.store.userAuth.uid);
+      this.setState({isBlocked: false});
+    } else {
+      blockUser(this.state.user.uid, this.props.store.userAuth.uid);
+      this.setState({isBlocked: true});
+    }
+  }
   recentCratesTab = (event) => {
     this.setState({currentTab:  ProfileTabs.RECENT_CRATES});
   }
@@ -70,10 +89,14 @@ class ProfilePage extends Component {
     this.setState({currentTab:  ProfileTabs.SUBSCRIPTIONS});
   }
   componentWillReceiveProps = (nextProps) => {
+    if(currentProfileId === nextProps.params.userId) {
+      return;
+    }
     this.loadProfileForUser(nextProps.params.userId);
   }
   componentDidMount = () => {
-    this.loadProfileForUser(this.props.params.userId);
+    currentProfileId = this.props.params.userId;
+    this.loadProfileForUser(currentProfileId);
   }
   onOpen = (username) => {
     this.props.dispatch(push("/user/" + username));
@@ -141,6 +164,12 @@ class ProfilePage extends Component {
           <button style={{float: 'right'}} onClick={this.profileButton}>
             {this.state.isMe ? 'Settings' : 'Add Gifter +'} 
           </button>
+          {!this.state.isMe ?
+          <button style={{marginTop: '40px'}} onClick={this.blockButton}>
+          {this.state.isBlocked ? 'Unblock' : 'Block'}
+          </button>
+          : ''
+          }
         </div>
       </div>
       <div className="Grid Grid--gutters u-textCenter statsHeader" style={{height: '50%'}}>
@@ -215,6 +244,16 @@ function subscribeToUser(username, authUid) {
       subscribedAt: Firebase.ServerValue.TIMESTAMP
     };
   });
+}
+
+function blockUser(blockUserUid, authUid) {
+  userRef = ref.child('users').child(authUid);
+  userRef.child("blockedUsers").update({[blockUserUid]: true});
+}
+
+function unblockUser(unblockUserUid, authUid) {
+  userRef = ref.child('users').child(authUid);
+  userRef.child("blockedUsers").update({[unblockUserUid]: null});
 }
 
 function getRecentCrates(uid) {

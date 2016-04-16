@@ -9,15 +9,14 @@ export const startListeningToAuth = () => {
 	return (dispatch, getState) => {
 		fireRef.onAuth((authData) => {
 			if (authData) {
-				dispatch({
-					type: 'LOGIN_USER',
-					uid: authData.uid,
-          provider: authData.provider,
-          name: getName(authData),
-          username: getUsername(authData),
-          profileImageURL: getProfileImageURL(authData),
-					data: authData,
-					userColor: 'pink'
+				// dispatch cached authData state
+				// pass null because we haven't fetched a fresh user from Firebase
+				dispatchUserState(dispatch, authData, null);
+				// now we fetch the user data from Firebase so it's update to date
+				var userRef = fireRef.child('users').child(authData.uid);
+				userRef.once('value', (snap) => {
+					// dispatch the state again with the newly fetched Firebase user object
+					dispatchUserState(dispatch, authData, snap.val());
 				});
 				// dispatch(routerActions.push('/'));
 			} else {
@@ -29,6 +28,20 @@ export const startListeningToAuth = () => {
 	};
 }
 
+function dispatchUserState(dispatch, authData, firebaseUserObj) {
+	dispatch({
+		type: 'LOGIN_USER',
+		uid: authData.uid,
+		provider: authData.provider,
+		name: getName(authData),
+		username: getUsername(authData),
+		profileImageURL: getProfileImageURL(authData),
+		data: authData,
+		userColor: 'pink',
+		user: firebaseUserObj
+	});
+}
+
 //NOTE: use this action to login
 export const attemptLogin = (provider) => {
 	return (dispatch, getState) => {
@@ -36,8 +49,12 @@ export const attemptLogin = (provider) => {
 			dispatch({ type: 'ATTEMPTING_LOGIN' });
 			fireRef.authWithOAuthPopup('twitter', (error) => {
 				if (error) {
-					dispatch({ type: 'DISPLAY_ERROR', error: 'Login failed! ' + error });
-					dispatch({ type: 'LOGOUT' });
+					if (error.code === "TRANSPORT_UNAVAILABLE") {
+						fireRef.authWithOAuthRedirect("twitter", function(error) {
+							dispatch({ type: 'DISPLAY_ERROR', error: 'Login failed! ' + error });
+							dispatch({ type: 'LOGOUT' });
+						});
+					}
 				}
 			});
 		}
@@ -87,7 +104,8 @@ const initialAuthState = {
   name: null,
   profileImageURL: null,
 	profileColor: null,
-	data: null
+	data: null,
+	user: null
 }
 
 export default function userAuth(state = initialAuthState, action) {
@@ -113,7 +131,8 @@ export default function userAuth(state = initialAuthState, action) {
         name: action.name,
         profileImageURL: action.profileImageURL,
 				data: action.data,
-				profileColor: action.userColor
+				profileColor: action.userColor,
+				user: action.user
 			};
 		default: return state;
 	}
