@@ -78,7 +78,7 @@ export function openCrate(crate, callback) {
 }
 
 const incrementUnwrappedCount = () => {
-  userRef = ref.child('users').child(ref.getAuth().uid);
+  var userRef = ref.child('users').child(ref.getAuth().uid);
   userRef.child("unwrappedCount").transaction(unwrappedCount => {
     if(unwrappedCount === null) {
       return 1;
