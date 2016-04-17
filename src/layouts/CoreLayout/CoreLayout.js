@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import ActionBar from 'components/NewCrates/ActionBar';
 import '../../styles/core.scss';
-
+import * as userAuth from '../../redux/modules/userAuth';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 // Note: Stateless/function components *will not* hot reload!
 // react-transform *only* works on component classes.
 //
@@ -11,12 +13,14 @@ import '../../styles/core.scss';
 //
 // CoreLayout is a pure function of its props, so we can
 // define it with a plain javascript function...
-function CoreLayout ({children}) {
+function CoreLayout ({children, actions}) {
+  actions.startListeningToAuth();
   const styles = {
     body: {
       overflowY: 'hidden'
     }
   }
+  console.log('this is from CoreLayout')
   return (
     <div className='page-container' style={styles.body}>
       <div className='view-container'>
@@ -31,6 +35,11 @@ CoreLayout.propTypes = {
   children: PropTypes.element
 };
 
-export default CoreLayout;
+const mapDispatchToProps = (dispatch) => ({
+  dispatch,
+  actions: bindActionCreators(userAuth, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(CoreLayout)
 
 //NOTE: this is exported to => routes/index.js

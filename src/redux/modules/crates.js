@@ -7,16 +7,16 @@ export const setEmojiNumber = (num) => {
   }
 }
 
-export const setUserData = (data) => {
-  return {
-    type: 'USER_DATA',
-    data: data
-  }
-}
+// export const setUserData = (data) => {
+//   return {
+//     type: 'USER_DATA',
+//     data: data
+//   }
+// }
 
 export const setupCratesList = (data) => {
   return {
-    type: 'UNOPENED_CRATES_LIST',
+    type: 'ADD_UNOPENED_CRATE',
     cratesList: data
   }
 }
@@ -24,7 +24,7 @@ export const setupCratesList = (data) => {
 // REDUCERS + INITITAL STATE
 const initialState = {
   emoji: 0,
-  data: [],
+  // data: [],
   cratesList: []
 }
 export default function crates (state = initialState, action) {
@@ -34,13 +34,12 @@ export default function crates (state = initialState, action) {
         ...state,
         emoji: action.number
       }
-
-    case 'USER_DATA':
-      return {
-        ...state,
-        data: action.data
-      }
-    case 'UNOPENED_CRATES_LIST':
+    // case 'USER_DATA':
+    //   return {
+    //     ...state,
+    //     data: action.data
+    //   }
+    case 'ADD_UNOPENED_CRATE':
       return {
         ...state,
         cratesList: action.cratesList

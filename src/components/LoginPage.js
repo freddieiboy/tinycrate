@@ -11,6 +11,7 @@ import Hammer from 'react-hammerjs';
 
 class LoginPage extends Component {
   componentDidMount = () => {
+    //NOTE: why is this listening here?
     this.props.actions.startListeningToAuth();
   }
   componentWillReceiveProps = (nextProps) => {

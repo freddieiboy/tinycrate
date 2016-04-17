@@ -37,52 +37,66 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      // data: [],
+      mounted: false
       // _isMounted: false
     };
+    // this.props.actions.startListeningToCratesList();
   }
   componentDidMount() {
     let {store, actions} = this.props;
 
-    actions.showActionBar();
-    if (store.userAuth.currently !== 'LOGGED_IN') {
-      console.log("User is logged out");
-      setTimeout(() => {
-        actions.push('login')
-      }, 500)
-    }
-    var unopenedCrates = new Firebase(FIREBASE_URL + "/crates");
-    unopenedCratesList = [];
+    console.log(this.state.mounted)
+    this.setState({mounted: true});
+    console.log(this.state.mounted)
+
+    //NOTE: this function is causing this component to render twice?
+    // if (store.userAuth.currently !== 'LOGGED_IN') {
+    //   console.log("User is logged out");
+    //   setTimeout(() => {
+    //     actions.push('login')
+    //   }, 500)
+    // }
     if (authData === null) {
       //TODO: this makes it so ONLY 'LOGGED_IN' is allowed to access the app.
-      actions.push('login');
+      // actions.push('login');
       // this.props.dispatch(push('login'));
     } else {
       actions.showActionBar();
+      const crates = new Firebase(FIREBASE_URL + "/crates");
+      var count = 0;
 
-      unopenedCrates.orderByChild("recipientUId").equalTo(authData.uid).on("child_added", (snapshot) => {
-        var crate = snapshot.val();
+      crates.orderByChild("recipientUId").equalTo(authData.uid).on("child_added", (snapshot) => {
+        var crate =  snapshot.val();
         crate.key = snapshot.key();
+
+        let unopenedCratesList = this.props.store.cratesList;
+
         if(crate.opened === false) {
           unopenedCratesList.push(crate);
+          return actions.setupCratesList(unopenedCratesList);
+          count++;
         }
+        console.log(this.state.mounted)
         // this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
         // this.setState({data: unopenedCratesList})
-        actions.setupCratesList(unopenedCratesList);
+        // console.log(unopenedCratesList)
       })
     }
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
-      console.log("User is logged out");
-      setTimeout(() => {
-        this.props.actions.push('login')
-      }, 1000)
-    }
+    console.log('dashboard is receiving props')
+    //NOTE: this function makes the props update more!
+    // if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
+    //   console.log("User is logged out");
+    //   setTimeout(() => {
+    //     this.props.actions.push('login')
+    //   }, 1000)
+    // }
   }
-  shouldComponentUpdate = (nextProps) => {
-    return nextProps.store != this.props.store;
-  }
+  // shouldComponentUpdate = (nextProps) => {
+  //   return nextProps.store != this.props.store;
+  // }
   showProfile = () => {
     let username = this.props.store.userAuth.username;
     // this.context.router.push('user/' + username);
@@ -110,6 +124,11 @@ class Dashboard extends Component {
     this.context.router.push('crate/' + data_id);
     // this.props.dispatch(push("crate/" + data_id));
   }
+  moveToDummyPage = () =>  {
+    // this.props.actions.push('corgis')
+    let username = this.props.store.userAuth.username;
+    this.props.actions.push('user/' + username)
+  }
   render() {
     let {
       actions,
@@ -130,7 +149,7 @@ class Dashboard extends Component {
           <h1 className="logoType">TinyCrate</h1>
         </div>
 
-        <Hammer onTap={() => this.context.router.push('corgis')}>
+        <Hammer onTap={this.moveToDummyPage}>
           <div className="inventoryAction float-right">
             <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
               <a style={{color: '#000'}}><span style={{cursor: 'pointer'}}>Profile</span></a>
@@ -145,8 +164,8 @@ class Dashboard extends Component {
         </Hammer>
 
         <div style={{padding: '22px'}} className="container-fluid body-content-home">
-          <AbsoluteGrid items={this.state.data} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
-          {this.state.data.length === 0 ? (
+          <AbsoluteGrid items={this.props.store.cratesList} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
+          {store.cratesList.length === 0 ? (
             <Empty />
           ) : (
             null
@@ -158,17 +177,18 @@ class Dashboard extends Component {
 }
 
 //NOTE: do we need this?
-Dashboard.PropTypes = {
-  data: PropTypes.array.isRequired,
-  setEmojiNumber: PropTypes.object.isRequired,
-  emoji: PropTypes.number.isRequired,
-}
+// Dashboard.PropTypes = {
+//   data: PropTypes.array.isRequired,
+//   setEmojiNumber: PropTypes.object.isRequired,
+//   emoji: PropTypes.number.isRequired,
+// }
 
 const mapStateToProps = (state) => ({
   store: {
-    data: state.crates.data,
-    emoji: state.crates.emoji,
-    userAuth: state.userAuth
+    // data: state.crates.data,
+    // emoji: state.crates.emoji,
+    userAuth: state.userAuth,
+    cratesList: state.crates.cratesList
   }
 })
 
