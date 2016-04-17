@@ -28,9 +28,11 @@ class ActionBar extends Component {
     this.randomColor();
   }
   componentDidMount = () => {
-    console.log($('.optionsMenu').position().left)
-    this.props.actions.getBtnPosition($('.optionsMenu').position().left);
-    this.props.actions.getBtnWidth($('.optionsMenu').width());
+    //NOTE: why do I have to add setTimeout here?
+    setTimeout(() => {
+      this.props.actions.getBtnPosition($('.optionsMenu').position().left);
+      this.props.actions.getBtnWidth($('.optionsMenu').width());
+    }, 1)
 
     const ref = new Firebase(FIREBASE_URL + "/users");
     var twitterUsers = [];
