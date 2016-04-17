@@ -22,11 +22,3 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(null, mapDispatchToProps)(NotFound)
-
-// import React from 'react';
-//
-// const NotFound = () =>
-//   <h1>NOT FOUND SONNN</h1>
-//
-//
-// export default NotFound;

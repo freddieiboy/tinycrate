@@ -7,13 +7,6 @@ export const setEmojiNumber = (num) => {
   }
 }
 
-// export const setUserData = (data) => {
-//   return {
-//     type: 'USER_DATA',
-//     data: data
-//   }
-// }
-
 export const setupCratesList = (data) => {
   return {
     type: 'ADD_UNOPENED_CRATE',
@@ -24,7 +17,6 @@ export const setupCratesList = (data) => {
 // REDUCERS + INITITAL STATE
 const initialState = {
   emoji: 0,
-  // data: [],
   cratesList: []
 }
 export default function crates (state = initialState, action) {
@@ -34,11 +26,6 @@ export default function crates (state = initialState, action) {
         ...state,
         emoji: action.number
       }
-    // case 'USER_DATA':
-    //   return {
-    //     ...state,
-    //     data: action.data
-    //   }
     case 'ADD_UNOPENED_CRATE':
       return {
         ...state,

@@ -23,12 +23,7 @@ import Hammer from 'react-hammerjs';
 import firebase from 'firebase';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
-
-// import * as FireConfig from '../redux/modules/FireConfig';
-// import * as FireRef from '../redux/modules/FireRef';
 var authData = ref.getAuth();
-// var refs = new Firebase(config.firebaseRef);
-// var refs = new Firebase("https://burning-heat-5122.firebaseio.com");
 
 var unopenedCratesList = [];
 var openedCratesList = []
@@ -37,28 +32,14 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // data: [],
-      mounted: false
-      // _isMounted: false
+      data: [],
     };
-    // this.props.actions.startListeningToCratesList();
   }
   componentDidMount() {
     let {store, actions} = this.props;
 
-    console.log(store.userAuth.currently)
-
-    //NOTE: this function is causing this component to render twice?
-    // if (store.userAuth.currently !== 'LOGGED_IN') {
-    //   console.log("User is logged out");
-    //   setTimeout(() => {
-    //     actions.push('login')
-    //   }, 500)
-    // }
     if (authData === null) {
-      //TODO: this makes it so ONLY 'LOGGED_IN' is allowed to access the app.
-      // actions.push('login');
-      // this.props.dispatch(push('login'));
+
     } else {
       actions.showActionBar();
       const crates = new Firebase(FIREBASE_URL + "/crates");
@@ -75,40 +56,30 @@ class Dashboard extends Component {
           return actions.setupCratesList(unopenedCratesList);
           count++;
         }
-        // this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
-        // this.setState({data: unopenedCratesList})
-        // console.log(unopenedCratesList)
       })
     }
   }
   componentWillReceiveProps(nextProps) {
     console.log('dashboard is receiving props')
-    //NOTE: this function makes the props update more!
     if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
       console.log("User is logged out");
-      // setTimeout(() => {
+      setTimeout(() => {
         this.props.actions.push('login')
-      // }, 1000)
+      }, 500)
     }
   }
-  // shouldComponentUpdate = (nextProps) => {
-  //   return nextProps.store != this.props.store;
-  // }
   showProfile = () => {
     let username = this.props.store.userAuth.username;
-    // this.context.router.push('user/' + username);
-    // this.props.dispatch(push('corgi'))
-    this.context.router.push('corgi');
-    // this.props.dispatch(push("user/" + username));
+    this.props.actions.push("user/" + username);
   }
   logout = () => {
     this.props.actions.logoutUser();
-    //TODO: move this over to the profile. Profile component should be a function in order for refresh to work.
+    //TODO: move this over to the profile.
   }
   deleteObj = (data_id) => {
     console.log("deleting: " + data_id);
 
-    var links = this.state.data;
+    var links = this.props.store.cratesList;
     console.log("OLD LINKS: " + JSON.stringify(links));
 
     var newlinks = links.filter(function(elem) {
@@ -117,8 +88,9 @@ class Dashboard extends Component {
 
     console.log("NEW LINKS: " + JSON.stringify(newlinks));
 
-    this.setState({data: newlinks});
-    this.context.router.push('crate/' + data_id);
+    this.props.actions.setupCratesList(newlinks)
+
+    this.props.actions.push('crate/' + data_id);
     // this.props.dispatch(push("crate/" + data_id));
   }
   moveToDummyPage = () =>  {

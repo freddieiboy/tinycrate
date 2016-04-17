@@ -3,7 +3,7 @@ import firebase from 'firebase'
 import { Router, Route, Link, browserHistory } from 'react-router'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {push} from 'react-router-redux';
+import {routerActions} from 'react-router-redux';
 import * as userAuth from '../redux/modules/userAuth';
 import * as newCrates from '../redux/modules/NewCrates';
 import * as FireConfig from '../redux/modules/FireConfig';
@@ -13,12 +13,15 @@ class LoginPage extends Component {
   componentDidMount = () => {
     //NOTE: why is this listening here?
     this.props.actions.startListeningToAuth();
+    this.props.actions.hideActionBar();
   }
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.store.userAuth.currently === 'LOGGED_IN') {
       console.log('you are logged in');
-      this.context.router.push('/');
-      // nextProps.dispatch(push('/'));
+      // setTimeout(() => {
+        this.props.actions.push('/');
+      // }, 100)
+      //NOTE: setTimeout creates infinite loop?
       this.props.actions.showActionBar();
     }
   }
@@ -53,7 +56,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  actions: bindActionCreators(Object.assign({}, newCrates, userAuth, FireConfig), dispatch)
+  actions: bindActionCreators(Object.assign({}, routerActions, newCrates, userAuth, FireConfig), dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

@@ -28,6 +28,7 @@ class ActionBar extends Component {
     this.randomColor();
   }
   componentDidMount = () => {
+    console.log($('.optionsMenu').position().left)
     this.props.actions.getBtnPosition($('.optionsMenu').position().left);
     this.props.actions.getBtnWidth($('.optionsMenu').width());
 

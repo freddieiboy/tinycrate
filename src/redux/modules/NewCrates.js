@@ -188,7 +188,6 @@ export default function NewCrates (state = initialState, action) {
     case 'NEW_GIFTEE':
       return {
         ...state,
-        // giftee: state.giftee.concat(action.giftee)
         giftee: [
           ...state.giftee,
           action.giftee
@@ -201,7 +200,6 @@ export default function NewCrates (state = initialState, action) {
        giftee: [
          ...state.giftee.slice(0, index),
          ...state.giftee.slice(index + 1)
-        //  state.giftee.slice(0, index).concat(state.giftee.slice(index + 1))
        ]
       }
     case 'FLUSH_NEW_CRATE_STATE':
