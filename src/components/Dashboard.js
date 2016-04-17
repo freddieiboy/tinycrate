@@ -46,9 +46,7 @@ class Dashboard extends Component {
   componentDidMount() {
     let {store, actions} = this.props;
 
-    console.log(this.state.mounted)
-    this.setState({mounted: true});
-    console.log(this.state.mounted)
+    console.log(store.userAuth.currently)
 
     //NOTE: this function is causing this component to render twice?
     // if (store.userAuth.currently !== 'LOGGED_IN') {
@@ -77,7 +75,6 @@ class Dashboard extends Component {
           return actions.setupCratesList(unopenedCratesList);
           count++;
         }
-        console.log(this.state.mounted)
         // this.state._isMounted ? this.setState({data: unopenedCratesList}) : null
         // this.setState({data: unopenedCratesList})
         // console.log(unopenedCratesList)
@@ -87,12 +84,12 @@ class Dashboard extends Component {
   componentWillReceiveProps(nextProps) {
     console.log('dashboard is receiving props')
     //NOTE: this function makes the props update more!
-    // if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
-    //   console.log("User is logged out");
-    //   setTimeout(() => {
-    //     this.props.actions.push('login')
-    //   }, 1000)
-    // }
+    if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
+      console.log("User is logged out");
+      // setTimeout(() => {
+        this.props.actions.push('login')
+      // }, 1000)
+    }
   }
   // shouldComponentUpdate = (nextProps) => {
   //   return nextProps.store != this.props.store;
