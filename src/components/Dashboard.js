@@ -35,9 +35,7 @@ class Dashboard extends Component {
   componentDidMount() {
     let {store, actions} = this.props;
 
-    if (authData === null) {
-
-    } else {
+    if (authData !== null) {
       actions.showActionBar();
       const crates = new Firebase(FIREBASE_URL + "/crates");
       var count = 0;
@@ -60,9 +58,10 @@ class Dashboard extends Component {
     console.log('dashboard is receiving props')
     if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
       console.log("User is logged out");
-      setTimeout(() => {
+      //NOTE: this removes setState error but the users goes to dashboard for a split second. refactor.
+      // setTimeout(() => {
         this.props.actions.push('login')
-      }, 500)
+      // }, 500)
     }
   }
   showProfile = () => {
