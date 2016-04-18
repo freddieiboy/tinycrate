@@ -66,13 +66,13 @@ class LoginPage extends Component {
       },
       getStartedBG: {
         position: 'absolute',
-        height: '400px',
-        width: '400px',
+        height: '375px',
+        width: '375px',
         borderRadius: '50%',
         backgroundColor: '#F6F6F6',
         boxShadow: '0 0 0 14px #F6F6F6',
         border: '7px solid #fefdfa',
-        marginLeft: '-142%',
+        marginLeft: '-138%',
         zIndex: '-1'
       },
       getStartedStripedBG: {
