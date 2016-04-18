@@ -191,6 +191,7 @@ class ActionBar extends Component {
   }
   editCrate = () => {
     this.props.actions.editNewCrate();
+    $('#message').focus();
   }
   render() {
     let {
