@@ -20,7 +20,7 @@ import Hammer from 'react-hammerjs';
 import firebase from 'firebase';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
-var authData = ref.getAuth();
+// var authData = ref.getAuth();
 
 var unopenedCratesList = [];
 var openedCratesList = []
@@ -35,24 +35,23 @@ class Dashboard extends Component {
   componentDidMount() {
     let {store, actions} = this.props;
 
-    if (authData !== null) {
-      actions.showActionBar();
-      const crates = new Firebase(FIREBASE_URL + "/crates");
-      var count = 0;
+    actions.showActionBar();
+    const crates = new Firebase(FIREBASE_URL + "/crates");
+    var count = 0;
 
-      crates.orderByChild("recipientUId").equalTo(authData.uid).on("child_added", (snapshot) => {
-        var crate =  snapshot.val();
-        crate.key = snapshot.key();
+    crates.orderByChild("recipientUId").equalTo(store.userAuth.uid).on("child_added", (snapshot) => {
+      var crate =  snapshot.val();
+      crate.key = snapshot.key();
 
-        let unopenedCratesList = this.props.store.cratesList;
+      let unopenedCratesList = this.props.store.cratesList;
 
-        if(crate.opened === false) {
-          unopenedCratesList.push(crate);
-          return actions.setupCratesList(unopenedCratesList);
-          count++;
-        }
-      })
-    }
+      if(crate.opened === false) {
+        console.log('this is working')
+        unopenedCratesList.push(crate);
+        return actions.setupCratesList(unopenedCratesList);
+        count++;
+      }
+    })
   }
   componentWillReceiveProps(nextProps) {
     console.log('dashboard is receiving props')
