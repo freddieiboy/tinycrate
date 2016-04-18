@@ -5,7 +5,7 @@ import * as crateActions from '../../redux/modules/crates';
 import {pop1, pop2} from './CrateUtils';
 import Hammer from 'react-hammerjs';
 import {ifStyle} from '../utilities';
-import {EmojiContainer} from '../Emojis';
+import {EmojiContainer, CrateEmojis} from '../Emojis';
 import {FacebookIcon, TwitterIcon} from  '../NewCrates/Icons';
 
 // <CrateTemplate color={'empty'} crateSize={80} cratePreview={Emojis[store.emoji]} pop={true} crateType={'empty'}/>
@@ -94,6 +94,8 @@ class CrateTemplate extends Component {
       preview = <TwitterIcon />
     } else if (crateType === 'login-facebook') {
       preview = <FacebookIcon />
+    } else if (crateType === 'test') {
+      preview = <CrateEmojis color={eval(color).darkColor} visible={'1'}/>
     } else {
       preview = <div style={styles.cratePreview}></div>
     }
