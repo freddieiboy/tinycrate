@@ -29,10 +29,9 @@ class ActionBar extends Component {
   }
   componentDidMount = () => {
     //NOTE: why do I have to add setTimeout here?
-    setTimeout(() => {
-      this.props.actions.getBtnPosition($('.optionsMenu').position().left);
-      this.props.actions.getBtnWidth($('.optionsMenu').width());
-    }, 1)
+    console.log($('.bigPlusButton').width(), $('.bigPlusButton').position().left)
+    this.props.actions.getBtnWidth($('.bigPlusButton').width());
+    this.props.actions.getBtnPosition($('.bigPlusButton').position().left);
 
     const ref = new Firebase(FIREBASE_URL + "/users");
     var twitterUsers = [];
@@ -213,16 +212,6 @@ class ActionBar extends Component {
         boxShadow: '1px 2px 4px 0px rgba(0,0,0,0.21)',
         zIndex: '100'
       },
-      // createBgIcon: {
-      //   height: '2.5em',
-      //   width: '2.5em',
-      //   borderRadius: 6
-      // },
-      // nextBgIcon: {
-      //   height: '3em',
-      //   width: '3em',
-      //   borderRadius: '50%'
-      // },
       buttonStyle: {
         position: 'absolute',
         top: '-2em',
@@ -246,12 +235,23 @@ class ActionBar extends Component {
         color: '#FB70AF'
       },
       hide: {
-        display: 'none'
+        visibility: 'hidden'
       }
     }
     const ifSelected = store.giftee.length > 0 ? '#FB70AF' : undefined;
     const ifMsg = store.newCrateText.length > 0 || store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
     const ifPhoto = store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
+
+    let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: '#FB70AF', fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
+    let mainAction = this.openAction
+
+    if (store.isCreatingCrate) {
+      mainIcon = <div className="actionIcon" style={{top: '2.7em'}}><NextIcon color={ifMsg}/></div>
+      mainAction = this.selectUsers
+    } else if (store.isSelectingUsers) {
+      mainIcon = <div className="actionIcon" style={{top: '2.7em'}}><AirplaneIcon color={ifSelected}/></div>
+      mainAction = this.handleSend
+    }
     return (
       <div style={ifStyle(
           store.isHidden && styles.hide
@@ -279,34 +279,11 @@ class ActionBar extends Component {
             {({height}) =>
             <footer className="homeFooter" style={{backgroundColor: green.lightColor, height: height}}>
 
-              {!store.isOpened ? (
-                <Hammer onTap={this.openAction}>
-                  <div className="optionsMenu actionButton animated pulse" style={styles.optionsMenu}>
-                    <div className="actionIcon"></div>
-                    <div className="actionIcon" style={{fontSize: '2em', color: '#FB70AF', fontSize: '50px', fontWeight: 'bold'}}>+</div>
-                  </div>
-                </Hammer>
-              ) : null}
-
-              {store.isOpened ? (
-              <Hammer onTap={this.selectUsers}>
-                <div className="optionsMenu actionButton" style={styles.optionsMenu}>
-                  <div className="actionIcon" style={{top: '2.7em'}}>
-                    <NextIcon color={ifMsg}/>
-                  </div>
+              <Hammer onTap={mainAction}>
+                <div className="bigPlusButton optionsMenu actionButton animated pulse" style={styles.optionsMenu}>
+                  {mainIcon}
                 </div>
               </Hammer>
-              ) : null}
-
-              {store.isSelectingUsers ? (
-                <Hammer onTap={this.handleSend}>
-                  <div className="optionsMenu actionButton" style={styles.optionsMenu}>
-                    <div className="actionIcon" style={{top: '2.7em'}}>
-                      <AirplaneIcon color={ifSelected}/>
-                    </div>
-                  </div>
-                </Hammer>
-              ) : null}
 
               {store.isSelectingUsers ? (
                 <div>

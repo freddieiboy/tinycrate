@@ -32,7 +32,7 @@ class LoginPage extends Component {
     //TODO: add facebook login
     setTimeout(() => {
       this.props.actions.attemptLogin('twitter')
-    }, 500)
+    }, 700)
   }
   render() {
     let {
@@ -59,6 +59,11 @@ class LoginPage extends Component {
         float: 'left',
         marginRight: '18px'
       },
+      loginFooter: {
+        height: '100%',
+        width: '100%',
+        overflow: 'hidden'
+      },
       getStarted: {
         position: 'relative',
         display: 'inline-block',
@@ -70,8 +75,7 @@ class LoginPage extends Component {
         width: '375px',
         borderRadius: '50%',
         backgroundColor: '#F6F6F6',
-        boxShadow: '0 0 0 14px #F6F6F6',
-        border: '7px solid #fefdfa',
+        border: '20px solid #fefdfa',
         marginLeft: '-138%',
         zIndex: '-1'
       },
@@ -124,19 +128,21 @@ class LoginPage extends Component {
           </div>
         </div>
         <footer>
-          <div className="stripes" style={styles.stripes}>
-            <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe1)}></div>
-            <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe2)}></div>
-            <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe3)}></div>
-            <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe4)}></div>
-            <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe5)}></div>
-            <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe6)}></div>
-            <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe7)}></div>
-          </div>
-          <div className="getStarted" style={styles.getStarted}>
-            <div className="getStartedBG" style={styles.getStartedBG}></div>
-            <div className="getStartedCrate" style={styles.getStartedCrate}>
-              <CrateTemplate color={'blue'} crateType={'test'} crateSize={100} pop={true}/>
+          <div className="loginFooter" style={styles.loginFooter}>
+            <div className="stripes" style={styles.stripes}>
+              <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe1)}></div>
+              <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe2)}></div>
+              <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe3)}></div>
+              <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe4)}></div>
+              <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe5)}></div>
+              <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe6)}></div>
+              <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe7)}></div>
+            </div>
+            <div className="getStarted" style={styles.getStarted}>
+              <div className="getStartedBG" style={styles.getStartedBG}></div>
+              <div className="getStartedCrate" style={styles.getStartedCrate}>
+                <CrateTemplate color={'blue'} crateType={'test'} crateSize={100} pop={true}/>
+              </div>
             </div>
           </div>
         </footer>

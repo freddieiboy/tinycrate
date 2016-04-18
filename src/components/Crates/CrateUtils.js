@@ -1,5 +1,6 @@
 import React from 'react';
 import mojs from 'mo-js';
+import firebase from 'firebase';
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
