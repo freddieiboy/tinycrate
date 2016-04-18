@@ -6,8 +6,9 @@ import {pop1, pop2} from './CrateUtils';
 import Hammer from 'react-hammerjs';
 import {ifStyle} from '../utilities';
 import {EmojiContainer} from '../Emojis';
+import {FacebookIcon, TwitterIcon} from  '../NewCrates/Icons';
 
-// <CrateTemplate color={'empty'} crateSize={80} cratePreview={Emojis[store.emoji]} pop={true}/>
+// <CrateTemplate color={'empty'} crateSize={80} cratePreview={Emojis[store.emoji]} pop={true} crateType={'empty'}/>
 
 class CrateTemplate extends Component {
   constructor(props) {
@@ -34,6 +35,9 @@ class CrateTemplate extends Component {
       crateType
     } = this.props;
     const styles = {
+      CrateTemplate: {
+        position: 'relative'
+      },
       crateSize: {
         width: crateSize,
       },
@@ -43,7 +47,6 @@ class CrateTemplate extends Component {
         borderRadius: '50%',
         background: 'url('+ this.props.cratePreview +') center',
         backgroundSize: 'cover',
-
       },
       image: {
         top: crateSize/3,
@@ -79,21 +82,30 @@ class CrateTemplate extends Component {
       },
       pressedMargin: {
         marginTop: crateSize/3
+      },
+      center: {
+        textAlign: 'center'
       }
     }
+    var preview;
+    if (crateType === 'empty') {
+      preview = EmojiContainer[this.props.store.emoji]
+    } else if (crateType === 'login-twitter') {
+      preview = <TwitterIcon />
+    } else if (crateType === 'login-facebook') {
+      preview = <FacebookIcon />
+    } else {
+      preview = <div style={styles.cratePreview}></div>
+    }
     return (
-      <div className="CrateTemplate">
+      <div className="CrateTemplate" style={styles.CrateTemplate}>
 
           <div className="crateImage noTouch" style={ifStyle(
               styles.image,
               this.state.isPressed && styles.imagePressed,
             )} ref="thisEmptyImage">
-            <div className="cratePreview" ref="thisCratePreview">
-              { crateType === 'empty' ? (
-                EmojiContainer[this.props.store.emoji]
-              ) : (
-                <div style={styles.cratePreview}></div>
-              )}
+            <div className="cratePreview" style={styles.center} ref="thisCratePreview">
+              {preview}
             </div>
           </div>
 
@@ -168,6 +180,14 @@ const emptyAlt = {
 const productHunt = {
   lightColor: '#DA552F',
   darkColor: '#CC4124'
+}
+const twitter = {
+  lightColor: '#55ACEE',
+  darkColor: '#2F91DB'
+}
+const facebook = {
+  lightColor: '#3B5998',
+  darkColor: '#24468B'
 }
 
 const mapStateToProps = (state, ownProps) => ({

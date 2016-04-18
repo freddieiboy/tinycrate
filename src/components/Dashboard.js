@@ -7,14 +7,11 @@ import * as userAuth from '../redux/modules/userAuth';
 import * as newCrates from '../redux/modules/NewCrates';
 import ReactDOM from 'react-dom';
 
-import LoginPage from './LoginPage';
-import InventoryPage from './InventoryPage';
 import CommentList from './CommentList';
 import Comment from './Comment';
 import CrateList from './Crates/CrateList';
 import {green, pink} from './Crates/CrateUtils';
 import Crate from './Crates/Crate';
-import CreatePage from './CreatePage';
 import Empty from './Empty';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import AbsoluteGrid from 'react-absolute-grid';

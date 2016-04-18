@@ -3,7 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 
 // import {App} from 'components/App';
 import Dashboard from 'components/Dashboard';
-import LoginPage from 'components/LoginPage';
+import LoginPage from 'components/Login/LoginPage';
 import ProfilePage from 'components/ProfilePage';
 import InventoryPage from 'components/InventoryPage';
 import CratePage from 'components/CratePage';

@@ -45,12 +45,10 @@ class ActionBar extends Component {
         });
       }
       this.props.actions.loadSubscribers(twitterUsers);
-      //NOTE: is it possible to write to redux once it's done instead of iteration?
     });
   }
   openAction = () => {
     if (!this.props.store.isOpened) {
-      // this.props.dispatch(push('/create'))
       this.props.actions.openActionBar();
       $('#message').focus();
     } else {

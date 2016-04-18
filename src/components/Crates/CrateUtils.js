@@ -142,6 +142,7 @@ export function pop2(crateRefs, color, preview) {
   /* Icon 7 */
       const evalColor = eval(color);
       const bounceItem = preview;
+      var removeEl = function removeEl (node) { node.parentNode.removeChild(node); }
       var timeline = new mojs.Timeline(),
 
       // burst animation
@@ -160,7 +161,8 @@ export function pop2(crateRefs, color, preview) {
         isSwirl: true,
         swirlSize: 15,
         isRunLess: true,
-        easing: mojs.easing.bezier(0.1, 1, 0.3, 1)
+        easing: mojs.easing.bezier(0.1, 1, 0.3, 1),
+        onComplete: function () { removeEl(this.el); }
       }),
       // ring animation
       tween2 = new mojs.Transit({
@@ -175,7 +177,8 @@ export function pop2(crateRefs, color, preview) {
         x: '50%',
         y: '50%',
         isRunLess: true,
-        easing: mojs.easing.bezier(0.1, 1, 0.3, 1)
+        easing: mojs.easing.bezier(0.1, 1, 0.3, 1),
+        onComplete: function () { removeEl(this.el); }
       }),
       tween3 = new mojs.Transit({
         parent: crateRefs,
@@ -190,7 +193,8 @@ export function pop2(crateRefs, color, preview) {
         x: '50%',
         y: '50%',
         isRunLess: true,
-        easing: mojs.easing.bezier(0.1, 1, 0.3, 1)
+        easing: mojs.easing.bezier(0.1, 1, 0.3, 1),
+        onComplete: function () { removeEl(this.el); }
       }),
       // icon scale animation
       tween4 = new mojs.Tween({
