@@ -10,7 +10,7 @@ class CommentList extends Component {
         imageUrl = "http://www-cdr.stanford.edu/~petrie/blank.gif";
       }
       return (
-        <Comment name={comment.authorDisplayName} key={comment.id} image={imageUrl} authorProfilePicture={comment.authorProfileImageURL}>
+        <Comment name={comment.authorDisplayName} id={comment.id} key={comment.id} image={imageUrl} authorProfilePicture={comment.authorProfileImageURL}>
           {comment.text}
         </Comment>
       );

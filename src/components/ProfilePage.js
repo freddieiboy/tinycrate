@@ -12,23 +12,22 @@ import AbsoluteGrid from 'react-absolute-grid';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var userRef;
-var openedCratesRef = ref.child('crates');
-var recentGifteesList = [];
 
 var subscriptionsList = [];
-var openedCratesList = [];
+var collectionCratesList = [];
 var currentProfileId;
 
 var ProfileTabs = {
   SUBSCRIPTIONS: 0,
-  RECENT_CRATES: 1,
+  MY_COLLECTION: 1,
 };
 
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      subscriptionData: [],
+      collectionCrateData: [],
       user: {},
       currentTab: ProfileTabs.SUBSCRIPTIONS,
       isMe: false,
@@ -37,7 +36,7 @@ class ProfilePage extends Component {
   }
   loadProfileForUser = (userId) => {
     subscriptionsList = [];
-    openedCratesList = [];
+    collectionCratesList = [];
     var isMe = false;
     var isBlocked = false;
     getUserByUsername(userId, user => {
@@ -53,13 +52,15 @@ class ProfilePage extends Component {
       
       if(user.uid === this.props.store.userAuth.uid) {
         isMe = true;
-        getRecentCrates(user.uid);
+        getCollectionCrates(user.uid, () => {
+          this.setState({collectionCrateData: collectionCratesList});
+        });
       }
       
-      this.setState({user: user, data: subscriptionsList, isMe: isMe, isBlocked: isBlocked});
+      this.setState({user: user, subscriptionData: subscriptionsList, isMe: isMe, isBlocked: isBlocked});
       
       if(isMe) {
-        this.setState({currentTab: ProfileTabs.RECENT_CRATES});
+        this.setState({currentTab: ProfileTabs.MY_COLLECTION});
       }
 
     });
@@ -82,8 +83,8 @@ class ProfilePage extends Component {
       this.setState({isBlocked: true});
     }
   }
-  recentCratesTab = (event) => {
-    this.setState({currentTab:  ProfileTabs.RECENT_CRATES});
+  myCollectionTab = (event) => {
+    this.setState({currentTab:  ProfileTabs.MY_COLLECTION});
   }
   subscriptionsTab = (event) => {
     this.setState({currentTab:  ProfileTabs.SUBSCRIPTIONS});
@@ -103,7 +104,7 @@ class ProfilePage extends Component {
   }
   render() {
     var emptyState;
-    if (this.state.data.length == 0) {
+    if (this.state.subscriptionData.length == 0) {
       emptyState = <Empty />;
     } else {
       emptyState = '';
@@ -112,10 +113,10 @@ class ProfilePage extends Component {
     var profileTabContent;
     if(this.state.currentTab == ProfileTabs.SUBSCRIPTIONS) {
       profileTabContent = 
-      <AbsoluteGrid items={this.state.data} displayObject={(<ProfileCrateList onOpen={this.onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
+      <AbsoluteGrid items={this.state.subscriptionData} displayObject={(<ProfileCrateList onOpen={this.onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
       {emptyState};
-    } else if(this.state.currentTab == ProfileTabs.RECENT_CRATES) {
-      profileTabContent = <CommentList data={openedCratesList} />;
+    } else if(this.state.currentTab == ProfileTabs.MY_COLLECTION) {
+      profileTabContent = <CommentList data={this.state.collectionCrateData} />;
     }
 
     const styles = {
@@ -200,7 +201,7 @@ class ProfilePage extends Component {
         <div className="Grid Grid--gutters u-textCenter">
           {this.state.isMe ?
           <div className="Grid-cell">
-            <h5 style={this.state.currentTab == ProfileTabs.RECENT_CRATES ? styles.activeTab : styles.inactiveTab} onClick={this.recentCratesTab}><span style={{cursor: 'pointer'}}>Recent Crates</span></h5>
+            <h5 style={this.state.currentTab == ProfileTabs.MY_COLLECTION ? styles.activeTab : styles.inactiveTab} onClick={this.myCollectionTab}><span style={{cursor: 'pointer'}}>My Collection</span></h5>
             {this.state.isMe}
           </div>
           : ''
@@ -256,14 +257,14 @@ function unblockUser(unblockUserUid, authUid) {
   userRef.child("blockedUsers").update({[unblockUserUid]: null});
 }
 
-function getRecentCrates(uid) {
-  openedCratesRef.orderByChild("recipientUId").equalTo(uid).on("child_added", function(snapshot) {
+function getCollectionCrates(uid, callback) {
+  var collectionCratesRef = ref.child('collection').child(ref.getAuth().uid);
+  collectionCratesRef.orderByChild("openedAt").on("child_added", function(snapshot) {
     var crate = snapshot.val();
     crate.id = snapshot.key();
-    if(crate.opened === true) {
-      openedCratesList.push(crate);
-    }
-    openedCratesList.reverse();
+    collectionCratesList.push(crate);
+    collectionCratesList.reverse();
+    callback();
   });
 }
 

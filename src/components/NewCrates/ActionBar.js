@@ -143,8 +143,8 @@ class ActionBar extends Component {
       }
       if (receipients.length > 0) {
         receipients.map(users => {
-          var newPostRef = postsRef.push();
-          newPostRef.set({
+          var crate = {
+            key: reff.push().key(),
             authorUId: store.userAuth.uid,
             authorDisplayName: store.userAuth.name,
             authorProfileImageURL: store.userAuth.profileImageURL,
@@ -154,7 +154,19 @@ class ActionBar extends Component {
             image: (store.newCratePhoto == '') ? null : store.newCratePhoto,
             opened: false,
             createdAt: Firebase.ServerValue.TIMESTAMP
-          });
+          };
+          
+          // https://www.firebase.com/blog/2015-10-07-how-to-keep-your-data-consistent.html
+          // We should be implementing client-side fan-out for data consistency
+          var path = crate.key;
+          var fannedOutData = {};
+          fannedOutData['/crateFeed/' + users + '/' + path] = crate;
+          
+          reff.update(fannedOutData, function(error) {
+            if(error) {
+              console.log(error);
+            }
+          }); 
         })
         this.closeAction();
       } else {
