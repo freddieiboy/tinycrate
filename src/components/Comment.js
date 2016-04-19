@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Modal from 'react-modal';
+import { uncollectCrate } from './Crates/CrateUtils';
 
 class Comment extends Component {
   constructor(props) {
@@ -13,6 +14,11 @@ class Comment extends Component {
   }
   closeModal = () => {
     this.setState({modalIsOpen: false});
+  }
+  uncollectCrateButton = () => {
+    if(confirm("Are you sure you want to remove this crate from your collection?")) {
+      uncollectCrate(this.props.id);
+    }
   }
   render() {
     const modalStyles = {
@@ -36,6 +42,7 @@ class Comment extends Component {
           <img src={this.props.authorProfilePicture} className="inventoryFeedAvatar"/>
           <div className="name">{this.props.name}</div>
           <img src={this.props.image} className="inventoryFeedImage" onClick={this.openModal}/>
+          <div className="name" style={{color: 'red', cursor: 'pointer'}} onClick={this.uncollectCrateButton}>[x]</div>
           <p className="commentAuthor">
             {this.props.children}
           </p>

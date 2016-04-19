@@ -32,26 +32,23 @@ class Dashboard extends Component {
       data: [],
     };
   }
+  
   componentDidMount() {
     let {store, actions} = this.props;
 
     actions.showActionBar();
-    const crates = new Firebase(FIREBASE_URL + "/crates");
-    var count = 0;
-
-    crates.orderByChild("recipientUId").equalTo(store.userAuth.uid).on("child_added", (snapshot) => {
+    const crates = new Firebase(FIREBASE_URL + "/crateFeed/" + store.userAuth.uid);
+    
+    crates.orderByChild("opened").equalTo(false).on("child_added", (snapshot) => {
       var crate =  snapshot.val();
       crate.key = snapshot.key();
-
+      
       let unopenedCratesList = this.props.store.cratesList;
-
-      if(crate.opened === false) {
-        console.log('this is working')
-        unopenedCratesList.push(crate);
-        return actions.setupCratesList(unopenedCratesList);
-        count++;
-      }
-    })
+      
+      unopenedCratesList.push(crate);
+      // not needed? slows loading with lots of crates
+      // return actions.setupCratesList(unopenedCratesList);
+    });
   }
   componentWillReceiveProps(nextProps) {
     console.log('dashboard is receiving props')
@@ -71,21 +68,16 @@ class Dashboard extends Component {
     this.props.actions.logoutUser();
     //TODO: move this over to the profile.
   }
-  deleteObj = (data_id) => {
-    console.log("deleting: " + data_id);
-
-    var links = this.props.store.cratesList;
-    console.log("OLD LINKS: " + JSON.stringify(links));
-
-    var newlinks = links.filter(function(elem) {
-      return elem.key != data_id;
+  deleteObj = (crateId) => {
+    var oldCrates = this.props.store.cratesList;
+    // locally removes the crate by filtering it out by its id
+    var newCrates = oldCrates.filter(function(crate) {
+      return crate.key != crateId;
     });
 
-    console.log("NEW LINKS: " + JSON.stringify(newlinks));
+    // this.props.actions.setupCratesList(newlinks)
 
-    this.props.actions.setupCratesList(newlinks)
-
-    this.props.actions.push('crate/' + data_id);
+    this.props.actions.push('crate/' + crateId);
     // this.props.dispatch(push("crate/" + data_id));
   }
   moveToDummyPage = () =>  {

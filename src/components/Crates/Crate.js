@@ -18,7 +18,7 @@ class Crate extends Component {
     event.preventDefault();
   }
   deleteObj = (event) => {
-    var crate = ref.child('crates').child(this.props.id);
+    var crate = ref.child('crateFeed').child(ref.getAuth().uid).child(this.props.id);
     this.setState({popping: true})
     if (this.state.popping == false) {
       pop1(this.refs.thisCrate, this.props.color);

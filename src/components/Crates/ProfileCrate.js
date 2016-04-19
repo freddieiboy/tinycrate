@@ -26,7 +26,7 @@ class ProfileCrate extends Component {
     if(this.props.username) {
       this.props.onOpen(this.props.username);
     } else {
-      var crate = ref.child('crates').child(this.props.id);
+      var crate = ref.child('crateFeed').child(ref.getAuth().uid).child(this.props.id);
       openCrate(crate, () => {
         setTimeout(() => {
           this.props.onOpen(this.props.id);

@@ -9,6 +9,7 @@ import $ from 'jquery';
 import ReactDOM from 'react-dom';
 import Empty from './Empty';
 import CommentList from './CommentList';
+import { collectCrate } from './Crates/CrateUtils';
 import ProfileCrateList from './Crates/ProfileCrateList';
 import ProfileCrate from './Crates/ProfileCrate';
 import AbsoluteGrid from 'react-absolute-grid';
@@ -50,8 +51,8 @@ class CratePage extends Component {
     currentCrateId = this.props.params.crateId;
     this.loadCrateById(this.props.params.crateId);
   }
-  favoriteCrate = () => {
-    alert('Favorite feature coming soon!');
+  collectCrateButton = () => {
+    collectCrate(this.state.openedCrate);
   }
   regiftCrate = () => {
     $('.actionButtons').css("visibility", "visible");
@@ -99,7 +100,7 @@ class CratePage extends Component {
       </div>
       <div className="Grid Grid--gutters u-textCenter cratePageInfo" style={{height: '30%'}}>
         <div className="Grid-cell">
-          <div onClick={this.favoriteCrate}><span style={{cursor: 'pointer'}}>Favorite</span></div>
+          <div onClick={this.collectCrateButton}><span style={{cursor: 'pointer'}}>Save</span></div>
         </div>
         <div className="Grid-cell user-info-holder">
           <div>{this.state.openedCrate.authorDisplayName}</div>
@@ -126,7 +127,7 @@ class CratePage extends Component {
 }
 
 function getCrateById(id, callback) {
-  ref.child('crates').child(id).once('value', (snap) => {
+  ref.child('crateFeed').child(ref.getAuth().uid).child(id).once('value', (snap) => {
     var crate = snap.val();
     crate.key = id;
     callback(crate);
@@ -134,15 +135,13 @@ function getCrateById(id, callback) {
 }
 
 function getUnopenedCrates(uid, callback) {
-  var unopenedCratesRef = ref.child('crates');
+  var unopenedCratesRef = ref.child('crateFeed').child(ref.getAuth().uid);
   unopenedCratesList = [];
-  unopenedCratesRef.orderByChild("recipientUId").equalTo(uid).on("child_added", (snapshot) => {
+  unopenedCratesRef.orderByChild("opened").equalTo(false).on("child_added", (snapshot) => {
     var crate = snapshot.val();
     crate.key = snapshot.key();
     crate.profileImageURL = crate.authorProfileImageURL;
-    if(crate.opened === false) {
-      unopenedCratesList.push(crate);
-    }
+    unopenedCratesList.push(crate);
     callback();
   })
 }

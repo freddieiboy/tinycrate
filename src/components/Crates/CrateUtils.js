@@ -66,7 +66,8 @@ const styles = {
 
 export function openCrate(crate, callback) {
   crate.update({
-    "opened": true
+    "opened": true,
+    "openedAt": Firebase.ServerValue.TIMESTAMP
   }, (error) => {
     if (error) {
       console.log("Crate could not be opened: " + error);
@@ -75,6 +76,61 @@ export function openCrate(crate, callback) {
       incrementUnwrappedCount();
     }
     callback(error);
+  });
+}
+
+export function collectCrate(crate) {
+  var collectionAuditRef = ref.child('collectionAudits').child(ref.getAuth().uid);
+  collectionAuditRef.transaction(function(collectionAudit) {
+    return {
+      collectionCount: (collectionAudit === null) ? 1 : collectionAudit.collectionCount + 1,
+      lastCollectedCrateId: crate.key
+    };
+  }, function(error, committed, snapshot) {
+    if (error) {
+      console.log('Transaction failed abnormally!', error);
+    } else if (!committed) {
+      console.log('Transaction not committed!');
+    } else {
+      var path = crate.key;
+      var fannedOutData = {};
+      fannedOutData['/collection/' + ref.getAuth().uid + '/' + path] = crate;
+      ref.update(fannedOutData, function(error) {
+        if(error) {
+          console.log(error);
+          return;
+        } else {
+          alert("This crate was saved to your collection!");
+        }
+      });
+    }
+  });
+}
+
+export function uncollectCrate(crateId) {
+  var collectionAuditRef = ref.child('collectionAudits').child(ref.getAuth().uid);
+  collectionAuditRef.transaction(function(collectionAudit) {
+    return {
+      collectionCount: (collectionAudit === null) ? 1 : collectionAudit.collectionCount - 1,
+      lastCollectedCrateId: crateId
+    };
+  }, function(error, committed, snapshot) {
+    if (error) {
+      console.log('Transaction failed abnormally!', error);
+    } else if (!committed) {
+      console.log('Transaction not committed!');
+    } else {
+      var fannedOutData = {};
+      fannedOutData['/collection/' + ref.getAuth().uid + '/' + crateId] = null;
+      ref.update(fannedOutData, function(error) {
+        if(error) {
+          console.log(error);
+          return;
+        } else {
+          alert("This crate was removed from your collection.");
+        }
+      });
+    }
   });
 }
 
