@@ -61,9 +61,15 @@ class LoginPage extends Component {
         left: '50%',
         marginLeft: '-62px'
       },
+      loginTitles: {
+        position: 'absolute',
+        left: '50%',
+        marginLeft: '-42px',
+        top: '188px',
+      },
       loginCrates: {
         display: 'inline-block',
-        marginTop: '100px',
+        marginTop: '75px',
         textAlign: 'left'
       },
       twitterCrate: {
@@ -87,8 +93,9 @@ class LoginPage extends Component {
         position: 'absolute',
         height: '375px',
         width: '375px',
-        borderRadius: '50%',
+        // borderRadius: '50%',
         backgroundColor: '#F6F6F6',
+        // backgroundColor: '#fefdfa',
         border: '20px solid #fefdfa',
         marginLeft: '-55%',
         zIndex: '-1'
@@ -133,6 +140,9 @@ class LoginPage extends Component {
         <div className="loginBG" style={styles.loginBG}></div>
         <footer>
           <h1 style={styles.title}>Tinycrate</h1>
+            <div className="loginTitles" style={styles.loginTitles}>
+              <p>Login Crates</p>
+            </div>
           <div className="loginFooter" style={styles.loginFooter}>
             <div className="stripes" style={styles.stripes}>
               <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe1)}></div>
@@ -152,9 +162,6 @@ class LoginPage extends Component {
                 <div className="twitterCrate" style={styles.twitterCrate} onMouseUp={this.loginTwiter} onTouchEnd={this.loginTwiter}>
                   <CrateTemplate color={'twitter'} crateType={'login-twitter'} crateSize={80} pop={true}/>
                 </div>
-              </div>
-              <div className="loginTitles" style={{textAlign: 'center'}}>
-                <p>Login Crates</p>
               </div>
               {/*<div className="getStartedCrate" style={styles.getStartedCrate}>
                 <CrateTemplate color={'blue'} crateType={'test'} crateSize={100} pop={true}/>
