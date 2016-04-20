@@ -67,9 +67,8 @@ class Dashboard extends Component {
     }
   }
   showProfile = () => {
-    // let username = this.props.store.userAuth.username;
-    // this.props.actions.push("user/" + username);
-    console.log(this.state.data)
+    let username = this.props.store.userAuth.username;
+    this.props.actions.push("user/" + username);
   }
   logout = () => {
     this.props.actions.logoutUser();

@@ -27,7 +27,7 @@ const LoginButtons = ({loginTwitter}) => {
     loginTitles: {
       position: 'absolute',
       left: '50%',
-      marginLeft: '-42px',
+      marginLeft: '-58px',
       top: '188px',
     },
     loginCrates: {
@@ -104,7 +104,7 @@ const LoginButtons = ({loginTwitter}) => {
       <footer>
         <h1 style={styles.title}>Tinycrate</h1>
           <div className="loginTitles" style={styles.loginTitles}>
-            <p>Login Crates</p>
+            <p>Start the Journey</p>
           </div>
         <div className="loginFooter" style={styles.loginFooter}>
           <div className="stripes" style={styles.stripes}>

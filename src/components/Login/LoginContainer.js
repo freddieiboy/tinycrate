@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {routerActions} from 'react-router-redux';
-import LoginButtons from './LoginButtons';
+import LoginView from './LoginView';
 import * as userAuth from '../../redux/modules/userAuth';
 import * as newCrates from '../../redux/modules/NewCrates';
 import * as FireConfig from '../../redux/modules/FireConfig';
@@ -36,7 +36,7 @@ class LoginContainer extends Component {
   render() {
     return (
       <div className="LoginContainer">
-        <LoginButtons loginTwitter={this.loginTwitter}/>
+        <LoginView loginTwitter={this.loginTwitter}/>
       </div>
     )
   }
