@@ -44,12 +44,26 @@ class LoginPage extends Component {
         textAlign: 'center',
         height: '100vh'
       },
+      loginBG: {
+        height: '100%',
+        width: '100%',
+        background: 'url(http://i.imgur.com/F6pOzw1.png) center',
+        backgroundSize: 'cover',
+        zIndex: '-2',
+        position: 'absolute',
+        left: '0px',
+        top: '-149px',
+        transform: 'scale(0.8)'
+      },
       title: {
-        marginTop: '50px'
+        position: 'absolute',
+        bottom: '270px',
+        left: '50%',
+        marginLeft: '-62px'
       },
       loginCrates: {
         display: 'inline-block',
-        marginTop: '150px',
+        marginTop: '100px',
         textAlign: 'left'
       },
       twitterCrate: {
@@ -76,7 +90,7 @@ class LoginPage extends Component {
         borderRadius: '50%',
         backgroundColor: '#F6F6F6',
         border: '20px solid #fefdfa',
-        marginLeft: '-138%',
+        marginLeft: '-55%',
         zIndex: '-1'
       },
       getStartedStripedBG: {
@@ -116,18 +130,9 @@ class LoginPage extends Component {
     }
     return (
       <div className="LoginPage" style={styles.LoginPage}>
-        <header>
-          <h1 style={styles.title}>Tinycrate</h1>
-        </header>
-        <div className="loginCrates" style={styles.loginCrates}>
-          <div className="facebookCrate" style={styles.facebookCrate}>
-            <CrateTemplate color={'facebook'} crateType={'login-facebook'} crateSize={80} pop={true}/>
-          </div>
-          <div className="twitterCrate" style={styles.twitterCrate} onMouseUp={this.loginTwiter} onTouchEnd={this.loginTwiter}>
-            <CrateTemplate color={'twitter'} crateType={'login-twitter'} crateSize={80} pop={true}/>
-          </div>
-        </div>
+        <div className="loginBG" style={styles.loginBG}></div>
         <footer>
+          <h1 style={styles.title}>Tinycrate</h1>
           <div className="loginFooter" style={styles.loginFooter}>
             <div className="stripes" style={styles.stripes}>
               <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe1)}></div>
@@ -140,9 +145,20 @@ class LoginPage extends Component {
             </div>
             <div className="getStarted" style={styles.getStarted}>
               <div className="getStartedBG" style={styles.getStartedBG}></div>
-              <div className="getStartedCrate" style={styles.getStartedCrate}>
-                <CrateTemplate color={'blue'} crateType={'test'} crateSize={100} pop={true}/>
+              <div className="loginCrates" style={styles.loginCrates}>
+                <div className="facebookCrate" style={styles.facebookCrate}>
+                  <CrateTemplate color={'facebook'} crateType={'login-facebook'} crateSize={80} pop={true}/>
+                </div>
+                <div className="twitterCrate" style={styles.twitterCrate} onMouseUp={this.loginTwiter} onTouchEnd={this.loginTwiter}>
+                  <CrateTemplate color={'twitter'} crateType={'login-twitter'} crateSize={80} pop={true}/>
+                </div>
               </div>
+              <div className="loginTitles" style={{textAlign: 'center'}}>
+                <p>Login Crates</p>
+              </div>
+              {/*<div className="getStartedCrate" style={styles.getStartedCrate}>
+                <CrateTemplate color={'blue'} crateType={'test'} crateSize={100} pop={true}/>
+              </div>*/}
             </div>
           </div>
         </footer>
