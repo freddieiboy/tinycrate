@@ -93,10 +93,10 @@ class LoginPage extends Component {
         position: 'absolute',
         height: '375px',
         width: '375px',
-        // borderRadius: '50%',
         backgroundColor: '#F6F6F6',
-        // backgroundColor: '#fefdfa',
-        border: '20px solid #fefdfa',
+        borderTop: '40px solid #fefdfa',
+        borderLeft: '20px solid #fefdfa',
+        borderRight: '20px solid #fefdfa',
         marginLeft: '-55%',
         zIndex: '-1'
       },
