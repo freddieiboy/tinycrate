@@ -50,15 +50,19 @@ class Dashboard extends Component {
       // return actions.setupCratesList(unopenedCratesList);
     });
   }
-  componentWillReceiveProps(nextProps) {
-    console.log('dashboard is receiving props')
-    if (nextProps.store.userAuth.currently !== 'LOGGED_IN') {
+  shouldComponentUpdate(nextProps) {
+    const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
+    const hasCrates = this.props.store.cratesList.length > 0;
+
+    return loggedIn || hasCrates
+  }
+  componentWillUpdate(nextProps) {
+    console.log('dashboard is updating!')
+    //NOTE: component is updating 4 times when there is a crate in cratelist. Why?
+    //NOTE: will need this check again. make it work once above is fullfilled
+    if (nextProps.store.userAuth.currently === 'ANONYMOUS') {
       console.log("User is logged out");
-      //NOTE: this removes setState error but the users goes to dashboard for a split second. refactor.
-      // setTimeout(() => {
-      // browserHistory.push('login')
-        this.props.actions.push('login')
-      // }, 500)
+      this.props.actions.push('login')
     }
   }
   showProfile = () => {
