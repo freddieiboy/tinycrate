@@ -33,41 +33,43 @@ class Dashboard extends Component {
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     let {store, actions} = this.props;
 
     actions.showActionBar();
     const crates = new Firebase(FIREBASE_URL + "/crateFeed/" + store.userAuth.uid);
-
+    let unopenedCratesList = [];
     crates.orderByChild("opened").equalTo(false).on("child_added", (snapshot) => {
       var crate =  snapshot.val();
       crate.key = snapshot.key();
 
-      let unopenedCratesList = this.props.store.cratesList;
-
+      // let unopenedCratesList = this.props.store.cratesList;
       unopenedCratesList.push(crate);
+      this.setState({data: unopenedCratesList})
+
       // not needed? slows loading with lots of crates
       // return actions.setupCratesList(unopenedCratesList);
     });
   }
   shouldComponentUpdate(nextProps) {
+    //NOTE: does not update when user logs out and logs back in. shouldComponentUpdate is being called too early or this.state.data is being added too late from the above function. Work on this later in polish.
     const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
-    const hasCrates = this.props.store.cratesList.length > 0;
+    const hasCrates = this.state.data.length > 0;
 
     return loggedIn || hasCrates
   }
   componentWillUpdate(nextProps) {
     console.log('dashboard is updating!')
     //NOTE: component is updating 4 times when there is a crate in cratelist. Why?
-    //NOTE: will need this check again. make it work once above is fullfilled
     if (nextProps.store.userAuth.currently === 'ANONYMOUS') {
       console.log("User is logged out");
       this.props.actions.push('login')
     }
   }
   showProfile = () => {
-    let username = this.props.store.userAuth.username;
-    this.props.actions.push("user/" + username);
+    // let username = this.props.store.userAuth.username;
+    // this.props.actions.push("user/" + username);
+    console.log(this.state.data)
   }
   logout = () => {
     this.props.actions.logoutUser();
@@ -84,11 +86,6 @@ class Dashboard extends Component {
 
     this.props.actions.push('crate/' + crateId);
     // this.props.dispatch(push("crate/" + data_id));
-  }
-  moveToDummyPage = () =>  {
-    // this.props.actions.push('corgis')
-    let username = this.props.store.userAuth.username;
-    this.props.actions.push('user/' + username)
   }
   render() {
     let {
@@ -110,7 +107,7 @@ class Dashboard extends Component {
           <h1 className="logoType">TinyCrate</h1>
         </div>
 
-        <Hammer onTap={this.moveToDummyPage}>
+        <Hammer onTap={this.showProfile}>
           <div className="inventoryAction float-right">
             <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
               <a style={{color: '#000'}}><span style={{cursor: 'pointer'}}>Profile</span></a>
@@ -125,8 +122,8 @@ class Dashboard extends Component {
         </Hammer>
 
         <div style={{padding: '22px'}} className="container-fluid body-content-home">
-          <AbsoluteGrid items={this.props.store.cratesList} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
-          {store.cratesList.length === 0 ? (
+          <AbsoluteGrid items={this.state.data} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
+          {this.state.data.length === 0 ? (
             <Empty />
           ) : (
             null
