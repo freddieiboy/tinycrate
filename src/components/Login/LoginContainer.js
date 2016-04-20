@@ -8,7 +8,7 @@ import * as newCrates from '../../redux/modules/NewCrates';
 import * as FireConfig from '../../redux/modules/FireConfig';
 import * as onboarding from '../../redux/modules/Onboarding';
 
-class LoginPage extends Component {
+class LoginContainer extends Component {
   componentDidMount = () => {
     //NOTE: why is this listening here?
     this.props.actions.startListeningToAuth();
@@ -23,7 +23,7 @@ class LoginPage extends Component {
     if (loggedIn && tutorial) {
       this.props.actions.push('get-started');
       console.log('tutorial is active')
-    } else {
+    } else if (loggedIn && !tutorial){
       this.props.actions.push('/');
     }
   }
@@ -42,7 +42,7 @@ class LoginPage extends Component {
   }
 }
 
-LoginPage.contextTypes = {
+LoginContainer.contextTypes = {
   router: PropTypes.object,
 }
 
@@ -58,4 +58,4 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Object.assign({}, onboarding, routerActions, newCrates, userAuth, FireConfig), dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
