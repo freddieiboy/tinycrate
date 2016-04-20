@@ -29,7 +29,7 @@ class ActionBar extends Component {
   }
   componentDidMount = () => {
     //NOTE: why do I have to add setTimeout here?
-    console.log($('.bigPlusButton').width(), $('.bigPlusButton').position().left)
+    // console.log($('.bigPlusButton').width(), $('.bigPlusButton').position().left)
     this.props.actions.getBtnWidth($('.bigPlusButton').width());
     this.props.actions.getBtnPosition($('.bigPlusButton').position().left);
 
@@ -155,18 +155,18 @@ class ActionBar extends Component {
             opened: false,
             createdAt: Firebase.ServerValue.TIMESTAMP
           };
-          
+
           // https://www.firebase.com/blog/2015-10-07-how-to-keep-your-data-consistent.html
           // We should be implementing client-side fan-out for data consistency
           var path = crate.key;
           var fannedOutData = {};
           fannedOutData['/crateFeed/' + users + '/' + path] = crate;
-          
+
           reff.update(fannedOutData, function(error) {
             if(error) {
               console.log(error);
             }
-          }); 
+          });
         })
         this.closeAction();
       } else {

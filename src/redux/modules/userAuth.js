@@ -18,6 +18,7 @@ export const startListeningToAuth = () => {
 					// dispatch the state again with the newly fetched Firebase user object
 					dispatchUserState(dispatch, authData, snap.val());
 				});
+				//NOTE: Any push from here results in infinite loop.
 				// dispatch(routerActions.push('/'));
 			} else {
 				if (getState().userAuth.currently !== 'ANONYMOUS') {
