@@ -13,9 +13,10 @@ class LoginContainer extends Component {
     //NOTE: why is this listening here?
     this.props.actions.startListeningToAuth();
   }
-  // shouldComponentUpdate() {
-  //   return this.props.store.userAuth.currently !== this.props.store.userAuth.currently
-  // }
+  shouldComponentUpdate = (nextProps) => {
+    console.log(nextProps.store.userAuth.currently === this.props.store.userAuth.currently)
+    return nextProps.store.userAuth.currently === this.props.store.userAuth.currently
+  }
   componentWillUpdate() {
     console.log('this is updating!!')
     const loggedIn = this.props.store.userAuth.currently === 'LOGGED_IN';

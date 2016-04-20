@@ -6,7 +6,6 @@ import {routerActions} from 'react-router-redux';
 
 class Onboarding extends Component {
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.store.isTutorialMode === false) {
       this.props.actions.push('/');
     } else {
@@ -15,7 +14,6 @@ class Onboarding extends Component {
   }
   render() {
     let {actions} = this.props;
-    console.log(this.props.store.isTutorialMode)
     return (
       <div className="Onboarding">
         <h1>This is onboarding.</h1>
