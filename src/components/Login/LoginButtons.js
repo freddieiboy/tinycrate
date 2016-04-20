@@ -98,8 +98,8 @@ const LoginButtons = ({loginTwitter}) => {
       backgroundColor: '#2BBFD9'
     }
   }
-  return {
-    <div className="LoginPage" style={styles.LoginPage}>
+  return (
+    <div className="LoginContainer" style={styles.LoginPage}>
       <div className="loginBG" style={styles.loginBG}></div>
       <footer>
         <h1 style={styles.title}>Tinycrate</h1>
@@ -130,7 +130,7 @@ const LoginButtons = ({loginTwitter}) => {
         </div>
       </footer>
     </div>
-  }
+  )
 }
 
 export default LoginButtons;

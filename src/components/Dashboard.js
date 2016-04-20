@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import {bindActionCreators, store, getState} from 'redux';
+import ReactDOM from 'react-dom';
+import { browserHistory } from 'react-router';
+import { bindActionCreators, store, getState } from 'redux';
 import { routerActions } from 'react-router-redux'
 import { connect } from 'react-redux';
 import * as cratesRedux from '../redux/modules/crates';
 import * as userAuth from '../redux/modules/userAuth';
 import * as newCrates from '../redux/modules/NewCrates';
-import ReactDOM from 'react-dom';
 
 import CommentList from './CommentList';
 import Comment from './Comment';
@@ -13,7 +14,6 @@ import CrateList from './Crates/CrateList';
 import {green, pink} from './Crates/CrateUtils';
 import Crate from './Crates/Crate';
 import Empty from './Empty';
-import { Router, Route, Link, browserHistory } from 'react-router';
 import AbsoluteGrid from 'react-absolute-grid';
 import Hammer from 'react-hammerjs';
 
@@ -32,19 +32,19 @@ class Dashboard extends Component {
       data: [],
     };
   }
-  
+
   componentDidMount() {
     let {store, actions} = this.props;
 
     actions.showActionBar();
     const crates = new Firebase(FIREBASE_URL + "/crateFeed/" + store.userAuth.uid);
-    
+
     crates.orderByChild("opened").equalTo(false).on("child_added", (snapshot) => {
       var crate =  snapshot.val();
       crate.key = snapshot.key();
-      
+
       let unopenedCratesList = this.props.store.cratesList;
-      
+
       unopenedCratesList.push(crate);
       // not needed? slows loading with lots of crates
       // return actions.setupCratesList(unopenedCratesList);
@@ -56,6 +56,7 @@ class Dashboard extends Component {
       console.log("User is logged out");
       //NOTE: this removes setState error but the users goes to dashboard for a split second. refactor.
       // setTimeout(() => {
+      // browserHistory.push('login')
         this.props.actions.push('login')
       // }, 500)
     }

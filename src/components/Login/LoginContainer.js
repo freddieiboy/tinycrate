@@ -1,6 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import firebase from 'firebase'
-import { Router, Route, Link, browserHistory } from 'react-router'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {routerActions} from 'react-router-redux';
@@ -9,26 +7,23 @@ import * as userAuth from '../../redux/modules/userAuth';
 import * as newCrates from '../../redux/modules/NewCrates';
 import * as FireConfig from '../../redux/modules/FireConfig';
 import * as onboarding from '../../redux/modules/Onboarding';
-import Hammer from 'react-hammerjs';
-
-import CrateTemplate from '../Crates/CrateTemplate';
-import {CrateEmojis} from '../Emojis';
 
 class LoginPage extends Component {
   componentDidMount = () => {
     //NOTE: why is this listening here?
     this.props.actions.startListeningToAuth();
   }
-  shouldComponentUpdate() {
-    return this.props.store.userAuth.currently !== this.props.store.userAuth.currently
-  }
+  // shouldComponentUpdate() {
+  //   return this.props.store.userAuth.currently !== this.props.store.userAuth.currently
+  // }
   componentWillUpdate() {
     console.log('this is updating!!')
     const loggedIn = this.props.store.userAuth.currently === 'LOGGED_IN';
     const tutorial = this.props.store.isTutorialMode === true
     if (loggedIn && tutorial) {
       this.props.actions.push('get-started');
-    } else if (loggedIn) {
+      console.log('tutorial is active')
+    } else {
       this.props.actions.push('/');
     }
   }
@@ -40,7 +35,9 @@ class LoginPage extends Component {
   }
   render() {
     return (
-      <loginButtons loginTwitter={this.loginTwitter}/>
+      <div className="LoginContainer">
+        <LoginButtons loginTwitter={this.loginTwitter}/>
+      </div>
     )
   }
 }

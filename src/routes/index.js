@@ -3,7 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 
 // import {App} from 'components/App';
 import Dashboard from 'components/Dashboard';
-import LoginPage from 'components/Login/LoginPage';
+import LoginContainer from 'components/Login/LoginContainer';
 import ProfilePage from 'components/ProfilePage';
 import InventoryPage from 'components/InventoryPage';
 import CratePage from 'components/CratePage';
@@ -22,7 +22,7 @@ import HomeView from 'views/HomeView/HomeView';
 export default (store) => (
   <Route>
     <Route path='get-started' component={Onboarding} />
-    <Route path='login' component={LoginPage} />
+    <Route path='login' component={LoginContainer} />
     <Route path='/' component={CoreLayout}>
       <IndexRoute component={Dashboard} />
       // <Route path='inventory' component={InventoryPage}/>
