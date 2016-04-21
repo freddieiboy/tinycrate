@@ -3,18 +3,20 @@ import * as onboardingActions from '../../redux/modules/Onboarding';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {routerActions} from 'react-router-redux';
+import SelectColorView from './SelectColorView';
 
 class SlideContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      slide: 1
+      slide: 1,
+      selectedColor: 'kitty'
     }
   }
-  componentWillUpdate = (nextProps, nextState) => {
-    console.log(nextState.slide, nextProps)
-    nextState.slide === 4 ? this.props.actions.push('get-started-color') : null
-  }
+  // componentWillUpdate = (nextProps, nextState) => {
+  //   console.log(nextState.slide, nextProps)
+  //   nextState.slide === 4 ? this.props.actions.push('get-started-color') : null
+  // }
   backSlide = () => {
     let number = this.state.slide;
     number > 1 ? number-- : null
@@ -24,6 +26,10 @@ class SlideContainer extends Component {
     let number = this.state.slide;
     number < 4 ? number++ : null
     this.setState({slide: number})
+  }
+  selectColor = (color) => {
+    this.setState({selectedColor: color})
+    console.log(color)
   }
   render() {
     let slide;
@@ -38,6 +44,8 @@ class SlideContainer extends Component {
     } else if (slideState === 3) {
       slide = 'http://i.imgur.com/YQOUmOe.png'
       slideText = 'It’s up to you to collect and send crates around the world through this Loot Messenger.'
+    } else if (slideState === 4) {
+      slideText = 'Crate colors are special in Tinycrate. Which color will you represent you? Choose one.'
     }
     const styles = {
       Onboarding: {
@@ -67,15 +75,24 @@ class SlideContainer extends Component {
         backgroundColor: '#FEFDFA'
       }
     }
+    const selectinColors = this.state.slide !== 4;
     return (
       <div className="Onboarding" style={styles.Onboarding}>
         <div className="imageContainer" style={styles.imageContainer}>
-          <div className="image" style={styles.image}></div>
+          {selectinColors ? (
+            <div className="image" style={styles.image}></div>
+          ) : (
+            <SelectColorView selectColor={this.selectColor} />
+          )}
         </div>
         <div className="messageContainer" style={styles.messageContainer}>
           <p>{slideText}</p>
         </div>
-        <button className="button" onClick={this.backSlide}>Back</button>
+        {this.state.slide > 1 ? (
+          <button className="button" onClick={this.backSlide}>Back</button>
+        ) : (
+          null
+        ) }
         <button className="button" onClick={this.nextSlide}>Next</button>
       </div>
     )

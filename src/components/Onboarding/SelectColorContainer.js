@@ -20,7 +20,7 @@ class SelectColorContainer extends Component {
     return (
       <div className="SelectProfileColor">
         <h1>SelectProfileColor</h1>
-        <button className="button" onClick={this.props.store.finishTutorialMode}>Finish Tutorial Mode</button>
+        <button className="button" onClick={this.props.actions.finishTutorialMode}>Finish Tutorial Mode</button>
         <CrateTemplate pop={true} crateType={'tutorial'} color={'green'} crateSize={80}/>
       </div>
     )
