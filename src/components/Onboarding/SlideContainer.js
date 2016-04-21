@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {routerActions} from 'react-router-redux';
 import SelectColorView from './SelectColorView';
+import ControlsView from './ControlsView';
 
 class SlideContainer extends Component {
   constructor(props) {
@@ -88,12 +89,7 @@ class SlideContainer extends Component {
         <div className="messageContainer" style={styles.messageContainer}>
           <p>{slideText}</p>
         </div>
-        {this.state.slide > 1 ? (
-          <button className="button" onClick={this.backSlide}>Back</button>
-        ) : (
-          null
-        ) }
-        <button className="button" onClick={this.nextSlide}>Next</button>
+        <ControlsView back={this.backSlide} next={this.nextSlide} slide={this.state.slide} selectedColor={this.state.selectedColor}/>
       </div>
     )
   }

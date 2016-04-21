@@ -6,9 +6,6 @@ import {routerActions} from 'react-router-redux';
 import CrateTemplate from '../Crates/CrateTemplate';
 
 class SelectColorContainer extends Component {
-  constructor() {
-    super();
-  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.store.isTutorialMode === false) {
       this.props.actions.push('/');
