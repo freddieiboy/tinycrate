@@ -47,6 +47,7 @@ class Dashboard extends Component {
       unopenedCratesList.push(crate);
       this.setState({data: unopenedCratesList})
 
+      //NOTE: switched back to setState for performance.
       // not needed? slows loading with lots of crates
       // return actions.setupCratesList(unopenedCratesList);
     });

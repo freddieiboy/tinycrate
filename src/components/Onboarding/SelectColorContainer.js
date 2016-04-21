@@ -1,10 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import * as onboardingActions from '../../redux/modules/Onboarding';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {routerActions} from 'react-router-redux';
+import CrateTemplate from '../Crates/CrateTemplate';
 
-class Onboarding extends Component {
+class SelectColorContainer extends Component {
+  constructor() {
+    super();
+  }
   componentWillReceiveProps(nextProps) {
     if (nextProps.store.isTutorialMode === false) {
       this.props.actions.push('/');
@@ -12,12 +16,12 @@ class Onboarding extends Component {
       console.log('still in tutorial mode')
     }
   }
-  render() {
-    let {actions} = this.props;
+  render () {
     return (
-      <div className="Onboarding">
-        <h1>This is onboarding.</h1>
-        <button className="button" onClick={actions.finishTutorialMode}>Finish Tutorial Mode</button>
+      <div className="SelectProfileColor">
+        <h1>SelectProfileColor</h1>
+        <button className="button" onClick={this.props.store.finishTutorialMode}>Finish Tutorial Mode</button>
+        <CrateTemplate pop={true} crateType={'tutorial'} color={'green'} crateSize={80}/>
       </div>
     )
   }
@@ -33,4 +37,4 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(Object.assign({}, routerActions, onboardingActions), dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Onboarding)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectColorContainer)

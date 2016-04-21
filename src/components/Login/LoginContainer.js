@@ -21,7 +21,7 @@ class LoginContainer extends Component {
     const loggedIn = this.props.store.userAuth.currently === 'LOGGED_IN';
     const tutorial = this.props.store.isTutorialMode === true
     if (loggedIn && tutorial) {
-      this.props.actions.push('get-started');
+      this.props.actions.push('get-started-intro');
       console.log('tutorial is active')
     } else if (loggedIn && !tutorial){
       this.props.actions.push('/');

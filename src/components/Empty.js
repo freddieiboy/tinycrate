@@ -11,8 +11,7 @@ import CrateTemplate from './Crates/CrateTemplate';
 
 const Empty = ({ actions, store }) => (
   <div className="empty" style={{height: '100%', position: 'relative'}}>
-    <div className="emptyCrate"
-      style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}
+    <div className="emptyCrate center"
       onMouseUp={() => actions.setEmojiNumber(randomEmojiNumber())}
       onTouchEnd={() => actions.setEmojiNumber(randomEmojiNumber())}>
       <CrateTemplate color={'empty'} crateSize={80} cratePreview={'NOTHING_YET'} pop={true} crateType={'empty'}/>

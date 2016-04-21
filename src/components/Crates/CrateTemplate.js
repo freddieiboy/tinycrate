@@ -94,7 +94,7 @@ class CrateTemplate extends Component {
       preview = <TwitterIcon />
     } else if (crateType === 'login-facebook') {
       preview = <FacebookIcon />
-    } else if (crateType === 'test') {
+    } else if (crateType === 'tutorial') {
       preview = <CrateEmojis color={eval(color).darkColor} visible={'1'}/>
     } else {
       preview = <div style={styles.cratePreview}></div>
