@@ -319,6 +319,16 @@ export const productHunt = {
   darkColor: '#CC4124'
 }
 
+const twitter = {
+  lightColor: '#55ACEE',
+  darkColor: '#2F91DB'
+}
+
+const facebook = {
+  lightColor: '#3B5998',
+  darkColor: '#24468B'
+}
+
 //TODO:10 props use in Crate.js
 // var comment = this.props.msg.text
 // var author = this.props.msg.authorDisplayName

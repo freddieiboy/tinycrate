@@ -192,6 +192,62 @@ const facebook = {
   darkColor: '#24468B'
 }
 
+export const colors = (color) => {
+  switch(eval(color)) {
+    case green:
+      return {
+        lightColor: '#49FFCC',
+        darkColor: '#1ADEDB',
+      }
+    case yellow:
+      return {
+        lightColor: '#FCE973',
+        darkColor: '#FFC868',
+      }
+    case orange:
+      return {
+        lightColor: '#FD9C44',
+        darkColor: '#F67A1B',
+      }
+    case blue:
+      return {
+        lightColor: '#57E3FD',
+        darkColor: '#2BBFD9',
+      }
+    case pink:
+      return {
+        lightColor: '#FB70AF',
+        darkColor: '#EE3B76',
+      }
+    case purple:
+      return {
+        lightColor: '#FF5DFA',
+        darkColor: '#C746E9',
+      }
+    case empty:
+      return {
+        lightColor: '#E9FAFD',
+        darkColor: '#CBEBF0'
+      }
+    case productHunt:
+      return {
+        lightColor: '#DA552F',
+        darkColor: '#CC4124'
+      }
+    case twitter:
+      return {
+        lightColor: '#55ACEE',
+        darkColor: '#2F91DB'
+      }
+    case facebook:
+      return {
+        lightColor: '#3B5998',
+        darkColor: '#24468B'
+      }
+  }
+}
+
+
 const mapStateToProps = (state, ownProps) => ({
   store: {
     emoji: state.crates.emoji

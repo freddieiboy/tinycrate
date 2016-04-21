@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import * as onboardingActions from '../../redux/modules/Onboarding';
+import {green} from '../Crates/CrateUtils';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {routerActions} from 'react-router-redux';
@@ -11,7 +12,7 @@ class SlideContainer extends Component {
     super(props);
     this.state = {
       slide: 1,
-      selectedColor: 'kitty'
+      selectedColor: 'empty'
     }
   }
   // componentWillUpdate = (nextProps, nextState) => {
@@ -30,7 +31,6 @@ class SlideContainer extends Component {
   }
   selectColor = (color) => {
     this.setState({selectedColor: color})
-    console.log(color)
   }
   render() {
     let slide;
@@ -59,7 +59,7 @@ class SlideContainer extends Component {
       imageContainer: {
         width: '100vw',
         height: '50%',
-        border: '1px solid red',
+        // border: '1px solid red',
         backgroundColor: '#FEFDFA'
       },
       image: {
@@ -72,8 +72,14 @@ class SlideContainer extends Component {
       messageContainer: {
         width: '100vw',
         height: '20%',
-        border: '1px solid blue',
+        borderTop: '1px solid #D9D9D9',
         backgroundColor: '#FEFDFA'
+      },
+      controlContainer: {
+        height: '30%',
+        position: 'absolute',
+        width: '100vw',
+        // backgroundColor: 'blue'
       }
     }
     const selectinColors = this.state.slide !== 4;
@@ -89,7 +95,9 @@ class SlideContainer extends Component {
         <div className="messageContainer" style={styles.messageContainer}>
           <p>{slideText}</p>
         </div>
-        <ControlsView back={this.backSlide} next={this.nextSlide} slide={this.state.slide} selectedColor={this.state.selectedColor}/>
+        <div className="controlContainer" style={styles.controlContainer}>
+          <ControlsView back={this.backSlide} next={this.nextSlide} slide={this.state.slide} selectedColor={this.state.selectedColor}/>
+        </div>
       </div>
     )
   }
