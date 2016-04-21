@@ -56,7 +56,7 @@ class Dashboard extends Component {
     //NOTE: does not update when user logs out and logs back in. shouldComponentUpdate is being called too early or this.state.data is being added too late from the above function. Work on this later in polish.
     const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
     const hasCrates = this.state.data.length > 0;
-
+    console.log(loggedIn)
     return loggedIn || hasCrates
   }
   componentWillUpdate(nextProps) {

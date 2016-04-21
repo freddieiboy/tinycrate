@@ -5,20 +5,9 @@ const SelectColorView = ({selectColor}) => {
   //TODO: make explosion go outside of crates.
   const styles = {
     SelectColorView: {
-      // position: 'relative',
-      // height: '100%',
-      // left: '50%',
-      // marginLeft: '-160px',
-      // overflow: 'hidden',
-      paddingTop: '50px'
-    },
-    // crateColorsContainer: {
-    //   position: 'absolute',
-    //   left: '50%',
-    //   transform: 'translate(-50%)'
-    // },
-    row: {
-      // height: '140px'
+      paddingTop: '50px',
+      overflow: 'hidden',
+      height: '100%'
     },
     crate: {
       marginLeft: '10px',

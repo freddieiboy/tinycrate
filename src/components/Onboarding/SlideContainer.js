@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import * as onboardingActions from '../../redux/modules/Onboarding';
+import * as userAuth from '../../redux/modules/userAuth';
+import * as FireConfig from '../../redux/modules/FireConfig';
 import {green} from '../Crates/CrateUtils';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -14,6 +16,9 @@ class SlideContainer extends Component {
       slide: 1,
       selectedColor: 'empty'
     }
+  }
+  componentWillMount = () => {
+    this.props.actions.startListeningToAuth();
   }
   // componentWillUpdate = (nextProps, nextState) => {
   //   console.log(nextState.slide, nextProps)
@@ -59,7 +64,6 @@ class SlideContainer extends Component {
       imageContainer: {
         width: '100vw',
         height: '50%',
-        // border: '1px solid red',
         backgroundColor: '#FEFDFA'
       },
       image: {
@@ -73,13 +77,14 @@ class SlideContainer extends Component {
         width: '100vw',
         height: '20%',
         borderTop: '1px solid #D9D9D9',
-        backgroundColor: '#FEFDFA'
+        backgroundColor: '#FEFDFA',
+        padding: '20px',
+        fontSize: '1.8rem',
       },
       controlContainer: {
         height: '30%',
         position: 'absolute',
-        width: '100vw',
-        // backgroundColor: 'blue'
+        width: '100vw'
       }
     }
     const selectinColors = this.state.slide !== 4;
@@ -96,7 +101,7 @@ class SlideContainer extends Component {
           <p>{slideText}</p>
         </div>
         <div className="controlContainer" style={styles.controlContainer}>
-          <ControlsView back={this.backSlide} next={this.nextSlide} slide={this.state.slide} selectedColor={this.state.selectedColor}/>
+          <ControlsView back={this.backSlide} next={this.nextSlide} slide={this.state.slide} selectedColor={this.state.selectedColor} userImage={this.props.store.userAuth.profileImageURL}/>
         </div>
       </div>
     )
@@ -105,12 +110,13 @@ class SlideContainer extends Component {
 
 const mapStateToProps = (state) => ({
   store: {
-    isTutorialMode: state.Onboarding.isTutorialMode
+    isTutorialMode: state.Onboarding.isTutorialMode,
+    userAuth: state.userAuth
   }
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(Object.assign({}, routerActions, onboardingActions), dispatch)
+  actions: bindActionCreators(Object.assign({}, FireConfig, userAuth, routerActions, onboardingActions), dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlideContainer)

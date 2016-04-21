@@ -52,6 +52,7 @@ const LoginButtons = ({loginTwitter}) => {
     getStarted: {
       position: 'relative',
       display: 'inline-block',
+      overflow: 'hidden'
       // textAlign: 'left'
     },
     getStartedBG: {
