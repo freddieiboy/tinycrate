@@ -4,7 +4,7 @@ import { ifStyle } from '../utilities';
 import { NextIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 
-const ControlsView = ({userImage, slide, back, next, selectedColor}) => {
+const ControlsView = ({userImage, slide, back, next, selectedColor, finish}) => {
   const styles = {
     ControlsView: {
       height: '100%'
@@ -18,7 +18,7 @@ const ControlsView = ({userImage, slide, back, next, selectedColor}) => {
       position: 'absolute',
       marginLeft: '-40px',
       marginTop: '-40px',
-      border: '1px solid' + colors(selectedColor).lightColor
+      border: '2px solid' + colors(selectedColor).lightColor
     },
     cell: {
       position: 'relative'
@@ -52,6 +52,10 @@ const ControlsView = ({userImage, slide, back, next, selectedColor}) => {
       marginLeft: '3px'
     }
   }
+  let nextAction;
+  slide === 4 ? nextAction = finish : nextAction = next
+  console.log(nextAction)
+
   return (
     <div className="ControlsView"  style={styles.ControlsView}>
       <div className="Grid Grid--center" style={{height: '100%'}}>
@@ -81,7 +85,7 @@ const ControlsView = ({userImage, slide, back, next, selectedColor}) => {
         </div>
 
         <div className="Grid-cell" style={styles.cell}>
-          <Hammer onTap={next}>
+          <Hammer onTap={nextAction}>
             <div className="buttonBG" style={styles.buttonBG}>
               <div className="buttonIcon" style={styles.buttonIcon}>
                 <div className="icon" style={styles.nextIcon}>

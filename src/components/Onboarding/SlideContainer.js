@@ -20,10 +20,11 @@ class SlideContainer extends Component {
   componentWillMount = () => {
     this.props.actions.startListeningToAuth();
   }
-  // componentWillUpdate = (nextProps, nextState) => {
-  //   console.log(nextState.slide, nextProps)
-  //   nextState.slide === 4 ? this.props.actions.push('get-started-color') : null
-  // }
+  componentWillUpdate = (nextProps, nextState) => {
+    console.log(nextState.slide, nextProps)
+    // nextState.slide === 5 ? this.props.actions.push('/') : null
+    nextProps.store.isTutorialMode === false ? this.props.actions.push('/') : null
+  }
   backSlide = () => {
     let number = this.state.slide;
     number > 1 ? number-- : null
@@ -76,7 +77,7 @@ class SlideContainer extends Component {
       messageContainer: {
         width: '100vw',
         height: '20%',
-        borderTop: '1px solid #D9D9D9',
+        border: '2px solid #D9D9D9',
         backgroundColor: '#FEFDFA',
         padding: '20px',
         fontSize: '1.8rem',
@@ -101,7 +102,7 @@ class SlideContainer extends Component {
           <p>{slideText}</p>
         </div>
         <div className="controlContainer" style={styles.controlContainer}>
-          <ControlsView back={this.backSlide} next={this.nextSlide} slide={this.state.slide} selectedColor={this.state.selectedColor} userImage={this.props.store.userAuth.profileImageURL}/>
+          <ControlsView back={this.backSlide} next={this.nextSlide} slide={this.state.slide} selectedColor={this.state.selectedColor} userImage={this.props.store.userAuth.profileImageURL} finish={this.props.actions.finishTutorialMode}/>
         </div>
       </div>
     )

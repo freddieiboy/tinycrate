@@ -6,10 +6,8 @@ import LoginContainer from 'components/Login/LoginContainer';
 import ProfilePage from 'components/ProfilePage';
 import InventoryPage from 'components/InventoryPage';
 import CratePage from 'components/CratePage';
-// import CreatePage from 'components/CreatePage';
 import NotFound from 'components/NotFound';
 import SlideContainer from 'components/Onboarding/SlideContainer';
-import SelectColorContainer from 'components/Onboarding/SelectColorContainer';
 
 // NOTE: here we're making use of the `resolve.root` configuration
 // option in webpack, which allows us to specify import paths as if
@@ -22,7 +20,6 @@ import HomeView from 'views/HomeView/HomeView';
 export default (store) => (
   <Route>
     <Route path='get-started-intro' component={SlideContainer} />
-    <Route path='get-started-color' component={SelectColorContainer} />
     <Route path='login' component={LoginContainer} />
     <Route path='/' component={CoreLayout}>
       <IndexRoute component={Dashboard} />
