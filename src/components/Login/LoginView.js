@@ -4,7 +4,7 @@ import CrateTemplate from '../Crates/CrateTemplate';
 const LoginButtons = ({loginTwitter}) => {
   const styles = {
     LoginPage: {
-      textAlign: 'center',
+      // textAlign: 'center',
       height: '100vh'
     },
     loginBG: {
@@ -31,26 +31,28 @@ const LoginButtons = ({loginTwitter}) => {
       top: '188px',
     },
     loginCrates: {
-      display: 'inline-block',
-      marginTop: '75px',
-      textAlign: 'left'
+      // display: 'inline-block',
+      // width: '170px',
+      // marginTop: '75px',
+      // textAlign: 'left
+      height: '250px'
     },
     twitterCrate: {
-      float: 'left'
+      // float: 'left'
     },
     facebookCrate: {
-      float: 'left',
-      marginRight: '18px'
+      // float: 'left',
+      // marginRight: '18px'
     },
     loginFooter: {
-      height: '100%',
-      width: '100%',
-      overflow: 'hidden'
+      // height: '100%',
+      // width: '100%',
+      // overflow: 'hidden'
     },
     getStarted: {
       position: 'relative',
       display: 'inline-block',
-      textAlign: 'left'
+      // textAlign: 'left'
     },
     getStartedBG: {
       position: 'absolute',
@@ -60,7 +62,8 @@ const LoginButtons = ({loginTwitter}) => {
       borderTop: '40px solid #fefdfa',
       borderLeft: '20px solid #fefdfa',
       borderRight: '20px solid #fefdfa',
-      marginLeft: '-55%',
+      left: '50%',
+      transform: 'translate(-50%)',
       zIndex: '-1'
     },
     getStartedStripedBG: {
@@ -106,7 +109,7 @@ const LoginButtons = ({loginTwitter}) => {
           <div className="loginTitles" style={styles.loginTitles}>
             <p>Start the Journey</p>
           </div>
-        <div className="loginFooter" style={styles.loginFooter}>
+        <div className="loginFooter Grid" style={styles.loginFooter}>
           <div className="stripes" style={styles.stripes}>
             <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe1)}></div>
             <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe2)}></div>
@@ -116,15 +119,17 @@ const LoginButtons = ({loginTwitter}) => {
             <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe6)}></div>
             <div className="getStartedStripedBG" style={Object.assign({}, styles.getStartedStripedBG, styles.stripe7)}></div>
           </div>
-          <div className="getStarted" style={styles.getStarted}>
-            <div className="getStartedBG" style={styles.getStartedBG}></div>
-            <div className="loginCrates" style={styles.loginCrates}>
-              <div className="facebookCrate" style={styles.facebookCrate}>
-                <CrateTemplate color={'facebook'} crateType={'login-facebook'} crateSize={80} pop={true}/>
+          <div className="getStarted Grid-cell" style={styles.getStarted}>
+            <div className="getStartedBG Grid-cell" style={styles.getStartedBG}></div>
+            <div className="loginCrates Grid Grid--center" style={styles.loginCrates}>
+              <div className="Grid-cell"></div>
+              <div className="facebookCrate Grid-cell Grid--1of3" style={styles.facebookCrate}>
+                <CrateTemplate color={'facebook'} crateType={'login-facebook'} crateSize={80} pop={true} popType={'2'}/>
               </div>
-              <div className="twitterCrate" style={styles.twitterCrate} onMouseUp={loginTwitter} onTouchEnd={loginTwitter}>
-                <CrateTemplate color={'twitter'} crateType={'login-twitter'} crateSize={80} pop={true}/>
+              <div className="twitterCrate Grid-cell" style={styles.twitterCrate} onMouseUp={loginTwitter} onTouchEnd={loginTwitter}>
+                <CrateTemplate color={'twitter'} crateType={'login-twitter'} crateSize={80} pop={true} popType={'2'}/>
               </div>
+              <div className="Grid-cell"></div>
             </div>
           </div>
         </div>

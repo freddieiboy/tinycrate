@@ -205,6 +205,7 @@ export function pop2(crateRefs, color, preview) {
       // burst animation
       tween1 = new mojs.Burst({
         parent: crateRefs,
+        className: 'asdf;lkasjdf;lkasdjfkj;kj',
         duration: 900,
         delay: 200,
         shape : 'circle',

@@ -273,7 +273,7 @@ class ActionBar extends Component {
           {store.isCreatingCrate ? (
             <div className="container-fluid body-content-create">
               <div className="centerCrate" style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-                <CrateTemplate color={store.newCrateColor} crateSize={150} pop={true} crateType={'pop'} cratePreview={store.newCratePhoto}/>
+                <CrateTemplate color={store.newCrateColor} crateSize={150} pop={true} popType={'2'} crateType={'pop'} cratePreview={store.newCratePhoto}/>
               </div>
             </div>
           ) : null}
