@@ -8,6 +8,7 @@ import Hammer from 'react-hammerjs';
 import {Motion, spring} from 'react-motion';
 
 import FilePicker from 'component-file-picker';
+import EXIF from 'exif-js'
 import {flattenObject, ifStyle} from '../utilities';
 import $ from 'jquery';
 import CrateTemplate from 'components/Crates/CrateTemplate';
@@ -115,18 +116,34 @@ class ActionBar extends Component {
     this.props.actions.selectCrateColor(colors[Math.floor(Math.random() * 6)]);
   }
   selectFile = () => {
+    var itself = this;
     $('#message').blur();
     FilePicker({ accept: [ 'image/*'] }, (files) => {
       var reader = new FileReader();
       var file = files[0];
       reader.onload = (upload) => {
-        // base64 string of image
-        this.props.actions.addNewCratePhoto(upload.target.result)
-        $("#imagePreview").attr('src', this.props.store.newCratePhoto);
-      }
-      reader.readAsDataURL(file);
-    });
-  }
+        EXIF.getData(file, function() {
+          // if image has orientation data, use library to load and rotate it correctly
+          if(EXIF.getTag(file, "Orientation")) {
+            loadImage(
+              upload.target.result,
+              function (canvas) {
+                // canvas loaded with base64 string of rotated image is returned by library
+                // use toDataURL to retrieve the base64 string from the canvas
+                itself.props.actions.addNewCratePhoto(canvas.toDataURL());
+              },
+              {
+                orientation: EXIF.getTag(file, "Orientation")}
+              );
+            } else {
+              // if there is no orientation data, load the original base64 string
+              itself.props.actions.addNewCratePhoto(upload.target.result);
+            }
+          });
+        }
+        reader.readAsDataURL(file);
+      });
+    }
   sendCrate = () => {
     let {store, actions} = this.props;
     var reff = new Firebase(FIREBASE_URL);

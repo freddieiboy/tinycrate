@@ -13,6 +13,7 @@ import { collectCrate } from './Crates/CrateUtils';
 import ProfileCrateList from './Crates/ProfileCrateList';
 import ProfileCrate from './Crates/ProfileCrate';
 import AbsoluteGrid from 'react-absolute-grid';
+import EXIF from 'exif-js';
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -34,13 +35,37 @@ class CratePage extends Component {
     
     getCrateById(crateId, crate => {
       this.setState({openedCrate: crate});
-    });
-    
-    getUnopenedCrates(this.props.store.userAuth.uid, () => {
-      this.setState({data: unopenedCratesList});
-    });
-    
-  }
+      
+      var image = new Image();
+      image.onload = function() {
+        EXIF.getData(image, function() {
+          // if image has orientation data, use library to load and rotate it correctly
+          if(EXIF.getTag(image, "Orientation")) {
+            loadImage(
+              crate.image,
+              function (canvas) {
+                // canvas loaded with base64 string of rotated image is returned by library
+                $("#crateHeroImage").append(canvas);
+                styleCrateHeroImage($('canvas'));
+              },
+              {
+                orientation: EXIF.getTag(image, "Orientation")}
+              );
+            } else {
+              // if there is no orientation data, append the <img> directly into the container
+              styleCrateHeroImage(image);
+              $("#crateHeroImage").append(image);
+            }
+          });
+        };
+        image.src = crate.image;
+      });
+      
+      getUnopenedCrates(this.props.store.userAuth.uid, () => {
+        this.setState({data: unopenedCratesList});
+      });
+      
+    }
   componentWillReceiveProps = (nextProps) => {
     if(currentCrateId === nextProps.params.crateId) {
       return;
@@ -82,7 +107,7 @@ class CratePage extends Component {
     
     var crateHeroContent;
     if (this.state.openedCrate.image) {
-      crateHeroContent = <img src={this.state.openedCrate.image} style={{maxWidth: '100%', height: '265px', display: 'block', marginRight: 'auto', marginLeft: 'auto'}}/>;
+      crateHeroContent = <div id="crateHeroImage" />;
     } else {
       crateHeroContent = <p style={{maxWidth: '100%', fontSize: '20px', textAlign: 'center', padding: '10px', position:'relative', top: '50%', transform: 'translateY(-50%)'}}>{this.state.openedCrate.text}</p>;
     }
@@ -144,6 +169,14 @@ function getUnopenedCrates(uid, callback) {
     unopenedCratesList.push(crate);
     callback();
   })
+}
+
+function styleCrateHeroImage(image) {
+  $(image).css('maxWidth', '100%');
+  $(image).css('maxHeight', '265px');
+  $(image).css('display', 'block');
+  $(image).css('marginRight', 'auto');
+  $(image).css('marginLeft', 'auto');
 }
 
 const mapStateToProps = (state) => ({
