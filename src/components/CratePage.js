@@ -14,6 +14,7 @@ import ProfileCrateList from './Crates/ProfileCrateList';
 import ProfileCrate from './Crates/ProfileCrate';
 import AbsoluteGrid from 'react-absolute-grid';
 import EXIF from 'exif-js';
+import PhotoTilt from '../photoTilt.js'
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -79,6 +80,16 @@ class CratePage extends Component {
   collectCrateButton = () => {
     collectCrate(this.state.openedCrate);
   }
+  viewPhoto = () => {
+    var photoTilt = new PhotoTilt({
+      url: this.state.openedCrate.image
+    });
+    setTimeout(function(){
+      $(".mask").click(function() {
+        $(".mask").remove();
+      }); 
+    }, 500);
+  }
   regiftCrate = () => {
     $('.actionButtons').css("visibility", "visible");
     this.props.actions.openActionBar();
@@ -107,7 +118,7 @@ class CratePage extends Component {
     
     var crateHeroContent;
     if (this.state.openedCrate.image) {
-      crateHeroContent = <div id="crateHeroImage" />;
+      crateHeroContent = <div id="crateHeroImage" onClick={this.viewPhoto} />;
     } else {
       crateHeroContent = <p style={{maxWidth: '100%', fontSize: '20px', textAlign: 'center', padding: '10px', position:'relative', top: '50%', transform: 'translateY(-50%)'}}>{this.state.openedCrate.text}</p>;
     }
@@ -177,6 +188,7 @@ function styleCrateHeroImage(image) {
   $(image).css('display', 'block');
   $(image).css('marginRight', 'auto');
   $(image).css('marginLeft', 'auto');
+  $(image).css('cursor', 'pointer')
 }
 
 const mapStateToProps = (state) => ({
