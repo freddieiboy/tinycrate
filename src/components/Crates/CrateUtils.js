@@ -134,6 +134,16 @@ export function uncollectCrate(crateId) {
   });
 }
 
+export function incrementGiftedCount () {
+  var userRef = ref.child('users').child(ref.getAuth().uid);
+  userRef.child("giftedCount").transaction(function(giftedCount) {
+    if(giftedCount === null) {
+      return 1;
+    }
+    return giftedCount + 1;
+  });
+}
+
 const incrementUnwrappedCount = () => {
   var userRef = ref.child('users').child(ref.getAuth().uid);
   userRef.child("unwrappedCount").transaction(unwrappedCount => {

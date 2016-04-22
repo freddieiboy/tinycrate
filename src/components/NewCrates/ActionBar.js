@@ -12,7 +12,7 @@ import EXIF from 'exif-js'
 import {flattenObject, ifStyle} from '../utilities';
 import $ from 'jquery';
 import CrateTemplate from 'components/Crates/CrateTemplate';
-import {green, pink} from 'components/Crates/CrateUtils';
+import {green, pink, incrementGiftedCount} from 'components/Crates/CrateUtils';
 import SubscribersList from 'components/NewCrates/SubscribersList';
 import {
   CameraIcon,
@@ -183,6 +183,8 @@ class ActionBar extends Component {
             if(error) {
               console.log(error);
             }
+            // increment 'giftedCount' after sending a crate
+            incrementGiftedCount();
           });
         })
         this.closeAction();
@@ -389,25 +391,6 @@ class ActionBar extends Component {
     )
   }
 }
-
-// TODO: reimplement this with Alec!
-
-// const incrementGiftedCount = () => {
-//   userRef.child("giftedCount").transaction(function(giftedCount) {
-//     if(giftedCount === null) {
-//       return 1;
-//     }
-//     return giftedCount + 1;
-//   });
-// }
-//
-// const updateRecentGiftees = (giftee) => {
-//   userRef.child("giftees").child(giftee.uid).transaction(function(giftee) {
-//     return {
-//       giftedAt: Firebase.ServerValue.TIMESTAMP
-//     };
-//   });
-// }
 
 const mapStateToProps = (state) => ({
   store: {
