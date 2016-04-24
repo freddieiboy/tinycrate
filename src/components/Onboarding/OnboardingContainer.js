@@ -56,7 +56,7 @@ class SlideContainer extends Component {
     return (
       <div className="Onboarding" style={styles.Onboarding}>
         {isEditingUserInfo ? (
-          <UserInfoView userImage={store.userAuth.profileImageURL} name={store.userAuth.name} username={store.userAuth.username} selectedColor={this.state.selectedColor}/>
+          <UserInfoView userImage={store.userAuth.profileImageURL} name={store.userAuth.name} username={store.userAuth.username} selectedColor={this.state.selectedColor} provider={store.userAuth.provider}/>
         ) : (
           <SlideView selectColor={this.selectColor} slide={this.state.slide} />
         )}

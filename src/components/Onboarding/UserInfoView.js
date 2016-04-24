@@ -1,8 +1,9 @@
 import React from 'react';
 import { colors } from '../Crates/CrateTemplate';
+import { TwitterIcon, FacebookIcon } from '../NewCrates/Icons';
 import Input from './Input';
 
-const UserInfoView = ({userImage, selectedColor, name, username}) => {
+const UserInfoView = ({userImage, selectedColor, name, username, provider}) => {
   const userColor = colors(selectedColor).lightColor;
   const styles = {
     UserInfoView: {
@@ -37,7 +38,12 @@ const UserInfoView = ({userImage, selectedColor, name, username}) => {
       minWidth: '75%'
     },
   }
-  console.log(userImage)
+  let loginIcon;
+  if (provider === 'twitter') {
+    loginIcon = <TwitterIcon />
+  } else {
+    loginIcon = <FacebookIcon />
+  }
   return (
     <div className="UserInfoView" style={styles.UserInfoView}>
       <div className="userCard" style={styles.userCard}>
@@ -52,7 +58,11 @@ const UserInfoView = ({userImage, selectedColor, name, username}) => {
           <div className="Grid-cell">
             <div className="image" style={styles.image}>
               <img src={userImage} style={styles.userImage}></img>
-              <div className="providerIcon" style={styles.providerIcon}></div>
+              <div className="providerIcon" style={styles.providerIcon}>
+                <div className="icon center">
+                  {loginIcon}
+                </div>
+              </div>
             </div>
           </div>
         </div>
