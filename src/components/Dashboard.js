@@ -32,7 +32,12 @@ class Dashboard extends Component {
       data: [],
     };
   }
-
+  // componentWillMount = () => {
+  //   if (store.userAuth.currently === 'ANONYMOUS') {
+  //     console.log("User is logged out");
+  //     this.props.actions.push('login')
+  //   }
+  // }
   componentDidMount = () => {
     let {store, actions} = this.props;
 

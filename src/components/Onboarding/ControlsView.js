@@ -53,9 +53,7 @@ const ControlsView = ({userImage, slide, back, next, selectedColor, finish}) => 
     }
   }
   let nextAction;
-  slide === 4 ? nextAction = finish : nextAction = next
-  console.log(nextAction)
-
+  slide === 5 ? nextAction = finish : nextAction = next
   return (
     <div className="ControlsView"  style={styles.ControlsView}>
       <div className="Grid Grid--center" style={{height: '100%'}}>
@@ -76,13 +74,13 @@ const ControlsView = ({userImage, slide, back, next, selectedColor, finish}) => 
           </Hammer>
         </div>
 
-        <div className="Grid-cell" style={styles.cell}>
+        {/*<div className="Grid-cell" style={styles.cell}>
           <div className="buttonBG">
             <div className="buttonIcon" style={styles.buttonIcon}>
               <img className="userImage" style={styles.userImage} src={userImage}></img>
             </div>
           </div>
-        </div>
+        </div>*/}
 
         <div className="Grid-cell" style={styles.cell}>
           <Hammer onTap={nextAction}>
