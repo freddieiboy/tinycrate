@@ -50,7 +50,7 @@ class ActionBar extends Component {
   openAction = () => {
     if (!this.props.store.isOpened) {
       this.props.actions.openActionBar();
-      $('#message').focus();
+      // $('#message').focus();
     } else {
       console.log('already opened!')
     }
@@ -59,7 +59,7 @@ class ActionBar extends Component {
     let {store, actions} = this.props;
     if (store.newCrateText.length > 0 || store.newCratePhoto.length > 0) {
       actions.selectGiftees();
-      $('#message').blur();
+      // $('#message').blur();
     } else {
       alert("Your message cannot be empty!");
     }
@@ -67,7 +67,7 @@ class ActionBar extends Component {
   closeAction = () => {
     this.props.store.isOpened ? this.props.actions.closeActionBar() : null
     this.props.actions.flushNewCrateState();
-    $('#message').blur();
+    // $('#message').blur();
   }
   initPos = () => {
     return {
@@ -117,7 +117,7 @@ class ActionBar extends Component {
   }
   selectFile = () => {
     var itself = this;
-    $('#message').blur();
+    // $('#message').blur();
     FilePicker({ accept: [ 'image/*'] }, (files) => {
       var reader = new FileReader();
       var file = files[0];
@@ -220,7 +220,7 @@ class ActionBar extends Component {
   }
   editCrate = () => {
     this.props.actions.editNewCrate();
-    $('#message').focus();
+    // $('#message').focus();
   }
   render() {
     let {
