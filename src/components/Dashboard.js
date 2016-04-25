@@ -34,32 +34,19 @@ class Dashboard extends Component {
     };
   }
   componentWillMount = () => {
-    console.log('dashboard will mount')
+    // console.log('dashboard will mount')
     if (this.props.store.userAuth.username === 'guest') {
-      this.setState({isMounted: true})
+      this.setState({isMounted: false})
       this.props.actions.push('login');
+    } else {
+      this.setState({isMounted: true})
+      this.props.actions.showActionBar();
+      this.setupCratesList(this.props);
     }
   }
   componentDidMount = () => {
-    let {store, actions} = this.props;
-
-    if (!this.state.isMounted) {
-      actions.showActionBar();
-      const crates = new Firebase(FIREBASE_URL + "/crateFeed/" + store.userAuth.uid);
-      let unopenedCratesList = [];
-      crates.orderByChild("opened").equalTo(false).on("child_added", (snapshot) => {
-        var crate =  snapshot.val();
-        crate.key = snapshot.key();
-
-        // let unopenedCratesList = this.props.store.cratesList;
-        unopenedCratesList.push(crate);
-        this.setState({data: unopenedCratesList})
-
-        //NOTE: switched back to setState for performance.
-        // not needed? slows loading with lots of crates
-        // return actions.setupCratesList(unopenedCratesList);
-      });
-    }
+    console.log('dashboard is calling componentDidMount')
+    console.log(this.state.isMounted)
   }
   shouldComponentUpdate(nextProps) {
     //NOTE: does not update when user logs out and logs back in. shouldComponentUpdate is being called too early or this.state.data is being added too late from the above function. Work on this later in polish.
@@ -74,9 +61,32 @@ class Dashboard extends Component {
       this.props.actions.push('login')
     }
   }
+  componentWillUnmount = () => {
+    this.setState({isMounted: false});
+    // console.log('component will unmount')
+  }
+  setupCratesList = (props) => {
+    let {store, actions} = props;
+
+    const crates = new Firebase(FIREBASE_URL + "/crateFeed/" + store.userAuth.uid);
+    let unopenedCratesList = [];
+    crates.orderByChild("opened").equalTo(false).on("child_added", (snapshot) => {
+      var crate =  snapshot.val();
+      crate.key = snapshot.key();
+
+      // let unopenedCratesList = this.props.store.cratesList;
+      unopenedCratesList.push(crate);
+      this.setState({data: unopenedCratesList})
+
+      //NOTE: switched back to setState for performance.
+      // not needed? slows loading with lots of crates
+      // return actions.setupCratesList(unopenedCratesList);
+    });
+  }
   showProfile = () => {
     let username = this.props.store.userAuth.username;
     this.props.actions.push("user/" + username);
+    // this.props.actions.push('corgis')
   }
   logout = () => {
     this.props.actions.logoutUser();
@@ -110,7 +120,7 @@ class Dashboard extends Component {
     }
     return (
       <div>
-        {!this.state.isMounted ? (
+        {this.state.isMounted ? (
           <div>
             <div>{console.log('Dashboard rendered')}</div>
             <div className="homeHeader" style={styles.homeHeader}>

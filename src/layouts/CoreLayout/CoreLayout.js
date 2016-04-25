@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ActionBar from 'components/NewCrates/ActionBar';
 import '../../styles/core.scss';
 import * as userAuth from '../../redux/modules/userAuth';
@@ -13,22 +13,30 @@ import { connect } from 'react-redux';
 //
 // CoreLayout is a pure function of its props, so we can
 // define it with a plain javascript function...
-function CoreLayout ({children, actions}) {
-  actions.startListeningToAuth();
-  const styles = {
-    body: {
-      overflowY: 'hidden'
-    }
+class CoreLayout extends Component {
+  componentWillMount() {
+    this.props.actions.startListeningToAuth();
+    console.log('this is from CoreLayout')
   }
-  console.log('this is from CoreLayout')
-  return (
-    <div className='page-container' style={styles.body}>
-      <div className='view-container'>
-        {children}
-        <ActionBar />
+  componentWillUnmount() {
+
+  }
+  render() {
+    let { children, actions } = this.props;
+    const styles = {
+      body: {
+        overflowY: 'hidden'
+      }
+    }
+    return (
+      <div className='page-container' style={styles.body}>
+        <div className='view-container'>
+          {children}
+          <ActionBar />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 CoreLayout.propTypes = {
