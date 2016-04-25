@@ -1,8 +1,13 @@
 import React from 'react';
 import SelectColorView from './SelectColorView';
 
-
-const SlideView = ({selectColor, slide}) => {
+const SlideView = ({
+    selectColor,
+    slide,
+    startSelectColor,
+    endSelectColor,
+    selectedColor
+  }) => {
   let slideImage;
   let slideText;
   const slideState = slide;
@@ -51,7 +56,12 @@ const SlideView = ({selectColor, slide}) => {
         {selectingColors ? (
           <div className="image" style={styles.image}></div>
         ) : (
-          <SelectColorView selectColor={selectColor} />
+          <SelectColorView
+            start={startSelectColor}
+            end={endSelectColor}
+            selectColor={selectColor}
+            selectedColor={selectedColor}
+            />
         )}
       </div>
       <div className="messageContainer" style={styles.messageContainer}>

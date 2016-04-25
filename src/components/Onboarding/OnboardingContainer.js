@@ -15,7 +15,8 @@ class SlideContainer extends Component {
     super(props);
     this.state = {
       slide: 1,
-      selectedColor: 'empty'
+      selectedColor: 'empty',
+      isSelectingColor: false
     }
   }
   componentWillMount = () => {
@@ -35,7 +36,13 @@ class SlideContainer extends Component {
     this.setState({slide: number})
   }
   selectColor = (color) => {
-    this.setState({selectedColor: color})
+    this.setState({selectedColor: color, isSelectingColor: false})
+  }
+  startSelectColor = () => {
+    !this.state.isSelectingColor ? this.setState({isSelectingColor: true}) : null
+  }
+  endSelectColor = () => {
+    this.state.isSelectingColor ? this.setState({isSelectingColor: false}) : null
   }
   render() {
     let {store, actions} = this.props;
@@ -52,17 +59,33 @@ class SlideContainer extends Component {
         width: '100vw'
       }
     }
-    const isEditingUserInfo = this.state.slide > 4;
+    const isEditingUserInfo = this.state.slide === 5;
     return (
       <div className="Onboarding" style={styles.Onboarding}>
         {isEditingUserInfo ? (
-          <UserInfoView userImage={store.userAuth.profileImageURL} name={store.userAuth.name} username={store.userAuth.username} selectedColor={this.state.selectedColor} provider={store.userAuth.provider}/>
+          <UserInfoView
+            userImage={store.userAuth.profileImageURL}
+            name={store.userAuth.name}
+            username={store.userAuth.username}
+            selectedColor={this.state.selectedColor}
+            provider={store.userAuth.provider}/>
         ) : (
-          <SlideView selectColor={this.selectColor} slide={this.state.slide} />
+          <SlideView
+            startSelectColor={this.startSelectColor} endSelectColor={this.endSelectColor}
+            selectColor={this.selectColor}
+            selectedColor={this.state.selectedColor}
+            slide={this.state.slide} />
         )}
 
         <div className="controlContainer" style={styles.controlContainer}>
-          <ControlsView back={this.backSlide} next={this.nextSlide} slide={this.state.slide} selectedColor={this.state.selectedColor} userImage={store.userAuth.profileImageURL} finish={actions.finishTutorialMode}/>
+          <ControlsView
+            back={this.backSlide}
+            next={this.nextSlide}
+            slide={this.state.slide}
+            selectedColor={this.state.selectedColor}
+            userImage={store.userAuth.profileImageURL}
+            finish={actions.finishTutorialMode}
+            isSelectingColor={this.state.isSelectingColor}/>
         </div>
       </div>
     )
