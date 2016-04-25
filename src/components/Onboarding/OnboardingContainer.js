@@ -51,7 +51,7 @@ class SlideContainer extends Component {
         position: 'absolute',
         top: '0px',
         left: '0px',
-        height: '100vh',
+        height: '100%',
         backgroundColor: '#000'
       },
       controlContainer: {

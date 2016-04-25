@@ -13,15 +13,15 @@ const SlideView = ({
   const slideState = slide;
   if (slideState === 1) {
     slideImage = 'http://i.imgur.com/uMgW8F2.gif'
-    slideText = 'Welcome to the world of Tinycrate!'
+    slideText = 'Welcome to the world of Tinycrate: the Loot Messenger!'
   } else if (slideState === 2) {
     slideImage = 'http://i.imgur.com/s61zxbY.gif'
-    slideText = 'In this world, you communicate through tiny mysterious crates.'
+    slideText = 'In this world, you communicate through tiny mysterious crates that can hold anything.'
   } else if (slideState === 3) {
     slideImage = 'http://i.imgur.com/YQOUmOe.png'
-    slideText = 'It’s up to you to collect and send crates around the world through this Loot Messenger.'
+    slideText = 'You are going to collect treasures and send crates around the world through Tinycrate.'
   } else if (slideState === 4) {
-    slideText = 'Crate colors are special in Tinycrate. Which color will you represent you? Choose one.'
+    slideText = 'Touch the crate with the right color for you. This is yours now. Take care of it, ok?'
   }
   const styles = {
     SlideView: {
@@ -45,8 +45,13 @@ const SlideView = ({
       height: '30%',
       border: '2px solid #D9D9D9',
       backgroundColor: '#FEFDFA',
-      padding: '20px',
-      fontSize: '1.8rem'
+      padding: '0 20px',
+      fontSize: '1.8rem',
+      overflow: 'scroll',
+      overflowX: 'hidden'
+    },
+    noMargin: {
+      margin: '0px'
     }
   }
   const selectingColors = slide !== 4;
@@ -65,7 +70,9 @@ const SlideView = ({
         )}
       </div>
       <div className="messageContainer" style={styles.messageContainer}>
-        <p>{slideText}</p>
+        <div className="center-relative">
+          <p style={styles.noMargin}>{slideText}</p>
+        </div>
       </div>
     </div>
   )

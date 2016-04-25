@@ -290,7 +290,7 @@ class ActionBar extends Component {
           {store.isCreatingCrate ? (
             <div className="container-fluid body-content-create">
               <div className="centerCrate" style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-                <CrateTemplate color={store.newCrateColor} crateSize={150} pop={true} popType={'2'} crateType={'pop'} cratePreview={store.newCratePhoto}/>
+                <CrateTemplate color={store.newCrateColor} crateSize={150} pop={true} popType={'2'} crateType={'pop'} cratePreview={store.newCratePhoto} shadow={'true'}/>
               </div>
             </div>
           ) : null}
@@ -322,7 +322,7 @@ class ActionBar extends Component {
                       <Hammer onTap={this.editCrate}>
                         <div className="actionButton" style={{left: left, opacity: opacity}} >
                           <div className="actionIcon noTouch" style={{top: '2.2em'}}>
-                            <CrateTemplate color={store.newCrateColor} crateSize={30} pop={true} crateType={'pop'}/>
+                            <CrateTemplate color={store.newCrateColor} crateSize={30} pop={true} crateType={'pop'} shadow={'false'}/>
                           </div>
                         </div>
                       </Hammer>}

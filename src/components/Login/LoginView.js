@@ -125,10 +125,10 @@ const LoginButtons = ({loginTwitter}) => {
             <div className="loginCrates Grid Grid--center" style={styles.loginCrates}>
               <div className="Grid-cell"></div>
               <div className="facebookCrate Grid-cell Grid--1of3" style={styles.facebookCrate}>
-                <CrateTemplate color={'facebook'} crateType={'login-facebook'} crateSize={80} pop={true} popType={'2'}/>
+                <CrateTemplate color={'facebook'} crateType={'login-facebook'} crateSize={80} pop={true} popType={'2'} shadow={'true'}/>
               </div>
               <div className="twitterCrate Grid-cell" style={styles.twitterCrate} onMouseUp={loginTwitter} onTouchEnd={loginTwitter}>
-                <CrateTemplate color={'twitter'} crateType={'login-twitter'} crateSize={80} pop={true} popType={'2'}/>
+                <CrateTemplate color={'twitter'} crateType={'login-twitter'} crateSize={80} pop={true} popType={'2'} shadow={'true'}/>
               </div>
               <div className="Grid-cell"></div>
             </div>

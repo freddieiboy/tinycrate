@@ -208,4 +208,7 @@ input[role="combobox"]{
   transform: translate(-50%, -50%);
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
 }
