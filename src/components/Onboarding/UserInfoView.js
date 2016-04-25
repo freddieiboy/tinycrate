@@ -42,10 +42,13 @@ class UserInfoView extends Component {
       },
     }
     let loginIcon;
+    let providerTitle;
     if (provider === 'twitter') {
       loginIcon = <TwitterIcon />
+      providerTitle = 'Twitter'
     } else {
       loginIcon = <FacebookIcon />
+      providerTitle = 'Facebook'
     }
     return (
       <div className="UserInfoView" style={styles.UserInfoView}>
@@ -72,7 +75,7 @@ class UserInfoView extends Component {
 
             <div className="instructions Grid Grid--center-content">
               <div className="Grid-cell">
-                <h6>Your info from {provider}.</h6>
+                <h6>Your info is pulled from {providerTitle}.</h6>
               </div>
             </div>
             <div className="inputContainer Grid Grid--center-content">
