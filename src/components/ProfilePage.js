@@ -37,13 +37,12 @@ class ProfilePage extends Component {
     }
   }
   componentDidMount = () => {
-    console.log('profile did mount')
     this.setState({currentTab: ProfileTabs.SUBSCRIPTIONS})
     currentProfileId = this.props.params.userId;
     this.loadProfileForUser(currentProfileId);
   }
   componentWillReceiveProps = (nextProps) => {
-    console.log('profile receives nextprops')
+    //TODO: add a shouldComponentUpdate to control performance
     if(currentProfileId === nextProps.params.userId) {
       return;
     }

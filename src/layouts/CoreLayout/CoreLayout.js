@@ -16,10 +16,6 @@ import { connect } from 'react-redux';
 class CoreLayout extends Component {
   componentWillMount() {
     this.props.actions.startListeningToAuth();
-    console.log('this is from CoreLayout')
-  }
-  componentWillUnmount() {
-
   }
   render() {
     let { children, actions } = this.props;

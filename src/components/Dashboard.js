@@ -44,10 +44,10 @@ class Dashboard extends Component {
       this.setupCratesList(this.props);
     }
   }
-  componentDidMount = () => {
-    console.log('dashboard is calling componentDidMount')
-    console.log(this.state.isMounted)
-  }
+  // componentDidMount = () => {
+  //   console.log('dashboard is calling componentDidMount')
+  //   console.log(this.state.isMounted)
+  // }
   shouldComponentUpdate(nextProps) {
     //NOTE: does not update when user logs out and logs back in. shouldComponentUpdate is being called too early or this.state.data is being added too late from the above function. Work on this later in polish.
     const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
@@ -122,7 +122,6 @@ class Dashboard extends Component {
       <div>
         {this.state.isMounted ? (
           <div>
-            <div>{console.log('Dashboard rendered')}</div>
             <div className="homeHeader" style={styles.homeHeader}>
               <h1 className="logoType">TinyCrate</h1>
             </div>
@@ -148,11 +147,7 @@ class Dashboard extends Component {
               ) : null}
             </div>
           </div>
-            ) : (
-              <div>
-                {console.log('Dashboard did not render')}
-              </div>
-            )}
+        ) : null}
       </div>
     );
   }
