@@ -56,7 +56,7 @@ class UserInfoView extends Component {
           <div className="center-relative">
             <div className="userName Grid Grid--center-content">
               <div className="Grid-cell">
-                <h5>Hey, Freddie Iboy</h5>
+                <h5>Hey, {name}</h5>
               </div>
             </div>
 
