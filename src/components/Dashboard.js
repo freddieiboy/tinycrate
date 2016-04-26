@@ -26,17 +26,48 @@ var unopenedCratesList = [];
 var openedCratesList = []
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       data: [],
+      isMounted: false
     };
   }
+  componentWillMount = () => {
+    // console.log('dashboard will mount')
+    if (this.props.store.userAuth.username === 'guest') {
+      this.setState({isMounted: false})
+      this.props.actions.push('login');
+    } else {
+      this.setState({isMounted: true})
+      this.props.actions.showActionBar();
+      this.setupCratesList(this.props);
+    }
+  }
+  // componentDidMount = () => {
+  //   console.log('dashboard is calling componentDidMount')
+  //   console.log(this.state.isMounted)
+  // }
+  shouldComponentUpdate(nextProps) {
+    //NOTE: does not update when user logs out and logs back in. shouldComponentUpdate is being called too early or this.state.data is being added too late from the above function. Work on this later in polish.
+    const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
+    const hasCrates = this.state.data.length > 0;
+    return loggedIn || hasCrates
+  }
+  componentWillUpdate(nextProps) {
+    //NOTE: component is updating 4 times when there is a crate in cratelist. Why?
+    if (nextProps.store.userAuth.currently === 'ANONYMOUS') {
+      console.log("User is logged out");
+      this.props.actions.push('login')
+    }
+  }
+  componentWillUnmount = () => {
+    this.setState({isMounted: false});
+    // console.log('component will unmount')
+  }
+  setupCratesList = (props) => {
+    let {store, actions} = props;
 
-  componentDidMount = () => {
-    let {store, actions} = this.props;
-
-    actions.showActionBar();
     const crates = new Firebase(FIREBASE_URL + "/crateFeed/" + store.userAuth.uid);
     let unopenedCratesList = [];
     crates.orderByChild("opened").equalTo(false).on("child_added", (snapshot) => {
@@ -52,24 +83,10 @@ class Dashboard extends Component {
       // return actions.setupCratesList(unopenedCratesList);
     });
   }
-  shouldComponentUpdate(nextProps) {
-    //NOTE: does not update when user logs out and logs back in. shouldComponentUpdate is being called too early or this.state.data is being added too late from the above function. Work on this later in polish.
-    const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
-    const hasCrates = this.state.data.length > 0;
-    console.log(loggedIn)
-    return loggedIn || hasCrates
-  }
-  componentWillUpdate(nextProps) {
-    console.log('dashboard is updating!')
-    //NOTE: component is updating 4 times when there is a crate in cratelist. Why?
-    if (nextProps.store.userAuth.currently === 'ANONYMOUS') {
-      console.log("User is logged out");
-      this.props.actions.push('login')
-    }
-  }
   showProfile = () => {
     let username = this.props.store.userAuth.username;
     this.props.actions.push("user/" + username);
+    // this.props.actions.push('corgis')
   }
   logout = () => {
     this.props.actions.logoutUser();
@@ -103,32 +120,34 @@ class Dashboard extends Component {
     }
     return (
       <div>
-        <div className="homeHeader" style={styles.homeHeader}>
-          <h1 className="logoType">TinyCrate</h1>
-        </div>
+        {this.state.isMounted ? (
+          <div>
+            <div className="homeHeader" style={styles.homeHeader}>
+              <h1 className="logoType">TinyCrate</h1>
+            </div>
 
-        <Hammer onTap={this.showProfile}>
-          <div className="inventoryAction float-right">
-            <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
-              <a style={{color: '#000'}}><span style={{cursor: 'pointer'}}>Profile</span></a>
+            <Hammer onTap={this.showProfile}>
+              <div className="inventoryAction float-right">
+                <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
+                  <a style={{color: '#000'}}><span style={{cursor: 'pointer'}}>Profile</span></a>
+                </div>
+              </div>
+            </Hammer>
+
+            <Hammer onTap={this.logout}>
+              <div className="float-right">
+                <button className="button">LOGOUT</button>
+              </div>
+            </Hammer>
+
+            <div style={{padding: '22px'}} className="container-fluid body-content-home">
+              <AbsoluteGrid items={this.state.data} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
+              {this.state.data.length === 0 ? (
+                <Empty />
+              ) : null}
             </div>
           </div>
-        </Hammer>
-
-        <Hammer onTap={this.logout}>
-          <div className="float-right">
-            <button className="button">LOGOUT</button>
-          </div>
-        </Hammer>
-
-        <div style={{padding: '22px'}} className="container-fluid body-content-home">
-          <AbsoluteGrid items={this.state.data} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
-          {this.state.data.length === 0 ? (
-            <Empty />
-          ) : (
-            null
-          )}
-        </div>
+        ) : null}
       </div>
     );
   }

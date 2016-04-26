@@ -10,6 +10,10 @@
   flex: 1;
 }
 
+.Grid--center-text {
+  text-align: center!important;
+}
+
 .Grid--flexCells > .Grid-cell {
   display: flex;
 }
@@ -24,6 +28,13 @@
 
 .Grid--center {
   align-items: center;
+}
+
+//NOTE: Freddie added this to test.
+.Grid--center-content {
+  -webkit-box-align:center;
+  -webkit-box-pack:center;
+  display:-webkit-box;
 }
 
 .Grid--justifyCenter {

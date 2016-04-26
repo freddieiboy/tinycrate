@@ -21,7 +21,7 @@ export const startListeningToAuth = () => {
 				//NOTE: Any push from here results in infinite loop.
 				// dispatch(routerActions.push('/'));
 			} else {
-				if (getState().userAuth.currently !== 'ANONYMOUS') {
+				if (getState().userAuth.currently === 'ANONYMOUS') {
 					dispatch({ type: 'LOGOUT' });
 				}
 			}

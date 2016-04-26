@@ -85,7 +85,7 @@ class Subscriber extends Component {
               this.state.isSelected && styles.selectedUserContainer
             )}>
             <div className="userCrate noTouch" style={styles.userProfileCrate}>
-              <CrateTemplate color={'blue'} crateSize={40} pop={false}/>
+              <CrateTemplate color={'blue'} crateSize={40} pop={false} shadow={false}/>
             </div>
             <h5 style={ifStyle(
                 styles.name,

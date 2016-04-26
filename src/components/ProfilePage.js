@@ -29,10 +29,24 @@ class ProfilePage extends Component {
       subscriptionData: [],
       collectionCrateData: [],
       user: {},
-      currentTab: ProfileTabs.SUBSCRIPTIONS,
+      //NOTE: Alec, set the state only w/ setState on componentDidMount or componentWillMount. Plus a null value works better than 0? Don't know why yet.
+      // currentTab: ProfileTabs.SUBSCRIPTIONS,
+      currentTab: null,
       isMe: false,
       isBlocked: false
     }
+  }
+  componentDidMount = () => {
+    this.setState({currentTab: ProfileTabs.SUBSCRIPTIONS})
+    currentProfileId = this.props.params.userId;
+    this.loadProfileForUser(currentProfileId);
+  }
+  componentWillReceiveProps = (nextProps) => {
+    //TODO: add a shouldComponentUpdate to control performance
+    if(currentProfileId === nextProps.params.userId) {
+      return;
+    }
+    this.loadProfileForUser(nextProps.params.userId);
   }
   loadProfileForUser = (userId) => {
     subscriptionsList = [];
@@ -42,23 +56,23 @@ class ProfilePage extends Component {
     getUserByUsername(userId, user => {
       userRef = ref.child('users').child(user.uid);
       getSubscriptions();
-      
+
       // set isBlocked if the current profile user appears in the auth user's blockedUsers list
       if(this.props.store.userAuth.user.blockedUsers) {
         if(user.uid in this.props.store.userAuth.user.blockedUsers) {
           isBlocked = true;
         }
       }
-      
+
       if(user.uid === this.props.store.userAuth.uid) {
         isMe = true;
         getCollectionCrates(user.uid, () => {
           this.setState({collectionCrateData: collectionCratesList});
         });
       }
-      
+
       this.setState({user: user, subscriptionData: subscriptionsList, isMe: isMe, isBlocked: isBlocked});
-      
+
       if(isMe) {
         this.setState({currentTab: ProfileTabs.MY_COLLECTION});
       }
@@ -89,16 +103,6 @@ class ProfilePage extends Component {
   subscriptionsTab = (event) => {
     this.setState({currentTab:  ProfileTabs.SUBSCRIPTIONS});
   }
-  componentWillReceiveProps = (nextProps) => {
-    if(currentProfileId === nextProps.params.userId) {
-      return;
-    }
-    this.loadProfileForUser(nextProps.params.userId);
-  }
-  componentDidMount = () => {
-    currentProfileId = this.props.params.userId;
-    this.loadProfileForUser(currentProfileId);
-  }
   onOpen = (username) => {
     this.props.dispatch(push("/user/" + username));
   }
@@ -109,10 +113,10 @@ class ProfilePage extends Component {
     } else {
       emptyState = '';
     }
-    
+
     var profileTabContent;
     if(this.state.currentTab == ProfileTabs.SUBSCRIPTIONS) {
-      profileTabContent = 
+      profileTabContent =
       <AbsoluteGrid items={this.state.subscriptionData} displayObject={(<ProfileCrateList onOpen={this.onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
       {emptyState};
     } else if(this.state.currentTab == ProfileTabs.MY_COLLECTION) {
@@ -163,7 +167,7 @@ class ProfilePage extends Component {
         </div>
         <div className="Grid-cell button-holder" style={{height: '100%'}}>
           <button style={{float: 'right'}} onClick={this.profileButton}>
-            {this.state.isMe ? 'Settings' : 'Add Gifter +'} 
+            {this.state.isMe ? 'Settings' : 'Add Gifter +'}
           </button>
           {!this.state.isMe ?
           <button style={{marginTop: '40px'}} onClick={this.blockButton}>

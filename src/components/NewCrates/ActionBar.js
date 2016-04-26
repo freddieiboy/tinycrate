@@ -50,7 +50,7 @@ class ActionBar extends Component {
   openAction = () => {
     if (!this.props.store.isOpened) {
       this.props.actions.openActionBar();
-      $('#message').focus();
+      // $('#message').focus();
     } else {
       console.log('already opened!')
     }
@@ -59,7 +59,7 @@ class ActionBar extends Component {
     let {store, actions} = this.props;
     if (store.newCrateText.length > 0 || store.newCratePhoto.length > 0) {
       actions.selectGiftees();
-      $('#message').blur();
+      // $('#message').blur();
     } else {
       alert("Your message cannot be empty!");
     }
@@ -67,7 +67,7 @@ class ActionBar extends Component {
   closeAction = () => {
     this.props.store.isOpened ? this.props.actions.closeActionBar() : null
     this.props.actions.flushNewCrateState();
-    $('#message').blur();
+    // $('#message').blur();
   }
   initPos = () => {
     return {
@@ -117,7 +117,7 @@ class ActionBar extends Component {
   }
   selectFile = () => {
     var itself = this;
-    $('#message').blur();
+    // $('#message').blur();
     FilePicker({ accept: [ 'image/*'] }, (files) => {
       var reader = new FileReader();
       var file = files[0];
@@ -222,7 +222,7 @@ class ActionBar extends Component {
   }
   editCrate = () => {
     this.props.actions.editNewCrate();
-    $('#message').focus();
+    // $('#message').focus();
   }
   render() {
     let {
@@ -292,7 +292,7 @@ class ActionBar extends Component {
           {store.isCreatingCrate ? (
             <div className="container-fluid body-content-create">
               <div className="centerCrate" style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-                <CrateTemplate color={store.newCrateColor} crateSize={150} pop={true} popType={'2'} crateType={'pop'} cratePreview={store.newCratePhoto}/>
+                <CrateTemplate color={store.newCrateColor} crateSize={150} pop={true} popType={'2'} crateType={'pop'} cratePreview={store.newCratePhoto} shadow={'true'}/>
               </div>
             </div>
           ) : null}
@@ -324,7 +324,7 @@ class ActionBar extends Component {
                       <Hammer onTap={this.editCrate}>
                         <div className="actionButton" style={{left: left, opacity: opacity}} >
                           <div className="actionIcon noTouch" style={{top: '2.2em'}}>
-                            <CrateTemplate color={store.newCrateColor} crateSize={30} pop={true} crateType={'pop'}/>
+                            <CrateTemplate color={store.newCrateColor} crateSize={30} pop={true} crateType={'pop'} shadow={'false'}/>
                           </div>
                         </div>
                       </Hammer>}

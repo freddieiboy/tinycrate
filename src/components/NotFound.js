@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { bindActionCreators } from 'redux';
+import { routerActions } from 'react-router-redux';
 import { connect } from 'react-redux';
 import * as newCrates from '../redux/modules/NewCrates';
 
@@ -7,6 +8,7 @@ class NotFound extends Component {
   componentDidMount() {
     this.props.actions.hideActionBar();
   }
+
   render() {
     return (
      <div className="404">
@@ -18,7 +20,7 @@ class NotFound extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  actions: bindActionCreators(newCrates, dispatch)
+  actions: bindActionCreators(Object.assign({}, newCrates, routerActions), dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(NotFound)

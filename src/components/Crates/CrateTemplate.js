@@ -73,7 +73,7 @@ class CrateTemplate extends Component {
       shadow: {
         height: crateSize/1.5,
         borderRadius: crateSize/5,
-      	boxShadow: '0px 12px 10px 0px rgba(5,156,150,0.34)',
+      	boxShadow: this.props.shadow === 'true' ? '0px 12px 10px 0px rgba(5,156,150,0.34)' : 'none',
         position: 'absolute',
         width: '100%',
         top: '31%',
@@ -82,7 +82,7 @@ class CrateTemplate extends Component {
       shadowPressed: {
         height: crateSize/2.1,
         borderRadius: '50%',
-      	boxShadow: '0px 11px 10px 0px rgba(5,156,150,0.34)',
+      	boxShadow: this.props.shadow === 'true' ? '0px 11px 10px 0px rgba(5,156,150,0.34)' : 'none',
         position: 'absolute',
         width: '100%',
         top: '50%',
