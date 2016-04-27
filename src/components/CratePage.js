@@ -15,6 +15,9 @@ import ProfileCrate from './Crates/ProfileCrate';
 import AbsoluteGrid from 'react-absolute-grid';
 import EXIF from 'exif-js';
 import PhotoTilt from '../photoTilt.js'
+import { CancelIcon } from './NewCrates/Icons';
+import Hammer from 'react-hammerjs';
+import CratePageControls from './CratePageControls';
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -30,13 +33,32 @@ class CratePage extends Component {
       openedCrate: {}
     };
   }
+  componentDidMount = () => {
+    currentCrateId = this.props.params.crateId;
+    this.loadCrateById(this.props.params.crateId);
+  }
+  shouldComponentUpdate = (nextState, nextProps) => {
+    //NOTE: getting a setState error here. Implement this effectively. Currently does nothing.
+    const openedCrate = this.state.openedCrate !== nextState.openedCrate;
+    return openedCrate
+  }
+  // componentWillUpdate = () => {
+  //   console.log('cratepage is updating')
+  // }
+  componentWillReceiveProps = (nextProps) => {
+    if(currentCrateId === nextProps.params.crateId) {
+      return;
+    }
+    this.loadCrateById(nextProps.params.crateId);
+  }
   loadCrateById = (crateId) => {
     // hide ActionBar
-    $('.actionButtons').css("visibility", "hidden");
-    
+    this.props.actions.hideActionBar();
+    // $('.actionButtons').css("visibility", "hidden");
+
     getCrateById(crateId, crate => {
       this.setState({openedCrate: crate});
-      
+
       var image = new Image();
       image.onload = function() {
         EXIF.getData(image, function() {
@@ -61,21 +83,11 @@ class CratePage extends Component {
         };
         image.src = crate.image;
       });
-      
+
       getUnopenedCrates(this.props.store.userAuth.uid, () => {
         this.setState({data: unopenedCratesList});
       });
-      
-    }
-  componentWillReceiveProps = (nextProps) => {
-    if(currentCrateId === nextProps.params.crateId) {
-      return;
-    }
-    this.loadCrateById(nextProps.params.crateId);
-  }
-  componentDidMount = () => {
-    currentCrateId = this.props.params.crateId;
-    this.loadCrateById(this.props.params.crateId);
+
   }
   collectCrateButton = () => {
     collectCrate(this.state.openedCrate);
@@ -87,7 +99,7 @@ class CratePage extends Component {
     setTimeout(function(){
       $(".mask").click(function() {
         $(".mask").remove();
-      }); 
+      });
     }, 500);
   }
   regiftCrate = () => {
@@ -107,6 +119,9 @@ class CratePage extends Component {
     this.setState({data: newCrates});
     this.props.dispatch(push("/crate/" + crateId));
   }
+  closePreview = () => {
+    this.props.dispatch(push("/"));
+  }
   render() {
 
     var emptyState;
@@ -115,7 +130,7 @@ class CratePage extends Component {
     } else {
       emptyState = '';
     }
-    
+
     var crateHeroContent;
     if (this.state.openedCrate.image) {
       crateHeroContent = <div id="crateHeroImage" onClick={this.viewPhoto} />;
@@ -125,37 +140,98 @@ class CratePage extends Component {
 
     var timestamp = moment(this.state.openedCrate.createdAt).fromNow();
 
-    return (
-    <div className="profile-page-holder">
+    const styles = {
+      CratePage: {
+        position: 'absolute',
+        top: '0px',
+        left: '0px',
+        height: '100%',
+        width: '100%',
+        backgroundColor: '#000'
+      },
+      closePreview: {
+        position: 'absolute',
+        top: '0px',
+        right: '0px',
+        margin: '13px 25px',
+        height: '30px',
+        width: '21px'
+      },
+      cratePageImage: {
+        left: '0px',
+        right: '0px',
+        top: '0px',
+        backgroundColor: 'white',
+        border: '1px solid red',
+        height: '70%',
+      },
+      crateImage: {
+        height: '70%'
+      },
+      cratePageInfo: {
+        borderTop: '2px solid grey',
+        textAlign: 'center',
+        height: '30%'
+      },
+      controlsView: {
+        left: '0px',
+        height: '30%'
+      }
+    }
 
-      <div className="cratePageImage">
-      <div className="Grid Grid--gutters u-textCenter" style={{height: '70%'}}>
-        <div className="Grid-cell" style={{height: '100%'}}>
-          {crateHeroContent}
+    //NOTE: this is hacky. The color state is updated async. That one second delay doesn't allow CratePageControls to the color quick enough. I added 'empty' as a default. Looks and feels like it's glitchy.
+    const crateColor = this.state.openedCrate.crateColor;
+    let currentCrateColor;
+
+    if (crateColor === undefined) {
+      console.log('there is not color yet')
+      currentCrateColor = 'empty'
+    } else {
+      console.log(this.state.openedCrate.crateColor)
+      currentCrateColor = this.state.openedCrate.crateColor
+    }
+
+    return (
+    <div className="profile-page-holder" style={styles.CratePage}>
+      <div className="cratePageImage" style={styles.cratePageImage}>
+
+        <div className="Grid Grid--gutters u-textCenter crateImage"  style={styles.crateImage}>
+          <div className="Grid-cell" style={{height: '100%'}}>
+            {crateHeroContent}
+            <Hammer onTap={this.closePreview}>
+              <div className="closePreview" style={styles.closePreview}>
+                <CancelIcon />
+              </div>
+            </Hammer>
+          </div>
         </div>
+
+        <div className="Grid Grid--gutters u-textCenter cratePageInfo" style={styles.cratePageInfo}>
+          <div className="Grid-cell">
+            <div onClick={this.collectCrateButton}><span style={{cursor: 'pointer'}}>Save</span></div>
+          </div>
+          <div className="Grid-cell user-info-holder">
+            <div>{this.state.openedCrate.authorDisplayName}</div>
+            {this.state.openedCrate.image ?
+              <div>{this.state.openedCrate.text}</div>
+              : ''
+            }
+            <div style={{color: "#949aa0"}}> {timestamp}</div>
+          </div>
+          <div className="Grid-cell">
+            <div onClick={this.regiftCrate}><span style={{cursor: 'pointer'}}>Regift</span></div>
+          </div>
+        </div>
+
       </div>
-      <div className="Grid Grid--gutters u-textCenter cratePageInfo" style={{height: '30%'}}>
-        <div className="Grid-cell">
-          <div onClick={this.collectCrateButton}><span style={{cursor: 'pointer'}}>Save</span></div>
-        </div>
-        <div className="Grid-cell user-info-holder">
-          <div>{this.state.openedCrate.authorDisplayName}</div>
-          {this.state.openedCrate.image ?
-            <div>{this.state.openedCrate.text}</div>
-            : ''
-          }
-          <div style={{color: "#949aa0"}}> {timestamp}</div>
-        </div>
-        <div className="Grid-cell">
-          <div onClick={this.regiftCrate}><span style={{cursor: 'pointer'}}>Regift</span></div>
-        </div>
+
+      <div className="controlsView" style={styles.controlsView}>
+        <CratePageControls userColor={currentCrateColor} crateContentsSaved={false}/>
       </div>
-      </div>
-      
-      <div style={{padding: '22px', top: '386px'}} className="container-fluid body-content">
+      {/*<div style={{padding: '22px', top: '386px'}} className="container-fluid body-content">
         <AbsoluteGrid items={this.state.data} displayObject={(<ProfileCrateList onOpen={this.onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
         {emptyState}
-      </div>
+      </div>*/}
 
     </div>
     );

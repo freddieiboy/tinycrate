@@ -20,7 +20,6 @@ import Hammer from 'react-hammerjs';
 import firebase from 'firebase';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
-// var authData = ref.getAuth();
 
 var unopenedCratesList = [];
 var openedCratesList = []
@@ -29,7 +28,18 @@ class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
-      data: [],
+      data: [{
+        authorDisplayName: "Freddie Iboy",
+        authorProfileImageURL: "https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg",
+        authorUId: "twitter:48171141",
+        crateColor: "productHunt",
+        createdAt: 1461700435141,
+        key: "-KGJ7djG7V-H2Am5wVt0",
+        opened: false,
+        recipientUId: "twitter:48171141",
+        text: "test",
+      }],
+      // data:[],
       isMounted: false
     };
   }
@@ -50,6 +60,7 @@ class Dashboard extends Component {
   // }
   shouldComponentUpdate(nextProps) {
     //NOTE: does not update when user logs out and logs back in. shouldComponentUpdate is being called too early or this.state.data is being added too late from the above function. Work on this later in polish.
+    console.log('dashboard should update')
     const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
     const hasCrates = this.state.data.length > 0;
     return loggedIn || hasCrates
