@@ -106,7 +106,7 @@ class CratePage extends Component {
     $('.actionButtons').css("visibility", "visible");
     this.props.actions.openActionBar();
     this.props.actions.selectCrateColor(this.state.openedCrate.crateColor);
-    this.props.actions.addNewCrateText(this.state.openedCrate.text);
+    this.props.actions.addRegiftCrateText(this.state.openedCrate.text);
     this.props.actions.addNewCratePhoto((this.state.openedCrate.image) ? this.state.openedCrate.image : '');
     $("#imagePreview").attr('src', this.props.store.newCratePhoto);
   }
@@ -162,7 +162,6 @@ class CratePage extends Component {
         right: '0px',
         top: '0px',
         backgroundColor: 'white',
-        border: '1px solid red',
         height: '70%',
       },
       crateImage: {
@@ -182,13 +181,16 @@ class CratePage extends Component {
     //NOTE: this is hacky. The color state is updated async. That one second delay doesn't allow CratePageControls to the color quick enough. I added 'empty' as a default. Looks and feels like it's glitchy.
     const crateColor = this.state.openedCrate.crateColor;
     let currentCrateColor;
+    let crateOwnerImage;
 
     if (crateColor === undefined) {
       console.log('there is not color yet')
       currentCrateColor = 'empty'
+      crateOwnerImage = ''
     } else {
-      console.log(this.state.openedCrate.crateColor)
+      console.log(this.state.openedCrate)
       currentCrateColor = this.state.openedCrate.crateColor
+      crateOwnerImage = this.state.openedCrate.authorProfileImageURL
     }
 
     return (
@@ -207,9 +209,9 @@ class CratePage extends Component {
         </div>
 
         <div className="Grid Grid--gutters u-textCenter cratePageInfo" style={styles.cratePageInfo}>
-          <div className="Grid-cell">
+          {/*<div className="Grid-cell">
             <div onClick={this.collectCrateButton}><span style={{cursor: 'pointer'}}>Save</span></div>
-          </div>
+          </div>*/}
           <div className="Grid-cell user-info-holder">
             <div>{this.state.openedCrate.authorDisplayName}</div>
             {this.state.openedCrate.image ?
@@ -218,15 +220,15 @@ class CratePage extends Component {
             }
             <div style={{color: "#949aa0"}}> {timestamp}</div>
           </div>
-          <div className="Grid-cell">
+          {/*<div className="Grid-cell">
             <div onClick={this.regiftCrate}><span style={{cursor: 'pointer'}}>Regift</span></div>
-          </div>
+          </div>*/}
         </div>
 
       </div>
 
       <div className="controlsView" style={styles.controlsView}>
-        <CratePageControls userColor={currentCrateColor} crateContentsSaved={false}/>
+        <CratePageControls userColor={currentCrateColor} crateContentsSaved={false} regift={this.regiftCrate} saveToProfile={this.collectCrateButton} userImage={crateOwnerImage}/>
       </div>
       {/*<div style={{padding: '22px', top: '386px'}} className="container-fluid body-content">
         <AbsoluteGrid items={this.state.data} displayObject={(<ProfileCrateList onOpen={this.onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />

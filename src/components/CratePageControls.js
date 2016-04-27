@@ -94,7 +94,7 @@ const ControlsView = ({userImage, saveToProfile, regift, userColor, crateContent
               <div className="userImage" style={styles.userImage}>
                 <div className="center">
                   {/*<div className="individualCrate" style={styles.firstCrate}>*/}
-                    <CrateTemplate crateSize={80} color={colors(userColor)} crateType={'tutorial'} popType={'1'} pop={'true'} shadow={'false'}/>
+                    <CrateTemplate crateSize={80} color={colors(userColor)} cratePreview={userImage} crateType={'profile'} popType={'1'} pop={'true'} shadow={'false'}/>
                   {/*</div>
                   <div className="individualCrate" style={styles.individualCrate}>
                     <CrateTemplate crateSize={70} color={'blue'} crateType={'tutorial'} shadow={'false'}/>

@@ -53,10 +53,10 @@ export const getBtnWidth = (width) => {
   }
 }
 
-export const addNewCrateText = (text) => {
+export const addRegiftCrateText = (text) => {
   return {
-    type: 'ADD_NEW_CRATE_TEXT',
-    newCrateText: text
+    type: 'REGIFT_CRATE_TEXT',
+    regiftCrateText: text
   }
 }
 
@@ -95,7 +95,7 @@ export const flushNewCrateState = () => {
     isCreatingCrate: false,
     isSelectingUsers: false,
     newCratePhoto: '',
-    newCrateText: '',
+    regiftCrateText: '',
     giftee: ''
   }
 }
@@ -122,7 +122,7 @@ const initialState = {
   mainButtonPosition: 0,
   mainButtonWidth: 0,
   newCrateColor: '',
-  newCrateText: '',
+  regiftCrateText: '',
   newCratePhoto: '',
   subscribers: {},
   giftee: []
@@ -170,10 +170,10 @@ export default function NewCrates (state = initialState, action) {
         ...state,
         mainButtonWidth: action.mainButtonWidth
       }
-    case 'ADD_NEW_CRATE_TEXT':
+    case 'REGIFT_CRATE_TEXT':
       return {
         ...state,
-        newCrateText: action.newCrateText
+        regiftCrateText: action.regiftCrateText
       }
     case 'ADD_NEW_CRATE_PHOTO':
       return {

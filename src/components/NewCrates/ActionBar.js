@@ -27,10 +27,29 @@ class ActionBar extends Component {
   constructor(props) {
     super(props);
     this.randomColor();
+    this.state = {
+      localText: ''
+    }
+  }
+  shouldComponentUpdate = (nextProps, nextState) => {
+    const textIsDifferent = nextState.localText !== this.state.localText
+    const isOpened = nextProps.store.isOpened !== this.props.store.isOpened
+    //NOTE: alwaysUpdate is true to help debug. Don't use later.
+    const alwaysUpdate = true
+    return textIsDifferent || isOpened || alwaysUpdate
+  }
+  componentWillUpdate = (nextProps, nextState) => {
+    const regiftText = nextProps.store.regiftCrateText;
+    console.log('componentWillUpdate actionbar called')
+    if (regiftText.length > 0 && this.state.localText === '') {
+      this.setState({localText: regiftText})
+      console.log(nextState.localText.length, nextProps.store.regiftCrateText.length)
+    }
   }
   componentDidMount = () => {
     //NOTE: why do I have to add setTimeout here?
     // console.log($('.bigPlusButton').width(), $('.bigPlusButton').position().left)
+    console.log('component did load', this.props.store.mainButtonPosition, this.props.store.mainButtonWidth)
     this.props.actions.getBtnWidth($('.bigPlusButton').width());
     this.props.actions.getBtnPosition($('.bigPlusButton').position().left);
 
@@ -57,7 +76,7 @@ class ActionBar extends Component {
   }
   selectUsers = () => {
     let {store, actions} = this.props;
-    if (store.newCrateText.length > 0 || store.newCratePhoto.length > 0) {
+    if (this.state.localText.length > 0 || store.newCratePhoto.length > 0) {
       actions.selectGiftees();
       // $('#message').blur();
     } else {
@@ -166,7 +185,7 @@ class ActionBar extends Component {
             authorDisplayName: store.userAuth.name,
             authorProfileImageURL: store.userAuth.profileImageURL,
             recipientUId: users,
-            text: store.newCrateText,
+            text: this.state.localText,
             crateColor: store.newCrateColor,
             image: (store.newCratePhoto == '') ? null : store.newCratePhoto,
             opened: false,
@@ -195,7 +214,7 @@ class ActionBar extends Component {
   }
   handleSend = (e) => {
     let {store, actions} = this.props;
-    let text = store.newCrateText.length;
+    let text = this.state.localText.length;
     let photo = store.newCratePhoto.length;
     let giftee = store.giftee.length;
 
@@ -218,7 +237,8 @@ class ActionBar extends Component {
     }
   }
   handleChange = (event) => {
-    this.props.actions.addNewCrateText(event.target.value);
+    // this.props.actions.addNewCrateText(event.target.value);
+    this.setState({localText: event.target.value})
   }
   editCrate = () => {
     this.props.actions.editNewCrate();
@@ -271,7 +291,7 @@ class ActionBar extends Component {
       }
     }
     const ifSelected = store.giftee.length > 0 ? '#FB70AF' : undefined;
-    const ifMsg = store.newCrateText.length > 0 || store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
+    const ifMsg = this.state.localText > 0 || store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
     const ifPhoto = store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
 
     let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: '#FB70AF', fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
@@ -292,7 +312,7 @@ class ActionBar extends Component {
           {store.isCreatingCrate ? (
             <div className="container-fluid body-content-create">
               <div className="centerCrate" style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-                <CrateTemplate color={store.newCrateColor} crateSize={150} pop={true} popType={'2'} crateType={'pop'} cratePreview={store.newCratePhoto} shadow={'true'}/>
+                <CrateTemplate color={store.newCrateColor} crateSize={150} pop={true} popType={'2'} crateType={'normal'} cratePreview={store.newCratePhoto} shadow={'true'}/>
               </div>
             </div>
           ) : null}
@@ -378,7 +398,7 @@ class ActionBar extends Component {
               {/*NOTE: This input shows up after init click.*/}
               { store.isCreatingCrate ? (
                 <div className="clearfix" style={{padding: '0 20px 0 20px'}}>
-                  <input id="message" placeholder='crate message...' className="inputSend" style={styles.inputSend} value={store.newCrateText} onChange={this.handleChange} onKeyUp={this.handleSend}></input>
+                  <input id="message" placeholder='crate message...' className="inputSend" style={styles.inputSend} value={this.state.localText} onChange={this.handleChange} onKeyUp={this.handleSend}></input>
                 </div>
               ) : (
                 null
@@ -405,7 +425,8 @@ const mapStateToProps = (state) => ({
     newCratePhoto: state.NewCrates.newCratePhoto,
     subscribers: state.NewCrates.subscribers,
     giftee: state.NewCrates.giftee,
-    isHidden: state.NewCrates.isHidden
+    isHidden: state.NewCrates.isHidden,
+    regiftCrateText: state.NewCrates.regiftCrateText
   }
 })
 

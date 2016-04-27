@@ -48,23 +48,27 @@ class CrateTemplate extends Component {
         left: '50%',
         transform: 'translate(-50%, -50%)'
       },
-      cratePreview: {
-        height: crateSize/1.7,
-        width: crateSize/1.7,
-        borderRadius: '50%',
-        background: 'url('+ this.props.cratePreview +') center',
-        backgroundSize: 'cover',
-      },
       image: {
         top: '-' + crateSize/5 + 'px',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
+        position: 'absolute',
+        zIndex: '10',
         height: crateSize/1.7,
         width: crateSize/1.7,
-        padding: '4px',
         borderRadius: '50%',
-        position: 'absolute',
-        zIndex: '10'
+        overflow: 'hidden'
+      },
+      cratePreview: {
+        height: crateSize/1.7,
+        padding: '0px',
+        border: '0px',
+        margin: '0px',
+        transform: 'scale(2)'
+      },
+      cratePreviewProfile: {
+        height: crateSize/1.7,
+        padding: '0px',
+        border: '0px',
+        margin: '0px',
       },
       imagePressed: {
         top: '0px',
@@ -104,16 +108,18 @@ class CrateTemplate extends Component {
       preview = <FacebookIcon />
     } else if (crateType === 'tutorial') {
       preview = <CrateEmojis color={eval(color).darkColor} visible={'1'}/>
-    } else {
-      preview = <div style={styles.cratePreview}></div>
+    } else if (crateType === 'profile') {
+      preview = <img className="userImage" src={this.props.cratePreview} style={styles.cratePreviewProfile} align="middle"></img>
+    } else if (crateType === 'normal') {
+      preview = <img className="userImage" src={this.props.cratePreview} style={styles.cratePreview} align="middle"></img>
     }
     return (
       <div className="CrateTemplate" style={styles.CrateTemplate}>
-        <div className="crateImage noTouch" style={ifStyle(
+        <div className="crateImage noTouch center" style={ifStyle(
             styles.image,
             this.state.isPressed && styles.imagePressed,
           )} ref="thisEmptyImage">
-          <div className="cratePreview" style={styles.center} ref="thisCratePreview">
+          <div className="cratePreview" ref="thisCratePreview" style={styles.center}>
             {preview}
           </div>
         </div>
