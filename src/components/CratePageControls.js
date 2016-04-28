@@ -27,9 +27,6 @@ const ControlsView = ({userImage, saveToProfile, regift, userColor, crateContent
     crateCell: {
       position: 'relative',
       height: '100%',
-      // border: '1px solid red',
-      // overflowY: 'scroll',
-      // overflowX: 'visible'
     },
     hide: {
       display: 'none'
@@ -70,7 +67,6 @@ const ControlsView = ({userImage, saveToProfile, regift, userColor, crateContent
   }
   let saved;
   crateContentsSaved ? saved = userColor : saved = 'none'
-  // slide === 5 ? nextAction = finish : nextAction = next
   return (
     <div className="ControlsView"  style={styles.ControlsView}>
       <div className="Grid Grid--center" style={{height: '100%'}}>
@@ -90,21 +86,9 @@ const ControlsView = ({userImage, saveToProfile, regift, userColor, crateContent
         <div className="Grid-cell" style={styles.crateCell}>
           <div className="buttonBG">
             <div className="buttonIcon" style={styles.buttonIcon}>
-              {/*<img className="userImage" style={styles.userImage} src={userImage}></img>*/}
               <div className="userImage" style={styles.userImage}>
                 <div className="center">
-                  {/*<div className="individualCrate" style={styles.firstCrate}>*/}
-                    <CrateTemplate crateSize={80} color={colors(userColor)} cratePreview={userImage} crateType={'profile'} popType={'1'} pop={'true'} shadow={'false'}/>
-                  {/*</div>
-                  <div className="individualCrate" style={styles.individualCrate}>
-                    <CrateTemplate crateSize={70} color={'blue'} crateType={'tutorial'} shadow={'false'}/>
-                  </div>
-                  <div className="individualCrate" style={styles.individualCrate}>
-                    <CrateTemplate crateSize={70} color={'productHunt'} crateType={'tutorial'} shadow={'false'}/>
-                  </div>
-                  <div className="individualCrate" style={styles.individualCrate}>
-                    <CrateTemplate crateSize={70} color={'pink'} crateType={'tutorial'} shadow={'false'}/>
-                  </div>*/}
+                  <CrateTemplate crateSize={80} color={colors(userColor)} cratePreview={userImage} crateType={'profile'} popType={'1'} pop={'true'} shadow={'false'}/>
                 </div>
               </div>
             </div>
