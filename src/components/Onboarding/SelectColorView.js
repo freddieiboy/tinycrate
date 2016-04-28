@@ -12,14 +12,14 @@ class SelectColorView extends Component {
     let {selectColor} = this.props;
     const styles = {
       SelectColorView: {
-        paddingTop: '30px',
+        // paddingTop: '30px',
         overflow: 'hidden',
         height: '100%'
       },
       crate: {
-        marginLeft: '10px',
-        marginRight: '10px',
-        marginBottom: '40px'
+        // marginLeft: '10px',
+        // marginRight: '10px',
+        // marginBottom: '40px'
       }
     }
     const singleCrate = (color) => {

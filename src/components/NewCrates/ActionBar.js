@@ -207,6 +207,7 @@ class ActionBar extends Component {
           });
         })
         this.closeAction();
+        this.setState({localText: ''});
       } else {
         alert("Your crate needs a receipient!");
       }
