@@ -88,3 +88,17 @@ export const StarIcon = ({color = '#fff', fill = 'none'}) =>
   <svg width="33px" height="31px" viewBox="17 41 33 31" version="1.1">
     <polygon points="33.1679608 66.5 23.1756115 71.7532889 25.0839804 60.6266445 17 52.7467111 28.1717861 51.1233555 33.1679608 41 38.1641354 51.1233555 49.3359216 52.7467111 41.2519412 60.6266445 43.1603101 71.7532889" stroke={color} strokeWidth="1.2" fill={fill}></polygon>
   </svg>
+
+export const TextIcon = ({color = '#fff'}) =>
+  <svg width="20px" height="20px" viewBox="2 2 20 20" version="1.1">
+    <path d="M20,2 L4,2 C2.9,2 2,2.9 2,4 L2,16 C2,17.1 2.9,18 4,18 L18,18 L22,22 L22,4 C22,2.9 21.1,2 20,2 L20,2 Z M18,14 L6,14 L6,12 L18,12 L18,14 L18,14 Z M18,11 L6,11 L6,9 L18,9 L18,11 L18,11 Z M18,8 L6,8 L6,6 L18,6 L18,8 L18,8 Z" stroke="none" fill={color} fillRule="evenodd"></path>
+  </svg>
+
+export const ClockIcon = ({color = '#fff'}) =>
+  <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+      <path d="M11.99,2 C6.47,2 2,6.48 2,12 C2,17.52 6.47,22 11.99,22 C17.52,22 22,17.52 22,12 C22,6.48 17.52,2 11.99,2 L11.99,2 Z M12,20 C7.58,20 4,16.42 4,12 C4,7.58 7.58,4 12,4 C16.42,4 20,7.58 20,12 C20,16.42 16.42,20 12,20 L12,20 Z" id="Shape" fill={color}></path>
+      <polygon points="0 0 24 0 24 24 0 24"></polygon>
+      <polygon fill={color} points="12.5 7 11 7 11 13 16.25 16.15 17 14.92 12.5 12.25"></polygon>
+    </g>
+  </svg>

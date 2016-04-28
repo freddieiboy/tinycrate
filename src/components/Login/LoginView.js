@@ -38,9 +38,11 @@ const LoginButtons = ({loginTwitter}) => {
       height: '250px'
     },
     twitterCrate: {
+      margin: '0 20px'
       // float: 'left'
     },
     facebookCrate: {
+      margin: '0 20px'
       // float: 'left',
       // marginRight: '18px'
     },
@@ -122,9 +124,9 @@ const LoginButtons = ({loginTwitter}) => {
           </div>
           <div className="getStarted Grid-cell" style={styles.getStarted}>
             <div className="getStartedBG Grid-cell" style={styles.getStartedBG}></div>
-            <div className="loginCrates Grid Grid--center" style={styles.loginCrates}>
-              <div className="Grid-cell"></div>
-              <div className="facebookCrate Grid-cell Grid--1of3" style={styles.facebookCrate}>
+            <div className="loginCrates Grid Grid--center-content" style={styles.loginCrates}>
+              {/*<div className="Grid-cell"></div>*/}
+              <div className="facebookCrate Grid-cell" style={styles.facebookCrate}>
                 <CrateTemplate color={'facebook'} crateType={'login-facebook'} crateSize={80} pop={true} popType={'2'} shadow={'true'}/>
               </div>
               <div className="twitterCrate Grid-cell" style={styles.twitterCrate} onMouseUp={loginTwitter} onTouchEnd={loginTwitter}>

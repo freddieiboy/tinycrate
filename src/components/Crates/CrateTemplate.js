@@ -6,7 +6,7 @@ import {pop1, pop2, openCrate} from './CrateUtils';
 import Hammer from 'react-hammerjs';
 import {ifStyle} from '../utilities';
 import {EmojiContainer, CrateEmojis} from '../Emojis';
-import {FacebookIcon, TwitterIcon} from  '../NewCrates/Icons';
+import {FacebookIcon, TwitterIcon, TextIcon} from  '../NewCrates/Icons';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 
@@ -40,16 +40,11 @@ class CrateTemplate extends Component {
   }
   deleteObj = (event) => {
     var crate = ref.child('crateFeed').child(ref.getAuth().uid).child(this.props.id);
-    // this.setState({popping: true})
-    // if (this.state.popping == false) {
-      // pop1(this.refs.thisCrate, this.props.color);
-      openCrate(crate, () => {
-        setTimeout(() => {
-          // this.setState({popping: false})
-          this.props.onDelete(this.props.id);
-        }, 700);
-      });
-    // }
+    openCrate(crate, () => {
+      setTimeout(() => {
+        this.props.onDelete(this.props.id);
+      }, 700);
+    });
     event.preventDefault();
   }
   render() {
@@ -62,7 +57,6 @@ class CrateTemplate extends Component {
     const styles = {
       CrateTemplate: {
         position: 'relative',
-        // top: crateSize/2,
         height: crateSize,
         width: crateSize
       },
@@ -78,18 +72,16 @@ class CrateTemplate extends Component {
       },
       crateSize: {
         width: crateSize,
-        // position: 'absolute',
-        // left: '50%',
-        // transform: 'translate(-50%, -50%)'
       },
       crateImage: {
         marginTop: '-' + crateSize/6 + 'px',
-        // position: 'absolute',
         zIndex: '10',
         height: crateSize/1.7,
         width: crateSize/1.7,
         borderRadius: '50%',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        zIndex: '1',
+        backgroundColor: eval(color).darkColor,
       },
       crateImagePressed: {
         marginTop: crateSize/9 + 'px',
@@ -100,7 +92,10 @@ class CrateTemplate extends Component {
         padding: '0px',
         border: '0px',
         margin: '0px',
-        transform: 'scale(2)'
+        transform: 'scale(2)',
+        opacity: '.5',
+        WebkitFilter: 'blur(1.5px)',
+        filter: 'blur(1.5px)',
       },
       profileImage: {
         height: crateSize/4,
@@ -149,6 +144,10 @@ class CrateTemplate extends Component {
       },
       hide: {
         visibility: 'hidden'
+      },
+      textIcon: {
+        transform: 'scale(1.2)',
+        marginTop: '17px'
       }
     }
     var preview;
@@ -168,11 +167,21 @@ class CrateTemplate extends Component {
       preview = <img className="userImage" src={this.props.cratePreview} style={styles.cratePreviewProfile} align="middle"></img>
       profileImage = null;
     } else if (crateType === 'normal') {
-      preview = <img className="userImage" src={this.props.cratePreview} style={styles.cratePreview} align="middle"></img>
-      profileImage = <img className="userImage" src="https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg" style={ifStyle(
-          styles.profileImage,
-          this.state.isPressed && styles.profileImagePressed
-        )} align="middle"></img>
+      if (this.props.cratePreview === undefined) {
+        preview = <div className="textIcon" style={styles.textIcon}>
+            <TextIcon color={eval(color).lightColor}/>
+        </div>
+        profileImage = <img className="userImage" src="https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg" style={ifStyle(
+            styles.profileImage,
+            this.state.isPressed && styles.profileImagePressed
+          )} align="middle"></img>
+      } else {
+        preview = <img className="userImage" src={this.props.cratePreview} style={styles.cratePreview} align="middle"></img>
+        profileImage = <img className="userImage" src="https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg" style={ifStyle(
+            styles.profileImage,
+            this.state.isPressed && styles.profileImagePressed
+          )} align="middle"></img>
+      }
     }
     return (
       <div className="CrateTemplate" style={styles.CrateTemplate}>
@@ -196,7 +205,6 @@ class CrateTemplate extends Component {
             onMouseUp={this.setupPop}
             onTouchStart={this.pressCrate}
             onTouchEnd={this.setupPop}>
-            {/*<div className="popContainer noTouch" ref="popContainer"></div>*/}
             <div className="noTouch">
               { this.state.isPressed ? (
                 <div className="crate1">

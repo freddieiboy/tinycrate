@@ -15,9 +15,10 @@ import ProfileCrate from './Crates/ProfileCrate';
 import AbsoluteGrid from 'react-absolute-grid';
 import EXIF from 'exif-js';
 import PhotoTilt from '../photoTilt.js'
-import { CancelIcon } from './NewCrates/Icons';
+import { CancelIcon, ClockIcon } from './NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 import CratePageControls from './CratePageControls';
+import { colors } from './Crates/CrateTemplate';
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -131,14 +132,20 @@ class CratePage extends Component {
       emptyState = '';
     }
 
-    var crateHeroContent;
-    if (this.state.openedCrate.image) {
-      crateHeroContent = <div id="crateHeroImage" onClick={this.viewPhoto} />;
-    } else {
-      crateHeroContent = <p style={{maxWidth: '100%', fontSize: '20px', textAlign: 'center', padding: '10px', position:'relative', top: '50%', transform: 'translateY(-50%)'}}>{this.state.openedCrate.text}</p>;
-    }
-
     var timestamp = moment(this.state.openedCrate.createdAt).fromNow();
+
+    //NOTE: this is hacky. The color state is updated async. That one second delay doesn't allow CratePageControls to the color quick enough. I added 'empty' as a default. Looks and feels like it's glitchy.
+    const crateColor = this.state.openedCrate.crateColor;
+    let currentCrateColor;
+    let crateOwnerImage;
+
+    if (crateColor === undefined) {
+      currentCrateColor = 'empty'
+      crateOwnerImage = ''
+    } else {
+      currentCrateColor = this.state.openedCrate.crateColor
+      crateOwnerImage = this.state.openedCrate.authorProfileImageURL
+    }
 
     const styles = {
       CratePage: {
@@ -155,44 +162,71 @@ class CratePage extends Component {
         right: '0px',
         margin: '13px 25px',
         height: '30px',
-        width: '21px'
+        width: '30px',
+        borderRadius: '50%',
+        backgroundColor: 'white',
+        boxShadow: '0px 2px 3px 0px rgba(0,0,0,0.32)'
+      },
+      closeIcon: {
+        transform: 'scale(.7)',
+        margin: '-2px 0 0 3px'
       },
       cratePageImage: {
         left: '0px',
         right: '0px',
         top: '0px',
-        backgroundColor: 'white',
         height: '70%',
       },
       crateImage: {
-        height: '70%'
+        height: '70%',
+        backgroundColor: this.state.openedCrate.image ? 'black' : colors(currentCrateColor).darkColor,
+        overflow: 'hidden',
       },
       cratePageInfo: {
-        borderTop: '2px solid grey',
         textAlign: 'center',
-        height: '30%'
+        maxHeight: '30%',
+        color: '#838B9E',
+        paddingBottom: '1em',
+        backgroundColor: '#ECEEF5',
+        borderBottomRightRadius: '10px',
+        borderBottomLeftRadius: '10px',
+        marginLeft: '0'
       },
       controlsView: {
         left: '0px',
         height: '30%'
+      },
+      openText: {
+        maxWidth: '100%',
+        textAlign: 'center',
+        padding: '15px',
+        position:'relative',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        color: 'white'
+      },
+      timestamp: {
+        float: 'left',
+        paddingLeft: '10px',
+        opacity: '.7'
+      },
+      authorName: {
+        float: 'right',
+        paddingRight: '20px',
+      },
+      clockIcon: {
+        float: 'left',
+        // marginLeft: '10px',
+        opacity: '.5'
       }
     }
-
-    //NOTE: this is hacky. The color state is updated async. That one second delay doesn't allow CratePageControls to the color quick enough. I added 'empty' as a default. Looks and feels like it's glitchy.
-    const crateColor = this.state.openedCrate.crateColor;
-    let currentCrateColor;
-    let crateOwnerImage;
-
-    if (crateColor === undefined) {
-      console.log('there is not color yet')
-      currentCrateColor = 'empty'
-      crateOwnerImage = ''
+    console.log(this.state.openedCrate)
+    var crateHeroContent;
+    if (this.state.openedCrate.image) {
+      crateHeroContent = <Hammer onDoubleTap={this.viewPhoto}><div id="crateHeroImage" style={{height: '100%'}} /></Hammer>
     } else {
-      console.log(this.state.openedCrate)
-      currentCrateColor = this.state.openedCrate.crateColor
-      crateOwnerImage = this.state.openedCrate.authorProfileImageURL
+      crateHeroContent = <div className="openText" style={styles.openText}><h4>{this.state.openedCrate.text}</h4></div>
     }
-
     return (
     <div className="profile-page-holder" style={styles.CratePage}>
       <div className="cratePageImage" style={styles.cratePageImage}>
@@ -202,29 +236,32 @@ class CratePage extends Component {
             {crateHeroContent}
             <Hammer onTap={this.closePreview}>
               <div className="closePreview" style={styles.closePreview}>
-                <CancelIcon />
+                <div className="closeIcon" style={styles.closeIcon}>
+                  <CancelIcon color={colors(currentCrateColor).darkColor}/>
+                </div>
               </div>
             </Hammer>
           </div>
         </div>
-
-        <div className="Grid Grid--gutters u-textCenter cratePageInfo" style={styles.cratePageInfo}>
-          {/*<div className="Grid-cell">
-            <div onClick={this.collectCrateButton}><span style={{cursor: 'pointer'}}>Save</span></div>
-          </div>*/}
-          <div className="Grid-cell user-info-holder">
-            <div>{this.state.openedCrate.authorDisplayName}</div>
-            {this.state.openedCrate.image ?
-              <div>{this.state.openedCrate.text}</div>
-              : ''
-            }
-            <div style={{color: "#949aa0"}}> {timestamp}</div>
+          <div className="Grid Grid--gutters u-textCenter cratePageInfo" style={styles.cratePageInfo}>
+            <div className="Grid-cell user-info-holder">
+              <div className="attribution clearfix">
+                <div style={styles.authorName}>{this.state.openedCrate.authorDisplayName}</div>
+                <div className="clockIcon" style={styles.clockIcon}>
+                  <ClockIcon color={'#838B9E'}/>
+                </div>
+                <div style={styles.timestamp}>
+                  {timestamp}
+                </div>
+              </div>
+              <div className="text" style={{display: 'block'}}>
+                {this.state.openedCrate.image ?
+                  <div>{this.state.openedCrate.text}</div>
+                  : ''
+                }
+              </div>
+            </div>
           </div>
-          {/*<div className="Grid-cell">
-            <div onClick={this.regiftCrate}><span style={{cursor: 'pointer'}}>Regift</span></div>
-          </div>*/}
-        </div>
-
       </div>
 
       <div className="controlsView" style={styles.controlsView}>
@@ -261,13 +298,23 @@ function getUnopenedCrates(uid, callback) {
 }
 
 function styleCrateHeroImage(image) {
-  $(image).css('maxWidth', '100%');
-  $(image).css('maxHeight', '265px');
+  $(image).css('maxWidth', 'auto');
+  $(image).css('height', '100%');
   $(image).css('display', 'block');
   $(image).css('marginRight', 'auto');
   $(image).css('marginLeft', 'auto');
   $(image).css('cursor', 'pointer')
 }
+
+// function styleCrateHeroImage(image) {
+//   $(image).css('height', '100%');
+//   $(image).css('position', 'absolute');
+//   $(image).css('margin', '0px');
+//   $(image).css('padding', '0px');
+//   $(image).css('border', '0px');
+//   $(image).css('left', '50%');
+//   $(image).css('transform', 'translate(-50%, 0)')
+// }
 
 const mapStateToProps = (state) => ({
   store: {
