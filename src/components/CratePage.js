@@ -37,6 +37,11 @@ class CratePage extends Component {
   componentDidMount = () => {
     currentCrateId = this.props.params.crateId;
     this.loadCrateById(this.props.params.crateId);
+    setTimeout(() => {
+      let width = $('#crateHeroImage > img').width();
+      let height = $('#crateHeroImage > img').height();
+      console.log(width, height, width > height)
+    }, 800)
   }
   shouldComponentUpdate = (nextState, nextProps) => {
     //NOTE: getting a setState error here. Implement this effectively. Currently does nothing.
@@ -178,9 +183,13 @@ class CratePage extends Component {
         height: '70%',
       },
       crateImage: {
+        marginTop: '0px',
+        marginLeft: '0px',
         height: '70%',
-        backgroundColor: this.state.openedCrate.image ? 'black' : colors(currentCrateColor).darkColor,
+        backgroundColor: this.state.openedCrate.image ? '#F5F6FA' : colors(currentCrateColor).darkColor,
         overflow: 'hidden',
+        borderTopRightRadius: '10px',
+        borderTopLeftRadius: '10px',
       },
       cratePageInfo: {
         textAlign: 'center',
@@ -190,7 +199,8 @@ class CratePage extends Component {
         backgroundColor: '#ECEEF5',
         borderBottomRightRadius: '10px',
         borderBottomLeftRadius: '10px',
-        marginLeft: '0'
+        marginLeft: '0px',
+        overflowY: 'scroll'
       },
       controlsView: {
         left: '0px',
@@ -208,70 +218,86 @@ class CratePage extends Component {
       timestamp: {
         float: 'left',
         paddingLeft: '10px',
-        opacity: '.7'
+        opacity: '.7',
+        marginTop: '2px'
       },
       authorName: {
         float: 'right',
         paddingRight: '20px',
+        marginTop: '2px'
       },
       clockIcon: {
         float: 'left',
-        // marginLeft: '10px',
+        marginLeft: '20px',
         opacity: '.5'
+      },
+      openedText: {
+        padding: '5px 20px'
       }
     }
-    console.log(this.state.openedCrate)
     var crateHeroContent;
     if (this.state.openedCrate.image) {
-      crateHeroContent = <Hammer onDoubleTap={this.viewPhoto}><div id="crateHeroImage" style={{height: '100%'}} /></Hammer>
+      crateHeroContent = <Hammer onDoubleTap={this.viewPhoto}><div id="crateHeroImage" style={{height: '100%', textAlign: 'center', position: 'relative'}} /></Hammer>
     } else {
       crateHeroContent = <div className="openText" style={styles.openText}><h4>{this.state.openedCrate.text}</h4></div>
     }
-    return (
-    <div className="profile-page-holder" style={styles.CratePage}>
-      <div className="cratePageImage" style={styles.cratePageImage}>
+    const hasImage = this.state.openedCrate.image;
+    const hasText = this.state.openedCrate.text;
 
-        <div className="Grid Grid--gutters u-textCenter crateImage"  style={styles.crateImage}>
-          <div className="Grid-cell" style={{height: '100%'}}>
-            {crateHeroContent}
-            <Hammer onTap={this.closePreview}>
-              <div className="closePreview" style={styles.closePreview}>
-                <div className="closeIcon" style={styles.closeIcon}>
-                  <CancelIcon color={colors(currentCrateColor).darkColor}/>
+
+    return (
+      <div className="profile-page-holder" style={styles.CratePage}>
+        <div className="cratePageImage" style={styles.cratePageImage}>
+
+          <div className="Grid u-textCenter crateImage"  style={styles.crateImage}>
+            <div className="Grid-cell" style={{height: '100%'}}>
+              {crateHeroContent}
+              <Hammer onTap={this.closePreview}>
+                <div className="closePreview" style={styles.closePreview}>
+                  <div className="closeIcon" style={styles.closeIcon}>
+                    <CancelIcon color={colors(currentCrateColor).darkColor}/>
+                  </div>
                 </div>
-              </div>
-            </Hammer>
+              </Hammer>
+            </div>
           </div>
-        </div>
-          <div className="Grid Grid--gutters u-textCenter cratePageInfo" style={styles.cratePageInfo}>
-            <div className="Grid-cell user-info-holder">
+          <div className="Grid u-textCenter cratePageInfo" style={styles.cratePageInfo}>
+            <div className="Grid-cell user-info-holder" style={{paddingTop: '12px'}}>
               <div className="attribution clearfix">
-                <div style={styles.authorName}>{this.state.openedCrate.authorDisplayName}</div>
+                <div style={styles.authorName}>
+                  <h6>
+                    {this.state.openedCrate.authorDisplayName}
+                  </h6>
+                </div>
                 <div className="clockIcon" style={styles.clockIcon}>
                   <ClockIcon color={'#838B9E'}/>
                 </div>
                 <div style={styles.timestamp}>
-                  {timestamp}
+                  <h6>
+                    {timestamp}
+                  </h6>
                 </div>
               </div>
               <div className="text" style={{display: 'block'}}>
-                {this.state.openedCrate.image ?
-                  <div>{this.state.openedCrate.text}</div>
+                {hasImage && hasText ?
+                  <div style={styles.openedText}>
+                    <h5 style={{margin: '0px'}}>
+                      {this.state.openedCrate.text}
+                    </h5>
+                  </div>
                   : ''
                 }
               </div>
             </div>
           </div>
-      </div>
-
-      <div className="controlsView" style={styles.controlsView}>
-        <CratePageControls userColor={currentCrateColor} crateContentsSaved={false} regift={this.regiftCrate} saveToProfile={this.collectCrateButton} userImage={crateOwnerImage}/>
-      </div>
-      {/*<div style={{padding: '22px', top: '386px'}} className="container-fluid body-content">
-        <AbsoluteGrid items={this.state.data} displayObject={(<ProfileCrateList onOpen={this.onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
-        {emptyState}
-      </div>*/}
-
+        </div>
+        <div className="controlsView" style={styles.controlsView}>
+          <CratePageControls userColor={currentCrateColor} crateContentsSaved={false} regift={this.regiftCrate} saveToProfile={this.collectCrateButton} userImage={crateOwnerImage}/>
+        </div>
+        {/*<div style={{padding: '22px', top: '386px'}} className="container-fluid body-content">
+          <AbsoluteGrid items={this.state.data} displayObject={(<ProfileCrateList onOpen={this.onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
+          {emptyState}
+        </div>*/}
     </div>
     );
   }
@@ -298,23 +324,31 @@ function getUnopenedCrates(uid, callback) {
 }
 
 function styleCrateHeroImage(image) {
-  $(image).css('maxWidth', 'auto');
-  $(image).css('height', '100%');
-  $(image).css('display', 'block');
-  $(image).css('marginRight', 'auto');
-  $(image).css('marginLeft', 'auto');
-  $(image).css('cursor', 'pointer')
-}
+  setTimeout(() => {
+    let width = $('#crateHeroImage > img').width();
+    let height = $('#crateHeroImage > img').height();
+    console.log(width, height, width > height)
 
-// function styleCrateHeroImage(image) {
-//   $(image).css('height', '100%');
-//   $(image).css('position', 'absolute');
-//   $(image).css('margin', '0px');
-//   $(image).css('padding', '0px');
-//   $(image).css('border', '0px');
-//   $(image).css('left', '50%');
-//   $(image).css('transform', 'translate(-50%, 0)')
-// }
+    if (width > height) {
+      $(image).css('width', '100%');
+      $(image).css('height', 'auto');
+      $(image).css('left', '0px');
+      $(image).css('top', '50%');
+      $(image).css('transform', 'translate(0, -50%)');
+    } else {
+      $(image).css('width', 'auto');
+      $(image).css('height', '100%');
+      $(image).css('left', '50%');
+      $(image).css('top', '0px');
+      $(image).css('transform', 'translate(-50%, 0)');
+    }
+    $(image).css('position', 'absolute');
+    $(image).css('margin', '0px');
+    $(image).css('padding', '0px');
+    $(image).css('border', '0px');
+    $(image).css('bottom', '0px');
+  }, 1)
+}
 
 const mapStateToProps = (state) => ({
   store: {

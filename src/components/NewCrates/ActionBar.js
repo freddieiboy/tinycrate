@@ -40,7 +40,6 @@ class ActionBar extends Component {
   }
   componentWillUpdate = (nextProps, nextState) => {
     const regiftText = nextProps.store.regiftCrateText;
-    console.log('componentWillUpdate actionbar called')
     if (regiftText.length > 0 && this.state.localText === '') {
       this.setState({localText: regiftText})
       console.log(nextState.localText.length, nextProps.store.regiftCrateText.length)
@@ -49,7 +48,6 @@ class ActionBar extends Component {
   componentDidMount = () => {
     //NOTE: why do I have to add setTimeout here?
     // console.log($('.bigPlusButton').width(), $('.bigPlusButton').position().left)
-    console.log('component did load', this.props.store.mainButtonPosition, this.props.store.mainButtonWidth)
     this.props.actions.getBtnWidth($('.bigPlusButton').width());
     this.props.actions.getBtnPosition($('.bigPlusButton').position().left);
 
