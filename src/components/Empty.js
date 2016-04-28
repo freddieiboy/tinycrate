@@ -9,15 +9,20 @@ import $ from 'jquery';
 import Hammer from 'react-hammerjs';
 import CrateTemplate from './Crates/CrateTemplate';
 
-const Empty = ({ actions, store }) => (
-  <div className="empty" style={{height: '100%', position: 'relative'}}>
-    <div className="emptyCrate center"
-      onMouseUp={() => actions.setEmojiNumber(randomEmojiNumber())}
-      onTouchEnd={() => actions.setEmojiNumber(randomEmojiNumber())}>
-      <CrateTemplate color={'empty'} crateSize={80} cratePreview={'NOTHING_YET'} pop={true} popType={'2'} crateType={'empty'} shadow={'true'}/>
+const Empty = ({ actions, store }) => {
+  const style = {
+
+  }
+  return (
+    <div className="empty" style={{height: '100%', position: 'relative'}}>
+      <div className="emptyCrate center"
+        onMouseUp={() => actions.setEmojiNumber(randomEmojiNumber())}
+        onTouchEnd={() => actions.setEmojiNumber(randomEmojiNumber())}>
+        <CrateTemplate color={'empty'} crateSize={80} cratePreview={'NOTHING_YET'} pop={true} popType={'2'} crateType={'empty'} shadow={'true'}/>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 Empty.propTypes = {
   actions: PropTypes.object.isRequired,

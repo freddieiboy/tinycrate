@@ -212,4 +212,9 @@ input[role="combobox"]{
 ::-webkit-scrollbar {
     display: none;
 }
+.cratePreview {
+  svg {
+    transform: scale(.7);
+  }
+}
 }

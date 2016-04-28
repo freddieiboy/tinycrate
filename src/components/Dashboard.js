@@ -28,18 +28,18 @@ class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
-      data: [{
-        authorDisplayName: "Freddie Iboy",
-        authorProfileImageURL: "https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg",
-        authorUId: "twitter:48171141",
-        crateColor: "productHunt",
-        createdAt: 1461700435141,
-        key: "-KGJ7djG7V-H2Am5wVt0",
-        opened: false,
-        recipientUId: "twitter:48171141",
-        text: "test",
-      }],
-      // data:[],
+      // data: [{
+      //   authorDisplayName: "Freddie Iboy",
+      //   authorProfileImageURL: "https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg",
+      //   authorUId: "twitter:48171141",
+      //   crateColor: "productHunt",
+      //   createdAt: 1461700435141,
+      //   key: "-KGJ7djG7V-H2Am5wVt0",
+      //   opened: false,
+      //   recipientUId: "twitter:48171141",
+      //   text: "test",
+      // }],
+      data:[],
       isMounted: false
     };
   }
