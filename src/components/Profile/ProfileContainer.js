@@ -80,10 +80,14 @@ class ProfileContainer extends Component {
   profileButton = (event) => {
     if(this.state.isMe) {
       // TODO: show settings page
-      alert("Settings coming soon.");
+      setTimeout(() => {
+        alert("Settings coming soon.");
+      }, 700)
     } else {
-      subscribeToUser(this.state.user.username, this.props.store.userAuth.uid);
-      alert("You are now subscribed to " + this.state.user.username);
+      setTimeout(() => {
+        subscribeToUser(this.state.user.username, this.props.store.userAuth.uid);
+        alert("You are now subscribed to " + this.state.user.username);
+      }, 700)
     }
   }
   blockButton = (event) => {

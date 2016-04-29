@@ -6,6 +6,7 @@ import CommentList from '../CommentList';
 import ProfileCrateList from '../Crates/ProfileCrateList';
 import AbsoluteGrid from 'react-absolute-grid';
 import { ifStyle } from '../utilities';
+import { SettingsIcon } from '../NewCrates/Icons';
 
 class ProfileView extends Component {
   render() {
@@ -42,14 +43,12 @@ class ProfileView extends Component {
       statsHeader: {
         backgroundColor: '#F5F8F1',
         maxWidth: '100%',
-        height: '50%',
-        textAlign: 'center'
+        height: '58%',
+        textAlign: 'center',
+        padding: '18px 0'
       },
-      userAvatar: {
-        // height: '100%',
-        // margin: '0 auto',
-        // width: '100%',
-        // position: 'relative'
+      profileOptions: {
+
       },
       profileColSubsSection: {
         padding: '22px'
@@ -92,45 +91,74 @@ class ProfileView extends Component {
               <div className="Grid-cell Grid--center-content" style={{height: '100%'}}>
                 <div className="userAvatar" style={styles.userAvatar}>
                   {/*<ProfileCrate profileImageURL={user.profileImageURL} />*/}
-                  <CrateTemplate color={'blue'} crateSize={60} cratePreview={user.profileImageURL} crateType={'profile'} pop={'true'} popType={'2'} shadow={'true'}/>
+                  <CrateTemplate
+                    color={'blue'}
+                    crateSize={60}
+                    cratePreview={user.profileImageURL}
+                    crateType={'profile'}
+                    pop={'true'}
+                    popType={'2'}
+                    shadow={'true'}/>
                 </div>
               </div>
-              <div className="Grid-cell user-info-holder">
+              <div className="Grid-cell Grid--center-content user-info-holder">
                 <div className="info">
                   <div className="name">{user.name}</div>
                   <div className="name">@{user.username}</div>
                 </div>
               </div>
-              <div className="Grid-cell button-holder" style={{height: '100%'}}>
-                <button style={{float: 'right'}} onClick={profileButton}>
-                  {isMe ? 'Settings' : 'Add Gifter +'}
-                </button>
+              <div className="Grid-cell Grid--center-content profileOptions" style={styles.profileOptions}>
+                <div
+                  onMouseUp={profileButton}
+                  onTouchEnd={profileButton}>
+                  <CrateTemplate
+                    crateSize={60}
+                    color={'green'}
+                    crateType={'settings'}
+                    shadow={'yes'}
+                    pop={'true'}
+                    popType={'1'}
+                    cratePreview={isMe ? <SettingsIcon color={'white'}/> : 'Add Gifter +'}
+                    />
+                </div>
                 {!isMe ?
-                  <button style={{marginTop: '40px'}} onClick={blockButton}>
-                  {isBlocked ? 'Unblock' : 'Block'}
-                  </button>
+                  <div
+                    onMouseUp={blockButton}
+                    onTouchEnd={blockButton}>
+                    <CrateTemplate
+                      crateSize={60}
+                      color={'pink'}
+                      crateType={'settings'}
+                      shadow={'yes'}
+                      pop={'true'}
+                      popType={'1'}
+                      cratePreview={isBlocked ? 'Unblock' : 'Block'} 
+                      />
+                  </div>
                   : ''
                 }
               </div>
             </div>
           </div>
-          <div className="statsHeader Grid" style={styles.statsHeader}>
-            <div className="Grid-cell user-info-holder">
-              <div className="info">
-                <div className="count ">1</div>
-                <div className="count ">Level</div>
+          <div className="statsHeader center-relative" style={styles.statsHeader}>
+            <div className="Grid Grid--fit">
+              <div className="Grid-cell Grid--center-content user-info-holder">
+                <div className="info">
+                  <div className="count ">1</div>
+                  <div className="count ">Level</div>
+                </div>
               </div>
-            </div>
-            <div className="Grid-cell user-info-holder">
-              <div className="info">
-                <div className="count ">{user.unwrappedCount}</div>
-                <div className="count ">Unwrapped</div>
+              <div className="Grid-cell Grid--center-content user-info-holder">
+                <div className="info">
+                  <div className="count ">{user.unwrappedCount}</div>
+                  <div className="count ">Unwrapped</div>
+                </div>
               </div>
-            </div>
-            <div className="Grid-cell user-info-holder">
-              <div className="info">
-                <div className="count ">{user.giftedCount}</div>
-                <div className="count ">Gifted</div>
+              <div className="Grid-cell Grid--center-content user-info-holder">
+                <div className="info">
+                  <div className="count ">{user.giftedCount}</div>
+                  <div className="count ">Gifted</div>
+                </div>
               </div>
             </div>
           </div>
