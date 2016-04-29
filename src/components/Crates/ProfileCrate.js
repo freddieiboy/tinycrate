@@ -22,10 +22,12 @@ class ProfileCrate extends Component {
     pop2(this.refs.thisProfileCrate, 'emptyAlt', this.refs.thisProfileEmoji);
     this.setState({isPressed: false});
     //TODO: implement generic method/callback which returns correct data when crate is opened
-    // For now, the crate will only have the username prop if it spawns from the ProfilePage
+    // For now, the crate will only have the username prop if it spawns from the ProfileContainer
     if(this.props.username) {
       this.props.onOpen(this.props.username);
+      console.log('onOpened called')
     } else {
+      console.log('onOpened NOT called')
       var crate = ref.child('crateFeed').child(ref.getAuth().uid).child(this.props.id);
       openCrate(crate, () => {
         setTimeout(() => {

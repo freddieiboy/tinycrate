@@ -1,7 +1,7 @@
 @import 'colors';
 
-.profile-page-holder {
-  
+.ProfileView {
+
   header {
     position: absolute;
     left: 0;
@@ -9,12 +9,6 @@
     top: 0;
     background-color: white;
     height: 200px;
-  }
-
-  .statsHeader {
-    background-color: $lightBg;
-    max-width: 100%;
-    text-align: center;
   }
 
   .container-fluid {
@@ -28,24 +22,24 @@
       background-color: #fff
     }
   }
-  
-  .user-avatar-holder {
-    margin: 0 auto;
-    width: 100%;
-    position: relative;
-    .user-avatar {
-      border-radius: 50px;
-      border: 3px solid white;
-      margin: 0 auto;
-      display: inherit;
-      position: absolute;
-      width: 40px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  }
-  
+
+  // .user-avatar-holder {
+  //   margin: 0 auto;
+  //   width: 100%;
+  //   position: relative;
+  //   .user-avatar {
+  //     border-radius: 50px;
+  //     border: 3px solid white;
+  //     margin: 0 auto;
+  //     display: inherit;
+  //     position: absolute;
+  //     width: 40px;
+  //     top: 50%;
+  //     left: 50%;
+  //     transform: translate(-50%, -50%);
+  //   }
+  // }
+
   .button-holder {
     margin: 0 auto;
     width: 100%;
@@ -57,7 +51,7 @@
       transform: translate(-50%, -50%);
     }
   }
-  
+
   .column.user-info-holder {
     padding: 0;
   }

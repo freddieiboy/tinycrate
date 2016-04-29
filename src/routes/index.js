@@ -3,7 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 
 import Dashboard from 'components/Dashboard';
 import LoginContainer from 'components/Login/LoginContainer';
-import ProfilePage from 'components/ProfilePage';
+import Profile from 'components/Profile/ProfileContainer';
 import InventoryPage from 'components/InventoryPage';
 import CratePage from 'components/CratePage';
 import NotFound from 'components/NotFound';
@@ -23,7 +23,7 @@ export default (store) => (
     <Route path='login' component={LoginContainer} />
     <Route path='/' component={CoreLayout}>
       <IndexRoute component={Dashboard} />
-      <Route path='user/:userId' component={ProfilePage} />
+      <Route path='user/:userId' component={Profile} />
       <Route path='crate/:crateId' component={CratePage} />
       <Route path='test' component={HomeView} />
       <Route path='*' component={NotFound} />
