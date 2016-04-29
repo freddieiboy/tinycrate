@@ -4,7 +4,7 @@ import { ifStyle } from './utilities';
 import { NextIcon, RegiftIcon, StarIcon } from './NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 
-const ControlsView = ({userImage, saveToProfile, regift, userColor, crateContentsSaved}) => {
+const ControlsView = ({userImage, saveToProfile, regift, viewSenderProfile, userColor, crateContentsSaved}) => {
   const styles = {
     ControlsView: {
       height: '100%',
@@ -84,6 +84,7 @@ const ControlsView = ({userImage, saveToProfile, regift, userColor, crateContent
         </div>
 
         <div className="Grid-cell" style={styles.crateCell}>
+          <Hammer onTap={viewSenderProfile}>
           <div className="buttonBG">
             <div className="buttonIcon" style={styles.buttonIcon}>
               <div className="userImage" style={styles.userImage}>
@@ -93,6 +94,7 @@ const ControlsView = ({userImage, saveToProfile, regift, userColor, crateContent
               </div>
             </div>
           </div>
+          </Hammer>
         </div>
 
         <div className="Grid-cell" style={styles.cell}>

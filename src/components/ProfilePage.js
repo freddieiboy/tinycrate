@@ -272,14 +272,6 @@ function getCollectionCrates(uid, callback) {
   });
 }
 
-// const getUserByUid = (uid, callback) => {
-//   ref.child('users').child(uid).once('value', (snap) => {
-//     var user = snap.val();
-//     user.key = uid;
-//     callback(user);
-//   });
-// }
-
 const mapStateToProps = (state) => ({
   store: {
   userAuth: state.userAuth
