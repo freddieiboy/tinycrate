@@ -134,7 +134,7 @@ class Dashboard extends Component {
         {this.state.isMounted ? (
           <div>
             <div className="homeHeader" style={styles.homeHeader}>
-              <h1 className="logoType">TinyCrate</h1>
+              <h1 className="logoType">Tinycrate</h1>
             </div>
 
             <Hammer onTap={this.showProfile}>

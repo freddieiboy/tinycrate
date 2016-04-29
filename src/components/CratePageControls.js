@@ -84,17 +84,18 @@ const ControlsView = ({userImage, saveToProfile, regift, viewSenderProfile, user
         </div>
 
         <div className="Grid-cell" style={styles.crateCell}>
-          <Hammer onTap={viewSenderProfile}>
-          <div className="buttonBG">
-            <div className="buttonIcon" style={styles.buttonIcon}>
-              <div className="userImage" style={styles.userImage}>
-                <div className="center">
-                  <CrateTemplate crateSize={80} color={colors(userColor)} cratePreview={userImage} crateType={'profile'} popType={'1'} pop={'true'} shadow={'false'}/>
+          <div
+            onMouseUp={viewSenderProfile} onTouchEnd={viewSenderProfile}>
+            <div className="buttonBG">
+              <div className="buttonIcon" style={styles.buttonIcon}>
+                <div className="userImage" style={styles.userImage}>
+                  <div className="center">
+                    <CrateTemplate crateSize={80} color={colors(userColor)} cratePreview={userImage} crateType={'profile'} popType={'1'} pop={'true'} shadow={'false'}/>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          </Hammer>
         </div>
 
         <div className="Grid-cell" style={styles.cell}>

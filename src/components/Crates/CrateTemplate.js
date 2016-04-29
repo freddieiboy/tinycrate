@@ -24,17 +24,48 @@ class CrateTemplate extends Component {
     this.setState({isPressed: true});
   }
   setupPop = (event) => {
-    if (this.state.isPressed && this.props.popType === '1') {
-      if (this.props.crateType === 'normal') {
-        pop1(this.refs.popContainer, eval(this.props.color), this.refs.thisCratePreview);
-        this.setState({isDeleted: true})
-        this.deleteObj(event);
+    const {
+      popType,
+      crateType,
+      onOpen,
+      id,
+      username
+    } = this.props;
+    const { isPressed } = this.state;
+    if (isPressed && popType === '1') {
+      if (crateType === 'normal') {
+        this.pop1(true);
+      } else if (crateType === 'profile') {
+        console.log('this is called')
+        this.pop1();
+        if(username) {
+          setTimeout(() => {
+            onOpen(username);
+            console.log('onOpened called')
+          }, 700)
+        }
       } else {
-        pop1(this.refs.popContainer, eval(this.props.color), this.refs.thisCratePreview);
-        this.setState({isPressed: false});
+        this.pop1();
       }
-    } else if (this.state.isPressed && this.props.popType === '2') {
-      pop2(this.refs.popContainer, eval(this.props.color), this.refs.thisCratePreview);
+    } else if (isPressed && popType === '2') {
+      this.pop2();
+    }
+  }
+  pop1 = (willDelete = false) => {
+    pop1(this.refs.popContainer, eval(this.props.color), this.refs.thisCratePreview);
+    if (willDelete === true) {
+      this.setState({isDeleted: true})
+      this.deleteObj(event);
+    } else {
+      this.setState({isPressed: false});
+    }
+  }
+  pop2 = (willDelete = false) => {
+    pop2(this.refs.popContainer, eval(this.props.color), this.refs.thisCratePreview);
+    if (willDelete === true) {
+      this.setState({isDeleted: true})
+      this.deleteObj(event);
+    } else {
       this.setState({isPressed: false});
     }
   }
