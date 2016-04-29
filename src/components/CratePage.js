@@ -98,6 +98,11 @@ class CratePage extends Component {
   collectCrateButton = () => {
     collectCrate(this.state.openedCrate);
   }
+  viewSenderProfile = () => {
+    getUserByUid(this.state.openedCrate.authorUId, (user) => {
+      this.props.dispatch(push("/user/" + user.username));
+    });
+  }
   viewPhoto = () => {
     var photoTilt = new PhotoTilt({
       url: this.state.openedCrate.image
@@ -292,7 +297,7 @@ class CratePage extends Component {
           </div>
         </div>
         <div className="controlsView" style={styles.controlsView}>
-          <CratePageControls userColor={currentCrateColor} crateContentsSaved={false} regift={this.regiftCrate} saveToProfile={this.collectCrateButton} userImage={crateOwnerImage}/>
+          <CratePageControls userColor={currentCrateColor} crateContentsSaved={false} regift={this.regiftCrate} saveToProfile={this.collectCrateButton} viewSenderProfile={this.viewSenderProfile} userImage={crateOwnerImage}/>
         </div>
         {/*<div style={{padding: '22px', top: '386px'}} className="container-fluid body-content">
           <AbsoluteGrid items={this.state.data} displayObject={(<ProfileCrateList onOpen={this.onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
@@ -301,6 +306,14 @@ class CratePage extends Component {
     </div>
     );
   }
+}
+
+function getUserByUid (uid, callback) {
+  ref.child('users').child(uid).once('value', (snap) => {
+    var user = snap.val();
+    user.key = uid;
+    callback(user);
+  });
 }
 
 function getCrateById(id, callback) {
