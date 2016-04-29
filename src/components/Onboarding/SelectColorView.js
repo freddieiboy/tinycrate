@@ -23,8 +23,10 @@ class SelectColorView extends Component {
       }
     }
     const singleCrate = (color) => {
-      return <div className="Grid-cell Grid--center-content" style={styles.crate} onMouseDown={() => selectColor(color)} onTouchEnd={() => selectColor(color)}>
-        <CrateTemplate pop={true} popType={'1'} crateType={'tutorial'} color={color} crateSize={80} shadow={'true'}/>
+      return <div className="Grid-cell Grid--center-content" style={styles.crate}>
+        <div className="crateT" onMouseUp={() => selectColor(color)} onTouchEnd={() => selectColor(color)}>
+          <CrateTemplate pop={true} popType={'1'} crateType={'tutorial'} color={color} crateSize={80} shadow={'true'}/>
+        </div>
       </div>
     }
     return (

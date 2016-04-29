@@ -118,7 +118,7 @@ class ProfileView extends Component {
                     shadow={'yes'}
                     pop={'true'}
                     popType={'1'}
-                    cratePreview={isMe ? <SettingsIcon color={'white'}/> : 'Add Gifter +'}
+                    cratePreview={isMe ? <SettingsIcon color={'#000'}/> : 'Add Gifter +'}
                     />
                 </div>
                 {!isMe ?
@@ -132,7 +132,7 @@ class ProfileView extends Component {
                       shadow={'yes'}
                       pop={'true'}
                       popType={'1'}
-                      cratePreview={isBlocked ? 'Unblock' : 'Block'} 
+                      cratePreview={isBlocked ? 'Unblock' : 'Block'}
                       />
                   </div>
                   : ''

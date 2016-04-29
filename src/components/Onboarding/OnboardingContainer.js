@@ -19,6 +19,15 @@ class SlideContainer extends Component {
       isSelectingColor: false
     }
   }
+  componentDidMount = () => {
+    if (this.props.mode === 'settings') {
+      this.setState({
+        slide: 4,
+        selectedColor: 'yellow',
+        isSelectingColor: false
+      })
+    }
+  }
   componentWillMount = () => {
     this.props.actions.startListeningToAuth();
   }
@@ -71,6 +80,7 @@ class SlideContainer extends Component {
             provider={store.userAuth.provider}/>
         ) : (
           <SlideView
+            mode={this.props.mode}
             startSelectColor={this.startSelectColor} endSelectColor={this.endSelectColor}
             selectColor={this.selectColor}
             selectedColor={this.state.selectedColor}
@@ -79,6 +89,7 @@ class SlideContainer extends Component {
 
         <div className="controlContainer" style={styles.controlContainer}>
           <ControlsView
+            mode={this.props.mode}
             back={this.backSlide}
             next={this.nextSlide}
             slide={this.state.slide}

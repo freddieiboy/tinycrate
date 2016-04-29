@@ -2,6 +2,7 @@ import React from 'react';
 import SelectColorView from './SelectColorView';
 
 const SlideView = ({
+    mode,
     selectColor,
     slide,
     startSelectColor,
@@ -21,7 +22,11 @@ const SlideView = ({
     slideImage = 'http://i.imgur.com/YQOUmOe.png'
     slideText = 'You are going to collect treasures and send crates around the world through Tinycrate.'
   } else if (slideState === 4) {
-    slideText = 'Touch the crate with the right color for you. This is yours now. Take care of it, ok?'
+    if (mode === 'settings') {
+      slideText = 'Was your color not the right one? Do you want to choose another color?'
+    } else {
+      slideText = 'Touch the crate with the right color for you. This is yours now. Take care of it, ok?'
+    }
   }
   const styles = {
     SlideView: {
