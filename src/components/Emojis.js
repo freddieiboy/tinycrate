@@ -245,7 +245,7 @@ const VideoGames = () =>
   </svg>
 
 export const EmojiContainer = [
-  <Heart color={'#E9FAFD'}/>,
+  <Heart />,
   <Happy />,
   <Frog />,
   <Bomb />,

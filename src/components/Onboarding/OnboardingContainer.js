@@ -16,14 +16,30 @@ class SlideContainer extends Component {
     this.state = {
       slide: 1,
       selectedColor: 'empty',
-      isSelectingColor: false
+      isSelectingColor: false,
+      isSettingsMode: false
+    }
+  }
+  componentDidMount = () => {
+    if (this.props.mode === 'settings') {
+      this.setState({
+        slide: 4,
+        selectedColor: 'yellow',
+        isSelectingColor: false,
+        isSettingsMode: true
+      })
     }
   }
   componentWillMount = () => {
     this.props.actions.startListeningToAuth();
   }
   componentWillUpdate = (nextProps, nextState) => {
-    nextProps.store.isTutorialMode === false ? this.props.actions.push('/') : null
+    //NOTE: using this
+    if (this.props.mode === 'settings') {
+      nextState.isSettingsMode === false ? this.props.actions.push('/') : null
+    } else {
+      nextProps.store.isTutorialMode === false ? this.props.actions.push('/') : null
+    }
   }
   backSlide = () => {
     let number = this.state.slide;
@@ -44,6 +60,9 @@ class SlideContainer extends Component {
   endSelectColor = () => {
     this.state.isSelectingColor ? this.setState({isSelectingColor: false}) : null
   }
+  leaveSettings = () => {
+    this.setState({isSettingsMode: false})
+  }
   render() {
     let {store, actions} = this.props;
     const styles = {
@@ -60,6 +79,8 @@ class SlideContainer extends Component {
       }
     }
     const isEditingUserInfo = this.state.slide === 5;
+    let finish;
+    this.props.mode === 'settings' ? finish = this.leaveSettings : finish = actions.finishTutorialMode
     return (
       <div className="Onboarding" style={styles.Onboarding}>
         {isEditingUserInfo ? (
@@ -71,6 +92,7 @@ class SlideContainer extends Component {
             provider={store.userAuth.provider}/>
         ) : (
           <SlideView
+            mode={this.props.mode}
             startSelectColor={this.startSelectColor} endSelectColor={this.endSelectColor}
             selectColor={this.selectColor}
             selectedColor={this.state.selectedColor}
@@ -79,12 +101,13 @@ class SlideContainer extends Component {
 
         <div className="controlContainer" style={styles.controlContainer}>
           <ControlsView
+            mode={this.props.mode}
             back={this.backSlide}
             next={this.nextSlide}
             slide={this.state.slide}
             selectedColor={this.state.selectedColor}
             userImage={store.userAuth.profileImageURL}
-            finish={actions.finishTutorialMode}
+            finish={finish}
             isSelectingColor={this.state.isSelectingColor}/>
         </div>
       </div>

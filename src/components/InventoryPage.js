@@ -60,11 +60,11 @@ class InventoryPage extends Component {
         <header>
           <div className="container" style={{height: '100%'}}>
             <div className="row" style={{height: '100%'}}>
-              <div className="column " style={{height: '100%'}}>
+              {/*<div className="column " style={{height: '100%'}}>
                 <div className="user-avatar-holder" style={{height: '100%'}}>
                   <img className="user-avatar" src={this.state.user.profileImageURL}/>
                 </div>
-              </div>
+              </div>*/}
               <div className="column user-info-holder">
                 <div className="info">
                   <div className="name ">{this.state.user.name}</div>

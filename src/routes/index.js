@@ -8,6 +8,7 @@ import InventoryPage from 'components/InventoryPage';
 import CratePage from 'components/CratePage';
 import NotFound from 'components/NotFound';
 import Onboarding from 'components/Onboarding/OnboardingContainer';
+import Settings from 'components/Settings';
 
 // NOTE: here we're making use of the `resolve.root` configuration
 // option in webpack, which allows us to specify import paths as if
@@ -26,6 +27,7 @@ export default (store) => (
       <Route path='user/:userId' component={Profile} />
       <Route path='crate/:crateId' component={CratePage} />
       <Route path='test' component={HomeView} />
+      <Route path='settings' component={Settings} />
       <Route path='*' component={NotFound} />
     </Route>
   </Route>

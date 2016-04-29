@@ -6,7 +6,8 @@ import {pop1, pop2, openCrate} from './CrateUtils';
 import Hammer from 'react-hammerjs';
 import {ifStyle} from '../utilities';
 import {EmojiContainer, CrateEmojis} from '../Emojis';
-import {FacebookIcon, TwitterIcon, TextIcon} from  '../NewCrates/Icons';
+import {FacebookIcon, TwitterIcon, TextIcon, SettingsIcon, MuteIcon, PlayIcon, FollowIcon} from  '../NewCrates/Icons';
+import $ from 'jquery';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 
@@ -112,7 +113,7 @@ class CrateTemplate extends Component {
         borderRadius: '50%',
         overflow: 'hidden',
         zIndex: '1',
-        backgroundColor: eval(color).darkColor,
+        // backgroundColor: eval(color).darkColor,
       },
       crateImagePressed: {
         marginTop: crateSize/9 + 'px',
@@ -177,22 +178,34 @@ class CrateTemplate extends Component {
         visibility: 'hidden'
       },
       textIcon: {
-        transform: 'scale(1.2)',
+        transform: 'scale(1.5)',
         marginTop: '17px'
+      },
+      emojiContainer: {
+        transform: 'scale(.8)'
+        // border: '1px solid red'
+      },
+      crateIcon: {
+        transform: 'scale(1.2)',
+        marginTop: '8px'
+      },
+      socialIcon: {
+        transform: 'scale(1.2)',
+        marginTop: '4px'
       }
     }
     var preview;
     var profileImage;
     if (crateType === 'empty') {
-      preview = EmojiContainer[this.props.store.emoji]
+      preview = <div className="emojiContainer" style={styles.emojiContainer}>{EmojiContainer[this.props.store.emoji]}</div>
     } else if (crateType === 'login-twitter') {
-      preview = <TwitterIcon />
+      preview = <div className="socialIcon" style={styles.socialIcon}><TwitterIcon /></div>
       profileImage = null;
     } else if (crateType === 'login-facebook') {
-      preview = <FacebookIcon />
+      preview = <div className="socialIcon" style={styles.socialIcon}><FacebookIcon /></div>
       profileImage = null;
     } else if (crateType === 'tutorial') {
-      preview = <CrateEmojis color={eval(color).darkColor} visible={'1'}/>
+      preview = <div className="emojiContainer" style={styles.emojiContainer}><CrateEmojis color={eval(color).darkColor} visible={'1'}/></div>
       profileImage = null;
     } else if (crateType === 'profile') {
       preview = <img className="userImage" src={this.props.cratePreview} style={styles.cratePreviewProfile} align="middle"></img>
@@ -200,7 +213,7 @@ class CrateTemplate extends Component {
     } else if (crateType === 'normal') {
       if (this.props.cratePreview === undefined) {
         preview = <div className="textIcon" style={styles.textIcon}>
-            <TextIcon color={eval(color).lightColor}/>
+            <TextIcon color={eval(color).darkColor}/>
         </div>
         profileImage = <img className="userImage" src="https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg" style={ifStyle(
             styles.profileImage,
@@ -213,6 +226,18 @@ class CrateTemplate extends Component {
             this.state.isPressed && styles.profileImagePressed
           )} align="middle"></img>
       }
+    } else if (crateType === 'settings') {
+      preview = <div className="crateIcon" style={styles.crateIcon}><SettingsIcon color={colors(color).darkColor} /></div>
+      profileImage = null;
+    } else if (crateType === 'settings-block') {
+      preview = <div className="crateIcon" style={styles.crateIcon}><MuteIcon color={colors(color).darkColor} /></div>
+      profileImage = null;
+    } else if (crateType === 'settings-unblock') {
+      preview = <div className="crateIcon" style={styles.crateIcon}><PlayIcon color={colors(color).darkColor} /></div>
+      profileImage = null;
+    } else if (crateType === 'settings-follow') {
+      preview = <div className="crateIcon" style={styles.crateIcon}><FollowIcon color={colors(color).darkColor} /></div>
+      profileImage = null;
     }
     return (
       <div className="CrateTemplate" style={styles.CrateTemplate}>
@@ -364,7 +389,6 @@ export const colors = (color) => {
       }
   }
 }
-
 
 const mapStateToProps = (state, ownProps) => ({
   store: {

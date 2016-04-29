@@ -39,7 +39,7 @@ class Comment extends Component {
           style={modalStyles} >
           <img src={this.props.image} onClick={this.closeModal}/>
         </Modal>
-          <img src={this.props.authorProfilePicture} className="inventoryFeedAvatar"/>
+          {/*<img src={this.props.authorProfilePicture} className="inventoryFeedAvatar"/>*/}
           <div className="name">{this.props.name}</div>
           <img src={this.props.image} className="inventoryFeedImage" onClick={this.openModal}/>
           <div className="name" style={{color: 'red', cursor: 'pointer'}} onClick={this.uncollectCrateButton}>[x]</div>

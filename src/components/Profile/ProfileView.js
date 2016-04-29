@@ -58,6 +58,9 @@ class ProfileView extends Component {
       },
       inactiveTab: {
         color: '#D7D9DA'
+      },
+      settingCrate: {
+        marginRight: '10px'
       }
     }
     let emptyState;
@@ -108,31 +111,29 @@ class ProfileView extends Component {
                 </div>
               </div>
               <div className="Grid-cell Grid--center-content profileOptions" style={styles.profileOptions}>
-                <div
+                <div className="settingCrate" style={styles.settingCrate}
                   onMouseUp={profileButton}
                   onTouchEnd={profileButton}>
                   <CrateTemplate
                     crateSize={60}
                     color={'green'}
-                    crateType={'settings'}
+                    crateType={isMe ? 'settings' : 'settings-follow'}
                     shadow={'yes'}
                     pop={'true'}
                     popType={'1'}
-                    cratePreview={isMe ? <SettingsIcon color={'white'}/> : 'Add Gifter +'}
                     />
                 </div>
                 {!isMe ?
-                  <div
+                  <div className="settingCrate" style={styles.settingCrate}
                     onMouseUp={blockButton}
                     onTouchEnd={blockButton}>
                     <CrateTemplate
                       crateSize={60}
-                      color={'pink'}
-                      crateType={'settings'}
+                      color={isBlocked ? 'pink' : 'green'}
+                      crateType={isBlocked ? 'settings-unblock' : 'settings-block'}
                       shadow={'yes'}
                       pop={'true'}
                       popType={'1'}
-                      cratePreview={isBlocked ? 'Unblock' : 'Block'} 
                       />
                   </div>
                   : ''

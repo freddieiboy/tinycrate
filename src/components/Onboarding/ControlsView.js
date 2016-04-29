@@ -1,10 +1,10 @@
 import React from 'react';
 import CrateTemplate, { colors } from '../Crates/CrateTemplate';
 import { ifStyle } from '../utilities';
-import { NextIcon } from '../NewCrates/Icons';
+import { NextIcon, CheckIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 
-const ControlsView = ({userImage, slide, back, next, selectedColor, finish, isSelectingColor}) => {
+const ControlsView = ({mode, userImage, slide, back, next, selectedColor, finish, isSelectingColor}) => {
   const styles = {
     ControlsView: {
       height: '100%'
@@ -26,6 +26,9 @@ const ControlsView = ({userImage, slide, back, next, selectedColor, finish, isSe
     hide: {
       display: 'none'
     },
+    shallowHide: {
+      visibility: 'hidden'
+    },
     subdue: {
       opacity: '.4'
     },
@@ -34,13 +37,6 @@ const ControlsView = ({userImage, slide, back, next, selectedColor, finish, isSe
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-    },
-    userImage: {
-      // height: '100px',
-      // width: '100px',
-      // borderRadius: '50%',
-      // border: '3px solid' + colors(selectedColor).lightColor,
-      // backgroundColor: colors(selectedColor).lightColor
     },
     backIcon: {
       transform: 'rotateY(180deg)',
@@ -51,19 +47,40 @@ const ControlsView = ({userImage, slide, back, next, selectedColor, finish, isSe
       marginTop: '10px',
       marginLeft: '3px'
     },
+    checkIcon: {
+      marginTop: '2px',
+      transform: 'scale(1.5)'
+    },
     noTouch: {
       pointerEvents: 'none'
     }
   }
   let nextAction;
+  let leftButtonStyle;
+  let rightButtonStyle;
+  let rightButtonIcon;
+
+
   slide === 5 ? nextAction = finish : nextAction = next
+
+  rightButtonIcon = <NextIcon color={colors(selectedColor).lightColor} />
+
+  if (mode === 'settings') {
+    leftButtonStyle = slide < 5 && styles.shallowHide;
+    if (slide === 5) {
+      rightButtonStyle = styles.checkIcon
+      rightButtonIcon = <CheckIcon color={colors(selectedColor).lightColor} />
+    }
+  } else {
+    leftButtonStyle = slide < 2 && styles.hide;
+  }
   return (
     <div className="ControlsView"  style={styles.ControlsView}>
       <div className="Grid Grid--center" style={{height: '100%'}}>
 
         <div className="Grid-cell" style={ifStyle(
             styles.cell,
-            slide < 2 && styles.hide
+            leftButtonStyle
           )}>
           <Hammer onTap={back}>
             <div className="buttonBG" style={ifStyle(
@@ -81,7 +98,6 @@ const ControlsView = ({userImage, slide, back, next, selectedColor, finish, isSe
 
         <div className="Grid-cell" style={ifStyle(
             styles.cell,
-            slide === 1 && styles.hide,
             selectedColor === 'empty' && styles.hide
           )}>
           <div className="buttonBG">
@@ -103,8 +119,11 @@ const ControlsView = ({userImage, slide, back, next, selectedColor, finish, isSe
           <Hammer onTap={nextAction}>
             <div className="buttonBG" style={styles.buttonBG}>
               <div className="buttonIcon" style={styles.buttonIcon}>
-                <div className="icon" style={styles.nextIcon}>
-                  <NextIcon color={colors(selectedColor).lightColor} />
+                <div className="icon" style={ifStyle(
+                    styles.nextIcon,
+                    rightButtonStyle
+                  )}>
+                  {rightButtonIcon}
                 </div>
               </div>
             </div>

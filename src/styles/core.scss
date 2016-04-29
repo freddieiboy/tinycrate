@@ -186,13 +186,8 @@ input[role="combobox"]{
 .scroll {
   overflow-y: scroll;
   overflow-x: none;
-  // z-index: 11;
-  // width: 100%;
-  // position: absolute;
   -webkit-overflow-scrolling: touch;
   max-height: 400px;
-  // margin-bottom: -1px;
-  // margin-top: -1px;
 }
 
 .center {
@@ -212,9 +207,9 @@ input[role="combobox"]{
 ::-webkit-scrollbar {
     display: none;
 }
-.cratePreview {
-  svg {
-    transform: scale(.7);
-  }
-}
+// .cratePreview {
+//   svg {
+//     transform: scale(.7);
+//   }
+// }
 }

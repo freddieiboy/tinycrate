@@ -198,8 +198,8 @@ class CratePage extends Component {
         height: '70%',
         backgroundColor: this.state.openedCrate.image ? '#F5F6FA' : colors(currentCrateColor).darkColor,
         overflow: 'hidden',
-        borderTopRightRadius: '10px',
-        borderTopLeftRadius: '10px',
+        // borderTopRightRadius: '10px',
+        // borderTopLeftRadius: '10px',
       },
       cratePageInfo: {
         textAlign: 'center',
