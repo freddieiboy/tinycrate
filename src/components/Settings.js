@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as userAuth from '../redux/modules/userAuth';
+import * as newCrates from '../redux/modules/NewCrates';
 import * as FireConfig from '../redux/modules/FireConfig';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -14,6 +15,7 @@ class Settings extends Component {
   }
   componentDidMount() {
     console.log('settings mounted');
+    this.props.actions.hideActionBar();
   }
   render() {
     const styles = {
@@ -35,7 +37,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(Object.assign({}, FireConfig, userAuth, routerActions), dispatch)
+  actions: bindActionCreators(Object.assign({}, FireConfig, userAuth, newCrates, routerActions), dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings)

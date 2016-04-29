@@ -6,7 +6,7 @@ import {pop1, pop2, openCrate} from './CrateUtils';
 import Hammer from 'react-hammerjs';
 import {ifStyle} from '../utilities';
 import {EmojiContainer, CrateEmojis} from '../Emojis';
-import {FacebookIcon, TwitterIcon, TextIcon, SettingsIcon} from  '../NewCrates/Icons';
+import {FacebookIcon, TwitterIcon, TextIcon, SettingsIcon, MuteIcon, PlayIcon, FollowIcon} from  '../NewCrates/Icons';
 import $ from 'jquery';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -228,6 +228,15 @@ class CrateTemplate extends Component {
       }
     } else if (crateType === 'settings') {
       preview = <div className="crateIcon" style={styles.crateIcon}><SettingsIcon color={colors(color).darkColor} /></div>
+      profileImage = null;
+    } else if (crateType === 'settings-block') {
+      preview = <div className="crateIcon" style={styles.crateIcon}><MuteIcon color={colors(color).darkColor} /></div>
+      profileImage = null;
+    } else if (crateType === 'settings-unblock') {
+      preview = <div className="crateIcon" style={styles.crateIcon}><PlayIcon color={colors(color).darkColor} /></div>
+      profileImage = null;
+    } else if (crateType === 'settings-follow') {
+      preview = <div className="crateIcon" style={styles.crateIcon}><FollowIcon color={colors(color).darkColor} /></div>
       profileImage = null;
     }
     return (

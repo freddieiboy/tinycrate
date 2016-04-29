@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ProfileView from './ProfileView';
 import {bindActionCreators, store, getState} from 'redux';
-import {push} from 'react-router-redux';
+import {routerActions} from 'react-router-redux';
 import { connect } from 'react-redux';
 import * as userAuth from '../../redux/modules/userAuth';
 import * as newCrates from '../../redux/modules/NewCrates';
@@ -81,7 +81,8 @@ class ProfileContainer extends Component {
     if(this.state.isMe) {
       // TODO: show settings page
       setTimeout(() => {
-        alert("Settings coming soon.");
+        this.props.actions.push('/settings');
+        // alert("Settings coming soon.");
       }, 700)
     } else {
       setTimeout(() => {
@@ -94,9 +95,11 @@ class ProfileContainer extends Component {
     if(this.state.isBlocked) {
       unblockUser(this.state.user.uid, this.props.store.userAuth.uid);
       this.setState({isBlocked: false});
+      console.log('user blocked => alert here')
     } else {
       blockUser(this.state.user.uid, this.props.store.userAuth.uid);
       this.setState({isBlocked: true});
+      console.log('user unblocked => alert here')
     }
   }
   myCollectionTab = (event) => {
@@ -106,7 +109,7 @@ class ProfileContainer extends Component {
     this.setState({currentTab:  ProfileTabs.SUBSCRIPTIONS});
   }
   onOpen = (username) => {
-    this.props.dispatch(push("/user/" + username));
+    this.props.actions.push("/user/" + username);
   }
   render() {
     return (
@@ -188,7 +191,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  actions: bindActionCreators(Object.assign({}, userAuth, newCrates), dispatch)
+  actions: bindActionCreators(Object.assign({}, userAuth, newCrates, routerActions), dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer)

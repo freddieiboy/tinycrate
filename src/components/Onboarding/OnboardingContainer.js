@@ -16,7 +16,8 @@ class SlideContainer extends Component {
     this.state = {
       slide: 1,
       selectedColor: 'empty',
-      isSelectingColor: false
+      isSelectingColor: false,
+      isSettingsMode: false
     }
   }
   componentDidMount = () => {
@@ -24,7 +25,8 @@ class SlideContainer extends Component {
       this.setState({
         slide: 4,
         selectedColor: 'yellow',
-        isSelectingColor: false
+        isSelectingColor: false,
+        isSettingsMode: true
       })
     }
   }
@@ -32,7 +34,12 @@ class SlideContainer extends Component {
     this.props.actions.startListeningToAuth();
   }
   componentWillUpdate = (nextProps, nextState) => {
-    nextProps.store.isTutorialMode === false ? this.props.actions.push('/') : null
+    //NOTE: using this
+    if (this.props.mode === 'settings') {
+      nextState.isSettingsMode === false ? this.props.actions.push('/') : null
+    } else {
+      nextProps.store.isTutorialMode === false ? this.props.actions.push('/') : null
+    }
   }
   backSlide = () => {
     let number = this.state.slide;
@@ -53,6 +60,9 @@ class SlideContainer extends Component {
   endSelectColor = () => {
     this.state.isSelectingColor ? this.setState({isSelectingColor: false}) : null
   }
+  leaveSettings = () => {
+    this.setState({isSettingsMode: false})
+  }
   render() {
     let {store, actions} = this.props;
     const styles = {
@@ -69,6 +79,8 @@ class SlideContainer extends Component {
       }
     }
     const isEditingUserInfo = this.state.slide === 5;
+    let finish;
+    this.props.mode === 'settings' ? finish = this.leaveSettings : finish = actions.finishTutorialMode
     return (
       <div className="Onboarding" style={styles.Onboarding}>
         {isEditingUserInfo ? (
@@ -95,7 +107,7 @@ class SlideContainer extends Component {
             slide={this.state.slide}
             selectedColor={this.state.selectedColor}
             userImage={store.userAuth.profileImageURL}
-            finish={actions.finishTutorialMode}
+            finish={finish}
             isSelectingColor={this.state.isSelectingColor}/>
         </div>
       </div>
