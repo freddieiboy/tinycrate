@@ -57,6 +57,10 @@ class CratePage extends Component {
     }
     this.loadCrateById(nextProps.params.crateId);
   }
+  componentWillUnmount = () => {
+    // remove the PhotoTilt mask if component unmounts before the user closes the mask
+    $(".mask").remove();
+  }
   loadCrateById = (crateId) => {
     // hide ActionBar
     this.props.actions.hideActionBar();

@@ -121,21 +121,23 @@ var PhotoTilt = function(options) {
 			
 		}
 		
-		window.addEventListener('resize', function() {
-			
-			container.classList.add('is-resizing');
-			window.clearTimeout(timeoutID);
-			
-			timeoutID = window.setTimeout(function() {
-				
-				generateViewPort();
-				container.innerHTML = "";
-				render();
-				container.classList.remove('is-resizing');
-				
-			}, 100);
-			
-		}, false);
+		// [REMOVED FROM LIBRARY] - re-renders mask if window resizes
+		
+		// window.addEventListener('resize', function() {
+		// 	
+		// 	container.classList.add('is-resizing');
+		// 	window.clearTimeout(timeoutID);
+		// 	
+		// 	timeoutID = window.setTimeout(function() {
+		// 		
+		// 		generateViewPort();
+		// 		container.innerHTML = "";
+		// 		render();
+		// 		container.classList.remove('is-resizing');
+		// 		
+		// 	}, 100);
+		// 	
+		// }, false);
 		
 	};
 	
