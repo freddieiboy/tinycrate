@@ -40,7 +40,6 @@ class CratePage extends Component {
     setTimeout(() => {
       let width = $('#crateHeroImage > img').width();
       let height = $('#crateHeroImage > img').height();
-      console.log(width, height, width > height)
     }, 800)
   }
   shouldComponentUpdate = (nextState, nextProps) => {
@@ -100,7 +99,9 @@ class CratePage extends Component {
   }
   viewSenderProfile = () => {
     getUserByUid(this.state.openedCrate.authorUId, (user) => {
-      this.props.dispatch(push("/user/" + user.username));
+      setTimeout(() => {
+        this.props.dispatch(push("/user/" + user.username));
+      }, 700)
     });
   }
   viewPhoto = () => {

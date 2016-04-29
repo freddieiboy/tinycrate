@@ -36,6 +36,9 @@ class ProfileView extends Component {
         height: 65,
         padding: '15px 22px 38px 28px'
       },
+      profileHeaderContainer: {
+        height: '70%'
+      },
       statsHeader: {
         backgroundColor: '#F5F8F1',
         maxWidth: '100%',
@@ -43,10 +46,10 @@ class ProfileView extends Component {
         textAlign: 'center'
       },
       userAvatar: {
-        height: '100%',
-        margin: '0 auto',
-        width: '100%',
-        position: 'relative'
+        // height: '100%',
+        // margin: '0 auto',
+        // width: '100%',
+        // position: 'relative'
       },
       profileColSubsSection: {
         padding: '22px'
@@ -73,7 +76,6 @@ class ProfileView extends Component {
     } else if(currentTab == ProfileTabs.MY_COLLECTION) {
       profileTabContent = <CommentList data={collectionCrateData} />;
     }
-    console.log(currentTab)
     return (
       <div className="ProfileView" style={styles.ProfileView}>
         {/*<div className="homeHeader" style={styles.homeHeader}>
@@ -85,32 +87,33 @@ class ProfileView extends Component {
           </div>
         </div>*/}
         <header>
-          <div className="profileHeader Grid Grid--gutters" style={{height: '70%'}}>
-            <div className="Grid-cell" style={{height: '100%'}}>
-              <div className="userAvatar" style={styles.userAvatar}>
-                {/*<ProfileCrate profileImageURL={user.profileImageURL} />*/}
-                <CrateTemplate color={'blue'} crateSize={60} cratePreview={user.profileImageURL} crateType={'profile'} pop={'true'} popType={'2'} shadow={'true'}/>
+          <div className="profileHeadeContainer center-relative" style={styles.profileHeaderContainer}>
+            <div className="profileHeader Grid Grid--fit">
+              <div className="Grid-cell Grid--center-content" style={{height: '100%'}}>
+                <div className="userAvatar" style={styles.userAvatar}>
+                  {/*<ProfileCrate profileImageURL={user.profileImageURL} />*/}
+                  <CrateTemplate color={'blue'} crateSize={60} cratePreview={user.profileImageURL} crateType={'profile'} pop={'true'} popType={'2'} shadow={'true'}/>
+                </div>
               </div>
-            </div>
-            <div className="Grid-cell user-info-holder">
-              <div className="info">
-                <div className="name">{user.name}</div>
-                <div className="name">@{user.username}</div>
+              <div className="Grid-cell user-info-holder">
+                <div className="info">
+                  <div className="name">{user.name}</div>
+                  <div className="name">@{user.username}</div>
+                </div>
               </div>
-            </div>
-            <div className="Grid-cell button-holder" style={{height: '100%'}}>
-              <button style={{float: 'right'}} onClick={profileButton}>
-                {isMe ? 'Settings' : 'Add Gifter +'}
-              </button>
-              {!isMe ?
-                <button style={{marginTop: '40px'}} onClick={blockButton}>
-                {isBlocked ? 'Unblock' : 'Block'}
+              <div className="Grid-cell button-holder" style={{height: '100%'}}>
+                <button style={{float: 'right'}} onClick={profileButton}>
+                  {isMe ? 'Settings' : 'Add Gifter +'}
                 </button>
-                : ''
-              }
+                {!isMe ?
+                  <button style={{marginTop: '40px'}} onClick={blockButton}>
+                  {isBlocked ? 'Unblock' : 'Block'}
+                  </button>
+                  : ''
+                }
+              </div>
             </div>
           </div>
-
           <div className="statsHeader Grid" style={styles.statsHeader}>
             <div className="Grid-cell user-info-holder">
               <div className="info">

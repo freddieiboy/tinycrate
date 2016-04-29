@@ -4,6 +4,7 @@ import {bindActionCreators, store, getState} from 'redux';
 import {push} from 'react-router-redux';
 import { connect } from 'react-redux';
 import * as userAuth from '../../redux/modules/userAuth';
+import * as newCrates from '../../redux/modules/NewCrates';
 import { Router, Route, Link, browserHistory } from 'react-router';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -36,6 +37,7 @@ class ProfileContainer extends Component {
     this.setState({currentTab: ProfileTabs.SUBSCRIPTIONS})
     currentProfileId = this.props.params.userId;
     this.loadProfileForUser(currentProfileId);
+    this.props.actions.showActionBar();
   }
   componentWillReceiveProps = (nextProps) => {
     //TODO: add a shouldComponentUpdate to control performance
@@ -182,7 +184,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  actions: bindActionCreators(userAuth, dispatch)
+  actions: bindActionCreators(Object.assign({}, userAuth, newCrates), dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer)
