@@ -215,13 +215,13 @@ class CrateTemplate extends Component {
         preview = <div className="textIcon" style={styles.textIcon}>
             <TextIcon color={eval(color).darkColor}/>
         </div>
-        profileImage = <img className="userImage noTouch" src="https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg" style={ifStyle(
+        profileImage = <img className="userImage noTouch" src={this.props.crateOwnerImage} style={ifStyle(
             styles.profileImage,
             this.state.isPressed && styles.profileImagePressed
           )} align="middle"></img>
       } else {
         preview = <img className="userImage noTouch" src={this.props.cratePreview} style={styles.cratePreview} align="middle"></img>
-        profileImage = <img className="userImage noTouch" src="https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg" style={ifStyle(
+        profileImage = <img className="userImage noTouch" src={this.props.crateOwnerImage} style={ifStyle(
             styles.profileImage,
             this.state.isPressed && styles.profileImagePressed
           )} align="middle"></img>

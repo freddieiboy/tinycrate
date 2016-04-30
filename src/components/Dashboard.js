@@ -78,7 +78,7 @@ class Dashboard extends Component {
           $('#lines').animateNumber({
             number: unwrappedAmount,
             easing: 'easeInQuad'
-          }, 2000);
+          }, 500);
           updateUnwrappedCount = true;
         }
       } else {
@@ -119,11 +119,6 @@ class Dashboard extends Component {
 
     this.props.actions.push('crate/' + crateId);
     // this.props.dispatch(push("crate/" + data_id));
-  }
-  logout = () => {
-    setTimeout(() => {
-      this.props.actions.logoutUser();
-    }, 700)
   }
   render() {
     let {

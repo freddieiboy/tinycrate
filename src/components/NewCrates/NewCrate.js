@@ -7,6 +7,7 @@ import { routerActions } from 'react-router-redux';
 class NewCrate extends Component {
   componentDidMount = () => {
     this.props.actions.showActionBar();
+    this.props.actions.openActionBar();
   }
   render() {
     return (
