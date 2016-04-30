@@ -79,19 +79,33 @@ class ProfileView extends Component {
       }
     }
     let emptyState;
+    let emptyStateCol;
     let profileTabContent;
 
-    if (subscriptionData.length == 0) {
-      emptyState = <Empty />;
+    if (subscriptionData.length === 0) {
+      emptyState = <div className="center"><Empty /></div>
     } else {
       emptyState = '';
     }
+
+    if (collectionCrateData.length === 0) {
+      emptyStateCol = <div className="center"><Empty /></div>
+    } else {
+      emptyStateCol = '';
+    }
+
+
     if(currentTab == ProfileTabs.SUBSCRIPTIONS) {
-      profileTabContent =
-      <AbsoluteGrid items={subscriptionData} displayObject={(<ProfileCrateList onOpen={onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
-      {emptyState};
+      profileTabContent = <div className="profileTabContent">
+        <AbsoluteGrid items={subscriptionData} displayObject={(<ProfileCrateList onOpen={onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
+        {emptyState}
+      </div>
     } else if(currentTab == ProfileTabs.MY_COLLECTION) {
-      profileTabContent = <CommentList data={collectionCrateData} />;
+      profileTabContent = <div className="profileTabContent">
+          <CommentList data={collectionCrateData} />
+          {emptyStateCol}
+        </div>
+
     }
     return (
       <div className="ProfileView" style={styles.ProfileView}>
@@ -143,17 +157,20 @@ class ProfileView extends Component {
                     popType={'1'}
                     />
                 </div>
-                <div className="logoutCrate" style={styles.logoutCrate} onMouseUp={logout}
-                onTouchEnd={logout}>
-                  <CrateTemplate
-                    crateSize={60}
-                    color={'empty'}
-                    crateType={'settings-logout'}
-                    shadow={'yes'}
-                    pop={'true'}
-                    popType={'1'}
-                    />
-                </div>
+                {isMe ?
+                  <div className="logoutCrate" style={styles.logoutCrate} onMouseUp={logout}
+                  onTouchEnd={logout}>
+                    <CrateTemplate
+                      crateSize={60}
+                      color={'empty'}
+                      crateType={'settings-logout'}
+                      shadow={'yes'}
+                      pop={'true'}
+                      popType={'1'}
+                      />
+                  </div>
+                  : ''
+                }
                 {!isMe ?
                   <div className="settingCrate" style={styles.settingCrate}
                     onMouseUp={blockButton}
