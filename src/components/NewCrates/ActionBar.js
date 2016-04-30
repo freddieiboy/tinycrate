@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import * as NewCrates from '../../redux/modules/NewCrates';
 import Hammer from 'react-hammerjs';
 import {Motion, spring} from 'react-motion';
+import { routerActions } from 'react-router-redux';
 
 import FilePicker from 'component-file-picker';
 import EXIF from 'exif-js'
@@ -66,6 +67,7 @@ class ActionBar extends Component {
   }
   openAction = () => {
     if (!this.props.store.isOpened) {
+      this.props.actions.push('new-crate');
       this.props.actions.openActionBar();
       // $('#message').focus();
     } else {
@@ -84,6 +86,7 @@ class ActionBar extends Component {
   closeAction = () => {
     this.props.store.isOpened ? this.props.actions.closeActionBar() : null
     this.props.actions.flushNewCrateState();
+    this.props.actions.push('/');
     // $('#message').blur();
   }
   initPos = () => {
@@ -431,7 +434,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  actions: bindActionCreators(NewCrates, dispatch)
+  actions: bindActionCreators(Object.assign({}, NewCrates, routerActions), dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActionBar)
