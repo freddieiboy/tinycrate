@@ -48,10 +48,14 @@ class Dashboard extends Component {
       updateUnwrappedCount = false;
     }
   }
+  // componentDidMount = () => {
+  //   this.updateOdometer();
+  // }
   shouldComponentUpdate = (nextProps, nextState) => {
     const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
     const hasCrates = this.state.data.length > 0;
     const hasUnwrappedCount = nextProps.store.user !== this.props.store.user
+    console.log(loggedIn, hasCrates, hasUnwrappedCount)
     return loggedIn || hasCrates || hasUnwrappedCount
   }
   componentWillUpdate(nextProps) {
@@ -65,6 +69,23 @@ class Dashboard extends Component {
   componentWillUnmount = () => {
     this.setState({isMounted: false});
     // console.log('component will unmount')
+  }
+  updateOdometer = () => {
+    let unwrappedAmount;
+    setTimeout(() => {
+      if (this.props.store.user !== null) {
+        unwrappedAmount = this.props.store.user.unwrappedCount
+        if (!updateUnwrappedCount) {
+          $('#lines').animateNumber({
+            number: unwrappedAmount,
+            easing: 'easeInQuad'
+          }, 2000);
+          updateUnwrappedCount = true;
+        }
+      } else {
+        unwrappedAmount = 0
+      }
+    }, 1)
   }
   setupCratesList = (props) => {
     let {store, actions} = props;
@@ -103,21 +124,6 @@ class Dashboard extends Component {
 
     this.props.actions.push('crate/' + crateId);
     // this.props.dispatch(push("crate/" + data_id));
-  }
-  updateOdometer = () => {
-    let unwrappedAmount;
-    if (this.props.store.user !== null) {
-      unwrappedAmount = this.props.store.user.unwrappedCount
-      if (!updateUnwrappedCount) {
-        $('#lines').animateNumber({
-          number: unwrappedAmount,
-          easing: 'easeInQuad'
-        }, 2000);
-        updateUnwrappedCount = true;
-      }
-    } else {
-      unwrappedAmount = 0
-    }
   }
   render() {
     let {
