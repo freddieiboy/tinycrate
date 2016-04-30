@@ -3,7 +3,7 @@ import { ifStyle } from '../utilities';
 import $ from 'jquery';
 import { Motion, spring } from 'react-motion';
 import { colors } from '../Crates/CrateTemplate';
-import { CheckIcon } from '../NewCrates/Icons';
+import { CheckIcon, CancelIcon } from '../NewCrates/Icons';
 
 class Input extends Component {
   constructor() {
@@ -12,24 +12,24 @@ class Input extends Component {
       isFocused: false,
       hasText: false,
       isSuccess: false,
-      isError: false
+      isError: false,
+      text: ''
     }
   }
   componentDidMount = () => {
     if(this.props.value !== undefined) {
-      this.props.value.length > 0 ? this.setState({hasText: true, isSuccess: true}) : null
+      this.props.value.length > 0 ? this.setState({
+        hasText: true,
+        isSuccess: true,
+        text: this.props.value
+      }) : null
     }
   }
+  componentWillUpdate = () => {
+    this.validationCheck();
+  }
   handleChange = (event) => {
-    if(!this.state.hasText) {
-      if(event.target.value.length > 0) {
-        this.setState({hasText: true, isSuccess: true});
-      }
-    } else {
-      if(event.target.value.length === 0) {
-        this.setState({hasText: false, isSuccess: false})
-      }
-    }
+    this.setState({text: event.target.value});
   }
   focus = () => {
     !this.state.isFocused ? this.setState({isFocused: true}) : this.setState({isFocused: false})
@@ -58,6 +58,13 @@ class Input extends Component {
       noText && this.labelInitPos(),
     )
   }
+  validationCheck = () => {
+    if (this.state.text.length > 0) {
+      this.state.hasText === true ? null : this.setState({hasText: true, isSuccess: true})
+    } else {
+      this.state.hasText === false ? null : this.setState({hasText: false, isSuccess: false})
+    }
+  }
   render() {
     const styles = {
       Input: {
@@ -81,11 +88,19 @@ class Input extends Component {
         bottom: '8px'
       }
     }
-    let validation;
+
+    let isSuccessIcon;
+    let isErrorIcon;
     if (this.state.isSuccess) {
-      validation = <div className="inputValidation" style={styles.inputValidation}><CheckIcon color={colors('green').darkColor}/></div>
+      isSuccessIcon = <div className="inputValidation" style={styles.inputValidation}><CheckIcon color={colors('green').darkColor}/></div>
     } else {
-      validation = ''
+      isSuccessIcon = ''
+    }
+
+    if (this.state.isError) {
+      isErrorIcon = <div className="inputValidation" style={styles.inputValidation}><CancelIcon color={colors('pink').darkColor}/></div>
+    } else {
+      isErrorIcon = ''
     }
     return (
       <div className="Input" style={styles.Input}>
@@ -96,14 +111,15 @@ class Input extends Component {
             </div>
           }
         </Motion>
-        {validation}
+        {isSuccessIcon}
+        {isErrorIcon}
         <input type="text" style={ifStyle(
             styles.input,
             this.state.isFocused && styles.inputFocus
           )}
           onFocus={this.focus}
           onBlur={this.focus}
-          value={this.props.value}
+          value={this.state.text}
           onChange={this.handleChange}/>
       </div>
     )
