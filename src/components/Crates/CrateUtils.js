@@ -79,7 +79,33 @@ export function openCrate(crate, callback) {
   });
 }
 
-export function collectCrate(crate) {
+export function sendNotificationCrate(store, recipientUId, text, crateColor) {
+var notificationCrate = {
+    key: ref.push().key(),
+    type: 'notification',
+    authorUId: store.userAuth.uid,
+    authorDisplayName: store.userAuth.name,
+    authorProfileImageURL: store.userAuth.profileImageURL,
+    recipientUId: recipientUId,
+    text: text,
+    crateColor: crateColor,
+    image: null,
+    opened: false,
+    createdAt: Firebase.ServerValue.TIMESTAMP
+  };
+
+  var path = notificationCrate.key;
+  var fannedOutData = {};
+  fannedOutData['/crateFeed/' + recipientUId + '/' + path] = notificationCrate;
+
+  ref.update(fannedOutData, function(error) {
+    if(error) {
+      console.log(error);
+    }
+  });  
+}
+
+export function collectCrate(store, crate) {
   var collectionAuditRef = ref.child('collectionAudits').child(ref.getAuth().uid);
   collectionAuditRef.transaction(function(collectionAudit) {
     return {
@@ -100,7 +126,9 @@ export function collectCrate(crate) {
           console.log(error);
           return;
         } else {
-          alert("This crate was saved to your collection!");
+          notie.alert(1, 'This crate was saved to your collection!', 2);
+          var notificationCrateText = store.userAuth.username + ' saved your crate to their collection.';
+          sendNotificationCrate(store, crate.authorUId, notificationCrateText, crate.crateColor);
         }
       });
     }
@@ -127,7 +155,7 @@ export function uncollectCrate(crateId) {
           console.log(error);
           return;
         } else {
-          alert("This crate was removed from your collection.");
+          notie.alert(1, 'This crate was removed from your collection.', 2);
         }
       });
     }

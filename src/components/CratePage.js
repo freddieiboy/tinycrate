@@ -101,7 +101,7 @@ class CratePage extends Component {
 
   }
   collectCrateButton = () => {
-    collectCrate(this.state.openedCrate);
+    collectCrate(this.props.store, this.state.openedCrate);
   }
   viewSenderProfile = () => {
     getUserByUid(this.state.openedCrate.authorUId, (user) => {

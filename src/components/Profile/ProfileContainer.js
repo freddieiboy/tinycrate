@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import * as userAuth from '../../redux/modules/userAuth';
 import * as newCrates from '../../redux/modules/NewCrates';
 import { Router, Route, Link, browserHistory } from 'react-router';
+import { sendNotificationCrate } from '../Crates/CrateUtils';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var userRef;
@@ -82,12 +83,10 @@ class ProfileContainer extends Component {
       // TODO: show settings page
       setTimeout(() => {
         this.props.actions.push('/settings');
-        // alert("Settings coming soon.");
       }, 700)
     } else {
       setTimeout(() => {
-        subscribeToUser(this.state.user.username, this.props.store.userAuth.uid);
-        alert("You are now subscribed to " + this.state.user.username);
+        subscribeToUser(this.props.store, this.state.user, this.props.store.userAuth.uid);
       }, 700)
     }
   }
@@ -153,12 +152,22 @@ const getUserByUsername = (username, callback) => {
   });
 }
 
-function subscribeToUser(username, authUid) {
+function subscribeToUser(store, user, authUid) {
   userRef = ref.child('users').child(authUid);
-  userRef.child("subscriptions").child(username).transaction(function(user) {
+  userRef.child("subscriptions").child(user.username).transaction(function(user) {
     return {
       subscribedAt: Firebase.ServerValue.TIMESTAMP
     };
+  }, function(error, committed, snapshot) {
+    if (error) {
+      console.log('Transaction failed abnormally!', error);
+    } else if (!committed) {
+      console.log('Transaction not committed!');
+    } else {
+      notie.alert(1, 'You are now subscribed to ' + user.username + "!", 2);
+      var notificationCrateText = store.userAuth.username + ' has subscribed to your crates.';
+      sendNotificationCrate(store, user.uid, notificationCrateText, 'green');
+    }
   });
 }
 

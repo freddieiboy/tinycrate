@@ -78,7 +78,7 @@ class ActionBar extends Component {
       actions.selectGiftees();
       // $('#message').blur();
     } else {
-      alert("Your message cannot be empty!");
+      notie.alert(3, 'Your message cannot be empty!', 2);
     }
   }
   closeAction = () => {
@@ -207,7 +207,7 @@ class ActionBar extends Component {
         this.closeAction();
         this.setState({localText: ''});
       } else {
-        alert("Your crate needs a receipient!");
+        notie.alert(3, 'Your crate needs a receipient!', 2);
       }
     });
   }
@@ -228,10 +228,10 @@ class ActionBar extends Component {
         if (!store.isSelectingUsers) {
           this.selectUsers();
         } else {
-          alert("Your crate needs a receipient!");
+          notie.alert(3, 'Your crate needs a receipient!', 2);
         }
       } else if (noContentButGiftee) {
-        alert("Your message cannot be empty!")
+        notie.alert(3, 'Your message cannot be empty!', 2);
       }
     }
   }
