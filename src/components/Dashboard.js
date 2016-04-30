@@ -140,7 +140,8 @@ class Dashboard extends Component {
       profileImageContainer: {
         height: '30px',
         width: '30px',
-        float: 'right'
+        float: 'right',
+        paddingTop: '3px'
       },
       profileImage: {
         height: '100%',
