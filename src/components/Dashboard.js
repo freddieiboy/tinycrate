@@ -151,7 +151,7 @@ class Dashboard extends Component {
         float: 'right',
         paddingRight: '10px',
         paddingTop: '3px',
-        color: '#B3B3B3'
+        color: '#CFDBDC'
       },
       icon: {
         float: 'right',
@@ -175,7 +175,7 @@ class Dashboard extends Component {
                   <span id="lines">0</span>
                 </div>
                 <div className="icon" style={styles.icon}>
-                  <UnwrappedIcon color={'#B3B3B3'}/>
+                  <UnwrappedIcon color={'#CFDBDC'}/>
                 </div>
               </div>
             </Hammer>
