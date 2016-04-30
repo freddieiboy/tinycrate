@@ -26,15 +26,19 @@ class LoginContainer extends Component {
     }
   }
   loginTwitter = () => {
-    //TODO: add facebook login
     setTimeout(() => {
       this.props.actions.attemptLogin('twitter')
+    }, 700)
+  }
+  loginFacebook = () => {
+    setTimeout(() => {
+      this.props.actions.attemptLogin('facebook')
     }, 700)
   }
   render() {
     return (
       <div className="LoginContainer">
-        <LoginView loginTwitter={this.loginTwitter}/>
+        <LoginView loginTwitter={this.loginTwitter} loginFacebook={this.loginFacebook}/>
       </div>
     )
   }

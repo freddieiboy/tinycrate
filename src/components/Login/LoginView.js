@@ -1,7 +1,7 @@
 import React from 'react';
 import CrateTemplate from '../Crates/CrateTemplate';
 
-const LoginButtons = ({loginTwitter}) => {
+const LoginButtons = ({loginTwitter, loginFacebook}) => {
   const styles = {
     LoginPage: {
       // textAlign: 'center',
@@ -126,7 +126,7 @@ const LoginButtons = ({loginTwitter}) => {
             <div className="getStartedBG Grid-cell" style={styles.getStartedBG}></div>
             <div className="loginCrates Grid Grid--center-content" style={styles.loginCrates}>
               {/*<div className="Grid-cell"></div>*/}
-              <div className="facebookCrate Grid-cell" style={styles.facebookCrate}>
+              <div className="facebookCrate Grid-cell" style={styles.facebookCrate} onMouseUp={loginFacebook} onTouchEnd={loginFacebook}>
                 <CrateTemplate color={'facebook'} crateType={'login-facebook'} crateSize={80} pop={true} popType={'2'} shadow={'true'}/>
               </div>
               <div className="twitterCrate Grid-cell" style={styles.twitterCrate} onMouseUp={loginTwitter} onTouchEnd={loginTwitter}>

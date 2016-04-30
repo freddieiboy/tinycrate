@@ -41,17 +41,37 @@ function dispatchUserState(dispatch, authData, firebaseUserObj) {
 		userColor: 'pink',
 		user: firebaseUserObj
 	});
+	// register the user on Firebase
+	fireRef.child('users').child(authData.uid).transaction(function(currentData) {
+		// currentData is null for a new user
+		if (currentData === null) {
+			return {
+				provider: authData.provider,
+				name: getName(authData),
+				username: getUsername(authData),
+				profileImageURL: getProfileImageURL(authData)
+			};
+		}
+	}, function(error, committed, snapshot) {
+		if (error) {
+			console.log('Transaction failed abnormally!', error);
+		} else if (!committed) {
+			// user already exists
+		} else {
+			// user created successfully
+		}
+	});
 }
 
 //NOTE: use this action to login
 export const attemptLogin = (provider) => {
 	return (dispatch, getState) => {
-		if (provider === 'twitter') {
+		if (provider === 'twitter' || provider === 'facebook') {
 			dispatch({ type: 'ATTEMPTING_LOGIN' });
-			fireRef.authWithOAuthPopup('twitter', (error) => {
+			fireRef.authWithOAuthPopup(provider, (error) => {
 				if (error) {
 					if (error.code === "TRANSPORT_UNAVAILABLE") {
-						fireRef.authWithOAuthRedirect("twitter", function(error) {
+						fireRef.authWithOAuthRedirect(provider, function(error) {
 							dispatch({ type: 'DISPLAY_ERROR', error: 'Login failed! ' + error });
 							dispatch({ type: 'LOGOUT' });
 						});
@@ -84,7 +104,7 @@ const getUsername = (authData) => {
     case 'twitter':
       return authData.twitter.username
     case 'facebook':
-      return null
+      return authData.facebook.displayName.replace(/ /g,'')
   }
 }
 
