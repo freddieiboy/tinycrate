@@ -55,7 +55,6 @@ class Dashboard extends Component {
     const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
     const hasCrates = this.state.data.length > 0;
     const hasUnwrappedCount = nextProps.store.user !== this.props.store.user
-    console.log(loggedIn, hasCrates, hasUnwrappedCount)
     return loggedIn || hasCrates || hasUnwrappedCount
   }
   componentWillUpdate(nextProps) {
