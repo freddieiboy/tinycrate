@@ -23,7 +23,8 @@ class ProfileView extends Component {
       myCollectionTab,
       subscriptionsTab,
       subscriptionData,
-      collectionCrateData
+      collectionCrateData,
+      logout
     } = this.props;
     const styles = {
       ProfileView: {
@@ -60,6 +61,9 @@ class ProfileView extends Component {
         color: '#D7D9DA'
       },
       settingCrate: {
+        marginRight: '10px'
+      },
+      logoutCrate: {
         marginRight: '10px'
       },
       icon: {
@@ -124,6 +128,17 @@ class ProfileView extends Component {
                     crateSize={60}
                     color={'green'}
                     crateType={isMe ? 'settings' : 'settings-follow'}
+                    shadow={'yes'}
+                    pop={'true'}
+                    popType={'1'}
+                    />
+                </div>
+                <div className="logoutCrate" style={styles.logoutCrate} onMouseUp={logout}
+                onTouchEnd={logout}>
+                  <CrateTemplate
+                    crateSize={60}
+                    color={'empty'}
+                    crateType={'settings-logout'}
                     shadow={'yes'}
                     pop={'true'}
                     popType={'1'}

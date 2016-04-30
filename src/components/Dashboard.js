@@ -108,10 +108,6 @@ class Dashboard extends Component {
     let username = this.props.store.userAuth.username;
     this.props.actions.push("user/" + username);
   }
-  logout = () => {
-    this.props.actions.logoutUser();
-    //TODO: move this over to the profile.
-  }
   deleteObj = (crateId) => {
     var oldCrates = this.props.store.cratesList;
     // locally removes the crate by filtering it out by its id
@@ -123,6 +119,11 @@ class Dashboard extends Component {
 
     this.props.actions.push('crate/' + crateId);
     // this.props.dispatch(push("crate/" + data_id));
+  }
+  logout = () => {
+    setTimeout(() => {
+      this.props.actions.logoutUser();
+    }, 700)
   }
   render() {
     let {

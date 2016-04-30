@@ -27,18 +27,39 @@ class ProfileContainer extends Component {
       subscriptionData: [],
       collectionCrateData: [],
       user: {},
-      //NOTE: Alec, set the state only w/ setState on componentDidMount or componentWillMount. Plus a null value works better than 0? Don't know why yet.
-      // currentTab: ProfileTabs.SUBSCRIPTIONS,
       currentTab: null,
       isMe: false,
-      isBlocked: false
+      isBlocked: false,
+      isMounted: false
+
     }
   }
   componentDidMount = () => {
-    this.setState({currentTab: ProfileTabs.SUBSCRIPTIONS})
-    currentProfileId = this.props.params.userId;
-    this.loadProfileForUser(currentProfileId);
-    this.props.actions.showActionBar();
+    if (this.props.store.userAuth.username === 'guest') {
+      this.setState({isMounted: false})
+      this.props.actions.push('login');
+    } else {
+      this.setState({currentTab: ProfileTabs.SUBSCRIPTIONS})
+      currentProfileId = this.props.params.userId;
+      this.loadProfileForUser(currentProfileId);
+      this.props.actions.showActionBar();
+      this.setState({isMounted: true})
+    }
+  }
+  shouldComponentUpdate = (nextProps, nextState) => {
+    const loggedIn = this.props.store.userAuth.currently !== nextProps.store.userAuth.currently;
+    const currentData = this.state.user !== nextState.user
+    const hasSubData = this.state.subscriptionData !== nextState.subscriptionData;
+    const hasColData = this.state.collectionCrateData !== nextState.collectionCrateData;
+    const tab = this.state.currentTab !== nextState.currentTab
+    console.log(loggedIn)
+    return loggedIn || currentData || hasSubData || hasColData || tab
+  }
+  componentWillUpdate = (nextProps) => {
+    if (nextProps.store.userAuth.currently === 'ANONYMOUS') {
+      console.log("User is logged out");
+      this.props.actions.push('login')
+    }
   }
   componentWillReceiveProps = (nextProps) => {
     //TODO: add a shouldComponentUpdate to control performance
@@ -110,7 +131,13 @@ class ProfileContainer extends Component {
   onOpen = (username) => {
     this.props.actions.push("/user/" + username);
   }
+  logout = () => {
+    setTimeout(() => {
+      this.props.actions.logoutUser();
+    }, 700)
+  }
   render() {
+    console.log(this.state.subscriptionData, this.state.collectionCrateData, typeof this.state.user)
     return (
       <div className="ProfileContainer" style={{height: '100%'}}>
         <ProfileView
@@ -127,6 +154,7 @@ class ProfileContainer extends Component {
           subscriptionsTab={this.subscriptionsTab}
           subscriptionData={this.state.subscriptionData}
           collectionCrateData={this.state.collectionCrateData}
+          logout={this.logout}
           />
       </div>
     )
@@ -194,7 +222,7 @@ function getCollectionCrates(uid, callback) {
 
 const mapStateToProps = (state) => ({
   store: {
-  userAuth: state.userAuth
+    userAuth: state.userAuth
   }
 })
 

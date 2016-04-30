@@ -6,7 +6,7 @@ import {pop1, pop2, openCrate} from './CrateUtils';
 import Hammer from 'react-hammerjs';
 import {ifStyle} from '../utilities';
 import {EmojiContainer, CrateEmojis} from '../Emojis';
-import {FacebookIcon, TwitterIcon, TextIcon, SettingsIcon, MuteIcon, PlayIcon, FollowIcon} from  '../NewCrates/Icons';
+import {FacebookIcon, TwitterIcon, TextIcon, SettingsIcon, MuteIcon, PlayIcon, FollowIcon, LogoutIcon} from  '../NewCrates/Icons';
 import $ from 'jquery';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -237,6 +237,9 @@ class CrateTemplate extends Component {
       profileImage = null;
     } else if (crateType === 'settings-follow') {
       preview = <div className="crateIcon" style={styles.crateIcon}><FollowIcon color={colors(color).darkColor} /></div>
+      profileImage = null;
+    } else if (crateType === 'settings-logout') {
+      preview = <div className="crateIcon" style={styles.crateIcon}><LogoutIcon color={colors(color).darkColor} /></div>
       profileImage = null;
     }
     return (
