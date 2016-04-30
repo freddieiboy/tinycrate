@@ -290,7 +290,7 @@ class ActionBar extends Component {
       }
     }
     const ifSelected = store.giftee.length > 0 ? '#FB70AF' : undefined;
-    const ifMsg = this.state.localText > 0 || store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
+    const ifMsg = this.state.localText.length > 0 || store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
     const ifPhoto = store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
 
     let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: '#FB70AF', fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
