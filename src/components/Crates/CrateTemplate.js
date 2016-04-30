@@ -208,20 +208,20 @@ class CrateTemplate extends Component {
       preview = <div className="emojiContainer" style={styles.emojiContainer}><CrateEmojis color={eval(color).darkColor} visible={'1'}/></div>
       profileImage = null;
     } else if (crateType === 'profile') {
-      preview = <img className="userImage" src={this.props.cratePreview} style={styles.cratePreviewProfile} align="middle"></img>
+      preview = <img className="userImage noTouch" src={this.props.cratePreview} style={styles.cratePreviewProfile} align="middle"></img>
       profileImage = null;
     } else if (crateType === 'normal') {
       if (this.props.cratePreview === undefined) {
         preview = <div className="textIcon" style={styles.textIcon}>
             <TextIcon color={eval(color).darkColor}/>
         </div>
-        profileImage = <img className="userImage" src="https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg" style={ifStyle(
+        profileImage = <img className="userImage noTouch" src="https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg" style={ifStyle(
             styles.profileImage,
             this.state.isPressed && styles.profileImagePressed
           )} align="middle"></img>
       } else {
-        preview = <img className="userImage" src={this.props.cratePreview} style={styles.cratePreview} align="middle"></img>
-        profileImage = <img className="userImage" src="https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg" style={ifStyle(
+        preview = <img className="userImage noTouch" src={this.props.cratePreview} style={styles.cratePreview} align="middle"></img>
+        profileImage = <img className="userImage noTouch" src="https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg" style={ifStyle(
             styles.profileImage,
             this.state.isPressed && styles.profileImagePressed
           )} align="middle"></img>

@@ -16,29 +16,22 @@ import Crate from './Crates/Crate';
 import Empty from './Empty';
 import AbsoluteGrid from 'react-absolute-grid';
 import Hammer from 'react-hammerjs';
+import { UnwrappedIcon } from './NewCrates/Icons';
+import $ from 'jquery';
+import odometer from './odometer';
 
 import firebase from 'firebase';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 
-var unopenedCratesList = [];
-var openedCratesList = []
+// var unopenedCratesList = [];
+var openedCratesList = [];
+var updateUnwrappedCount = false;
 
 class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
-      // data: [{
-      //   authorDisplayName: "Freddie Iboy",
-      //   authorProfileImageURL: "https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg",
-      //   authorUId: "twitter:48171141",
-      //   crateColor: "productHunt",
-      //   createdAt: 1461700435141,
-      //   key: "-KGJ7djG7V-H2Am5wVt0",
-      //   opened: false,
-      //   recipientUId: "twitter:48171141",
-      //   text: "test",
-      // }],
       data:[],
       isMounted: false
     };
@@ -52,18 +45,14 @@ class Dashboard extends Component {
       this.setState({isMounted: true})
       this.props.actions.showActionBar();
       this.setupCratesList(this.props);
+      updateUnwrappedCount = false;
     }
   }
-  // componentDidMount = () => {
-  //   console.log('dashboard is calling componentDidMount')
-  //   console.log(this.state.isMounted)
-  // }
-  shouldComponentUpdate(nextProps) {
-    //NOTE: does not update when user logs out and logs back in. shouldComponentUpdate is being called too early or this.state.data is being added too late from the above function. Work on this later in polish.
-    console.log('dashboard should update')
+  shouldComponentUpdate = (nextProps, nextState) => {
     const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
     const hasCrates = this.state.data.length > 0;
-    return loggedIn || hasCrates
+    const hasUnwrappedCount = nextProps.store.user !== this.props.store.user
+    return loggedIn || hasCrates || hasUnwrappedCount
   }
   componentWillUpdate(nextProps) {
     //NOTE: component is updating 4 times when there is a crate in cratelist. Why?
@@ -71,6 +60,7 @@ class Dashboard extends Component {
       console.log("User is logged out");
       this.props.actions.push('login')
     }
+    this.updateOdometer();
   }
   componentWillUnmount = () => {
     this.setState({isMounted: false});
@@ -88,7 +78,7 @@ class Dashboard extends Component {
       // let unopenedCratesList = this.props.store.cratesList;
       unopenedCratesList.push(crate);
       this.setState({data: unopenedCratesList})
-
+      updateUnwrappedCount = false;
       //NOTE: switched back to setState for performance.
       // not needed? slows loading with lots of crates
       // return actions.setupCratesList(unopenedCratesList);
@@ -97,7 +87,6 @@ class Dashboard extends Component {
   showProfile = () => {
     let username = this.props.store.userAuth.username;
     this.props.actions.push("user/" + username);
-    // this.props.actions.push('corgis')
   }
   logout = () => {
     this.props.actions.logoutUser();
@@ -115,6 +104,21 @@ class Dashboard extends Component {
     this.props.actions.push('crate/' + crateId);
     // this.props.dispatch(push("crate/" + data_id));
   }
+  updateOdometer = () => {
+    let unwrappedAmount;
+    if (this.props.store.user !== null) {
+      unwrappedAmount = this.props.store.user.unwrappedCount
+      if (!updateUnwrappedCount) {
+        $('#lines').animateNumber({
+          number: unwrappedAmount,
+          easing: 'easeInQuad'
+        }, 2000);
+        updateUnwrappedCount = true;
+      }
+    } else {
+      unwrappedAmount = 0
+    }
+  }
   render() {
     let {
       actions,
@@ -127,6 +131,31 @@ class Dashboard extends Component {
         top: 0,
         height: 65,
         padding: '15px 22px 38px 28px'
+      },
+      profileContainer: {
+        display: 'inline',
+        float: 'right',
+      },
+      profileImageContainer: {
+        height: '30px',
+        width: '30px',
+        float: 'right'
+      },
+      profileImage: {
+        height: '100%',
+        width: '100%',
+        borderRadius: '50%',
+      },
+      count: {
+        float: 'right',
+        paddingRight: '10px',
+        paddingTop: '3px',
+        color: '#B3B3B3'
+      },
+      icon: {
+        float: 'right',
+        paddingRight: '10px',
+        paddingTop: '6px'
       }
     }
     return (
@@ -136,21 +165,19 @@ class Dashboard extends Component {
             <div className="homeHeader" style={styles.homeHeader}>
               <h1 className="logoType">Tinycrate</h1>
             </div>
-
             <Hammer onTap={this.showProfile}>
-              <div className="inventoryAction float-right">
-                <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
-                  <a style={{color: '#000'}}><span style={{cursor: 'pointer'}}>Profile</span></a>
+              <div className="profileContainer" style={styles.profileContainer}>
+                <div className="profileImageContainer" style={styles.profileImageContainer}>
+                  <img src={store.userAuth.profileImageURL} style={styles.profileImage} alt=""/>
+                </div>
+                <div className="count" style={styles.count}>
+                  <span id="lines">0</span>
+                </div>
+                <div className="icon" style={styles.icon}>
+                  <UnwrappedIcon color={'#B3B3B3'}/>
                 </div>
               </div>
             </Hammer>
-
-            <Hammer onTap={this.logout}>
-              <div className="float-right">
-                <button className="button">LOGOUT</button>
-              </div>
-            </Hammer>
-
             <div style={{padding: '22px'}} className="container-fluid body-content-home">
               <AbsoluteGrid items={this.state.data} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
               {this.state.data.length === 0 ? (
@@ -176,6 +203,7 @@ const mapStateToProps = (state) => ({
     // data: state.crates.data,
     // emoji: state.crates.emoji,
     userAuth: state.userAuth,
+    user: state.userAuth.user,
     cratesList: state.crates.cratesList
   }
 })

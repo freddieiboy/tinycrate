@@ -35,6 +35,7 @@ class CratePage extends Component {
     };
   }
   componentDidMount = () => {
+    console.log('cratepage mounted')
     currentCrateId = this.props.params.crateId;
     this.loadCrateById(this.props.params.crateId);
     setTimeout(() => {
@@ -44,6 +45,7 @@ class CratePage extends Component {
   }
   shouldComponentUpdate = (nextState, nextProps) => {
     //NOTE: getting a setState error here. Implement this effectively. Currently does nothing.
+    console.log('cratepage should update')
     const openedCrate = this.state.openedCrate !== nextState.openedCrate;
     return openedCrate
   }

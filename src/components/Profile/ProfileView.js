@@ -6,7 +6,7 @@ import CommentList from '../CommentList';
 import ProfileCrateList from '../Crates/ProfileCrateList';
 import AbsoluteGrid from 'react-absolute-grid';
 import { ifStyle } from '../utilities';
-import { SettingsIcon } from '../NewCrates/Icons';
+import { SettingsIcon, UnwrappedIcon, GiftedIcon } from '../NewCrates/Icons';
 
 class ProfileView extends Component {
   render() {
@@ -61,6 +61,12 @@ class ProfileView extends Component {
       },
       settingCrate: {
         marginRight: '10px'
+      },
+      icon: {
+        display: 'inline-block',
+        transform: 'translate(0, 2px) scale(.8)',
+        marginRight: '5px',
+        paddingTop: '4px'
       }
     }
     let emptyState;
@@ -152,13 +158,23 @@ class ProfileView extends Component {
               <div className="Grid-cell Grid--center-content user-info-holder">
                 <div className="info">
                   <div className="count ">{user.unwrappedCount}</div>
-                  <div className="count ">Unwrapped</div>
+                  <div className="count ">
+                    <div className="icon" style={styles.icon}>
+                      <UnwrappedIcon color={'#fb70af'}/>
+                    </div>
+                    Unwrapped
+                  </div>
                 </div>
               </div>
               <div className="Grid-cell Grid--center-content user-info-holder">
                 <div className="info">
                   <div className="count ">{user.giftedCount}</div>
-                  <div className="count ">Gifted</div>
+                  <div className="count ">
+                    <div className="icon" style={styles.icon}>
+                      <GiftedIcon color={'#fb70af'}/>
+                    </div>
+                    Gifted
+                  </div>
                 </div>
               </div>
             </div>
