@@ -17,6 +17,26 @@ export const startListeningToAuth = () => {
 				userRef.once('value', (snap) => {
 					// dispatch the state again with the newly fetched Firebase user object
 					dispatchUserState(dispatch, authData, snap.val());
+					// register the user on Firebase
+					fireRef.child('users').child(authData.uid).transaction((currentData) => {
+						// currentData is null for a new user
+						if (currentData === null) {
+							return {
+								provider: authData.provider,
+								name: getName(authData),
+								username: getUsername(authData),
+								profileImageURL: getProfileImageURL(authData)
+							};
+						}
+					}, (error, committed, snapshot) => {
+						if (error) {
+							console.log('Transaction failed abnormally!', error);
+						} else if (!committed) {
+							// user already exists
+						} else {
+							// user created successfully
+						}
+					});
 				});
 				//NOTE: Any push from here results in infinite loop.
 				// dispatch(routerActions.push('/'));
@@ -40,26 +60,6 @@ function dispatchUserState(dispatch, authData, firebaseUserObj) {
 		data: authData,
 		userColor: 'pink',
 		user: firebaseUserObj
-	});
-	// register the user on Firebase
-	fireRef.child('users').child(authData.uid).transaction(function(currentData) {
-		// currentData is null for a new user
-		if (currentData === null) {
-			return {
-				provider: authData.provider,
-				name: getName(authData),
-				username: getUsername(authData),
-				profileImageURL: getProfileImageURL(authData)
-			};
-		}
-	}, function(error, committed, snapshot) {
-		if (error) {
-			console.log('Transaction failed abnormally!', error);
-		} else if (!committed) {
-			// user already exists
-		} else {
-			// user created successfully
-		}
 	});
 }
 
