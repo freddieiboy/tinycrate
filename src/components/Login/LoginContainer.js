@@ -8,6 +8,8 @@ import * as newCrates from '../../redux/modules/NewCrates';
 import * as FireConfig from '../../redux/modules/FireConfig';
 import * as onboarding from '../../redux/modules/Onboarding';
 
+const fireRef = new Firebase("https://burning-heat-5122.firebaseio.com");
+
 class LoginContainer extends Component {
   componentDidMount = () => {
     //NOTE: why is this listening here?
@@ -18,11 +20,16 @@ class LoginContainer extends Component {
   }
   componentWillUpdate() {
     const loggedIn = this.props.store.userAuth.currently === 'LOGGED_IN';
-    const tutorial = this.props.store.isTutorialMode === true
-    if (loggedIn && tutorial) {
-      this.props.actions.push('getting-started');
-    } else if (loggedIn && !tutorial){
-      this.props.actions.push('/');
+    if(loggedIn) {
+      var userRef = fireRef.child('users').child(this.props.store.userAuth.uid);
+      userRef.once('value', (snap) => {
+        // if Firebase user doesn't exist or hasn't completed tutorial, start the onboarding
+        if(snap.val() === null || !snap.val().didTutorial) {
+          this.props.actions.push('getting-started');
+        } else {
+          this.props.actions.push('/');
+        }
+      });
     }
   }
   loginTwitter = () => {

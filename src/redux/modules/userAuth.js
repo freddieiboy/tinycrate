@@ -1,5 +1,6 @@
 import Firebase from 'firebase';
 import {routerActions} from 'react-router-redux';
+import {getName, getUsername, getProfileImageURL} from '../../components/Onboarding/OnboardingUtils'
 
 const fireRef = new Firebase("https://burning-heat-5122.firebaseio.com");
 //TODO: read from redux instead!
@@ -17,26 +18,6 @@ export const startListeningToAuth = () => {
 				userRef.once('value', (snap) => {
 					// dispatch the state again with the newly fetched Firebase user object
 					dispatchUserState(dispatch, authData, snap.val());
-					// register the user on Firebase
-					fireRef.child('users').child(authData.uid).transaction((currentData) => {
-						// currentData is null for a new user
-						if (currentData === null) {
-							return {
-								provider: authData.provider,
-								name: getName(authData),
-								username: getUsername(authData),
-								profileImageURL: getProfileImageURL(authData)
-							};
-						}
-					}, (error, committed, snapshot) => {
-						if (error) {
-							console.log('Transaction failed abnormally!', error);
-						} else if (!committed) {
-							// user already exists
-						} else {
-							// user created successfully
-						}
-					});
 				});
 				//NOTE: Any push from here results in infinite loop.
 				// dispatch(routerActions.push('/'));
@@ -88,33 +69,6 @@ export const logoutUser = () => {
 		dispatch({ type: 'LOGOUT' });
 		fireRef.unauth();
 	};
-}
-
-const getName = (authData) => {
-  switch(authData.provider) {
-    case 'twitter':
-      return authData.twitter.displayName
-    case 'facebook':
-      return authData.facebook.displayName
-  }
-}
-
-const getUsername = (authData) => {
-  switch(authData.provider) {
-    case 'twitter':
-      return authData.twitter.username
-    case 'facebook':
-      return authData.facebook.displayName.replace(/ /g,'')
-  }
-}
-
-const getProfileImageURL = (authData) => {
-  switch(authData.provider) {
-    case 'twitter':
-      return authData.twitter.profileImageURL.replace("_normal", "")
-    case 'facebook':
-      return authData.facebook.profileImageURL
-  }
 }
 
 const initialAuthState = {

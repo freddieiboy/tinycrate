@@ -9,6 +9,7 @@ import {routerActions} from 'react-router-redux';
 import ControlsView from './ControlsView';
 import SlideView from './SlideView';
 import UserInfoView from './UserInfoView';
+import {registerUser} from './OnboardingUtils';
 
 class SlideContainer extends Component {
   constructor(props) {
@@ -38,7 +39,14 @@ class SlideContainer extends Component {
     if (this.props.mode === 'settings') {
       nextState.isSettingsMode === false ? this.props.actions.push('/') : null
     } else {
-      nextProps.store.isTutorialMode === false ? this.props.actions.push('/') : null
+      if(nextProps.store.isTutorialMode === false) {
+        var itself = this;
+        registerUser(this.props.store.userAuth.data, this.state.selectedColor, function(success) {
+          if(success) {
+            itself.props.actions.push('/');
+          }
+        });
+      }
     }
   }
   backSlide = () => {
