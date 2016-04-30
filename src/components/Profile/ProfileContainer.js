@@ -136,6 +136,9 @@ class ProfileContainer extends Component {
       this.props.actions.logoutUser();
     }, 700)
   }
+  close = () => {
+    this.props.actions.push('/');
+  }
   render() {
     console.log(this.state.subscriptionData, this.state.collectionCrateData, typeof this.state.user)
     return (
@@ -155,6 +158,7 @@ class ProfileContainer extends Component {
           subscriptionData={this.state.subscriptionData}
           collectionCrateData={this.state.collectionCrateData}
           logout={this.logout}
+          close={this.close}
           />
       </div>
     )

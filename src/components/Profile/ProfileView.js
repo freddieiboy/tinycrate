@@ -6,7 +6,8 @@ import CommentList from '../CommentList';
 import ProfileCrateList from '../Crates/ProfileCrateList';
 import AbsoluteGrid from 'react-absolute-grid';
 import { ifStyle } from '../utilities';
-import { SettingsIcon, UnwrappedIcon, GiftedIcon } from '../NewCrates/Icons';
+import { SettingsIcon, UnwrappedIcon, GiftedIcon, NextIcon } from '../NewCrates/Icons';
+import Hammer from 'react-hammerjs';
 
 class ProfileView extends Component {
   render() {
@@ -24,7 +25,8 @@ class ProfileView extends Component {
       subscriptionsTab,
       subscriptionData,
       collectionCrateData,
-      logout
+      logout,
+      close
     } = this.props;
     const styles = {
       ProfileView: {
@@ -71,6 +73,9 @@ class ProfileView extends Component {
         transform: 'translate(0, 2px) scale(.8)',
         marginRight: '5px',
         paddingTop: '4px'
+      },
+      close: {
+        transform: 'rotate(180deg) translate(14px, 0)',
       }
     }
     let emptyState;
@@ -102,6 +107,11 @@ class ProfileView extends Component {
           <div className="profileHeadeContainer center-relative" style={styles.profileHeaderContainer}>
             <div className="profileHeader Grid Grid--fit">
               <div className="Grid-cell Grid--center-content" style={{height: '100%'}}>
+                <Hammer onTap={close}>
+                  <div className="close" style={styles.close}>
+                    <NextIcon />
+                  </div>
+                </Hammer>
                 <div className="userAvatar" style={styles.userAvatar}>
                   {/*<ProfileCrate profileImageURL={user.profileImageURL} />*/}
                   <CrateTemplate

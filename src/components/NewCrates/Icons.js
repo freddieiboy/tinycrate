@@ -124,8 +124,8 @@ export const FollowIcon = ({color = '#fff'}) =>
   </svg>
 
 export const UnwrappedIcon = ({color = '#fff'}) =>
-  <svg width="20px" height="19px" viewBox="2 1 20 19" version="1.1">
-    <path d="M21.99,8 C21.99,7.28 21.62,6.65 21.05,6.3 L12,1 L2.95,6.3 C2.38,6.65 2,7.28 2,8 L2,18 C2,19.1 2.9,20 4,20 L20,20 C21.1,20 22,19.1 22,18 L21.99,8 L21.99,8 Z M12,13 L3.74,7.84 L12,3 L20.26,7.84 L12,13 L12,13 Z" stroke="none" fill={color} fillRule="evenodd"></path>
+  <svg width="20px" height="24px" viewBox="408 245 20 24" version="1.1">
+    <path d="M427.05,250.3 L418,245 L408.95,250.3 C408.38,250.65 408,251.28 408,252 L408,262 C408,263.1 418,268.612238 418,268.612238 C418,268.612238 428,263.1 428,262 L427.99,252 C427.99,251.28 427.62,250.65 427.05,250.3 Z M418,257 L409.74,251.84 L418,247 L426.26,251.84 L418,257 L418,257 Z" stroke="none" fill={color} fillRule="evenodd"></path>
   </svg>
 
 export const GiftedIcon = ({color = '#fff'}) =>
