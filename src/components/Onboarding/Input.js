@@ -25,8 +25,12 @@ class Input extends Component {
       }) : null
     }
   }
-  componentWillUpdate = () => {
-    this.validationCheck();
+  componentWillUpdate = (nextProps, nextState) => {
+    if(nextProps.isUsernameAvailable === false && this.state.isError === false) {
+      this.setState({isError: true, isSuccess: false});
+      return;
+    }
+    this.validationCheck(nextProps);
   }
   handleChange = (event) => {
     this.setState({text: event.target.value});
@@ -113,7 +117,7 @@ class Input extends Component {
         </Motion>
         {isSuccessIcon}
         {isErrorIcon}
-        <input type="text" style={ifStyle(
+        <input id={this.props.label} type="text" style={ifStyle(
             styles.input,
             this.state.isFocused && styles.inputFocus
           )}

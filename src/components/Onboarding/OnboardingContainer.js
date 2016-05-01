@@ -9,7 +9,8 @@ import {routerActions} from 'react-router-redux';
 import ControlsView from './ControlsView';
 import SlideView from './SlideView';
 import UserInfoView from './UserInfoView';
-import {registerUser} from './OnboardingUtils';
+import $ from 'jquery';
+import {registerUser, isUsernameAvailable} from './OnboardingUtils';
 
 class SlideContainer extends Component {
   constructor(props) {
@@ -18,7 +19,8 @@ class SlideContainer extends Component {
       slide: 1,
       selectedColor: 'empty',
       isSelectingColor: false,
-      isSettingsMode: false
+      isSettingsMode: false,
+      isUsernameAvailable: true
     }
   }
   componentDidMount = () => {
@@ -39,14 +41,7 @@ class SlideContainer extends Component {
     if (this.props.mode === 'settings') {
       nextState.isSettingsMode === false ? this.props.actions.push('/') : null
     } else {
-      if(nextProps.store.isTutorialMode === false) {
-        var itself = this;
-        registerUser(this.props.store.userAuth.data, this.state.selectedColor, function(success) {
-          if(success) {
-            itself.props.actions.push('/');
-          }
-        });
-      }
+      nextProps.store.isTutorialMode === false ? this.props.actions.push('/') : null
     }
   }
   backSlide = () => {
@@ -71,6 +66,22 @@ class SlideContainer extends Component {
   leaveSettings = () => {
     this.setState({isSettingsMode: false})
   }
+  attemptSignup = () => {
+    var itself = this;
+    var username = $('#Username').val().replace(/[^a-z0-9\s]/gi, '');
+    isUsernameAvailable(username, function(isAvailable) {
+      if(isAvailable) {
+        registerUser(itself.props.store.userAuth.data, username, itself.state.selectedColor, function(success) {
+          if(success) {
+            itself.props.actions.finishTutorialMode();
+          }
+        });
+      } else {
+        notie.alert(3, 'Username is not available.', 2);
+        itself.setState({isUsernameAvailable: false});
+      }
+    });
+  }
   render() {
     let {store, actions} = this.props;
     const styles = {
@@ -88,7 +99,7 @@ class SlideContainer extends Component {
     }
     const isEditingUserInfo = this.state.slide === 5;
     let finish;
-    this.props.mode === 'settings' ? finish = this.leaveSettings : finish = actions.finishTutorialMode
+    this.props.mode === 'settings' ? finish = this.leaveSettings : finish = this.attemptSignup
     return (
       <div className="Onboarding" style={styles.Onboarding}>
         {isEditingUserInfo ? (
@@ -96,6 +107,7 @@ class SlideContainer extends Component {
             userImage={store.userAuth.profileImageURL}
             name={store.userAuth.name}
             username={store.userAuth.username}
+            isUsernameAvailable={this.state.isUsernameAvailable}
             selectedColor={this.state.selectedColor}
             provider={store.userAuth.provider}/>
         ) : (

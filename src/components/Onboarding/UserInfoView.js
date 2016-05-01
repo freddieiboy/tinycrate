@@ -5,7 +5,7 @@ import Input from './Input';
 
 class UserInfoView extends Component {
   render() {
-    let {userImage, selectedColor, name, username, provider} = this.props;
+    let {userImage, selectedColor, name, username, isUsernameAvailable, provider} = this.props;
     const userColor = colors(selectedColor).lightColor;
     const styles = {
       UserInfoView: {
@@ -82,7 +82,7 @@ class UserInfoView extends Component {
               <div className="Grid-cell" style={styles.form}>
                 <form>
                   <Input label={'Full Name'} value={name}/>
-                  <Input label={'Username'} value={'@' + username}/>
+                  <Input label={'Username'} value={'@' + username} isUsernameAvailable={isUsernameAvailable}/>
                 </form>
               </div>
             </div>

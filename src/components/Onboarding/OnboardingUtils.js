@@ -4,14 +4,14 @@ import * as userAuth from '../../redux/modules/userAuth';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 
-export function registerUser(authData, profileColor, callback) {
+export function registerUser(authData, username, profileColor, callback) {
   ref.child('users').child(authData.uid).transaction((currentData) => {
     // currentData is null for a new user
     if (currentData === null) {
       return {
         provider: authData.provider,
         name: getName(authData),
-        username: getUsername(authData),
+        username: username,
         profileColor: profileColor,
         didTutorial: true,
         profileImageURL: getProfileImageURL(authData)
@@ -26,9 +26,26 @@ export function registerUser(authData, profileColor, callback) {
       callback(false);
     } else {
       // user created successfully
-      callback(true);
+      var usernameRecord = {};
+      usernameRecord['usernames/'+ snapshot.val().username] = snapshot.key();
+      // map username to uid to allow for username availability checking
+      ref.update(usernameRecord, function(error) {
+        if(error) {
+          console.log(error);
+          callback(false);
+        } else {
+          callback(true);
+        }
+      });
     }
   });
+}
+
+export function isUsernameAvailable(username, callback) {
+ ref.child('usernames').child(username).once('value', function(snapshot) {
+   var isAvailable = (snapshot.val() === null);
+   callback(isAvailable);
+ });
 }
 
 export function getName (authData) {
