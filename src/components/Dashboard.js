@@ -48,14 +48,18 @@ class Dashboard extends Component {
       updateUnwrappedCount = false;
     }
   }
-  // componentDidMount = () => {
-  //   this.updateOdometer();
-  // }
+  componentDidMount = () => {
+    if (this.state.isMounted) {
+      this.updateOdometer();
+      // console.log('dashboard did mount', this.state.isMounted)
+    }
+  }
   shouldComponentUpdate = (nextProps, nextState) => {
+    const isMounted = nextState.isMounted !== this.state.isMounted
     const loggedIn = nextProps.store.userAuth.currently !== this.props.store.userAuth.currently;
     const hasCrates = this.state.data.length > 0;
     const hasUnwrappedCount = nextProps.store.user !== this.props.store.user
-    return loggedIn || hasCrates || hasUnwrappedCount
+    return loggedIn || hasCrates || hasUnwrappedCount || isMounted
   }
   componentWillUpdate(nextProps) {
     //NOTE: component is updating 4 times when there is a crate in cratelist. Why?
@@ -65,9 +69,13 @@ class Dashboard extends Component {
     }
     this.updateOdometer();
   }
+  componentDidUpdate = () => {
+    // console.log('dashboard did update')
+  }
   componentWillUnmount = () => {
     this.setState({isMounted: false});
-    // console.log('component will unmount')
+    this.stopCratesListUpdates(this.props);
+    // console.log('dashboard will unmount')
   }
   updateOdometer = () => {
     let unwrappedAmount;
@@ -99,10 +107,12 @@ class Dashboard extends Component {
       unopenedCratesList.push(crate);
       this.setState({data: unopenedCratesList})
       updateUnwrappedCount = false;
-      //NOTE: switched back to setState for performance.
-      // not needed? slows loading with lots of crates
-      // return actions.setupCratesList(unopenedCratesList);
     });
+  }
+  stopCratesListUpdates = (props) => {
+    let {store, actions} = props;
+    const crates = new Firebase(FIREBASE_URL + "/crateFeed/" + store.userAuth.uid);
+    crates.off();
   }
   showProfile = () => {
     let username = this.props.store.userAuth.username;
@@ -114,8 +124,6 @@ class Dashboard extends Component {
     var newCrates = oldCrates.filter(function(crate) {
       return crate.key != crateId;
     });
-
-    // this.props.actions.setupCratesList(newlinks)
 
     this.props.actions.push('crate/' + crateId);
     // this.props.dispatch(push("crate/" + data_id));

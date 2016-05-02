@@ -45,7 +45,7 @@ class CratePage extends Component {
   }
   shouldComponentUpdate = (nextState, nextProps) => {
     //NOTE: getting a setState error here. Implement this effectively. Currently does nothing.
-    console.log('cratepage should update')
+    // console.log('cratepage should update')
     const openedCrate = this.state.openedCrate !== nextState.openedCrate;
     return openedCrate
   }

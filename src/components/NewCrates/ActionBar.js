@@ -43,7 +43,7 @@ class ActionBar extends Component {
     const regiftText = nextProps.store.regiftCrateText;
     if (regiftText.length > 0 && this.state.localText === '') {
       this.setState({localText: regiftText})
-      console.log(nextState.localText.length, nextProps.store.regiftCrateText.length)
+      // console.log(nextState.localText.length, nextProps.store.regiftCrateText.length)
     }
   }
   componentDidMount = () => {
@@ -84,6 +84,7 @@ class ActionBar extends Component {
     }
   }
   closeAction = () => {
+    this.setState({localText: ''});
     this.props.store.isOpened ? this.props.actions.closeActionBar() : null
     this.props.actions.flushNewCrateState();
     this.props.actions.push('/');
@@ -208,7 +209,6 @@ class ActionBar extends Component {
           });
         })
         this.closeAction();
-        this.setState({localText: ''});
       } else {
         notie.alert(3, 'Your crate needs a receipient!', 2);
       }

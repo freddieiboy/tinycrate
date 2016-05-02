@@ -7,7 +7,6 @@ const CrateList = ({onDelete, item, index, itemsLength, color}) => {
   // const { item, index, itemsLength, color} = this.props;
   // return <Crate msg={item} id={item.key} onDelete={onDelete} color={item.crateColor}></Crate>
   // console.log(item.image)
-  console.log(item)
   return <CrateTemplate
     id={item.key}
     crateSize={80}

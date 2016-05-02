@@ -52,7 +52,6 @@ class ProfileContainer extends Component {
     const hasSubData = this.state.subscriptionData !== nextState.subscriptionData;
     const hasColData = this.state.collectionCrateData !== nextState.collectionCrateData;
     const tab = this.state.currentTab !== nextState.currentTab
-    console.log(loggedIn)
     return loggedIn || currentData || hasSubData || hasColData || tab
   }
   componentWillUpdate = (nextProps) => {
@@ -140,7 +139,6 @@ class ProfileContainer extends Component {
     this.props.actions.push('/');
   }
   render() {
-    console.log(this.state.subscriptionData, this.state.collectionCrateData, typeof this.state.user)
     return (
       <div className="ProfileContainer" style={{height: '100%'}}>
         <ProfileView
