@@ -41,6 +41,21 @@ export function registerUser(authData, username, profileColor, callback) {
   });
 }
 
+export function updateProfileColor(newProfileColor, callback) {
+  var userRef = ref.child('users').child(ref.getAuth().uid);
+  userRef.update({
+    "profileColor": newProfileColor
+  }, (error) => {
+    callback(error);
+  });
+}
+
+export function getProfileColor(callback) {
+  ref.child('users').child(ref.getAuth().uid).once('value', (snap) => {
+    callback(snap.val().profileColor);
+  });
+}
+
 export function isUsernameAvailable(username, callback) {
  ref.child('usernames').child(username).once('value', function(snapshot) {
    var isAvailable = (snapshot.val() === null);
