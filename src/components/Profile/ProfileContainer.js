@@ -7,9 +7,11 @@ import * as userAuth from '../../redux/modules/userAuth';
 import * as newCrates from '../../redux/modules/NewCrates';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import { sendNotificationCrate } from '../Crates/CrateUtils';
+import { colors } from '../Crates/CrateTemplate';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var userRef;
+
 
 var subscriptionsList = [];
 var collectionCratesList = [];
@@ -139,6 +141,7 @@ class ProfileContainer extends Component {
     this.props.actions.push('/');
   }
   render() {
+    const userColor = colors(this.props.store.userAuth.profileColor)
     return (
       <div className="ProfileContainer" style={{height: '100%'}}>
         <ProfileView
@@ -157,6 +160,7 @@ class ProfileContainer extends Component {
           collectionCrateData={this.state.collectionCrateData}
           logout={this.logout}
           close={this.close}
+          userColor={userColor}
           />
       </div>
     )

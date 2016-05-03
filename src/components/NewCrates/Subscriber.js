@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import CrateTemplate from 'components/Crates/CrateTemplate';
+import CrateTemplate, { colors } from 'components/Crates/CrateTemplate';
 import {ifStyle} from '../utilities';
 import Hammer from 'react-hammerjs';
 import {flattenObject} from '../utilities';
@@ -49,11 +49,11 @@ class Subscriber extends Component {
         margin: '15px 0 0 0'
       },
       selectedName: {
-        fontWeight: 'bold'
+        // fontWeight: 'bold'
       },
       username: {
         float: 'left',
-        margin: '15px 0 0 10px',
+        margin: '21px 0 0 10px',
         color: '#C1C9D0'
       },
       selectIconHolder: {
@@ -69,7 +69,7 @@ class Subscriber extends Component {
         border: '1px solid #F1F1F1'
       },
       selectedIcon: {
-        backgroundColor: '#FB70AF',
+        backgroundColor: this.props.userColor.lightColor,
         border: 'none'
       },
       checkIcon: {

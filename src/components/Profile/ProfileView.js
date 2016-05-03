@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import ProfileCrate from '../Crates/ProfileCrate';
 import CrateTemplate from '../Crates/CrateTemplate';
 import Empty from '../Empty';
 import CommentList from '../CommentList';
@@ -26,7 +25,8 @@ class ProfileView extends Component {
       subscriptionData,
       collectionCrateData,
       logout,
-      close
+      close,
+      userColor
     } = this.props;
     const styles = {
       ProfileView: {
@@ -107,6 +107,7 @@ class ProfileView extends Component {
         </div>
 
     }
+    console.log(user.profileColor)
     return (
       <div className="ProfileView" style={styles.ProfileView}>
         {/*<div className="homeHeader" style={styles.homeHeader}>
@@ -127,9 +128,8 @@ class ProfileView extends Component {
                   </div>
                 </Hammer>
                 <div className="userAvatar" style={styles.userAvatar}>
-                  {/*<ProfileCrate profileImageURL={user.profileImageURL} />*/}
                   <CrateTemplate
-                    color={'blue'}
+                    color={userColor}
                     crateSize={60}
                     cratePreview={user.profileImageURL}
                     crateType={'profile'}

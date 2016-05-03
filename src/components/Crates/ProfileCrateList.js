@@ -1,6 +1,6 @@
 import React from 'react';
-import ProfileCrate from './ProfileCrate';
 import CrateTemplate from './CrateTemplate';
+//TODO: map specific user color to their crates.
 
 const ProfileCrateList = ({onOpen, item, index, itemsLength, color}) => {
   //TODO: pass in user profile color

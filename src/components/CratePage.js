@@ -11,7 +11,6 @@ import Empty from './Empty';
 import CommentList from './CommentList';
 import { collectCrate } from './Crates/CrateUtils';
 import ProfileCrateList from './Crates/ProfileCrateList';
-import ProfileCrate from './Crates/ProfileCrate';
 import AbsoluteGrid from 'react-absolute-grid';
 import EXIF from 'exif-js';
 import PhotoTilt from '../photoTilt.js'

@@ -12,7 +12,7 @@ import FilePicker from 'component-file-picker';
 import EXIF from 'exif-js'
 import {flattenObject, ifStyle} from '../utilities';
 import $ from 'jquery';
-import CrateTemplate from 'components/Crates/CrateTemplate';
+import CrateTemplate, { colors } from 'components/Crates/CrateTemplate';
 import {green, pink, incrementGiftedCount} from 'components/Crates/CrateUtils';
 import SubscribersList from 'components/NewCrates/SubscribersList';
 import {
@@ -254,6 +254,7 @@ class ActionBar extends Component {
       openActionBar,
       closeActionBar
     } = this.props;
+    const userColor = colors(store.userAuth.profileColor);
     const styles = {
       optionsMenu: {
         position: 'absolute',
@@ -286,17 +287,17 @@ class ActionBar extends Component {
         marginBottom: 0
       },
       done: {
-        color: '#FB70AF'
+        color: userColor.lightColor
       },
       hide: {
         visibility: 'hidden'
       }
     }
-    const ifSelected = store.giftee.length > 0 ? '#FB70AF' : undefined;
-    const ifMsg = this.state.localText.length > 0 || store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
-    const ifPhoto = store.newCratePhoto.length > 0 ? '#FB70AF' : undefined;
+    const ifSelected = store.giftee.length > 0 ? userColor.lightColor : undefined;
+    const ifMsg = this.state.localText.length > 0 || store.newCratePhoto.length > 0 ? userColor.lightColor : undefined;
+    const ifPhoto = store.newCratePhoto.length > 0 ? userColor.lightColor : undefined;
 
-    let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: '#FB70AF', fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
+    let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: userColor.lightColor, fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
     let mainAction = this.openAction
 
     if (store.isCreatingCrate) {
@@ -323,7 +324,11 @@ class ActionBar extends Component {
               <div className="title" style={{textAlign: 'center'}}>
                 <h4>Select Giftees</h4>
               </div>
-              <SubscribersList subscribers={this.props.store.subscribers} newGifteeAction={this.props.actions.newGiftee} removeGifteeAction={this.props.actions.removeGiftee}/>
+              <SubscribersList
+                userColor={userColor}
+                subscribers={this.props.store.subscribers}
+                newGifteeAction={this.props.actions.newGiftee} 
+                removeGifteeAction={this.props.actions.removeGiftee}/>
             </div>
           ) : null}
         </div>
@@ -331,7 +336,7 @@ class ActionBar extends Component {
         <div className="actionButtons">
           <Motion style={this.loaded()}>
             {({height}) =>
-            <footer className="homeFooter" style={{backgroundColor: green.lightColor, height: height}}>
+            <footer className="homeFooter" style={{backgroundColor: userColor.compliment, height: height}}>
 
               <Hammer onTap={mainAction}>
                 <div className="bigPlusButton optionsMenu actionButton animated pulse" style={styles.optionsMenu}>

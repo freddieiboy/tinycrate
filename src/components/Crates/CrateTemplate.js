@@ -344,31 +344,37 @@ export const colors = (color) => {
       return {
         lightColor: '#49FFCC',
         darkColor: '#1ADEDB',
+        compliment: pink.lightColor
       }
     case yellow:
       return {
         lightColor: '#FCE973',
         darkColor: '#FFC868',
+        compliment: purple.lightColor
       }
     case orange:
       return {
         lightColor: '#FD9C44',
         darkColor: '#F67A1B',
+        compliment: blue.lightColor
       }
     case blue:
       return {
         lightColor: '#57E3FD',
         darkColor: '#2BBFD9',
+        compliment: orange.lightColor
       }
     case pink:
       return {
         lightColor: '#FB70AF',
         darkColor: '#EE3B76',
+        compliment: green.lightColor
       }
     case purple:
       return {
         lightColor: '#FF5DFA',
         darkColor: '#C746E9',
+        compliment: yellow.lightColor
       }
     case empty:
       return {
