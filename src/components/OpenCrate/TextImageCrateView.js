@@ -12,10 +12,22 @@ const TextImageCrateView = ({
 }) => {
   const styles = {
     TextImageCrateView: {
-      left: '0px',
-      right: '0px',
-      top: '0px',
-      height: '70%',
+      // left: '0px',
+      // right: '0px',
+      // top: '0px',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column'
+    },
+    crateImage: {
+      flex: '70%',
+      // marginTop: '0px',
+      // marginLeft: '0px',
+      // height: '70%',
+      backgroundColor: openedCrate.image ? '#F5F6FA' : colors(currentCrateColor).darkColor,
+      overflow: 'hidden',
+      // borderTopRightRadius: '10px',
+      // borderTopLeftRadius: '10px',
     },
     closePreview: {
       position: 'absolute',
@@ -32,21 +44,12 @@ const TextImageCrateView = ({
       transform: 'scale(.7)',
       margin: '-2px 0 0 3px'
     },
-    crateImage: {
-      marginTop: '0px',
-      marginLeft: '0px',
-      height: '70%',
-      backgroundColor: openedCrate.image ? '#F5F6FA' : colors(currentCrateColor).darkColor,
-      overflow: 'hidden',
-      // borderTopRightRadius: '10px',
-      // borderTopLeftRadius: '10px',
-    },
     cratePageInfo: {
       textAlign: 'center',
       maxHeight: '30%',
       color: '#838B9E',
       paddingBottom: '1em',
-      backgroundColor: '#ECEEF5',
+      // backgroundColor: '#ECEEF5',
       borderBottomRightRadius: '10px',
       borderBottomLeftRadius: '10px',
       marginLeft: '0px',
@@ -57,12 +60,12 @@ const TextImageCrateView = ({
       height: '30%'
     },
     openText: {
-      maxWidth: '100%',
+      // maxWidth: '100%',
       textAlign: 'center',
       padding: '15px',
-      position:'relative',
-      top: '50%',
-      transform: 'translateY(-50%)',
+      // position:'relative',
+      // top: '50%',
+      // transform: 'translateY(-50%)',
       color: 'white'
     },
     timestamp: {
@@ -96,8 +99,8 @@ const TextImageCrateView = ({
 
   return (
     <div className="TextImageCrateView" style={styles.TextImageCrateView}>
-      <div className="Grid u-textCenter crateImage"  style={styles.crateImage}>
-        <div className="Grid-cell" style={{height: '100%'}}>
+      <div className="u-textCenterTEMP crateImage"  style={styles.crateImage}>
+        <div className="Grid-cellTEMP">
           {crateHeroContent}
           <Hammer onTap={closePreview}>
             <div className="closePreview" style={styles.closePreview}>
@@ -108,8 +111,8 @@ const TextImageCrateView = ({
           </Hammer>
         </div>
       </div>
-      <div className="Grid u-textCenter cratePageInfo" style={styles.cratePageInfo}>
-        <div className="Grid-cell user-info-holder" style={{paddingTop: '12px'}}>
+      <div className="GridTEMP u-textCenter cratePageInfo" style={styles.cratePageInfo}>
+        <div className="Grid-cellTEMP user-info-holder" style={{paddingTop: '12px'}}>
           <div className="attribution clearfix">
             <div style={styles.authorName}>
               <h6>

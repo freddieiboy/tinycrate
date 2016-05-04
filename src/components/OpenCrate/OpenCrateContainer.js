@@ -171,18 +171,24 @@ class OpenCrateContainer extends Component {
         // position: 'absolute',
         // top: '0px',
         // left: '0px',
-        // height: '100%',
+        // height: '100vh',
+        height: '100%',
         // width: '100%',
         // backgroundColor: '#000'
         display: 'flex',
         flexDirection: 'column',
-        // justifyContent: 'flex-end'
+        justifyContent: 'flex-end'
       },
       TextImageCrateView: {
-        flex: '1 100%'
+        flex: '1',
+        backgroundColor: 'honeydew'
+      },
+      test: {
+
       },
       CondensedControlsView: {
-        flex: '1 100%'
+        flex: '0 auto',
+        alignItem: 'flex-end'
       }
     }
 
@@ -190,13 +196,13 @@ class OpenCrateContainer extends Component {
     return (
       <div className="profile-page-holder" style={styles.OpenCrateContainer}>
         <div className="TextImageCrateView" style={styles.TextImageCrateView}>
-          <TextImageCrateView
+          {/*<TextImageCrateView
             openedCrate={this.state.openedCrate}
             currentCrateColor={currentCrateColor}
             closePreview={this.closePreview}
             viewPhoto={this.viewPhoto}
             timestamp={timestamp}
-            />
+            />*/}
         </div>
         <div className="CondensedControlsView" style={styles.CondensedControlsView}>
           <CondensedControlsView
