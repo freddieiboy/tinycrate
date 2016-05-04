@@ -32,7 +32,17 @@ class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
-      data:[],
+      data:[{
+        authorDisplayName:"Freddie Iboy",
+        authorProfileImageURL: "https://pbs.twimg.com/profile_images/424799468542644225/_jMJ9xPf.jpeg",
+        authorUId: "twitter:48171141",
+        crateColor: "blue",
+        createdAt: 1462259479889,
+        key: "-KGpSEJShBqG2ORnhOrI",
+        opened: false,
+        recipientUId: "twitter:48171141",
+        text: "test"
+      }],
       isMounted: false
     };
   }

@@ -107,7 +107,6 @@ class ProfileView extends Component {
         </div>
 
     }
-    console.log(user.profileColor)
     return (
       <div className="ProfileView" style={styles.ProfileView}>
         {/*<div className="homeHeader" style={styles.homeHeader}>

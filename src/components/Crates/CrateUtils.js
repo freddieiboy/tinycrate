@@ -102,7 +102,7 @@ var notificationCrate = {
     if(error) {
       console.log(error);
     }
-  });  
+  });
 }
 
 export function collectCrate(store, crate) {
@@ -186,6 +186,7 @@ export function pop1(el, color) {
   // var el = this.refs.thisCrate,
     // mo.js timeline obj
     const evalColor = eval(color);
+    var removeEl = function removeEl (node) { node.parentNode.removeChild(node); }
     var timeline = new mojs.Timeline(),
 
     // tweens for the animation:
@@ -195,6 +196,7 @@ export function pop1(el, color) {
       parent: el,
       duration: 1500,
       shape : 'circle',
+      class: 'explosionyall',
       fill : evalColor.lightColor,
       x: '50%',
       y: '50%',
@@ -204,7 +206,8 @@ export function pop1(el, color) {
       count: 6,
       isSwirl: true,
       isRunLess: true,
-      easing: mojs.easing.bezier(0.1, 1, 0.3, 1)
+      easing: mojs.easing.bezier(0.1, 1, 0.3, 1),
+      onComplete: function () { removeEl(this.el); }
     }),
     // ring animation
     tween2 = new mojs.Transit({
@@ -219,7 +222,8 @@ export function pop1(el, color) {
       x: '50%',
       y: '50%',
       isRunLess: true,
-      easing: mojs.easing.bezier(0, 1, 0.5, 1)
+      easing: mojs.easing.bezier(0, 1, 0.5, 1),
+      onComplete: function () { removeEl(this.el); }
     }),
     // icon scale animation
     tween3 = new mojs.Tween({

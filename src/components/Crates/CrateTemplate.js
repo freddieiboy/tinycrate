@@ -37,7 +37,6 @@ class CrateTemplate extends Component {
       if (crateType === 'normal') {
         this.pop1(true);
       } else if (crateType === 'profile') {
-        console.log('this is called')
         this.pop1();
         if(username) {
           setTimeout(() => {

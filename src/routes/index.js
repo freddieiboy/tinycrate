@@ -5,7 +5,7 @@ import Dashboard from 'components/Dashboard';
 import LoginContainer from 'components/Login/LoginContainer';
 import Profile from 'components/Profile/ProfileContainer';
 import InventoryPage from 'components/InventoryPage';
-import CratePage from 'components/CratePage';
+import OpenCrate from 'components/OpenCrate/OpenCrateContainer';
 import NotFound from 'components/NotFound';
 import Onboarding from 'components/Onboarding/OnboardingContainer';
 import Settings from 'components/Settings';
@@ -27,7 +27,7 @@ export default (store) => (
       <IndexRoute component={Dashboard} />
       <Route path='new-crate' component={NewCrate} />
       <Route path='user/:userId' component={Profile} />
-      <Route path='crate/:crateId' component={CratePage} />
+      <Route path='crate/:crateId' component={OpenCrate} />
       <Route path='test' component={HomeView} />
       <Route path='settings' component={Settings} />
       <Route path='*' component={NotFound} />
