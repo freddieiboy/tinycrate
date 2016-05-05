@@ -327,7 +327,7 @@ class ActionBar extends Component {
               <SubscribersList
                 userColor={userColor}
                 subscribers={this.props.store.subscribers}
-                newGifteeAction={this.props.actions.newGiftee} 
+                newGifteeAction={this.props.actions.newGiftee}
                 removeGifteeAction={this.props.actions.removeGiftee}/>
             </div>
           ) : null}

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import {bindActionCreators, store, getState} from 'redux';
-import {push} from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import * as userAuth from '../../redux/modules/userAuth';
@@ -41,6 +41,7 @@ class OpenCrateContainer extends Component {
     console.log('OpenCrateContainer mounted')
     currentCrateId = this.props.params.crateId;
     this.loadCrateById(this.props.params.crateId);
+    // this.props.actions.hideActionBar();
     setTimeout(() => {
       let width = $('#crateHeroImage > img').width();
       let height = $('#crateHeroImage > img').height();
@@ -109,7 +110,7 @@ class OpenCrateContainer extends Component {
   viewSenderProfile = () => {
     getUserByUid(this.state.openedCrate.authorUId, (user) => {
       setTimeout(() => {
-        this.props.dispatch(push("/user/" + user.username));
+        this.props.actions.push("/user/" + user.username);
       }, 700)
     });
   }
@@ -124,12 +125,13 @@ class OpenCrateContainer extends Component {
     }, 500);
   }
   regiftCrate = () => {
-    $('.actionButtons').css("visibility", "visible");
-    this.props.actions.openActionBar();
     this.props.actions.selectCrateColor(this.state.openedCrate.crateColor);
     this.props.actions.addRegiftCrateText(this.state.openedCrate.text);
     this.props.actions.addNewCratePhoto((this.state.openedCrate.image) ? this.state.openedCrate.image : '');
     $("#imagePreview").attr('src', this.props.store.newCratePhoto);
+
+    this.props.actions.push('new-crate');
+    console.log('regiftcrate funtion is running')
   }
   onOpen = (crateId) => {
     var oldCrates = this.state.data;
@@ -138,10 +140,10 @@ class OpenCrateContainer extends Component {
       return crate.key != crateId;
     });
     this.setState({data: newCrates});
-    this.props.dispatch(push("/crate/" + crateId));
+    this.props.actions.push("/crate/" + crateId);
   }
   closePreview = () => {
-    this.props.dispatch(push("/"));
+    this.props.actions.push("/");
   }
   render() {
 
@@ -209,7 +211,6 @@ class OpenCrateContainer extends Component {
             <DefaultCrateView
               openedCrate={this.state.openedCrate}
               currentCrateColor={currentCrateColor}
-              closePreview={this.closePreview}
               viewPhoto={this.viewPhoto}
               timestamp={timestamp}
               />
@@ -217,11 +218,22 @@ class OpenCrateContainer extends Component {
         <div className="CondensedControlsView" style={styles.CondensedControlsView}>
           <CondensedControlsView
             thisCrateColor={currentCrateColor}
+            userImage={crateOwnerImage}
             author={this.state.openedCrate.authorDisplayName}
+            viewSenderProfile={this.viewSenderProfile}
+            saveToProfile={this.collectCrateButton}
+            regift={this.regiftCrate}
+            closePreview={this.closePreview}
             />
         </div>
         {/*<div className="controlsView" style={styles.controlsView}>
-          <ControlsView userColor={currentCrateColor} crateContentsSaved={false} regift={this.regiftCrate} saveToProfile={this.collectCrateButton} viewSenderProfile={this.viewSenderProfile} userImage={crateOwnerImage}/>
+          <ControlsView
+          userColor={currentCrateColor}
+          crateContentsSaved={false}
+          regift={this.regiftCrate}
+          saveToProfile={this.collectCrateButton}
+          viewSenderProfile={this.viewSenderProfile}
+          userImage={crateOwnerImage}/>
         </div>*/}
         {/*<div style={{padding: '22px', top: '386px'}} className="container-fluid body-content">
           <AbsoluteGrid items={this.state.data} displayObject={(<ProfileCrateList onOpen={this.onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
@@ -295,7 +307,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   dispatch,
-  actions: bindActionCreators(Object.assign({}, NewCrates, userAuth), dispatch)
+  actions: bindActionCreators(Object.assign({}, NewCrates, userAuth, routerActions), dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OpenCrateContainer)

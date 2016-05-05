@@ -267,7 +267,7 @@ class FlexCrateTemplate extends Component {
               this.state.isPressed && styles.crateImagePressed,
             )} ref="thisEmptyImage">
             <div className="preview" ref="thispreview" style={styles.center}>
-              {preview}
+              {previewVar}
             </div>
           </div>
           <div style={styles.size}

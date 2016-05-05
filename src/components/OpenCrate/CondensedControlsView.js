@@ -2,9 +2,17 @@ import React from 'react';
 import { StarIcon, RegiftIcon, CancelIcon } from '../NewCrates/Icons';
 import FlexCrateTemplate, { colors } from '../Crates/FlexCrateTemplate';
 import { ifStyle } from '../utilities';
+import Hammer from 'react-hammerjs';
 
 const CondensedControlsView = ({
-  userImage, saveToProfile, regift, viewSenderProfile, thisCrateColor, crateContentsSaved, author
+  userImage,
+  saveToProfile,
+  regift,
+  viewSenderProfile,
+  thisCrateColor,
+  crateContentsSaved,
+  author,
+  closePreview
 }) => {
   const styles = {
     CondensedControlsView: {
@@ -78,24 +86,30 @@ const CondensedControlsView = ({
         </div>
       </div>
       <div className="saveContainer" style={styles.controlBox}>
-        <div className="controlContents" style={styles.controlContents}>
-          <StarIcon color={color} />
-        </div>
+        <Hammer onTap={saveToProfile}>
+          <div className="controlContents" style={styles.controlContents}>
+            <StarIcon color={color} />
+          </div>
+      </Hammer>
       </div>
       <div className="regiftContainer" style={styles.controlBox}>
-        <div className="controlContents" style={styles.controlContents}>
-          <div className="regiftIcon" style={styles.regiftIcon}>
-            <RegiftIcon color={color} />
+        <Hammer onTap={regift}>
+          <div className="controlContents" style={styles.controlContents}>
+            <div className="regiftIcon" style={styles.regiftIcon}>
+              <RegiftIcon color={color} />
+            </div>
           </div>
-        </div>
+        </Hammer>
       </div>
       <div className="closeContainer" style={styles.controlBox}>
-        <div className="controlContents" style={styles.controlContents}>
-          <div className="cancelBG" style={styles.cancelBG}></div>
-          <div className="cancel" style={styles.cancel}>
-            <CancelIcon color={color} />
+        <Hammer onTap={closePreview}>
+          <div className="controlContents" style={styles.controlContents}>
+            <div className="cancelBG" style={styles.cancelBG}></div>
+            <div className="cancel" style={styles.cancel}>
+              <CancelIcon color={color} />
+            </div>
           </div>
-        </div>
+        </Hammer>
       </div>
     </div>
   )
