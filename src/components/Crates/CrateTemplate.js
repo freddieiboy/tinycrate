@@ -11,7 +11,16 @@ import $ from 'jquery';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 
-// <CrateTemplate color={'empty'} crateSize={80} cratePreview={Emojis[store.emoji]} pop={true} crateType={'normal'} shadow={'true'}/>
+/*
+<CrateTemplate
+  color={'empty'}
+  crateSize={80}
+  cratePreview={Emojis[store.emoji]}
+  pop={true}
+  crateType={'normal'}
+  shadow={'true'}
+  animation={'animated ANIMATION_CLASS'}/>
+*/
 
 class CrateTemplate extends Component {
   constructor(props) {
@@ -241,8 +250,10 @@ class CrateTemplate extends Component {
       preview = <div className="crateIcon" style={styles.crateIcon}><LogoutIcon color={colors(color).darkColor} /></div>
       profileImage = null;
     }
+    let animationClass;
+    this.props.animation === undefined ? animationClass = '' : animationClass = this.props.animation
     return (
-      <div className="CrateTemplate" style={styles.CrateTemplate}>
+      <div className={"CrateTemplate " + animationClass} style={styles.CrateTemplate}>
         <div className="popContainer noTouch" ref="popContainer" style={styles.popContainer}></div>
         <div className="imageAndCrate" style={ifStyle(
             styles.imageAndCrate,

@@ -18,7 +18,15 @@ const Empty = ({ actions, store }) => {
       <div className="emptyCrate center"
         onMouseUp={() => actions.setEmojiNumber(randomEmojiNumber())}
         onTouchEnd={() => actions.setEmojiNumber(randomEmojiNumber())}>
-        <CrateTemplate color={'empty'} crateSize={80} cratePreview={'NOTHING_YET'} pop={true} popType={'2'} crateType={'empty'} shadow={'true'}/>
+        <CrateTemplate
+          color={'empty'}
+          crateSize={80}
+          cratePreview={'NOTHING_YET'}
+          pop={true}
+          popType={'2'}
+          crateType={'empty'}
+          shadow={'true'}
+          animation={'animated bounce'}/>
       </div>
     </div>
   )

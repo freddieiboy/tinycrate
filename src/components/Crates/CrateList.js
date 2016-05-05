@@ -18,6 +18,7 @@ const CrateList = ({onDelete, item, index, itemsLength, color}) => {
     popType={'1'}
     pop={'true'}
     crateOwnerImage={item.authorProfileImageURL}
+    animation={'animated bounce'}
     />
 }
 

@@ -183,7 +183,9 @@ if (isUsingCSSModules) {
     BASE_CSS_LOADER,
     'modules',
     'importLoaders=1',
-    'localIdentName=[name]__[local]___[hash:base64:5]'
+    //NOTE: https://github.com/davezuko/react-redux-starter-kit/issues/584
+    // 'localIdentName=[name]__[local]___[hash:base64:5]'
+    'localIdentName=[local]'
   ].join('&')
 
   webpackConfig.module.loaders.push({

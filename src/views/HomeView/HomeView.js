@@ -41,9 +41,12 @@ export class HomeView extends Component {
           {' '}
           <span className={classes['counter--green']}>{this.props.store.counter}</span>
         </h2>
-        <button className='btn btn-default' onClick={this.props.actions.increment}>
-          increment
-        </button>
+        {/*<div className={classes.foo}>*/}
+        <div className="foo">
+          <button className='btn btn-default' onClick={this.props.actions.increment}>
+            increment
+          </button>
+        </div>
         {' '}
         <button className='btn btn-default' onClick={this.props.actions.doubleAsync}>
           Double (Async)

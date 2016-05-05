@@ -1,3 +1,5 @@
+//NOTE: only using this for COndensedControlsView.js and ControlsView.js
+
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -16,8 +18,9 @@ var ref = new Firebase(FIREBASE_URL);
   color={'empty'}
   size={80} - number, not string
   preview={Emojis[store.emoji]}
-  pop={true} - boolean, not string
+  pop={1} or 2, pop={true} is not needed
   type={'normal'}
+  animation={'animated ANIMATION_CLASS'}
   shadow={true} - boolean, not string
   />
   */
@@ -254,8 +257,10 @@ class FlexCrateTemplate extends Component {
       profileImage = null;
     }
     $('.popContainer > div > svg').css('position', 'relative');
+    let animationClass;
+    this.props.animation === undefined ? animationClass = '' : animationClass = this.props.animation
     return (
-      <div className="FlexCrateTemplate" style={styles.FlexCrateTemplate}>
+      <div className={"FlexCrateTemplate " + animationClass} style={styles.FlexCrateTemplate}>
         <div className="popContainer noTouch" ref="popContainer" style={styles.popContainer}></div>
         <div className="imageAndCrate" style={ifStyle(
             styles.imageAndCrate,

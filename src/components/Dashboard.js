@@ -155,6 +155,8 @@ class Dashboard extends Component {
       profileContainer: {
         display: 'inline',
         float: 'right',
+        paddingTop: '20px',
+        paddingRight: '30px'
       },
       profileImageContainer: {
         height: '30px',
@@ -200,7 +202,12 @@ class Dashboard extends Component {
               </div>
             </Hammer>
             <div style={{padding: '22px'}} className="container-fluid body-content-home">
-              <AbsoluteGrid items={this.state.data} displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)} responsive={true} itemHeight={100} itemWidth={92} />
+              <AbsoluteGrid
+                items={this.state.data}
+                displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)}
+                responsive={true}
+                itemHeight={100}
+                itemWidth={92} />
               {this.state.data.length === 0 ? (
                 <Empty />
               ) : null}
