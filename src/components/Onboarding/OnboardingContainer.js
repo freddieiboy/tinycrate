@@ -10,7 +10,7 @@ import ControlsView from './ControlsView';
 import SlideView from './SlideView';
 import UserInfoView from './UserInfoView';
 import $ from 'jquery';
-import {registerUser, isUsernameAvailable} from './OnboardingUtils';
+import {registerUser, isUsernameAvailable, getProfileColor, updateProfileColor} from './OnboardingUtils';
 
 class SlideContainer extends Component {
   constructor(props) {
@@ -24,13 +24,18 @@ class SlideContainer extends Component {
     }
   }
   componentDidMount = () => {
+    var itself = this;
     if (this.props.mode === 'settings') {
       this.setState({
         slide: 4,
-        selectedColor: 'yellow',
-        isSelectingColor: false,
         isSettingsMode: true
-      })
+      });
+      getProfileColor(function(profileColor) {
+        itself.setState({
+          selectedColor: (profileColor) ? profileColor : 'yellow',
+          isSelectingColor: false,
+        });
+      });
     }
   }
   componentWillMount = () => {
@@ -64,7 +69,14 @@ class SlideContainer extends Component {
     this.state.isSelectingColor ? this.setState({isSelectingColor: false}) : null
   }
   leaveSettings = () => {
-    this.setState({isSettingsMode: false})
+    var itself = this;
+    updateProfileColor(this.state.selectedColor, function(error) {
+      if(error) {
+        console.log(error);
+      } else {
+        itself.setState({isSettingsMode: false});
+      }
+    });
   }
   attemptSignup = () => {
     var itself = this;
