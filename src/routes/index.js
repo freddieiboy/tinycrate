@@ -28,7 +28,7 @@ export default (store) => (
       <Route path='new-crate' component={NewCrate} />
       <Route path='user/:userId' component={Profile} />
       <Route path='crate/:crateId' component={OpenCrate} />
-      <Route path='test' component={HomeView} />
+      {/*<Route path='test' component={HomeView} />*/}
       <Route path='settings' component={Settings} />
       <Route path='*' component={NotFound} />
     </Route>
