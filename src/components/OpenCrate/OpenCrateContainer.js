@@ -21,6 +21,7 @@ import { colors } from '../Crates/CrateTemplate';
 import ControlsView from './ControlsView';
 import CondensedControlsView from './CondensedControlsView';
 import TextImageCrateView from './TextImageCrateView';
+import DefaultCrateView from './DefaultCrateView';
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -181,14 +182,16 @@ class OpenCrateContainer extends Component {
       },
       TextImageCrateView: {
         flex: '1',
-        backgroundColor: 'honeydew'
+        backgroundColor: 'snow',
+        position: 'relative'
       },
       test: {
 
       },
       CondensedControlsView: {
         flex: '0 auto',
-        alignItem: 'flex-end'
+        alignItem: 'flex-end',
+        zIndex: '0'
       }
     }
 
@@ -203,6 +206,13 @@ class OpenCrateContainer extends Component {
             viewPhoto={this.viewPhoto}
             timestamp={timestamp}
             />*/}
+            <DefaultCrateView
+              openedCrate={this.state.openedCrate}
+              currentCrateColor={currentCrateColor}
+              closePreview={this.closePreview}
+              viewPhoto={this.viewPhoto}
+              timestamp={timestamp}
+              />
         </div>
         <div className="CondensedControlsView" style={styles.CondensedControlsView}>
           <CondensedControlsView
