@@ -1,5 +1,6 @@
 import React from 'react';
 import { colors } from '../Crates/CrateTemplate';
+import { ClockIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 import { ifStyle } from '../utilities';
 
@@ -32,9 +33,6 @@ const DefaultCrateView = ({
       backgroundColor: hasImage ? '#F5F6FA' : colors(currentCrateColor).darkColor,
       position: 'relative'
     },
-    inner: {
-      //NOTE: are there shared styles with only text and only photos?
-    },
     topTextStyle: {
       display: 'flex',
       alignItems: 'center',
@@ -47,6 +45,40 @@ const DefaultCrateView = ({
     },
     bottomContainer: {
       flex: '1',
+      padding: '20px',
+      color: '#838B9E',
+      backgroundColor: '#EBEEF5',
+      overflowY: 'scroll'
+    },
+    attribution: {
+      display: 'flex',
+      opacity: '.5'
+    },
+    innerLeft: {
+      flex: '1'
+    },
+    innerRight: {
+      flex: '1',
+      alignSelf: 'flex-end',
+    },
+    clockIcon: {
+      float: 'left',
+      marginRight: '5px'
+    },
+    timestamp: {
+      marginTop: '2px',
+      marginBottom: '0px'
+    },
+    authorName: {
+      marginTop: '3px',
+      textAlign: 'right'
+    },
+    crateText: {
+      display: 'flex',
+    },
+    crateTextBody: {
+      flex: '1',
+      textAlign: 'center',
     }
   }
   var topContent;
@@ -59,13 +91,41 @@ const DefaultCrateView = ({
     <div className="DefaultCrateView" style={styles.DefaultCrateView}>
       <div className="topContainer" style={styles.topContainer}>
         <div className="inner" style={ifStyle(
-            styles.inner,
             !hasImage && styles.topTextStyle
           )}>
           {topContent}
         </div>
       </div>
-      <div className="bottomContainer" style={styles.bottomContainer}></div>
+
+      <div className="bottomContainer" style={styles.bottomContainer}>
+        <div className="attribution" style={styles.attribution}>
+          <div className="innerLeft" style={styles.innerLeft}>
+            <div className="clockIcon" style={styles.clockIcon}>
+              <ClockIcon color={'#838B9E'}/>
+            </div>
+            <h6 style={styles.timestamp}>
+              {timestamp}
+            </h6>
+          </div>
+          <div className="innerRight" style={styles.innerRight}>
+            <div style={styles.authorName}>
+              <h6>
+                {openedCrate.authorDisplayName}
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div className="crateText" style={styles.crateText}>
+          <div className="crateTextBody" style={styles.crateTextBody}>
+            {hasImage && hasText ?
+              <h5 style={{margin: '0px'}}>
+                {openedCrate.text}
+              </h5>
+              : ''
+            }
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
