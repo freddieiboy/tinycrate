@@ -19,6 +19,7 @@ import Hammer from 'react-hammerjs';
 import { colors } from '../Crates/CrateTemplate';
 
 import ControlsView from './ControlsView';
+import DefaultControlsView from './DefaultControlsView';
 import CondensedControlsView from './CondensedControlsView';
 import TextImageCrateView from './TextImageCrateView';
 import DefaultCrateView from './DefaultCrateView';
@@ -34,7 +35,8 @@ class OpenCrateContainer extends Component {
     super(props);
     this.state = {
       data: [],
-      openedCrate: {}
+      openedCrate: {},
+      isDefaultCrate: true
     };
   }
   componentDidMount = () => {
@@ -213,18 +215,32 @@ class OpenCrateContainer extends Component {
               currentCrateColor={currentCrateColor}
               viewPhoto={this.viewPhoto}
               timestamp={timestamp}
+              isDefaultCrate={this.state.isDefaultCrate}
+              closePreview={this.closePreview}
               />
         </div>
         <div className="CondensedControlsView" style={styles.CondensedControlsView}>
-          <CondensedControlsView
-            thisCrateColor={currentCrateColor}
-            userImage={crateOwnerImage}
-            author={this.state.openedCrate.authorDisplayName}
-            viewSenderProfile={this.viewSenderProfile}
-            saveToProfile={this.collectCrateButton}
-            regift={this.regiftCrate}
-            closePreview={this.closePreview}
-            />
+          {this.state.isDefaultCrate ?
+            <DefaultControlsView
+              thisCrateColor={currentCrateColor}
+              userImage={crateOwnerImage}
+              author={this.state.openedCrate.authorDisplayName}
+              viewSenderProfile={this.viewSenderProfile}
+              saveToProfile={this.collectCrateButton}
+              regift={this.regiftCrate}
+              closePreview={this.closePreview}
+              />
+          :
+            <CondensedControlsView
+              thisCrateColor={currentCrateColor}
+              userImage={crateOwnerImage}
+              author={this.state.openedCrate.authorDisplayName}
+              viewSenderProfile={this.viewSenderProfile}
+              saveToProfile={this.collectCrateButton}
+              regift={this.regiftCrate}
+              closePreview={this.closePreview}
+              />
+          }
         </div>
         {/*<div className="controlsView" style={styles.controlsView}>
           <ControlsView

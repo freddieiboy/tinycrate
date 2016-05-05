@@ -1,6 +1,6 @@
 import React from 'react';
 import { colors } from '../Crates/CrateTemplate';
-import { ClockIcon } from '../NewCrates/Icons';
+import { ClockIcon, CancelIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 import { ifStyle } from '../utilities';
 
@@ -9,7 +9,8 @@ const DefaultCrateView = ({
   currentCrateColor,
   closePreview,
   viewPhoto,
-  timestamp
+  timestamp,
+  isDefaultCrate
 }) => {
   const hasImage = openedCrate.image;
   const hasText = openedCrate.text;
@@ -26,7 +27,8 @@ const DefaultCrateView = ({
       position: 'absolute',
       top: '0px',
       height: '100%',
-      width: '100%'
+      width: '100%',
+      backgroundColor: '#000'
     },
     topContainer: {
       flex: topFlexBoxStyle,
@@ -48,7 +50,9 @@ const DefaultCrateView = ({
       padding: '20px',
       color: '#838B9E',
       backgroundColor: '#EBEEF5',
-      overflowY: 'scroll'
+      overflowY: 'scroll',
+      borderBottomRightRadius: isDefaultCrate ? '15px' : '0px',
+      borderBottomLeftRadius: isDefaultCrate ? '15px' : '0px'
     },
     attribution: {
       display: 'flex',
@@ -79,7 +83,34 @@ const DefaultCrateView = ({
     crateTextBody: {
       flex: '1',
       textAlign: 'center',
-    }
+    },
+    closePreviewContainer: {
+      position: 'absolute',
+      top: '0px',
+      right: '0px',
+      margin: '19px 25px',
+      height: '30px',
+      width: '30px',
+      borderRadius: '50%',
+      backgroundColor: 'white',
+      boxShadow: '0px 2px 3px 0px rgba(0,0,0,0.20)'
+    },
+    closeIcon: {
+      transform: 'scale(.7)',
+      margin: '-2px 0 0 4px'
+    },
+  }
+  let closeAction;
+  if (isDefaultCrate) {
+    closeAction = <Hammer onTap={closePreview}>
+      <div className="closePreviewContainer" style={styles.closePreviewContainer}>
+        <div className="closeIcon" style={styles.closeIcon}>
+          <CancelIcon color={colors(currentCrateColor).darkColor}/>
+        </div>
+      </div>
+    </Hammer>
+  } else {
+    closeAction = '';
   }
   var topContent;
   if (openedCrate.image) {
@@ -94,6 +125,7 @@ const DefaultCrateView = ({
             !hasImage && styles.topTextStyle
           )}>
           {topContent}
+          {closeAction}
         </div>
       </div>
 
