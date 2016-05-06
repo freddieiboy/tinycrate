@@ -14,6 +14,7 @@ class LoginContainer extends Component {
   componentDidMount = () => {
     //NOTE: why is this listening here?
     this.props.actions.startListeningToAuth();
+    this.props.actions.hideActionBar();
   }
   shouldComponentUpdate = (nextProps) => {
     return nextProps.store.userAuth.currently === this.props.store.userAuth.currently

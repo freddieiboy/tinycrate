@@ -26,7 +26,7 @@ const Empty = ({ actions, store }) => {
           popType={'2'}
           crateType={'empty'}
           shadow={'true'}
-          animation={'animated bounce'}/>
+          />
       </div>
     </div>
   )

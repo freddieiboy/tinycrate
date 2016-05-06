@@ -39,7 +39,7 @@ class ProfileContainer extends Component {
   componentDidMount = () => {
     if (this.props.store.userAuth.username === 'guest') {
       this.setState({isMounted: false})
-      this.props.actions.push('login');
+      this.props.actions.push('/login');
     } else {
       this.setState({currentTab: ProfileTabs.SUBSCRIPTIONS})
       currentProfileId = this.props.params.userId;
@@ -59,7 +59,7 @@ class ProfileContainer extends Component {
   componentWillUpdate = (nextProps) => {
     if (nextProps.store.userAuth.currently === 'ANONYMOUS') {
       console.log("User is logged out");
-      this.props.actions.push('login')
+      this.props.actions.push('/login')
     }
   }
   componentWillReceiveProps = (nextProps) => {

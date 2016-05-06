@@ -51,7 +51,6 @@ class ActionBar extends Component {
     // console.log($('.bigPlusButton').width(), $('.bigPlusButton').position().left)
     this.props.actions.getBtnWidth($('.bigPlusButton').width());
     this.props.actions.getBtnPosition($('.bigPlusButton').position().left);
-
     const ref = new Firebase(FIREBASE_URL + "/users");
     var twitterUsers = [];
     ref.orderByChild("username").on("child_added", (snapshot) => {
@@ -255,6 +254,8 @@ class ActionBar extends Component {
       closeActionBar
     } = this.props;
     const userColor = colors(store.userAuth.profileColor);
+    let thisColor;
+    store.userAuth.profileColor === undefined ? thisColor = '#000' : thisColor = userColor
     const styles = {
       optionsMenu: {
         position: 'absolute',
@@ -287,17 +288,17 @@ class ActionBar extends Component {
         marginBottom: 0
       },
       done: {
-        color: userColor.lightColor
+        color: thisColor.lightColor
       },
       hide: {
         visibility: 'hidden'
       }
     }
-    const ifSelected = store.giftee.length > 0 ? userColor.lightColor : undefined;
-    const ifMsg = this.state.localText.length > 0 || store.newCratePhoto.length > 0 ? userColor.lightColor : undefined;
-    const ifPhoto = store.newCratePhoto.length > 0 ? userColor.lightColor : undefined;
+    const ifSelected = store.giftee.length > 0 ? thisColor.lightColor : undefined;
+    const ifMsg = this.state.localText.length > 0 || store.newCratePhoto.length > 0 ? thisColor.lightColor : undefined;
+    const ifPhoto = store.newCratePhoto.length > 0 ? thisColor.lightColor : undefined;
 
-    let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: userColor.lightColor, fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
+    let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: thisColor.lightColor, fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
     let mainAction = this.openAction
 
     if (store.isCreatingCrate) {
@@ -346,7 +347,7 @@ class ActionBar extends Component {
         <div className="actionButtons">
           <Motion style={this.loaded()}>
             {({height}) =>
-            <footer className="homeFooter" style={{backgroundColor: userColor.compliment, height: height}}>
+            <footer className="homeFooter" style={{backgroundColor: thisColor.compliment, height: height}}>
 
               <Hammer onTap={mainAction}>
                 <div className="bigPlusButton optionsMenu actionButton animated pulse" style={styles.optionsMenu}>
