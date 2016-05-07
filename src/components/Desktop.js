@@ -102,13 +102,6 @@ class Desktop extends Component {
     }
     const test = 'test';
     const thisColor = 'blue';
-    let ifError;
-    // if ($('#Phone').val().length > 0) {
-    //   ifError = 'button-disabled'
-    // } else {
-    //   ifError = ''
-    // }
-    // console.log($('#Phone').val().length)
     return (
       <div className="Desktop full-height" style={styles.Desktop}>
         <div className="navigation Grid Grid--full-center" style={styles.navigation}>
@@ -156,7 +149,7 @@ class Desktop extends Component {
                   </div>
                 </div>
                 <div className="signupButton" style={styles.signupButton}>
-                  <div className={"button " + ifError} onClick={this.sendSMS}>
+                  <div className="button" onClick={this.sendSMS}>
                     {this.state.isAddingEmail ?
                       <p>SMS and Newsletter Sign up</p>
                     :
@@ -176,20 +169,5 @@ class Desktop extends Component {
     )
   }
 }
-
-
-$('#newsletterCheck').click(function() {
-  $(this).css('marginTop', '40px');
-  console.log('clicked')
-})
-
-// $('input[type="checkbox"]').on('click', () => {
-//   if($(this).is(":checked")){
-//     alert("Checkbox is checked.");
-//   }
-//   else if($(this).is(":not(:checked)")){
-//     alert("Checkbox is unchecked.");
-//   }
-// })
 
 export default Desktop;

@@ -9,7 +9,7 @@ import _debug from 'debug'
 import config from '../config'
 import webpackDevMiddleware from './middleware/webpack-dev'
 import webpackHMRMiddleware from './middleware/webpack-hmr'
-import {sendSMS} from '../src/sendSMS';
+// import {sendSMS} from '../src/sendSMS';
 
 const debug = _debug('app:server')
 const paths = config.utils_paths
@@ -20,7 +20,8 @@ if (config.proxy && config.proxy.enabled) {
   app.use(convert(proxy(config.proxy.options)))
 }
 
-sendSMS('4159411497')
+//NOTE: use Alecs branch later to set this up.
+// sendSMS('4159411497')
 
 // This rewrites all routes requests to the root /index.html file
 // (ignoring file requests). If you want to implement isomorphic
