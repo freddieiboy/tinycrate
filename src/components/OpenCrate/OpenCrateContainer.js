@@ -98,6 +98,7 @@ class OpenCrateContainer extends Component {
             }
           });
         };
+        image.crossOrigin = "anonymous";
         image.src = crate.image;
       });
 

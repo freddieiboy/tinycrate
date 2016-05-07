@@ -15,6 +15,12 @@ import $ from 'jquery';
 import CrateTemplate, { colors } from 'components/Crates/CrateTemplate';
 import {green, pink, incrementGiftedCount} from 'components/Crates/CrateUtils';
 import SubscribersList from 'components/NewCrates/SubscribersList';
+
+import moment from 'moment';
+import Hashids from 'hashids';
+import 'aws-sdk/dist/aws-sdk';
+const AWS = window.AWS;
+
 import {
   CameraIcon,
   CancelIcon,
@@ -139,31 +145,36 @@ class ActionBar extends Component {
     var itself = this;
     // $('#message').blur();
     FilePicker({ accept: [ 'image/*'] }, (files) => {
-      var reader = new FileReader();
       var file = files[0];
-      reader.onload = (upload) => {
-        EXIF.getData(file, function() {
-          // if image has orientation data, use library to load and rotate it correctly
-          if(EXIF.getTag(file, "Orientation")) {
-            loadImage(
-              upload.target.result,
-              function (canvas) {
-                // canvas loaded with base64 string of rotated image is returned by library
-                // use toDataURL to retrieve the base64 string from the canvas
-                itself.props.actions.addNewCratePhoto(canvas.toDataURL());
-              },
-              {
-                orientation: EXIF.getTag(file, "Orientation")}
-              );
-            } else {
-              // if there is no orientation data, load the original base64 string
-              itself.props.actions.addNewCratePhoto(upload.target.result);
-            }
-          });
+      
+      // generate key for S3 image file
+      // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
+      // should use a different key generating method in the future
+      var salt = this.props.store.userAuth.uid.split("").reverse().join("");
+      var hashids = new Hashids(salt, 16);
+      var key = hashids.encode(moment().unix()) + '-' + file.name;
+      
+      var xhr = new XMLHttpRequest();
+      
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          // TODO: should use server callback instead of arbitrary timeout (as file upload time varies)
+          setTimeout(() => {
+            itself.props.actions.addNewCratePhoto('https://s3-us-west-2.amazonaws.com/tinycrate/' + key);
+          }, 1000);
         }
-        reader.readAsDataURL(file);
-      });
-    }
+      }
+      
+      // create form data which contains the S3 key and image to upload
+      var formData = new FormData();
+      formData.append("key", key);
+      formData.append("imageFile", file);
+      
+      // make internal server request to upload image to Amazon S3
+      xhr.open("POST", './api/upload/image', true);
+      xhr.send(formData);
+    });
+  }
   sendCrate = () => {
     let {store, actions} = this.props;
     var reff = new Firebase(FIREBASE_URL);

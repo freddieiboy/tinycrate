@@ -1,5 +1,6 @@
 import Koa from 'koa'
 import convert from 'koa-convert'
+import body from 'koa-better-body'
 import webpack from 'webpack'
 import webpackConfig from '../build/webpack.config'
 import historyApiFallback from 'koa-connect-history-api-fallback'
@@ -9,10 +10,16 @@ import _debug from 'debug'
 import config from '../config'
 import webpackDevMiddleware from './middleware/webpack-dev'
 import webpackHMRMiddleware from './middleware/webpack-hmr'
+import api from './api'
 
 const debug = _debug('app:server')
 const paths = config.utils_paths
 const app = new Koa()
+const byteLimit = '50mb'
+app.use(body({multipart: true, formLimit: byteLimit, jsonLimit: byteLimit, textLimit: byteLimit, bufferLimit: byteLimit}));
+
+// Include API
+app.use(api.routes())
 
 // Enable koa-proxy if it has been enabled in the config.
 if (config.proxy && config.proxy.enabled) {
