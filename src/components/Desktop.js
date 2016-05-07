@@ -10,20 +10,48 @@ class Desktop extends Component {
   constructor() {
     super();
     this.state = {
-      isSigningUp: false
+      isSigningUp: false,
+      isAddingEmail: false
     }
   }
   signup = () => {
     const isSigningUp = this.state.isSigningUp;
     isSigningUp ? this.setState({isSigningUp: false}) : this.setState({isSigningUp: true})
+    //NOTE: add this in with API hooks from Twilio. Also, add email to a list.
+    // this.sendSMS($('#Phone').val());
   }
   sendSMS = () => {
-    if ($('#Phone').val().length < 7) {
-      notie.alert(3, 'Your phone number needs 7 digits!', 2.1);
+    const phoneNumberError = $('#Phone').val().length < 10;
+    const emailOptionActive = this.state.isAddingEmail;
+    const emailOptionInactive = !emailOptionActive
+    if (phoneNumberError) {
+      if (emailOptionActive) {
+        if ($('#Email').val().length === 0) {
+          notie.alert(3, 'Your phone number needs 10 digits or your email must be longer than 1 character.', 2.1);
+        } else {
+          notie.alert(3, 'Your phone number needs 10 digits!', 2.1);
+        }
+      } else {
+        notie.alert(3, 'Your phone number needs 10 digits!', 2.1);
+      }
     } else {
-      notie.alert(1, 'Text sent. Check your phone!', 2.1);
-      this.signup();
-      // this.sendSMS($('#Phone').val());
+      if (this.state.isAddingEmail) {
+        notie.alert(1, 'Text sent and email confirmed. Check your phone!', 2.1);
+        this.setState({isAddingEmail: false})
+        this.signup();
+      } else {
+        notie.alert(1, 'Text sent. Check your phone!', 2.1);
+        this.signup();
+      }
+    }
+  }
+  checkIf = () => {
+    if ($('#newsletterCheck').prop('checked')) {
+      console.log('checked')
+      this.setState({isAddingEmail: true})
+    } else {
+      console.log('notChecked')
+      this.setState({isAddingEmail: false})
     }
   }
   render() {
@@ -113,15 +141,28 @@ class Desktop extends Component {
             {this.state.isSigningUp ?
               <div className="signupInput" style={styles.signupInput}>
                 <div className="animated fadeIn">
-                  <Input label={'Email'} />
+                  <p>Only for the mobile web on any phone.</p>
                   <Input label={'Phone'} type={'phone-number'} ref="thisPhoneNumber" />
+                  {this.state.isAddingEmail ?
+                    <div className="animated fadeIn">
+                      <Input label={'Email'} />
+                    </div>
+                  :
+                    ''
+                  }
                   <div className="signupCheck Grid" style={styles.signupCheck}>
-                    <input style={styles.check} type="checkbox" id="confirmField"/>
-                    <p style={styles.checkLabel}>Get updates about Tinycrate</p>
+                    <input onClick={this.checkIf} style={styles.check} type="checkbox" id="newsletterCheck"/>
+                    <p style={styles.checkLabel}>Sign up for Tinycrate Newsletter-crates</p>
                   </div>
                 </div>
                 <div className="signupButton" style={styles.signupButton}>
-                  <div className={"button " + ifError} onClick={this.sendSMS}>Send SMS</div>
+                  <div className={"button " + ifError} onClick={this.sendSMS}>
+                    {this.state.isAddingEmail ?
+                      <p>SMS and Newsletter Sign up</p>
+                    :
+                      <p>Text link to your Phone</p>
+                    }
+                  </div>
                 </div>
               </div>
               :
@@ -135,5 +176,20 @@ class Desktop extends Component {
     )
   }
 }
+
+
+$('#newsletterCheck').click(function() {
+  $(this).css('marginTop', '40px');
+  console.log('clicked')
+})
+
+// $('input[type="checkbox"]').on('click', () => {
+//   if($(this).is(":checked")){
+//     alert("Checkbox is checked.");
+//   }
+//   else if($(this).is(":not(:checked)")){
+//     alert("Checkbox is unchecked.");
+//   }
+// })
 
 export default Desktop;

@@ -51,7 +51,7 @@ class Input extends Component {
     } else {
       if (type === 'phone-number') {
         if (text > 0) {
-          if (text < 7) {
+          if (text < 10) {
             this.setState({isFocused: true, isError: true})
           } else {
             this.setState({isFocused: false})
@@ -101,7 +101,7 @@ class Input extends Component {
         !hasText ? null : this.setState({hasText: false, isSuccess: false})
       }
     } else if (type === 'phone-number') {
-      if (text >= 7) {
+      if (text >= 10) {
         hasText === true ? null : this.setState({hasText: true, isSuccess: true, isError: false})
       } else {
         !hasText ? null : this.setState({hasText: false, isSuccess: false})
@@ -161,7 +161,7 @@ class Input extends Component {
 
     let phoneNumberErrorAlert;
     if (this.state.type === 'phone-number' && this.state.isError) {
-      phoneNumberErrorAlert = <div className="errorAlert animated fadeIn" style={styles.errorAlert}>7 digits needed including area code</div>
+      phoneNumberErrorAlert = <div className="errorAlert animated fadeIn" style={styles.errorAlert}>10 digits needed including area code</div>
     } else {
       phoneNumberErrorAlert = ''
     }
