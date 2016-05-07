@@ -26,7 +26,7 @@ class ProfileView extends Component {
       collectionCrateData,
       logout,
       close,
-      userColor
+      // userColor
     } = this.props;
     const styles = {
       ProfileView: {
@@ -128,7 +128,7 @@ class ProfileView extends Component {
                 </Hammer>
                 <div className="userAvatar" style={styles.userAvatar}>
                   <CrateTemplate
-                    color={userColor}
+                    color={user === null ? 'empty' : user.profileColor}
                     crateSize={60}
                     cratePreview={user.profileImageURL}
                     crateType={'profile'}
@@ -149,7 +149,7 @@ class ProfileView extends Component {
                   onTouchEnd={profileButton}>
                   <CrateTemplate
                     crateSize={60}
-                    color={'green'}
+                    color={user === null ? 'empty' : user.profileColor}
                     crateType={isMe ? 'settings' : 'settings-follow'}
                     shadow={'yes'}
                     pop={'true'}

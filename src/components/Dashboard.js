@@ -126,8 +126,12 @@ class Dashboard extends Component {
     crates.off();
   }
   showProfile = () => {
-    let username = this.props.store.userAuth.username;
-    this.props.actions.push("user/" + username);
+    if (this.props.store.userAuth.user !== null) {
+      let username = this.props.store.userAuth.user.username;
+      this.props.actions.push("user/" + username);
+    } else {
+      null
+    }
   }
   deleteObj = (crateId) => {
     var oldCrates = this.props.store.cratesList;
@@ -168,6 +172,7 @@ class Dashboard extends Component {
         height: '100%',
         width: '100%',
         borderRadius: '50%',
+        transform: 'scaleX(0.9)'
       },
       count: {
         float: 'right',
@@ -181,6 +186,12 @@ class Dashboard extends Component {
         paddingTop: '6px'
       }
     }
+    let profileImage;
+    if (store.userAuth.user === null) {
+      profileImage = 'http://i.imgur.com/Yo6CQFR.png'
+    } else {
+      profileImage = store.userAuth.user.profileImageURL
+    }
     return (
       <div>
         {this.state.isMounted ? (
@@ -191,7 +202,7 @@ class Dashboard extends Component {
             <Hammer onTap={this.showProfile}>
               <div className="profileContainer" style={styles.profileContainer}>
                 <div className="profileImageContainer" style={styles.profileImageContainer}>
-                  <img src={store.userAuth.profileImageURL} style={styles.profileImage} alt=""/>
+                  <img src={profileImage} style={styles.profileImage} alt=""/>
                 </div>
                 <div className="count" style={styles.count}>
                   <span id="lines">0</span>

@@ -141,8 +141,15 @@ class ProfileContainer extends Component {
     this.props.actions.push('/');
   }
   render() {
-    let userColor;
-    this.props.store.userAuth.user === null ? userColor = 'empty' : userColor = colors(this.props.store.userAuth.user.profileColor)
+    // let userColor;
+    // this.props.store.userAuth.user === null ? userColor = 'empty' : userColor = colors(this.props.store.userAuth.user.profileColor)
+
+    // let userColor;
+    // if (this.state.profileColor === null) {
+    //   userColor = colors('empty')
+    // } else {
+    //   userColor = colors(this.state.profileColor)
+    // }
     return (
       <div className="ProfileContainer" style={{height: '100%'}}>
         <ProfileView
@@ -161,7 +168,6 @@ class ProfileContainer extends Component {
           collectionCrateData={this.state.collectionCrateData}
           logout={this.logout}
           close={this.close}
-          userColor={userColor}
           />
       </div>
     )

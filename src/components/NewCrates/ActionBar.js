@@ -174,6 +174,19 @@ class ActionBar extends Component {
     var userRef = reff.child('users').child(user.uid);
     const receipients = store.giftee;
 
+    let profileImage;
+    let profileName;
+    let profileUsername;
+    if (store.userAuth.user === null) {
+      profileImage = 'http://i.imgur.com/Yo6CQFR.png'
+      profileName = ''
+      profileUsername = ''
+    } else {
+      profileImage = store.userAuth.user.profileImageURL
+      profileName = store.userAuth.user.name
+      profileUsername = store.userAuth.user.username
+    }
+
     userRef.once('value', (snap) => {
       var user = snap.val();
       if (!user) {
@@ -184,8 +197,8 @@ class ActionBar extends Component {
           var crate = {
             key: reff.push().key(),
             authorUId: store.userAuth.uid,
-            authorDisplayName: store.userAuth.name,
-            authorProfileImageURL: store.userAuth.profileImageURL,
+            authorDisplayName: profileName,
+            authorProfileImageURL: profileImage,
             recipientUId: users,
             text: this.state.localText,
             crateColor: store.newCrateColor,
@@ -255,8 +268,14 @@ class ActionBar extends Component {
       closeActionBar
     } = this.props;
     let thisColor;
-    store.userAuth.user === null ? thisColor = '#000' : thisColor = colors(store.userAuth.user.profileColor)
-    // store.userAuth.profileColor === undefined ? thisColor = '#000' : thisColor = userColor
+    let profileImage;
+    if (store.userAuth.user === null) {
+      profileImage = 'http://i.imgur.com/Yo6CQFR.png'
+      thisColor = colors('empty')
+    } else {
+      profileImage = store.userAuth.user.profileImageURL
+      thisColor = colors(store.userAuth.user.profileColor)
+    }
     const styles = {
       optionsMenu: {
         position: 'absolute',
@@ -325,7 +344,7 @@ class ActionBar extends Component {
                   crateType={'normal'}
                   cratePreview={store.newCratePhoto}
                   shadow={'true'}
-                  crateOwnerImage={store.userAuth.profileImageURL}
+                  crateOwnerImage={profileImage}
                   animation={'animated bounceInUp'}
                   />
               </div>
@@ -396,7 +415,7 @@ class ActionBar extends Component {
                       <Hammer onTap={this.randomColor}>
                         <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
                           <div className="actionIcon">
-                            <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={store.userAuth.profileImageURL}/>
+                            <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={profileImage}/>
                           </div>
                         </div>
                       </Hammer>}

@@ -204,6 +204,8 @@ class CrateTemplate extends Component {
     }
     var preview;
     var profileImage;
+    let thisColor;
+    color === undefined ? thisColor = 'empty' : thisColor = color
     if (crateType === 'empty') {
       preview = <div className="emojiContainer" style={styles.emojiContainer}>{EmojiContainer[this.props.store.emoji]}</div>
     } else if (crateType === 'login-twitter') {
@@ -213,7 +215,7 @@ class CrateTemplate extends Component {
       preview = <div className="socialIcon" style={styles.socialIcon}><FacebookIcon /></div>
       profileImage = null;
     } else if (crateType === 'tutorial') {
-      preview = <div className="emojiContainer" style={styles.emojiContainer}><CrateEmojis color={eval(color).darkColor} visible={'1'}/></div>
+      preview = <div className="emojiContainer" style={styles.emojiContainer}><CrateEmojis color={eval(thisColor).darkColor} visible={'1'}/></div>
       profileImage = null;
     } else if (crateType === 'profile') {
       preview = <img className="userImage noTouch" src={this.props.cratePreview} style={styles.cratePreviewProfile} align="middle"></img>
@@ -221,7 +223,7 @@ class CrateTemplate extends Component {
     } else if (crateType === 'normal') {
       if (this.props.cratePreview === undefined) {
         preview = <div className="textIcon" style={styles.textIcon}>
-            <TextIcon color={eval(color).darkColor}/>
+            <TextIcon color={eval(thisColor).darkColor}/>
         </div>
         profileImage = <img className="userImage noTouch" src={this.props.crateOwnerImage} style={ifStyle(
             styles.profileImage,
@@ -235,19 +237,19 @@ class CrateTemplate extends Component {
           )} align="middle"></img>
       }
     } else if (crateType === 'settings') {
-      preview = <div className="crateIcon" style={styles.crateIcon}><SettingsIcon color={colors(color).darkColor} /></div>
+      preview = <div className="crateIcon" style={styles.crateIcon}><SettingsIcon color={colors(thisColor).darkColor} /></div>
       profileImage = null;
     } else if (crateType === 'settings-block') {
-      preview = <div className="crateIcon" style={styles.crateIcon}><MuteIcon color={colors(color).darkColor} /></div>
+      preview = <div className="crateIcon" style={styles.crateIcon}><MuteIcon color={colors(thisColor).darkColor} /></div>
       profileImage = null;
     } else if (crateType === 'settings-unblock') {
-      preview = <div className="crateIcon" style={styles.crateIcon}><PlayIcon color={colors(color).darkColor} /></div>
+      preview = <div className="crateIcon" style={styles.crateIcon}><PlayIcon color={colors(thisColor).darkColor} /></div>
       profileImage = null;
     } else if (crateType === 'settings-follow') {
-      preview = <div className="crateIcon" style={styles.crateIcon}><FollowIcon color={colors(color).darkColor} /></div>
+      preview = <div className="crateIcon" style={styles.crateIcon}><FollowIcon color={colors(thisColor).darkColor} /></div>
       profileImage = null;
     } else if (crateType === 'settings-logout') {
-      preview = <div className="crateIcon" style={styles.crateIcon}><LogoutIcon color={colors(color).darkColor} /></div>
+      preview = <div className="crateIcon" style={styles.crateIcon}><LogoutIcon color={colors(thisColor).darkColor} /></div>
       profileImage = null;
     }
     let animationClass;
@@ -255,8 +257,8 @@ class CrateTemplate extends Component {
 
     let colorLight;
     let colorDark;
-    color === undefined ? colorDark = '#000' : colorDark = eval(color).darkColor
-    color === undefined ? colorLight = '#000' : colorLight = eval(color).lightColor
+    colorDark = eval(thisColor).darkColor
+    colorLight = eval(thisColor).lightColor
     return (
       <div className={"CrateTemplate " + animationClass} style={styles.CrateTemplate}>
         <div className="popContainer noTouch" ref="popContainer" style={styles.popContainer}></div>

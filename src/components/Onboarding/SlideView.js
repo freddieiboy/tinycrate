@@ -23,7 +23,7 @@ const SlideView = ({
     slideText = 'You are going to collect treasures and send crates around the world through Tinycrate.'
   } else if (slideState === 4) {
     if (mode === 'settings') {
-      slideText = 'Was your color not the right one? Do you want to choose another color?'
+      slideText = 'Do you want to change your profile color?'
     } else {
       slideText = 'Touch the crate with the right color for you. This is yours now. Take care of it, ok?'
     }
