@@ -155,7 +155,7 @@ class Dashboard extends Component {
       profileContainer: {
         display: 'inline',
         float: 'right',
-        paddingTop: '20px',
+        paddingTop: '30px',
         paddingRight: '30px'
       },
       profileImageContainer: {

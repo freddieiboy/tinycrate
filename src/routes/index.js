@@ -10,6 +10,7 @@ import NotFound from 'components/NotFound';
 import Onboarding from 'components/Onboarding/OnboardingContainer';
 import Settings from 'components/Settings';
 import NewCrate from 'components/NewCrates/NewCrate';
+import Desktop from 'components/Desktop';
 
 // NOTE: here we're making use of the `resolve.root` configuration
 // option in webpack, which allows us to specify import paths as if
@@ -21,6 +22,7 @@ import HomeView from 'views/HomeView/HomeView';
 
 export default (store) => (
   <Route>
+    <Route path='desktop' component={Desktop} />
     <Route path='getting-started' component={Onboarding} />
     <Route path='login' component={LoginContainer} />
     <Route path='/' component={CoreLayout}>

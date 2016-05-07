@@ -3,12 +3,15 @@ import { ifStyle } from '../utilities';
 import $ from 'jquery';
 import { Motion, spring } from 'react-motion';
 import { colors } from '../Crates/CrateTemplate';
-import { CheckIcon, CancelIcon } from '../NewCrates/Icons';
+import { CheckIcon, CancelIcon, AlertIcon } from '../NewCrates/Icons';
+
+//NOTE: needs type check for email in the future. Check for @ in input.
 
 class Input extends Component {
   constructor() {
     super();
     this.state = {
+      type: '',
       isFocused: false,
       hasText: false,
       isSuccess: false,
@@ -17,6 +20,11 @@ class Input extends Component {
     }
   }
   componentDidMount = () => {
+    if (this.props.type !== undefined) {
+      this.setState({type: this.props.type})
+    } else {
+      this.setState({type: 'default'})
+    }
     if(this.props.value !== undefined) {
       this.props.value.length > 0 ? this.setState({
         hasText: true,
@@ -30,13 +38,32 @@ class Input extends Component {
       this.setState({isError: true, isSuccess: false});
       return;
     }
-    this.validationCheck(nextProps);
+    this.validationCheck(nextState);
   }
   handleChange = (event) => {
     this.setState({text: event.target.value});
   }
   focus = () => {
-    !this.state.isFocused ? this.setState({isFocused: true}) : this.setState({isFocused: false})
+    const type = this.state.type;
+    const text = this.state.text.length;
+    if (!this.state.isFocused) {
+      this.setState({isFocused: true})
+    } else {
+      if (type === 'phone-number') {
+        if (text > 0) {
+          if (text < 7) {
+            this.setState({isFocused: true, isError: true})
+          } else {
+            this.setState({isFocused: false})
+          }
+        } else {
+          this.setState({isFocused: false, isError: false})
+        }
+      } else if (type === 'default') {
+        this.setState({isFocused: false})
+      }
+      // this.setState({isFocused: false})
+    }
   }
   labelInitPos() {
     return {
@@ -62,11 +89,23 @@ class Input extends Component {
       noText && this.labelInitPos(),
     )
   }
-  validationCheck = () => {
-    if (this.state.text.length > 0) {
-      this.state.hasText === true ? null : this.setState({hasText: true, isSuccess: true})
-    } else {
-      this.state.hasText === false ? null : this.setState({hasText: false, isSuccess: false})
+  validationCheck = (state) => {
+    const text = state.text.length;
+    const type = state.type;
+    const hasText = state.hasText;
+
+    if (type === 'default') {
+      if (text > 0) {
+        hasText ? null : this.setState({hasText: true, isSuccess: true})
+      } else {
+        !hasText ? null : this.setState({hasText: false, isSuccess: false})
+      }
+    } else if (type === 'phone-number') {
+      if (text >= 7) {
+        hasText === true ? null : this.setState({hasText: true, isSuccess: true, isError: false})
+      } else {
+        !hasText ? null : this.setState({hasText: false, isSuccess: false})
+      }
     }
   }
   render() {
@@ -83,6 +122,9 @@ class Input extends Component {
       inputFocus: {
         borderBottom: '2px solid' + colors('green').darkColor
       },
+      inputFocusError: {
+        borderBottom: '2px solid' + colors('pink').darkColor
+      },
       label: {
         position: 'absolute',
       },
@@ -90,21 +132,38 @@ class Input extends Component {
         position: 'absolute',
         right: '0px',
         bottom: '8px'
+      },
+      errorAlert: {
+        position: 'absolute',
+        top: '0px',
+        right: '0px',
+        transform: 'translate(110%, 0)',
+        color: colors('pink').darkColor
+      },
+      alertIcon: {
+        marginRight: '6px'
       }
     }
 
     let isSuccessIcon;
-    let isErrorIcon;
     if (this.state.isSuccess) {
-      isSuccessIcon = <div className="inputValidation" style={styles.inputValidation}><CheckIcon color={colors('green').darkColor}/></div>
+      isSuccessIcon = <div className="animated bounceIn"><CheckIcon color={colors('green').darkColor}/></div>
     } else {
       isSuccessIcon = ''
     }
 
+    let isErrorIcon;
     if (this.state.isError) {
-      isErrorIcon = <div className="inputValidation" style={styles.inputValidation}><CancelIcon color={colors('pink').darkColor}/></div>
+      isErrorIcon = <div className="animated bounceIn" style={styles.alertIcon}><AlertIcon color={colors('pink').darkColor}/></div>
     } else {
       isErrorIcon = ''
+    }
+
+    let phoneNumberErrorAlert;
+    if (this.state.type === 'phone-number' && this.state.isError) {
+      phoneNumberErrorAlert = <div className="errorAlert animated fadeIn" style={styles.errorAlert}>7 digits needed including area code</div>
+    } else {
+      phoneNumberErrorAlert = ''
     }
     return (
       <div className="Input" style={styles.Input}>
@@ -115,16 +174,20 @@ class Input extends Component {
             </div>
           }
         </Motion>
-        {isSuccessIcon}
-        {isErrorIcon}
+        <div className="inputValidation" style={styles.inputValidation}>
+          {isSuccessIcon}
+          {isErrorIcon}
+        </div>
         <input id={this.props.label} type="text" style={ifStyle(
             styles.input,
-            this.state.isFocused && styles.inputFocus
+            this.state.isFocused && styles.inputFocus,
+            this.state.isError && styles.inputFocusError
           )}
           onFocus={this.focus}
           onBlur={this.focus}
           value={this.state.text}
           onChange={this.handleChange}/>
+        {phoneNumberErrorAlert}
       </div>
     )
   }

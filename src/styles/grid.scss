@@ -10,6 +10,26 @@
   flex: 1;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.flex-3 {
+  flex: 3;
+}
+
+.flex-4 {
+  flex: 4;
+}
+
+.flex-auto {
+  flex: 0 0 auto;
+}
+
 .Grid--center-text {
   text-align: center!important;
 }
@@ -30,11 +50,32 @@
   align-items: center;
 }
 
+.Grid--rows {
+  flex-direction: row;
+}
+
+.Grid--columns {
+  flex-direction: column;
+}
+
+.Grid--start {
+  justify-content: flex-start;
+}
+
+.Grid--end {
+  justify-content: flex-end;
+}
+
 //NOTE: Freddie added this to test.
 .Grid--center-content {
   -webkit-box-align:center;
   -webkit-box-pack:center;
   display:-webkit-box;
+}
+
+.Grid--full-center {
+  justify-content: center;
+  align-items: center;
 }
 
 .Grid--justifyCenter {

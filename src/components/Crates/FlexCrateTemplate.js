@@ -211,7 +211,11 @@ class FlexCrateTemplate extends Component {
     var previewVar;
     var profileImage;
     if (type === 'empty') {
-      previewVar = <div className="emojiContainer" style={styles.emojiContainer}>{EmojiContainer[this.props.store.emoji]}</div>
+      if (preview) {
+        previewVar = <div className="emojiContainer" style={styles.emojiContainer}>{preview}</div>
+      } else {
+        previewVar = <div className="emojiContainer" style={styles.emojiContainer}>{EmojiContainer[this.props.store.emoji]}</div>
+      }
     } else if (type === 'login-twitter') {
       previewVar = <div className="socialIcon" style={styles.socialIcon}><TwitterIcon /></div>
       profileImage = null;

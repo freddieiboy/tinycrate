@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
     <link href='https://fonts.googleapis.com/css?family=Varela+Round|Lato' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.1.0/milligram.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.1.0/milligram.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notie/3.2.0/notie.css">
     <link rel="apple-touch-startup-image" href="startup.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.6.1/load-image.all.min.js"></script>
@@ -14,13 +14,9 @@
     <script>
     var md = new MobileDetect(window.navigator.userAgent);
     // TODO: replace location with InfoPage React component instead of website URL
-    // if(md.mobile() === null) {
-    //   location.replace("http://tinycratehq.com/");
-    // }
-    // var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : null
-    // if(iOS && $('.slideshow').css('min-height') == '100vh'){
-    //   $('.slideshow').css('min-height', '0');
-    // }
+    if(md.mobile() === null && location.pathname.indexOf('/desktop') === -1) {
+      location.replace("/desktop");
+    }
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />

@@ -37,6 +37,7 @@ class ActionBar extends Component {
     const isOpened = nextProps.store.isOpened !== this.props.store.isOpened
     //NOTE: alwaysUpdate is true to help debug. Don't use later.
     const alwaysUpdate = true
+    const newColor = nextProps.store.userAuth.user !== this.props.store.userAuth.user
     return textIsDifferent || isOpened || alwaysUpdate
   }
   componentWillUpdate = (nextProps, nextState) => {
@@ -253,9 +254,9 @@ class ActionBar extends Component {
       openActionBar,
       closeActionBar
     } = this.props;
-    const userColor = colors(store.userAuth.profileColor);
     let thisColor;
-    store.userAuth.profileColor === undefined ? thisColor = '#000' : thisColor = userColor
+    store.userAuth.user === null ? thisColor = '#000' : thisColor = colors(store.userAuth.user.profileColor)
+    // store.userAuth.profileColor === undefined ? thisColor = '#000' : thisColor = userColor
     const styles = {
       optionsMenu: {
         position: 'absolute',
@@ -288,17 +289,17 @@ class ActionBar extends Component {
         marginBottom: 0
       },
       done: {
-        color: thisColor.lightColor
+        color: thisColor.compliment
       },
       hide: {
         visibility: 'hidden'
       }
     }
-    const ifSelected = store.giftee.length > 0 ? thisColor.lightColor : undefined;
-    const ifMsg = this.state.localText.length > 0 || store.newCratePhoto.length > 0 ? thisColor.lightColor : undefined;
-    const ifPhoto = store.newCratePhoto.length > 0 ? thisColor.lightColor : undefined;
+    const ifSelected = store.giftee.length > 0 ? thisColor.compliment : undefined;
+    const ifMsg = this.state.localText.length > 0 || store.newCratePhoto.length > 0 ? thisColor.compliment : undefined;
+    const ifPhoto = store.newCratePhoto.length > 0 ? thisColor.compliment : undefined;
 
-    let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: thisColor.lightColor, fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
+    let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: thisColor.compliment, fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
     let mainAction = this.openAction
 
     if (store.isCreatingCrate) {
@@ -336,7 +337,7 @@ class ActionBar extends Component {
                 <h4>Select Giftees</h4>
               </div>
               <SubscribersList
-                userColor={userColor}
+                userColor={thisColor}
                 subscribers={this.props.store.subscribers}
                 newGifteeAction={this.props.actions.newGiftee}
                 removeGifteeAction={this.props.actions.removeGiftee}/>
@@ -347,7 +348,7 @@ class ActionBar extends Component {
         <div className="actionButtons">
           <Motion style={this.loaded()}>
             {({height}) =>
-            <footer className="homeFooter" style={{backgroundColor: thisColor.compliment, height: height}}>
+            <footer className="homeFooter" style={{backgroundColor: thisColor.lightColor, height: height}}>
 
               <Hammer onTap={mainAction}>
                 <div className="bigPlusButton optionsMenu actionButton animated pulse" style={styles.optionsMenu}>

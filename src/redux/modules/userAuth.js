@@ -39,7 +39,6 @@ function dispatchUserState(dispatch, authData, firebaseUserObj) {
 		username: getUsername(authData),
 		profileImageURL: getProfileImageURL(authData),
 		data: authData,
-		userColor: 'pink',
 		user: firebaseUserObj
 	});
 }
@@ -78,7 +77,6 @@ const initialAuthState = {
   provider: null,
   name: null,
   profileImageURL: null,
-	profileColor: null,
 	data: null,
 	user: null
 }
@@ -106,7 +104,6 @@ export default function userAuth(state = initialAuthState, action) {
         name: action.name,
         profileImageURL: action.profileImageURL,
 				data: action.data,
-				profileColor: action.userColor,
 				user: action.user
 			};
 		default: return state;

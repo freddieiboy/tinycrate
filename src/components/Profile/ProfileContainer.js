@@ -141,7 +141,8 @@ class ProfileContainer extends Component {
     this.props.actions.push('/');
   }
   render() {
-    const userColor = colors(this.props.store.userAuth.profileColor)
+    let userColor;
+    this.props.store.userAuth.user === null ? userColor = 'empty' : userColor = colors(this.props.store.userAuth.user.profileColor)
     return (
       <div className="ProfileContainer" style={{height: '100%'}}>
         <ProfileView
