@@ -6,6 +6,7 @@ import { colors } from '../Crates/CrateTemplate';
 import { CheckIcon, CancelIcon, AlertIcon } from '../NewCrates/Icons';
 
 //NOTE: needs type check for email in the future. Check for @ in input.
+//TODO: if string inside of phone-number, return isError
 
 class Input extends Component {
   constructor() {
