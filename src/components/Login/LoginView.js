@@ -22,7 +22,8 @@ const LoginButtons = ({loginTwitter, loginFacebook}) => {
       position: 'absolute',
       bottom: '270px',
       left: '50%',
-      marginLeft: '-62px'
+      transform: 'translate(-50%, 25%)',
+      // color: '#CFDBDC'
     },
     loginTitles: {
       position: 'absolute',

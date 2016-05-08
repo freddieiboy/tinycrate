@@ -177,7 +177,7 @@ class ActionBar extends Component {
     let profileImage;
     let profileName;
     let profileUsername;
-    if (store.userAuth.user === null) {
+    if (store.userAuth.user === undefined) {
       profileImage = 'http://i.imgur.com/Yo6CQFR.png'
       profileName = ''
       profileUsername = ''
