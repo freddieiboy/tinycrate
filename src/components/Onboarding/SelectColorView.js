@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
 import CrateTemplate from '../Crates/CrateTemplate';
+import Hammer from 'react-hammerjs';
+
+var options = {
+    touchAction:'compute',
+    recognizers: {
+        tap: {
+            time: 60,
+            threshold: 100
+        }
+    }
+};
 
 class SelectColorView extends Component {
   componentDidMount() {
@@ -24,13 +35,13 @@ class SelectColorView extends Component {
     }
     const singleCrate = (color) => {
       return <div className="Grid-cell Grid--center-content" style={styles.crate}>
-        <div className="crateT" onMouseUp={() => selectColor(color)} onTouchEnd={() => selectColor(color)}>
+        <Hammer onTap={() => selectColor(color)}>
           <CrateTemplate pop={true} popType={'1'} crateType={'tutorial'} color={color} crateSize={80} shadow={'true'}/>
-        </div>
+        </Hammer>
       </div>
     }
     return (
-      <div className="SelectColorView" style={styles.SelectColorView} onMouseUp={singleCrate}>
+      <div className="SelectColorView" style={styles.SelectColorView}>
         <div className="crateColorsContainer center-relative">
           <div className="row1 Grid Grid--fit" style={styles.row}>
             {singleCrate('green')}

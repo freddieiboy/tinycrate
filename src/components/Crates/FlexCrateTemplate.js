@@ -283,8 +283,6 @@ class FlexCrateTemplate extends Component {
           </div>
           <div style={styles.size}
             className="thisEmptyCrate"
-            onMouseDown={this.pressCrate}
-            onMouseUp={this.setupPop}
             onTouchStart={this.pressCrate}
             onTouchEnd={this.setupPop}>
             <div className="noTouch">

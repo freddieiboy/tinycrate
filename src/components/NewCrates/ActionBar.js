@@ -375,6 +375,12 @@ class ActionBar extends Component {
                 </div>
               </Hammer>
 
+              {/*<div onTouchEnd={mainAction}>
+                <div className="bigPlusButton optionsMenu actionButton animated pulse" style={styles.optionsMenu}>
+                  {mainIcon}
+                </div>
+              </div>*/}
+
               {store.isSelectingUsers ? (
                 <div>
                   <Motion style={this.setBtnPosition(1)}>
