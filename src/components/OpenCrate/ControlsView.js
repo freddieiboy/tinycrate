@@ -84,8 +84,7 @@ const ControlsView = ({userImage, saveToProfile, regift, viewSenderProfile, user
         </div>
 
         <div className="Grid-cell" style={styles.crateCell}>
-          <div
-            onMouseUp={viewSenderProfile} onTouchEnd={viewSenderProfile}>
+          <div onTouchEnd={viewSenderProfile}>
             <div className="buttonBG">
               <div className="buttonIcon" style={styles.buttonIcon}>
                 <div className="userImage" style={styles.userImage}>

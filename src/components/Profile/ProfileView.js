@@ -153,7 +153,6 @@ class ProfileView extends Component {
               </div>
               <div className="Grid-cell Grid--center-content profileOptions" style={styles.profileOptions}>
                 <div className="settingCrate" style={styles.settingCrate}
-                  onMouseUp={profileButton}
                   onTouchEnd={profileButton}>
                   <CrateTemplate
                     crateSize={60}
@@ -165,7 +164,7 @@ class ProfileView extends Component {
                     />
                 </div>
                 {isMe ?
-                  <div className="logoutCrate" style={styles.logoutCrate} onMouseUp={logout}
+                  <div className="logoutCrate" style={styles.logoutCrate}
                   onTouchEnd={logout}>
                     <CrateTemplate
                       crateSize={60}
@@ -180,7 +179,6 @@ class ProfileView extends Component {
                 }
                 {!isMe ?
                   <div className="settingCrate" style={styles.settingCrate}
-                    onMouseUp={blockButton}
                     onTouchEnd={blockButton}>
                     <CrateTemplate
                       crateSize={60}
