@@ -154,7 +154,7 @@ const HeartSparkle = () =>
   	</g>
   </svg>
 
-const Heart = ({color = '#C9E9EF'}) =>
+export const Heart = ({color = '#C9E9EF'}) =>
   <svg viewBox="0 0 64 64" enable-background="new 0 0 64 64">
     <path fill={color} d="m61.07 18.16c-6.395-16.918-27.15-9.328-29.07-.879-2.64-9-22.89-15.721-29.07.891-6.881 18.502 26.67 35.11 29.07 37.828 2.397-2.162 35.952-19.639 29.07-37.84"/>
   </svg>

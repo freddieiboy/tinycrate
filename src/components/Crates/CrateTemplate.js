@@ -204,6 +204,8 @@ class CrateTemplate extends Component {
     }
     var preview;
     var profileImage;
+    let thisColor;
+    color === undefined ? thisColor = 'empty' : thisColor = color
     if (crateType === 'empty') {
       preview = <div className="emojiContainer" style={styles.emojiContainer}>{EmojiContainer[this.props.store.emoji]}</div>
     } else if (crateType === 'login-twitter') {
@@ -213,7 +215,7 @@ class CrateTemplate extends Component {
       preview = <div className="socialIcon" style={styles.socialIcon}><FacebookIcon /></div>
       profileImage = null;
     } else if (crateType === 'tutorial') {
-      preview = <div className="emojiContainer" style={styles.emojiContainer}><CrateEmojis color={eval(color).darkColor} visible={'1'}/></div>
+      preview = <div className="emojiContainer" style={styles.emojiContainer}><CrateEmojis color={eval(thisColor).darkColor} visible={'1'}/></div>
       profileImage = null;
     } else if (crateType === 'profile') {
       preview = <img className="userImage noTouch" src={this.props.cratePreview} style={styles.cratePreviewProfile} align="middle"></img>
@@ -221,7 +223,7 @@ class CrateTemplate extends Component {
     } else if (crateType === 'normal') {
       if (this.props.cratePreview === undefined) {
         preview = <div className="textIcon" style={styles.textIcon}>
-            <TextIcon color={eval(color).darkColor}/>
+            <TextIcon color={eval(thisColor).darkColor}/>
         </div>
         profileImage = <img className="userImage noTouch" src={this.props.crateOwnerImage} style={ifStyle(
             styles.profileImage,
@@ -235,19 +237,19 @@ class CrateTemplate extends Component {
           )} align="middle"></img>
       }
     } else if (crateType === 'settings') {
-      preview = <div className="crateIcon" style={styles.crateIcon}><SettingsIcon color={colors(color).darkColor} /></div>
+      preview = <div className="crateIcon" style={styles.crateIcon}><SettingsIcon color={colors(thisColor).darkColor} /></div>
       profileImage = null;
     } else if (crateType === 'settings-block') {
-      preview = <div className="crateIcon" style={styles.crateIcon}><MuteIcon color={colors(color).darkColor} /></div>
+      preview = <div className="crateIcon" style={styles.crateIcon}><MuteIcon color={colors(thisColor).darkColor} /></div>
       profileImage = null;
     } else if (crateType === 'settings-unblock') {
-      preview = <div className="crateIcon" style={styles.crateIcon}><PlayIcon color={colors(color).darkColor} /></div>
+      preview = <div className="crateIcon" style={styles.crateIcon}><PlayIcon color={colors(thisColor).darkColor} /></div>
       profileImage = null;
     } else if (crateType === 'settings-follow') {
-      preview = <div className="crateIcon" style={styles.crateIcon}><FollowIcon color={colors(color).darkColor} /></div>
+      preview = <div className="crateIcon" style={styles.crateIcon}><FollowIcon color={colors(thisColor).darkColor} /></div>
       profileImage = null;
     } else if (crateType === 'settings-logout') {
-      preview = <div className="crateIcon" style={styles.crateIcon}><LogoutIcon color={colors(color).darkColor} /></div>
+      preview = <div className="crateIcon" style={styles.crateIcon}><LogoutIcon color={colors(thisColor).darkColor} /></div>
       profileImage = null;
     }
     let animationClass;
@@ -255,8 +257,8 @@ class CrateTemplate extends Component {
 
     let colorLight;
     let colorDark;
-    color === undefined ? colorDark = '#000' : colorDark = eval(color).darkColor
-    color === undefined ? colorLight = '#000' : colorLight = eval(color).lightColor
+    colorDark = eval(thisColor).darkColor
+    colorLight = eval(thisColor).lightColor
     return (
       <div className={"CrateTemplate " + animationClass} style={styles.CrateTemplate}>
         <div className="popContainer noTouch" ref="popContainer" style={styles.popContainer}></div>
@@ -275,8 +277,7 @@ class CrateTemplate extends Component {
           </div>
           <div style={styles.crateSize}
             className="thisEmptyCrate"
-            onMouseDown={this.pressCrate}
-            onMouseUp={this.setupPop}
+
             onTouchStart={this.pressCrate}
             onTouchEnd={this.setupPop}>
             <div className="noTouch">
@@ -359,42 +360,50 @@ export const colors = (color) => {
       return {
         lightColor: '#49FFCC',
         darkColor: '#1ADEDB',
-        compliment: pink.lightColor
+        compliment: pink.darkColor,
+        complimentName: 'pink'
       }
     case yellow:
       return {
         lightColor: '#FCE973',
         darkColor: '#FFC868',
-        compliment: purple.lightColor
+        compliment: purple.darkColor,
+        complimentName: 'purple'
       }
     case orange:
       return {
         lightColor: '#FD9C44',
         darkColor: '#F67A1B',
-        compliment: blue.lightColor
+        compliment: blue.darkColor,
+        complimentName: 'blue'
       }
     case blue:
       return {
         lightColor: '#57E3FD',
         darkColor: '#2BBFD9',
-        compliment: orange.lightColor
+        compliment: orange.darkColor,
+        complimentName: 'orange'
       }
     case pink:
       return {
         lightColor: '#FB70AF',
         darkColor: '#EE3B76',
-        compliment: green.lightColor
+        compliment: green.darkColor,
+        complimentName: 'green'
       }
     case purple:
       return {
         lightColor: '#FF5DFA',
         darkColor: '#C746E9',
-        compliment: yellow.lightColor
+        compliment: yellow.darkColor,
+        complimentName: 'yellow'
       }
     case empty:
       return {
         lightColor: '#E9FAFD',
-        darkColor: '#CBEBF0'
+        darkColor: '#CBEBF0',
+        compliment: '#CBEBF0',
+        complimentName: 'empty'
       }
     case productHunt:
       return {

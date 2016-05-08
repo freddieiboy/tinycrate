@@ -16,7 +16,6 @@ const Empty = ({ actions, store }) => {
   return (
     <div className="empty" style={{height: '100%', position: 'relative'}}>
       <div className="emptyCrate center"
-        onMouseUp={() => actions.setEmojiNumber(randomEmojiNumber())}
         onTouchEnd={() => actions.setEmojiNumber(randomEmojiNumber())}>
         <CrateTemplate
           color={'empty'}

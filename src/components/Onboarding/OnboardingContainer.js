@@ -61,6 +61,7 @@ class SlideContainer extends Component {
   }
   selectColor = (color) => {
     this.setState({selectedColor: color, isSelectingColor: false})
+    this.props.actions.changeProfileColor(color);
   }
   startSelectColor = () => {
     !this.state.isSelectingColor ? this.setState({isSelectingColor: true}) : null
@@ -111,14 +112,26 @@ class SlideContainer extends Component {
     }
     const isEditingUserInfo = this.state.slide === 5;
     let finish;
+    let profileImage;
+    let profileName;
+    let profileUsername;
+    if (store.userAuth.user === null) {
+      profileImage = 'http://i.imgur.com/Yo6CQFR.png'
+      profileName = ''
+      profileUsername = ''
+    } else {
+      profileImage = store.userAuth.user.profileImageURL
+      profileName = store.userAuth.user.name
+      profileUsername = store.userAuth.user.username
+    }
     this.props.mode === 'settings' ? finish = this.leaveSettings : finish = this.attemptSignup
     return (
       <div className="Onboarding" style={styles.Onboarding}>
         {isEditingUserInfo ? (
           <UserInfoView
-            userImage={store.userAuth.profileImageURL}
-            name={store.userAuth.name}
-            username={store.userAuth.username}
+            userImage={profileImage}
+            name={profileName}
+            username={profileUsername}
             isUsernameAvailable={this.state.isUsernameAvailable}
             selectedColor={this.state.selectedColor}
             provider={store.userAuth.provider}/>
@@ -138,7 +151,7 @@ class SlideContainer extends Component {
             next={this.nextSlide}
             slide={this.state.slide}
             selectedColor={this.state.selectedColor}
-            userImage={store.userAuth.profileImageURL}
+            userImage={profileImage}
             finish={finish}
             isSelectingColor={this.state.isSelectingColor}/>
         </div>

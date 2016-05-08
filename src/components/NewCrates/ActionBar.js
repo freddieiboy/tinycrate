@@ -43,6 +43,7 @@ class ActionBar extends Component {
     const isOpened = nextProps.store.isOpened !== this.props.store.isOpened
     //NOTE: alwaysUpdate is true to help debug. Don't use later.
     const alwaysUpdate = true
+    const newColor = nextProps.store.userAuth.user !== this.props.store.userAuth.user
     return textIsDifferent || isOpened || alwaysUpdate
   }
   componentWillUpdate = (nextProps, nextState) => {
@@ -184,6 +185,19 @@ class ActionBar extends Component {
     var userRef = reff.child('users').child(user.uid);
     const receipients = store.giftee;
 
+    let profileImage;
+    let profileName;
+    let profileUsername;
+    if (store.userAuth.user === undefined) {
+      profileImage = 'http://i.imgur.com/Yo6CQFR.png'
+      profileName = ''
+      profileUsername = ''
+    } else {
+      profileImage = store.userAuth.user.profileImageURL
+      profileName = store.userAuth.user.name
+      profileUsername = store.userAuth.user.username
+    }
+
     userRef.once('value', (snap) => {
       var user = snap.val();
       if (!user) {
@@ -194,8 +208,8 @@ class ActionBar extends Component {
           var crate = {
             key: reff.push().key(),
             authorUId: store.userAuth.uid,
-            authorDisplayName: store.userAuth.name,
-            authorProfileImageURL: store.userAuth.profileImageURL,
+            authorDisplayName: profileName,
+            authorProfileImageURL: profileImage,
             recipientUId: users,
             text: this.state.localText,
             crateColor: store.newCrateColor,
@@ -264,9 +278,15 @@ class ActionBar extends Component {
       openActionBar,
       closeActionBar
     } = this.props;
-    const userColor = colors(store.userAuth.profileColor);
     let thisColor;
-    store.userAuth.profileColor === undefined ? thisColor = '#000' : thisColor = userColor
+    let profileImage;
+    if (store.userAuth.user === null) {
+      profileImage = 'http://i.imgur.com/Yo6CQFR.png'
+      thisColor = colors('empty')
+    } else {
+      profileImage = store.userAuth.user.profileImageURL
+      thisColor = colors(store.userAuth.user.profileColor)
+    }
     const styles = {
       optionsMenu: {
         position: 'absolute',
@@ -299,17 +319,17 @@ class ActionBar extends Component {
         marginBottom: 0
       },
       done: {
-        color: thisColor.lightColor
+        color: thisColor.compliment
       },
       hide: {
         visibility: 'hidden'
       }
     }
-    const ifSelected = store.giftee.length > 0 ? thisColor.lightColor : undefined;
-    const ifMsg = this.state.localText.length > 0 || store.newCratePhoto.length > 0 ? thisColor.lightColor : undefined;
-    const ifPhoto = store.newCratePhoto.length > 0 ? thisColor.lightColor : undefined;
+    const ifSelected = store.giftee.length > 0 ? thisColor.compliment : undefined;
+    const ifMsg = this.state.localText.length > 0 || store.newCratePhoto.length > 0 ? thisColor.compliment : undefined;
+    const ifPhoto = store.newCratePhoto.length > 0 ? thisColor.compliment : undefined;
 
-    let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: thisColor.lightColor, fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
+    let mainIcon = <div><div className="actionIcon"></div><div className="actionIcon" style={{fontSize: '2em', color: thisColor.compliment, fontSize: '50px', fontWeight: 'bold'}}>+</div></div>
     let mainAction = this.openAction
 
     if (store.isCreatingCrate) {
@@ -335,7 +355,7 @@ class ActionBar extends Component {
                   crateType={'normal'}
                   cratePreview={store.newCratePhoto}
                   shadow={'true'}
-                  crateOwnerImage={store.userAuth.profileImageURL}
+                  crateOwnerImage={profileImage}
                   animation={'animated bounceInUp'}
                   />
               </div>
@@ -347,7 +367,7 @@ class ActionBar extends Component {
                 <h4>Select Giftees</h4>
               </div>
               <SubscribersList
-                userColor={userColor}
+                userColor={thisColor}
                 subscribers={this.props.store.subscribers}
                 newGifteeAction={this.props.actions.newGiftee}
                 removeGifteeAction={this.props.actions.removeGiftee}/>
@@ -358,13 +378,19 @@ class ActionBar extends Component {
         <div className="actionButtons">
           <Motion style={this.loaded()}>
             {({height}) =>
-            <footer className="homeFooter" style={{backgroundColor: thisColor.compliment, height: height}}>
+            <footer className="homeFooter" style={{backgroundColor: thisColor.lightColor, height: height}}>
 
               <Hammer onTap={mainAction}>
                 <div className="bigPlusButton optionsMenu actionButton animated pulse" style={styles.optionsMenu}>
                   {mainIcon}
                 </div>
               </Hammer>
+
+              {/*<div onTouchEnd={mainAction}>
+                <div className="bigPlusButton optionsMenu actionButton animated pulse" style={styles.optionsMenu}>
+                  {mainIcon}
+                </div>
+              </div>*/}
 
               {store.isSelectingUsers ? (
                 <div>
@@ -406,7 +432,7 @@ class ActionBar extends Component {
                       <Hammer onTap={this.randomColor}>
                         <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
                           <div className="actionIcon">
-                            <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={store.userAuth.profileImageURL}/>
+                            <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={profileImage}/>
                           </div>
                         </div>
                       </Hammer>}

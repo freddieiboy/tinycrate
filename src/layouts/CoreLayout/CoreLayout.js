@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ActionBar from 'components/NewCrates/ActionBar';
+import milligram from 'milligram';
 import '../../styles/core.scss';
 import * as userAuth from '../../redux/modules/userAuth';
 import { bindActionCreators } from 'redux';

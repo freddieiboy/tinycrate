@@ -137,3 +137,16 @@ export const LogoutIcon = ({color = '#fff'}) =>
   <svg width="18px" height="18px" viewBox="3 3 18 18" version="1.1">
     <path d="M13,3 L11,3 L11,13 L13,13 L13,3 L13,3 Z M17.83,5.17 L16.41,6.59 C17.99,7.86 19,9.81 19,12 C19,15.87 15.87,19 12,19 C8.13,19 5,15.87 5,12 C5,9.81 6.01,7.86 7.58,6.58 L6.17,5.17 C4.23,6.82 3,9.26 3,12 C3,16.97 7.03,21 12,21 C16.97,21 21,16.97 21,12 C21,9.26 19.77,6.82 17.83,5.17 L17.83,5.17 Z" stroke="none" fill={color} fillRule="evenodd"></path>
   </svg>
+
+export const TinycrateIcon = ({color = '#000'}) =>
+  <svg width="20px" height="21px" viewBox="472 808 20 21" version="1.1">
+    <rect stroke="none" fill={color} fillRule="evenodd" x="472" y="808" width="20" height="21" rx="2.75"></rect>
+  </svg>
+
+export const AlertIcon = ({color = '#000'}) =>
+  <svg width="4px" height="25px" viewBox="181 321 4 25" version="1.1">
+    <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" transform="translate(181.000000, 321.000000)">
+      <rect fill={color} x="0" y="0" width="4" height="16"></rect>
+      <rect fill={color} x="0" y="20" width="4" height="4"></rect>
+    </g>
+  </svg>

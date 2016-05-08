@@ -22,7 +22,8 @@ const LoginButtons = ({loginTwitter, loginFacebook}) => {
       position: 'absolute',
       bottom: '270px',
       left: '50%',
-      marginLeft: '-62px'
+      transform: 'translate(-50%, 25%)',
+      // color: '#CFDBDC'
     },
     loginTitles: {
       position: 'absolute',
@@ -126,7 +127,7 @@ const LoginButtons = ({loginTwitter, loginFacebook}) => {
             <div className="getStartedBG Grid-cell" style={styles.getStartedBG}></div>
             <div className="loginCrates Grid Grid--center-content" style={styles.loginCrates}>
               {/*<div className="Grid-cell"></div>*/}
-              <div className="facebookCrate Grid-cell" style={styles.facebookCrate} onMouseUp={loginFacebook} onTouchEnd={loginFacebook}>
+              <div className="facebookCrate Grid-cell" style={styles.facebookCrate} onTouchEnd={loginFacebook}>
                 <CrateTemplate
                   color={'facebook'}
                   crateType={'login-facebook'}
@@ -136,7 +137,7 @@ const LoginButtons = ({loginTwitter, loginFacebook}) => {
                   shadow={'true'}
                   animation={'animated bounce'}/>
               </div>
-              <div className="twitterCrate Grid-cell" style={styles.twitterCrate} onMouseUp={loginTwitter} onTouchEnd={loginTwitter}>
+              <div className="twitterCrate Grid-cell" style={styles.twitterCrate} onTouchEnd={loginTwitter}>
                 <CrateTemplate
                   color={'twitter'}
                   crateType={'login-twitter'}

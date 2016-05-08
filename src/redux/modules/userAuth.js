@@ -35,11 +35,10 @@ function dispatchUserState(dispatch, authData, firebaseUserObj) {
 		type: 'LOGIN_USER',
 		uid: authData.uid,
 		provider: authData.provider,
-		name: getName(authData),
-		username: getUsername(authData),
-		profileImageURL: getProfileImageURL(authData),
+		// name: getName(authData),
+		// username: getUsername(authData),
+		// profileImageURL: getProfileImageURL(authData),
 		data: authData,
-		userColor: 'pink',
 		user: firebaseUserObj
 	});
 }
@@ -71,14 +70,20 @@ export const logoutUser = () => {
 	};
 }
 
+export const changeProfileColor = (color) => {
+	return {
+		type: 'CHANGE_PROFILE_COLOR',
+    profileColor: color,
+	}
+}
+
 const initialAuthState = {
   currently: 'ANONYMOUS',
-  username: null,
+  // username: null,
   uid: null,
   provider: null,
-  name: null,
-  profileImageURL: null,
-	profileColor: null,
+  // name: null,
+  // profileImageURL: null,
 	data: null,
 	user: null
 }
@@ -88,27 +93,34 @@ export default function userAuth(state = initialAuthState, action) {
 		case 'ATTEMPTING_LOGIN':
 			return {
 				currently: 'AWAITING_AUTH_RESPONSE',
-				username: 'guest',
+				// username: 'guest',
 				uid: null
 			};
 		case 'LOGOUT':
 			return {
 				currently: 'ANONYMOUS',
-				username: 'guest',
+				// username: 'guest',
 				uid: null
 			};
 		case 'LOGIN_USER':
 			return {
 				currently: 'LOGGED_IN',
-				username: action.username,
+				// username: action.username,
 				uid: action.uid,
         provider: action.provider,
-        name: action.name,
-        profileImageURL: action.profileImageURL,
+        // name: action.name,
+        // profileImageURL: action.profileImageURL,
 				data: action.data,
-				profileColor: action.userColor,
 				user: action.user
 			};
+		case 'CHANGE_PROFILE_COLOR':
+			return {
+				...state,
+				user: {
+					...state.user,
+					profileColor: action.profileColor
+				}
+			}
 		default: return state;
 	}
 };
