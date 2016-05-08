@@ -33,7 +33,6 @@ class ProfileContainer extends Component {
       isMe: false,
       isBlocked: false,
       isMounted: false
-
     }
   }
   componentDidMount = () => {

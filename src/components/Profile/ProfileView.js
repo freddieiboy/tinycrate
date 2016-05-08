@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import CrateTemplate from '../Crates/CrateTemplate';
+import CrateTemplate, { colors } from '../Crates/CrateTemplate';
 import Empty from '../Empty';
 import CommentList from '../CommentList';
 import ProfileCrateList from '../Crates/ProfileCrateList';
@@ -48,7 +48,8 @@ class ProfileView extends Component {
         maxWidth: '100%',
         height: '58%',
         textAlign: 'center',
-        padding: '18px 0'
+        padding: '18px 0',
+        color: 'black'
       },
       profileOptions: {
 
@@ -68,11 +69,18 @@ class ProfileView extends Component {
       logoutCrate: {
         marginRight: '10px'
       },
-      icon: {
+      iconOpened: {
         display: 'inline-block',
-        transform: 'translate(0, 2px) scale(.8)',
+        transform: 'translate(0, 5px) scale(.8)',
         marginRight: '5px',
-        paddingTop: '4px'
+      },
+      iconOpenedContainer: {
+        marginTop: '-8px'
+      },
+      iconGifted: {
+        display: 'inline-block',
+        transform: 'translate(0, 3px) scale(.8)',
+        marginRight: '5px',
       },
       close: {
         transform: 'rotate(180deg) translate(14px, 0)',
@@ -161,7 +169,7 @@ class ProfileView extends Component {
                   onTouchEnd={logout}>
                     <CrateTemplate
                       crateSize={60}
-                      color={'empty'}
+                      color={user === null ? 'empty' : colors(user.profileColor).complimentName}
                       crateType={'settings-logout'}
                       shadow={'yes'}
                       pop={'true'}
@@ -198,10 +206,10 @@ class ProfileView extends Component {
               </div>
               <div className="Grid-cell Grid--center-content user-info-holder">
                 <div className="info">
-                  <div className="count ">{user.unwrappedCount}</div>
-                  <div className="count ">
-                    <div className="icon" style={styles.icon}>
-                      <UnwrappedIcon color={'#fb70af'}/>
+                  <div className="count">{user.unwrappedCount}</div>
+                  <div className="count" style={styles.iconOpenedContainer}>
+                    <div className="iconOpened" style={styles.iconOpened}>
+                      <UnwrappedIcon color={'#000'}/>
                     </div>
                     Unwrapped
                   </div>
@@ -209,10 +217,10 @@ class ProfileView extends Component {
               </div>
               <div className="Grid-cell Grid--center-content user-info-holder">
                 <div className="info">
-                  <div className="count ">{user.giftedCount}</div>
-                  <div className="count ">
-                    <div className="icon" style={styles.icon}>
-                      <GiftedIcon color={'#fb70af'}/>
+                  <div className="count">{user.giftedCount}</div>
+                  <div className="count">
+                    <div className="icon" style={styles.iconGifted}>
+                      <GiftedIcon color={'#000'}/>
                     </div>
                     Gifted
                   </div>
