@@ -305,7 +305,7 @@ class ActionBar extends Component {
     } = this.props;
     let thisColor;
     let profileImage;
-    if (store.userAuth.user === null) {
+    if (store.userAuth.user == null) {
       profileImage = 'http://i.imgur.com/Yo6CQFR.png'
       thisColor = colors('empty')
     } else {
