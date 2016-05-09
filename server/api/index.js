@@ -15,10 +15,9 @@ api.post('/sendSMS', (ctx, next) => {
   client.sendMessage({
       to:'+1' + phoneNumber,
       from: '+16505631356',
-      body: "You've been invited to test Tincyrate! www.tinycratehq.com"
+      body: "Welcome to Alpha group, 01. www.tinycratehq.com"
   }, (err, responseData) => {
       if (err) {
-        // console.log(responseData.from);
         console.log(responseData);
       }
   });
@@ -27,7 +26,6 @@ api.post('/addEmail', (ctx, next) => {
   const email = ctx.request.fields.email
   console.log(email)
   mailchimp
-    // .get('lists')
     .post('lists/e3c994e12d/members', {
       "email_address": email,
       "status": "subscribed",
