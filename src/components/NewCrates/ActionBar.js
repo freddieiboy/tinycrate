@@ -146,35 +146,60 @@ class ActionBar extends Component {
     var itself = this;
     // $('#message').blur();
     FilePicker({ accept: [ 'image/*'] }, (files) => {
+      var reader = new FileReader();
       var file = files[0];
-
-      // generate key for S3 image file
-      // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
-      // should use a different key generating method in the future
-      var salt = this.props.store.userAuth.uid.split("").reverse().join("");
-      var hashids = new Hashids(salt, 16);
-      var key = hashids.encode(moment().unix()) + '-' + file.name;
-
-      var xhr = new XMLHttpRequest();
-
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
-          // TODO: should use server callback instead of arbitrary timeout (as file upload time varies)
-          setTimeout(() => {
-            itself.props.actions.addNewCratePhoto('https://s3-us-west-2.amazonaws.com/tinycrate/' + key);
-          }, 1000);
-        }
+      reader.onload = (upload) => {
+        var image = new Image();
+        image.onload = function() {
+          // compress image before uploading
+          itself.compressFile(image, function(compressedImageBlob) {
+            itself.uploadFile(file, compressedImageBlob);
+          });
+        };
+        image.src = upload.target.result;
       }
-
-      // create form data which contains the S3 key and image to upload
-      var formData = new FormData();
-      formData.append("key", key);
-      formData.append("imageFile", file);
-
-      // make internal server request to upload image to Amazon S3
-      xhr.open("POST", './api/upload/image', true);
-      xhr.send(formData);
+      reader.readAsDataURL(file);
     });
+  }
+  compressFile = (image, callback) => {
+    const imageQuality = 0.5;
+    var canvas = document.createElement('canvas');
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    canvas.getContext("2d").drawImage(image, 0, 0);
+    var dataURL = canvas.toDataURL('image/jpeg', imageQuality);
+    var blob = dataURItoBlob(dataURL);
+    callback(blob);
+  }
+  uploadFile = (file, imageBlob) => {
+    var itself = this;
+    
+    // generate key for S3 image file
+    // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
+    // should use a different key generating method in the future
+    var salt = this.props.store.userAuth.uid.split("").reverse().join("");
+    var hashids = new Hashids(salt, 16);
+    var key = hashids.encode(moment().unix()) + '-' + file.name;
+    
+    var xhr = new XMLHttpRequest();
+    
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        // TODO: should use server callback instead of arbitrary timeout (as file upload time varies)
+        setTimeout(() => {
+          itself.props.actions.addNewCratePhoto('https://s3-us-west-2.amazonaws.com/tinycrate/' + key);
+        }, 1000);
+      }
+    }
+    
+    // create form data which contains the S3 key and image to upload
+    var formData = new FormData();
+    formData.append("key", key);
+    formData.append("imageFile", imageBlob);
+    
+    // make internal server request to upload image to Amazon S3
+    xhr.open("POST", './api/upload/image', true);
+    xhr.send(formData);
   }
   sendCrate = () => {
     let {store, actions} = this.props;
@@ -465,6 +490,16 @@ class ActionBar extends Component {
       </div>
     )
   }
+}
+
+function dataURItoBlob(dataURI) {
+  var byteString = atob(dataURI.split(',')[1]);
+  var ab = new ArrayBuffer(byteString.length);
+  var ia = new Uint8Array(ab);
+  for (var i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: 'image/jpeg' });
 }
 
 const mapStateToProps = (state) => ({
