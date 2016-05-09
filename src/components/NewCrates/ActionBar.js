@@ -173,16 +173,16 @@ class ActionBar extends Component {
   }
   uploadFile = (file, imageBlob) => {
     var itself = this;
-    
+
     // generate key for S3 image file
     // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
     // should use a different key generating method in the future
     var salt = this.props.store.userAuth.uid.split("").reverse().join("");
     var hashids = new Hashids(salt, 16);
     var key = hashids.encode(moment().unix()) + '-' + file.name;
-    
+
     var xhr = new XMLHttpRequest();
-    
+
     xhr.onreadystatechange = function() {
       if (xhr.readyState == XMLHttpRequest.DONE) {
         // TODO: should use server callback instead of arbitrary timeout (as file upload time varies)
@@ -191,12 +191,12 @@ class ActionBar extends Component {
         }, 1000);
       }
     }
-    
+
     // create form data which contains the S3 key and image to upload
     var formData = new FormData();
     formData.append("key", key);
     formData.append("imageFile", imageBlob);
-    
+
     // make internal server request to upload image to Amazon S3
     xhr.open("POST", './api/upload/image', true);
     xhr.send(formData);
