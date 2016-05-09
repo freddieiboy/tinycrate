@@ -1,7 +1,7 @@
 {
   "name": "react-redux-starter-kit",
   "version": "2.0.0-alpha.4",
-  "description": "Get started with React, Redux, and React-Router!",
+  "description": "The Loot Messenger",
   "main": "index.js",
   "engines": {
     "node": ">=4.2.0",
@@ -76,8 +76,7 @@
     "type": "git",
     "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
   },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
-  "license": "MIT",
+  "author": "Freddie Iboy, Alec Garcia",
   "dependencies": {
     "aws-sdk": "^2.3.8",
     "babel-cli": "^6.5.1",

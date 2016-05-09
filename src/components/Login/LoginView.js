@@ -4,7 +4,6 @@ import CrateTemplate from '../Crates/CrateTemplate';
 const LoginButtons = ({loginTwitter, loginFacebook}) => {
   const styles = {
     LoginPage: {
-      // textAlign: 'center',
       height: '100vh'
     },
     loginBG: {
@@ -20,10 +19,18 @@ const LoginButtons = ({loginTwitter, loginFacebook}) => {
     },
     title: {
       position: 'absolute',
-      bottom: '270px',
       left: '50%',
-      transform: 'translate(-50%, 25%)',
-      // color: '#CFDBDC'
+      transform: 'translate(-50%, -75%)',
+      maxWidth: '213px'
+    },
+    logo: {
+      float: 'left',
+      margin: '0px'
+    },
+    projectStatus: {
+      float: 'right',
+      margin: '0px 0px 0px 15px',
+      opacity: '0.4'
     },
     loginTitles: {
       position: 'absolute',
@@ -32,31 +39,18 @@ const LoginButtons = ({loginTwitter, loginFacebook}) => {
       top: '188px',
     },
     loginCrates: {
-      // display: 'inline-block',
-      // width: '170px',
-      // marginTop: '75px',
-      // textAlign: 'left
       height: '250px'
     },
     twitterCrate: {
       margin: '0 20px'
-      // float: 'left'
     },
     facebookCrate: {
       margin: '0 20px'
-      // float: 'left',
-      // marginRight: '18px'
-    },
-    loginFooter: {
-      // height: '100%',
-      // width: '100%',
-      // overflow: 'hidden'
     },
     getStarted: {
       position: 'relative',
       display: 'inline-block',
       overflow: 'hidden'
-      // textAlign: 'left'
     },
     getStartedBG: {
       position: 'absolute',
@@ -109,7 +103,10 @@ const LoginButtons = ({loginTwitter, loginFacebook}) => {
     <div className="LoginContainer" style={styles.LoginPage}>
       <div className="loginBG" style={styles.loginBG}></div>
       <footer>
-        <h1 style={styles.title}>Tinycrate</h1>
+        <div style={styles.title}>
+          <h1 style={styles.logo}>Tinycrate</h1>
+          <p style={styles.projectStatus}>(Alpha Build)</p>
+        </div>
           <div className="loginTitles" style={styles.loginTitles}>
             <p>Start the Journey</p>
           </div>
