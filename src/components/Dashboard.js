@@ -49,7 +49,7 @@ class Dashboard extends Component {
   }
   componentWillMount = () => {
     // console.log('dashboard will mount')
-    if (this.props.store.userAuth.username === 'guest') {
+    if (this.props.store.userAuth.currently === 'ANONYMOUS') {
       this.setState({isMounted: false})
       this.props.actions.push('login');
     } else {
@@ -73,11 +73,6 @@ class Dashboard extends Component {
     return loggedIn || hasCrates || hasUnwrappedCount || isMounted
   }
   componentWillUpdate(nextProps) {
-    //NOTE: component is updating 4 times when there is a crate in cratelist. Why?
-    if (nextProps.store.userAuth.currently === 'ANONYMOUS') {
-      console.log("User is logged out");
-      this.props.actions.push('login')
-    }
     this.updateOdometer();
   }
   componentDidUpdate = () => {
@@ -187,7 +182,7 @@ class Dashboard extends Component {
       }
     }
     let profileImage;
-    if (store.userAuth.user === null) {
+    if (store.userAuth.user == null) {
       profileImage = 'http://i.imgur.com/Yo6CQFR.png'
     } else {
       profileImage = store.userAuth.user.profileImageURL
