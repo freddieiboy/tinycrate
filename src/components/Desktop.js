@@ -14,13 +14,10 @@ class Desktop extends Component {
       isAddingEmail: false
     }
   }
-  signup = () => {
-    const isSigningUp = this.state.isSigningUp;
-    isSigningUp ? this.setState({isSigningUp: false}) : this.setState({isSigningUp: true})
-    //NOTE: add this in with API hooks from Twilio. Also, add email to a list.
-    // this.sendSMS($('#Phone').val());
+  startForm = () => {
+    this.setState({isSigningUp: true});
   }
-  sendSMS = () => {
+  formCheck = () => {
     const phoneNumberError = $('#Phone').val().length < 10;
     const emailOptionActive = this.state.isAddingEmail;
     const emailOptionInactive = !emailOptionActive
@@ -38,12 +35,34 @@ class Desktop extends Component {
       if (this.state.isAddingEmail) {
         notie.alert(1, 'Text sent and email confirmed. Check your phone!', 2.1);
         this.setState({isAddingEmail: false})
-        this.signup();
+        this.addEmail();
+        this.sendSMS();
       } else {
         notie.alert(1, 'Text sent. Check your phone!', 2.1);
-        this.signup();
+        this.sendSMS();
       }
     }
+  }
+  sendSMS = () => {
+    const data = $('#Phone').val();
+    let formData = new FormData();
+    formData.append('phoneNumber', data);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", './api/sendSMS', true);
+    xhr.send(formData);
+
+    const isSigningUp = this.state.isSigningUp;
+    isSigningUp ? this.setState({isSigningUp: false}) : this.setState({isSigningUp: true})
+  }
+  addEmail = () => {
+    const data = $('#Email').val();
+    let formData = new FormData();
+    formData.append('email', data);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", './api/addEmail', true);
+    xhr.send(formData);
   }
   checkIf = () => {
     if ($('#newsletterCheck').prop('checked')) {
@@ -149,7 +168,7 @@ class Desktop extends Component {
                   </div>
                 </div>
                 <div className="signupButton" style={styles.signupButton}>
-                  <div className="button" onClick={this.sendSMS}>
+                  <div className="button" onClick={this.formCheck}>
                     {this.state.isAddingEmail ?
                       <p>SMS and Newsletter Sign up</p>
                     :
@@ -160,7 +179,7 @@ class Desktop extends Component {
               </div>
               :
               <div>
-                <div className="button" onClick={this.signup}>Join the Alpha Webapp</div>
+                <div className="button" onClick={this.startForm}>Join the Alpha Webapp</div>
               </div>
             }
           </div>
