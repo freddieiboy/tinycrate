@@ -114,7 +114,7 @@ const DefaultCrateView = ({
   }
   var topContent;
   if (openedCrate.image) {
-    topContent = <Hammer onDoubleTap={viewPhoto}><div id="crateHeroImage" style={styles.crateHeroImage} /></Hammer>
+    topContent = <Hammer onTap={viewPhoto}><div id="crateHeroImage" style={styles.crateHeroImage} /></Hammer>
   } else {
     topContent = <h4>{openedCrate.text}</h4>
   }

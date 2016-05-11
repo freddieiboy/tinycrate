@@ -13,7 +13,6 @@ import { collectCrate } from '../Crates/CrateUtils';
 import ProfileCrateList from '../Crates/ProfileCrateList';
 import AbsoluteGrid from 'react-absolute-grid';
 import EXIF from 'exif-js';
-import PhotoTilt from '../../photoTilt.js'
 import { CancelIcon, ClockIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 import { colors } from '../Crates/CrateTemplate';
@@ -64,10 +63,6 @@ class OpenCrateContainer extends Component {
     }
     this.loadCrateById(nextProps.params.crateId);
   }
-  componentWillUnmount = () => {
-    // remove the PhotoTilt mask if component unmounts before the user closes the mask
-    $(".mask").remove();
-  }
   loadCrateById = (crateId) => {
     // hide ActionBar
     this.props.actions.hideActionBar();
@@ -75,9 +70,14 @@ class OpenCrateContainer extends Component {
 
     getCrateById(crateId, crate => {
       this.setState({openedCrate: crate});
-
+      var itself = this;
       var image = new Image();
       image.onload = function() {
+        var crate = itself.state.openedCrate;
+        // set the crate image width and height, used by PhotoSwipe
+        crate.imageWidth = this.width;
+        crate.imageHeight = this.height;
+        itself.setState({openedCrate: crate});
         EXIF.getData(image, function() {
           // if image has orientation data, use library to load and rotate it correctly
           if(EXIF.getTag(image, "Orientation")) {
@@ -117,15 +117,38 @@ class OpenCrateContainer extends Component {
       }, 700)
     });
   }
-  viewPhoto = () => {
-    var photoTilt = new PhotoTilt({
-      url: this.state.openedCrate.image
-    });
-    setTimeout(function(){
-      $(".mask").click(function() {
-        $(".mask").remove();
+  getPswpElement = (callback) => {
+    // if photoswipe element exists, return it
+    if($('#pswp').length) {
+      callback(document.getElementById('pswp'));
+    } else {
+      // photoswipe element doesn't exist, inject it
+      $("#pswpContainer").load("../photoswipe.html", function() {
+        callback(document.getElementById('pswp'));
       });
-    }, 500);
+    }
+  }
+  viewPhoto = () => {
+    var itself = this;
+    
+    this.getPswpElement(function(pswpElement) {
+      var slides = [
+        {
+          src: itself.state.openedCrate.image,
+          msrc: itself.state.openedCrate.image,
+          w: itself.state.openedCrate.imageWidth,
+          h: itself.state.openedCrate.imageHeight
+        }
+      ];
+      
+      var options = {
+        closeOnScroll: false,
+        shareEl: false
+      };
+      
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
+      gallery.init();
+    });
   }
   regiftCrate = () => {
     this.props.actions.selectCrateColor(this.state.openedCrate.crateColor);
