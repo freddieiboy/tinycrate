@@ -80,7 +80,8 @@ const DefaultControlsView = ({
         </Hammer>
       </div>
       <div className="crateContainer" style={styles.controlBox}>
-        <div className="controlContents" style={styles.crateControlContents}>
+        <div className="controlContents" style={styles.crateControlContents}
+          onTouchEnd={viewSenderProfile}>
           <FlexCrateTemplate
             color={thisCrateColor}
             size={60}
