@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import FlexCrateTemplate, { colors } from 'components/Crates/CrateTemplate';
+import FlexCrateTemplate, { colors } from 'components/Crates/FlexCrateTemplate';
 import {ifStyle} from '../utilities';
 import Hammer from 'react-hammerjs';
 import {flattenObject} from '../utilities';
@@ -53,13 +53,14 @@ class Subscriber extends Component {
       },
       username: {
         float: 'left',
-        margin: '21px 0 0 10px',
+        margin: '15px 0 0 10px',
         color: '#C1C9D0'
       },
       selectIconHolder: {
-        float: 'right',
-        marginRight: 20,
-        marginTop: 15
+        // float: 'right',
+        // marginRight: 20,
+        // marginTop: 15
+        padding: '7px 20px'
       },
       selectIcon: {
         backgroundColor: 'transparent',
@@ -69,7 +70,7 @@ class Subscriber extends Component {
         border: '1px solid #F1F1F1'
       },
       selectedIcon: {
-        backgroundColor: this.props.userColor.lightColor,
+        backgroundColor: '#fff',
         border: 'none'
       },
       checkIcon: {
@@ -77,18 +78,25 @@ class Subscriber extends Component {
         paddingTop: '3px'
       }
     }
+    let CheckIconColor;
+    if (this.state.isSelected) {
+      CheckIconColor = this.props.myProfileColor.compliment
+    } else {
+      CheckIconColor = '#fff'
+    }
     return (
       <div className="Subscriber">
         <Hammer onTap={this.selectSubscriber}>
-          <div key={this.props.id} className="clearfix" style={ifStyle(
+          <div key={this.props.id} className="clearfixTEMP" style={ifStyle(
               styles.userContainer,
               this.state.isSelected && styles.selectedUserContainer
             )}>
             <div className="flex-auto">
               <div className="userCrate noTouch" style={styles.userProfileCrate}>
                 <FlexCrateTemplate
-                  color={'blue'}
-                  size={40} 
+                  color={this.props.thisSubscriberColor}
+                  size={40}
+                  type={'profile'}
                   shadow={false}
                   />
               </div>
@@ -107,7 +115,7 @@ class Subscriber extends Component {
                     this.state.isSelected && styles.selectedIcon
                   )}>
                   <div className="checkIcon" style={styles.checkIcon}>
-                    <CheckIcon />
+                    <CheckIcon color={CheckIconColor}/>
                   </div>
                 </div>
               </div>

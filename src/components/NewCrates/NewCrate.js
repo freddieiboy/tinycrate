@@ -28,6 +28,7 @@ class NewCrate extends Component {
       thisColor = colors(store.userAuth.user.profileColor)
     }
 
+
     const styles = {
       NewCrate: {
         // height: '100%'
@@ -62,14 +63,14 @@ class NewCrate extends Component {
         </div>
       </div>
     } else if (store.isSelectingUsers) {
-      newCratePageTitle = 'Select Giftees'
+      newCratePageTitle = 'Send To...'
       newCratePageBody = <div className="flex-1 newCratePageBody">
         <div className="Grid Grid--full-center full-width">
           <SubscribersList
-            userColor={thisColor}
             subscribers={store.subscribers}
             newGifteeAction={actions.newGiftee}
             removeGifteeAction={actions.removeGiftee}
+            myProfileColor={thisColor}
             />
         </div>
       </div>

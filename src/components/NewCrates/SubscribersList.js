@@ -4,7 +4,7 @@ import $ from 'jquery';
 
 class SubscribersList extends Component {
   render() {
-    let {subscribers, newGifteeAction, removeGifteeAction, userColor} = this.props;
+    let {subscribers, newGifteeAction, removeGifteeAction, myProfileColor} = this.props;
     const arr = $.makeArray(subscribers);
     const subNodes = $.map(arr, (val, key) => {
       return <Subscriber
@@ -15,7 +15,8 @@ class SubscribersList extends Component {
         username={val.username}
         storeSubs={subscribers}
         removeGifteeAction={removeGifteeAction}
-        userColor={userColor}/>
+        thisSubscriberColor={val.profileColor}
+        myProfileColor={myProfileColor}/>
     });
     return (
       <div className="SubscribersList scroll full-width">
