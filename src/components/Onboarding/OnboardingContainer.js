@@ -120,9 +120,9 @@ class SlideContainer extends Component {
       profileName = ''
       profileUsername = ''
     } else {
-      profileImage = store.userAuth.user.profileImageURL
-      profileName = store.userAuth.user.name
-      profileUsername = store.userAuth.user.username
+      profileImage = store.userAuth.data.twitter.profileImageURL
+      profileName = store.userAuth.data.twitter.displayName
+      profileUsername = store.userAuth.data.twitter.username
     }
     this.props.mode === 'settings' ? finish = this.leaveSettings : finish = this.attemptSignup
     return (
@@ -141,7 +141,9 @@ class SlideContainer extends Component {
             startSelectColor={this.startSelectColor} endSelectColor={this.endSelectColor}
             selectColor={this.selectColor}
             selectedColor={this.state.selectedColor}
-            slide={this.state.slide} />
+            slide={this.state.slide}
+            logout={this.props.actions.logoutUser}
+            />
         )}
 
         <div className="controlContainer" style={styles.controlContainer}>

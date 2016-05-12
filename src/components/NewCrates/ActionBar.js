@@ -65,7 +65,8 @@ class ActionBar extends Component {
         twitterUsers.push({
           uid: snapshot.key(),
           name: snapshot.val().name,
-          username: snapshot.val().username
+          username: snapshot.val().username,
+          profileColor: snapshot.val().profileColor
         });
       }
       this.props.actions.loadSubscribers(twitterUsers);
@@ -368,7 +369,7 @@ class ActionBar extends Component {
       <div style={ifStyle(
           store.isHidden && styles.hide
         )}>
-        <div className="newCrateHolder">
+        {/*<div className="newCrateHolder">
           {store.isCreatingCrate ? (
             <div className="container-fluid body-content-create">
               <div className="centerCrate" style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
@@ -398,7 +399,7 @@ class ActionBar extends Component {
                 removeGifteeAction={this.props.actions.removeGiftee}/>
             </div>
           ) : null}
-        </div>
+        </div>*/}
 
         <div className="actionButtons">
           <Motion style={this.loaded()}>

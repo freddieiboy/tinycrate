@@ -7,7 +7,7 @@ class SubscribersList extends Component {
     let {subscribers, newGifteeAction, removeGifteeAction, userColor} = this.props;
     const arr = $.makeArray(subscribers);
     const subNodes = $.map(arr, (val, key) => {
-      return <Subscriber 
+      return <Subscriber
         newGifteeAction={newGifteeAction}
         key={key}
         id={key}
@@ -18,7 +18,7 @@ class SubscribersList extends Component {
         userColor={userColor}/>
     });
     return (
-      <div className="SubscribersList scroll">
+      <div className="SubscribersList scroll full-width">
         {subNodes}
       </div>
     )

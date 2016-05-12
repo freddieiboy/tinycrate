@@ -7,7 +7,8 @@ const SlideView = ({
     slide,
     startSelectColor,
     endSelectColor,
-    selectedColor
+    selectedColor,
+    logout
   }) => {
   let slideImage;
   let slideText;
@@ -64,7 +65,7 @@ const SlideView = ({
     <div className="SlideView" style={styles.SlideView}>
       <div className="imageContainer" style={styles.imageContainer}>
         {selectingColors ? (
-          <div className="image" style={styles.image}></div>
+          <div className="image" onTouchEnd={logout} style={styles.image}></div>
         ) : (
           <SelectColorView
             start={startSelectColor}

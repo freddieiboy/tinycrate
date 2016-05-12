@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import CrateTemplate, { colors } from 'components/Crates/CrateTemplate';
+import FlexCrateTemplate, { colors } from 'components/Crates/CrateTemplate';
 import {ifStyle} from '../utilities';
 import Hammer from 'react-hammerjs';
 import {flattenObject} from '../utilities';
@@ -32,7 +32,7 @@ class Subscriber extends Component {
   render() {
     const styles = {
       userContainer: {
-        display: 'block',
+        display: 'flex',
         padding: '10px 0 10px 0',
         borderBottom: '1px solid #F1F1F1'
       },
@@ -41,8 +41,8 @@ class Subscriber extends Component {
         borderBottom: '1px solid transparent'
       },
       userProfileCrate: {
-        float: 'left',
-        margin: '10px 20px 0 40px'
+        // float: 'left',
+        margin: '0px 20px'
       },
       name: {
         float: 'left',
@@ -78,27 +78,37 @@ class Subscriber extends Component {
       }
     }
     return (
-      <div>
+      <div className="Subscriber">
         <Hammer onTap={this.selectSubscriber}>
           <div key={this.props.id} className="clearfix" style={ifStyle(
               styles.userContainer,
               this.state.isSelected && styles.selectedUserContainer
             )}>
-            <div className="userCrate noTouch" style={styles.userProfileCrate}>
-              <CrateTemplate color={'blue'} crateSize={40} pop={false} shadow={false}/>
+            <div className="flex-auto">
+              <div className="userCrate noTouch" style={styles.userProfileCrate}>
+                <FlexCrateTemplate
+                  color={'blue'}
+                  size={40} 
+                  shadow={false}
+                  />
+              </div>
             </div>
-            <h5 style={ifStyle(
-                styles.name,
-                this.state.isSelected && styles.selectedName
-              )}>{this.props.name}</h5>
-            <p style={styles.username}>@{this.props.username}</p>
-            <div className="selectIconHolder" style={styles.selectIconHolder}>
-              <div className="selectIcon" style={ifStyle(
-                  styles.selectIcon,
-                  this.state.isSelected && styles.selectedIcon
-                )}>
-                <div className="checkIcon" style={styles.checkIcon}>
-                  <CheckIcon />
+            <div className="flex-1">
+              <h5 style={ifStyle(
+                  styles.name,
+                  this.state.isSelected && styles.selectedName
+                )}>{this.props.name}</h5>
+              <p style={styles.username}>@{this.props.username}</p>
+            </div>
+            <div className="flex-auto">
+              <div className="selectIconHolder" style={styles.selectIconHolder}>
+                <div className="selectIcon" style={ifStyle(
+                    styles.selectIcon,
+                    this.state.isSelected && styles.selectedIcon
+                  )}>
+                  <div className="checkIcon" style={styles.checkIcon}>
+                    <CheckIcon />
+                  </div>
                 </div>
               </div>
             </div>
