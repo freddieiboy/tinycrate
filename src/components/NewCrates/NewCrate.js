@@ -47,7 +47,7 @@ class NewCrate extends Component {
     let newCratePageTitle;
     let newCratePageBody;
     if (store.isCreatingCrate) {
-      newCratePageTitle = 'New Crate'
+      newCratePageTitle = store.regiftCrateText.length > 0 ? 'Regift Crate' : 'New Crate' 
       newCratePageBody = <div className="flex-1 newCratePageBody relative">
         <div className="Grid Grid--full-center absolute full-container">
           <FlexCrateTemplate
@@ -97,6 +97,7 @@ const mapStateToProps = (state) => ({
     newCrateColor: state.NewCrates.newCrateColor,
     newCratePhoto: state.NewCrates.newCratePhoto,
     subscribers: state.NewCrates.subscribers,
+    regiftCrateText: state.NewCrates.regiftCrateText
   }
 })
 
