@@ -128,23 +128,23 @@ class ProfileView extends Component {
         <header>
           <div className="profileHeadeContainer center-relative" style={styles.profileHeaderContainer}>
             <div className="profileHeader Grid Grid--fit">
-              <div className="Grid-cell Grid--center-content" style={{height: '100%'}}>
-                <Hammer onTap={close}>
+              <Hammer onTap={close}>
+                <div className="Grid-cell Grid--center-content" style={{height: '100%'}}>
                   <div className="close" style={styles.close}>
                     <NextIcon />
                   </div>
-                </Hammer>
-                <div className="userAvatar" style={styles.userAvatar}>
-                  <CrateTemplate
-                    color={user === null ? 'empty' : user.profileColor}
-                    crateSize={60}
-                    cratePreview={user.profileImageURL}
-                    crateType={'profile'}
-                    pop={'true'}
-                    popType={'2'}
-                    shadow={'true'}/>
+                  <div className="userAvatar" style={styles.userAvatar}>
+                    <CrateTemplate
+                      color={user === null ? 'empty' : user.profileColor}
+                      crateSize={60}
+                      cratePreview={user.profileImageURL}
+                      crateType={'profile'}
+                      pop={'true'}
+                      popType={'2'}
+                      shadow={'true'}/>
+                  </div>
                 </div>
-              </div>
+              </Hammer>
               <div className="Grid-cell Grid--center-content user-info-holder">
                 <div className="info">
                   <div className="name">{user.name}</div>
