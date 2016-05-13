@@ -46,14 +46,14 @@ class Subscriber extends Component {
       },
       name: {
         float: 'left',
-        margin: '15px 0 0 0'
+        margin: '6px 0 0 0'
       },
       selectedName: {
         // fontWeight: 'bold'
       },
       username: {
         float: 'left',
-        margin: '15px 0 0 10px',
+        margin: '11px 0 0 10px',
         color: '#C1C9D0'
       },
       selectIconHolder: {
