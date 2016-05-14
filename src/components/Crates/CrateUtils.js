@@ -84,8 +84,8 @@ var notificationCrate = {
     key: ref.push().key(),
     type: 'notification',
     authorUId: store.userAuth.uid,
-    authorDisplayName: store.userAuth.name,
-    authorProfileImageURL: store.userAuth.profileImageURL,
+    authorDisplayName: store.userAuth.user.name,
+    authorProfileImageURL: store.userAuth.user.profileImageURL,
     recipientUId: recipientUId,
     text: text,
     crateColor: crateColor,
@@ -127,7 +127,7 @@ export function collectCrate(store, crate) {
           return;
         } else {
           notie.alert(1, 'This crate was saved to your collection!', 2);
-          var notificationCrateText = store.userAuth.username + ' saved your crate to their collection.';
+          var notificationCrateText = store.userAuth.user.username + ' saved your crate to their collection.';
           sendNotificationCrate(store, crate.authorUId, notificationCrateText, crate.crateColor);
         }
       });
