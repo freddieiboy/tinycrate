@@ -8,6 +8,7 @@ import * as newCrates from '../../redux/modules/NewCrates';
 import { Router, Route, Link, browserHistory } from 'react-router';
 import { sendNotificationCrate } from '../Crates/CrateUtils';
 import { colors } from '../Crates/CrateTemplate';
+import { trackEvent } from '../AnalyticsUtil';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
 var userRef;
@@ -103,35 +104,35 @@ class ProfileContainer extends Component {
     if(this.state.isMe) {
       // TODO: show settings page
       setTimeout(() => {
-        mixpanel.track("Settings Button");
+        trackEvent("Settings Button");
         this.props.actions.push('/settings');
       }, 700)
     } else {
       setTimeout(() => {
-        mixpanel.track("Subscribe Button");
+        trackEvent("Subscribe Button");
         subscribeToUser(this.props.store, this.state.user, this.props.store.userAuth.uid);
       }, 700)
     }
   }
   blockButton = (event) => {
     if(this.state.isBlocked) {
-      mixpanel.track("Unblock Button");
+      trackEvent("Unblock Button");
       unblockUser(this.state.user.uid, this.props.store.userAuth.uid);
       this.setState({isBlocked: false});
       console.log('user blocked => alert here')
     } else {
-      mixpanel.track("Block Button");
+      trackEvent("Block Button");
       blockUser(this.state.user.uid, this.props.store.userAuth.uid);
       this.setState({isBlocked: true});
       console.log('user unblocked => alert here')
     }
   }
   myCollectionTab = (event) => {
-    mixpanel.track("Collection Tab Button");
+    trackEvent("Collection Tab Button");
     this.setState({currentTab:  ProfileTabs.MY_COLLECTION});
   }
   subscriptionsTab = (event) => {
-    mixpanel.track("Subscriptions Tab Button");
+    trackEvent("Subscriptions Tab Button");
     this.setState({currentTab:  ProfileTabs.SUBSCRIPTIONS});
   }
   onOpen = (username) => {
@@ -139,7 +140,7 @@ class ProfileContainer extends Component {
   }
   logout = () => {
     setTimeout(() => {
-      mixpanel.track("Logout Button");
+      trackEvent("Logout Button");
       this.props.actions.logoutUser();
     }, 700)
   }

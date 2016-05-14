@@ -19,6 +19,7 @@ import Hammer from 'react-hammerjs';
 import { UnwrappedIcon } from './NewCrates/Icons';
 import $ from 'jquery';
 import odometer from './odometer';
+import { trackEvent } from './AnalyticsUtil';
 
 import firebase from 'firebase';
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
@@ -122,7 +123,7 @@ class Dashboard extends Component {
   }
   showProfile = () => {
     if (this.props.store.userAuth.user !== null) {
-      mixpanel.track("Profile Button");
+      trackEvent("Profile Button");
       let username = this.props.store.userAuth.user.username;
       this.props.actions.push("user/" + username);
     } else {
@@ -130,10 +131,10 @@ class Dashboard extends Component {
     }
   }
   onTitleTap = () => {
-    mixpanel.track("Title Tap");
+    trackEvent("Title Tap");
   }
   onEmptyTap = () => {
-    mixpanel.track("Empty State Tap");
+    trackEvent("Empty State Tap");
   }
   deleteObj = (crateId) => {
     var oldCrates = this.props.store.cratesList;

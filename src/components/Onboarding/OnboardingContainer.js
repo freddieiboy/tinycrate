@@ -11,6 +11,7 @@ import SlideView from './SlideView';
 import UserInfoView from './UserInfoView';
 import $ from 'jquery';
 import {registerUser, isUsernameAvailable, getProfileColor, updateProfileColor} from './OnboardingUtils';
+import { trackEvent } from '../AnalyticsUtil';
 
 class SlideContainer extends Component {
   constructor(props) {
@@ -60,7 +61,7 @@ class SlideContainer extends Component {
     this.setState({slide: number})
   }
   selectColor = (color) => {
-    mixpanel.track("Select Color Button", {
+    trackEvent("Select Color Button", {
       "color": color
     });
     this.setState({selectedColor: color, isSelectingColor: false})
@@ -78,7 +79,7 @@ class SlideContainer extends Component {
       if(error) {
         console.log(error);
       } else {
-        mixpanel.track("Update Settings Button");
+        trackEvent("Update Settings Button");
         itself.setState({isSettingsMode: false});
       }
     });

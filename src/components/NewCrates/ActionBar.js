@@ -7,6 +7,7 @@ import * as NewCrates from '../../redux/modules/NewCrates';
 import Hammer from 'react-hammerjs';
 import {Motion, spring} from 'react-motion';
 import { routerActions } from 'react-router-redux';
+import { trackEvent } from '../AnalyticsUtil';
 
 import FilePicker from 'component-file-picker';
 import EXIF from 'exif-js'
@@ -74,7 +75,7 @@ class ActionBar extends Component {
   }
   openAction = () => {
     if (!this.props.store.isOpened) {
-      mixpanel.track("New Crate Button");
+      trackEvent("New Crate Button");
       this.props.actions.push('new-crate');
       this.props.actions.openActionBar();
       // $('#message').focus();
@@ -94,7 +95,7 @@ class ActionBar extends Component {
   closeAction = (userClicked) => {
     // userClicked is true if the user clicked the close button; as opposed to closeAction being called programatically
     if(userClicked) {
-      mixpanel.track("Close New Crate Button");
+      trackEvent("Close New Crate Button");
     }
     this.setState({localText: ''});
     this.props.store.isOpened ? this.props.actions.closeActionBar() : null
@@ -149,7 +150,7 @@ class ActionBar extends Component {
     this.props.actions.selectCrateColor(colors[Math.floor(Math.random() * 6)]);
   }
   selectFile = () => {
-    mixpanel.track("Add Photo Button");
+    trackEvent("Add Photo Button");
     var itself = this;
     // $('#message').blur();
     FilePicker({ accept: [ 'image/*'] }, (files) => {
@@ -237,7 +238,7 @@ class ActionBar extends Component {
       }
       if (receipients.length > 0) {
         
-        mixpanel.track("Send Crate Button", {
+        trackEvent("Send Crate Button", {
           "text": this.state.localText,
           "image": (store.newCratePhoto == '') ? null : store.newCratePhoto,
           "crateColor": store.newCrateColor
@@ -306,7 +307,7 @@ class ActionBar extends Component {
     this.setState({localText: event.target.value})
   }
   editCrate = () => {
-    mixpanel.track("Edit Crate Button");
+    trackEvent("Edit Crate Button");
     this.props.actions.editNewCrate();
     // $('#message').focus();
   }

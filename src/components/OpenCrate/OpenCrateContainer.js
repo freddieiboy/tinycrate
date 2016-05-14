@@ -16,6 +16,7 @@ import EXIF from 'exif-js';
 import { CancelIcon, ClockIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 import { colors } from '../Crates/CrateTemplate';
+import { trackEvent } from '../AnalyticsUtil';
 
 import ControlsView from './ControlsView';
 import DefaultControlsView from './DefaultControlsView';
@@ -108,13 +109,13 @@ class OpenCrateContainer extends Component {
 
   }
   collectCrateButton = () => {
-    mixpanel.track("Save Crate Button");
+    trackEvent("Save Crate Button");
     collectCrate(this.props.store, this.state.openedCrate);
   }
   viewSenderProfile = () => {
     getUserByUid(this.state.openedCrate.authorUId, (user) => {
       setTimeout(() => {
-        mixpanel.track("Open Crate Profile Button", {
+        trackEvent("Open Crate Profile Button", {
           "username": user.username
         });
         this.props.actions.push("/user/" + user.username);
@@ -155,7 +156,7 @@ class OpenCrateContainer extends Component {
     });
   }
   regiftCrate = () => {
-    mixpanel.track("Regift Crate Button");
+    trackEvent("Regift Crate Button");
     this.props.actions.selectCrateColor(this.state.openedCrate.crateColor);
     this.props.actions.addRegiftCrateText(this.state.openedCrate.text);
     this.props.actions.addNewCratePhoto((this.state.openedCrate.image) ? this.state.openedCrate.image : '');
@@ -174,7 +175,7 @@ class OpenCrateContainer extends Component {
     this.props.actions.push("/crate/" + crateId);
   }
   closePreview = () => {
-    mixpanel.track("Close Open Crate Button");
+    trackEvent("Close Open Crate Button");
     this.props.actions.push("/");
   }
   render() {

@@ -7,6 +7,7 @@ import { routerActions } from 'react-router-redux';
 import FlexCrateTemplate, { colors } from '../Crates/FlexCrateTemplate';
 import SubscribersList from './SubscribersList'
 import Hammer from 'react-hammerjs';
+import { trackEvent } from '../AnalyticsUtil';
 
 class NewCrate extends Component {
   componentDidMount = () => {
@@ -14,7 +15,7 @@ class NewCrate extends Component {
     this.props.actions.openActionBar();
   }
   onNewCrateTap = () => {
-    mixpanel.track("Tap New Crate");
+    trackEvent("Tap New Crate");
   }
   render() {
     let {
