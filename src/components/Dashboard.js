@@ -122,11 +122,18 @@ class Dashboard extends Component {
   }
   showProfile = () => {
     if (this.props.store.userAuth.user !== null) {
+      mixpanel.track("Profile Button");
       let username = this.props.store.userAuth.user.username;
       this.props.actions.push("user/" + username);
     } else {
       null
     }
+  }
+  onTitleTap = () => {
+    mixpanel.track("Title Tap");
+  }
+  onEmptyTap = () => {
+    mixpanel.track("Empty State Tap");
   }
   deleteObj = (crateId) => {
     var oldCrates = this.props.store.cratesList;
@@ -192,7 +199,9 @@ class Dashboard extends Component {
         {this.state.isMounted ? (
           <div>
             <div className="homeHeader" style={styles.homeHeader}>
-              <h4 className="logoType">Tinycrate</h4>
+              <Hammer onTap={this.onTitleTap}>
+                <h4 className="logoType">Tinycrate</h4>
+              </Hammer>
             </div>
             <Hammer onTap={this.showProfile}>
               <div className="profileContainer" style={styles.profileContainer}>
@@ -215,7 +224,9 @@ class Dashboard extends Component {
                 itemHeight={100}
                 itemWidth={92} />
               {this.state.data.length === 0 ? (
-                <Empty />
+                <Hammer onTap={this.onEmptyTap}>
+                  <Empty />
+                </Hammer>
               ) : null}
             </div>
           </div>
