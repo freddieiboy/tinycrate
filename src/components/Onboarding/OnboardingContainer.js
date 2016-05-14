@@ -60,6 +60,9 @@ class SlideContainer extends Component {
     this.setState({slide: number})
   }
   selectColor = (color) => {
+    mixpanel.track("Select Color Button", {
+      "color": color
+    });
     this.setState({selectedColor: color, isSelectingColor: false})
     this.props.actions.changeProfileColor(color);
   }
@@ -75,6 +78,7 @@ class SlideContainer extends Component {
       if(error) {
         console.log(error);
       } else {
+        mixpanel.track("Update Settings Button");
         itself.setState({isSettingsMode: false});
       }
     });
