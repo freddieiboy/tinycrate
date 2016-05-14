@@ -135,7 +135,7 @@ class OpenCrateContainer extends Component {
   }
   viewPhoto = () => {
     var itself = this;
-    
+
     this.getPswpElement(function(pswpElement) {
       var slides = [
         {
@@ -145,25 +145,26 @@ class OpenCrateContainer extends Component {
           h: itself.state.openedCrate.imageHeight
         }
       ];
-      
+
       var options = {
         closeOnScroll: false,
         shareEl: false
       };
-      
+
       var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
       gallery.init();
     });
   }
   regiftCrate = () => {
-    trackEvent("Regift Crate Button");
-    this.props.actions.selectCrateColor(this.state.openedCrate.crateColor);
-    this.props.actions.addRegiftCrateText(this.state.openedCrate.text);
-    this.props.actions.addNewCratePhoto((this.state.openedCrate.image) ? this.state.openedCrate.image : '');
-    $("#imagePreview").attr('src', this.props.store.newCratePhoto);
-
-    this.props.actions.push('new-crate');
-    console.log('regiftcrate funtion is running')
+    // trackEvent("Regift Crate Button");
+    // this.props.actions.selectCrateColor(this.state.openedCrate.crateColor);
+    // this.props.actions.addRegiftCrateText(this.state.openedCrate.text);
+    // this.props.actions.addNewCratePhoto((this.state.openedCrate.image) ? this.state.openedCrate.image : '');
+    // $("#imagePreview").attr('src', this.props.store.newCratePhoto);
+    //
+    // this.props.actions.push('new-crate');
+    // console.log('regiftcrate funtion is running')
+    notie.alert(3, 'There is a bug, disabled for now!', 2);
   }
   onOpen = (crateId) => {
     var oldCrates = this.state.data;
