@@ -6,11 +6,15 @@ import { connect } from 'react-redux';
 import { routerActions } from 'react-router-redux';
 import FlexCrateTemplate, { colors } from '../Crates/FlexCrateTemplate';
 import SubscribersList from './SubscribersList'
+import Hammer from 'react-hammerjs';
 
 class NewCrate extends Component {
   componentDidMount = () => {
     this.props.actions.showActionBar();
     this.props.actions.openActionBar();
+  }
+  onNewCrateTap = () => {
+    mixpanel.track("Tap New Crate");
   }
   render() {
     let {
@@ -49,6 +53,7 @@ class NewCrate extends Component {
     if (store.isCreatingCrate) {
       newCratePageTitle = store.regiftCrateText.length > 0 ? 'Regift Crate' : 'New Crate' 
       newCratePageBody = <div className="flex-1 newCratePageBody relative">
+        <Hammer onTap={() => this.onNewCrateTap()}>
         <div className="Grid Grid--full-center absolute full-container">
           <FlexCrateTemplate
             color={store.newCrateColor}
@@ -61,6 +66,7 @@ class NewCrate extends Component {
             animation={'animated bounceInUp'}
             />
         </div>
+        </Hammer>
       </div>
     } else if (store.isSelectingUsers) {
       newCratePageTitle = 'Send To...'
