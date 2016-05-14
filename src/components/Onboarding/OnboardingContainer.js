@@ -11,6 +11,7 @@ import SlideView from './SlideView';
 import UserInfoView from './UserInfoView';
 import $ from 'jquery';
 import {registerUser, isUsernameAvailable, getProfileColor, updateProfileColor} from './OnboardingUtils';
+import { trackEvent } from '../AnalyticsUtil';
 
 class SlideContainer extends Component {
   constructor(props) {
@@ -60,6 +61,9 @@ class SlideContainer extends Component {
     this.setState({slide: number})
   }
   selectColor = (color) => {
+    trackEvent("Select Color Button", {
+      "color": color
+    });
     this.setState({selectedColor: color, isSelectingColor: false})
     this.props.actions.changeProfileColor(color);
   }
@@ -75,6 +79,7 @@ class SlideContainer extends Component {
       if(error) {
         console.log(error);
       } else {
+        trackEvent("Update Settings Button");
         itself.setState({isSettingsMode: false});
       }
     });

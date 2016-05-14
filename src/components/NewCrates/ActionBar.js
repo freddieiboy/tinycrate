@@ -7,6 +7,7 @@ import * as NewCrates from '../../redux/modules/NewCrates';
 import Hammer from 'react-hammerjs';
 import {Motion, spring} from 'react-motion';
 import { routerActions } from 'react-router-redux';
+import { trackEvent } from '../AnalyticsUtil';
 
 import FilePicker from 'component-file-picker';
 import EXIF from 'exif-js'
@@ -74,6 +75,7 @@ class ActionBar extends Component {
   }
   openAction = () => {
     if (!this.props.store.isOpened) {
+      trackEvent("New Crate Button");
       this.props.actions.push('new-crate');
       this.props.actions.openActionBar();
       // $('#message').focus();
@@ -90,7 +92,11 @@ class ActionBar extends Component {
       notie.alert(3, 'Your message cannot be empty!', 2);
     }
   }
-  closeAction = () => {
+  closeAction = (userClicked) => {
+    // userClicked is true if the user clicked the close button; as opposed to closeAction being called programatically
+    if(userClicked) {
+      trackEvent("Close New Crate Button");
+    }
     this.setState({localText: ''});
     this.props.store.isOpened ? this.props.actions.closeActionBar() : null
     this.props.actions.flushNewCrateState();
@@ -144,6 +150,7 @@ class ActionBar extends Component {
     this.props.actions.selectCrateColor(colors[Math.floor(Math.random() * 6)]);
   }
   selectFile = () => {
+    trackEvent("Add Photo Button");
     var itself = this;
     // $('#message').blur();
     FilePicker({ accept: [ 'image/*'] }, (files) => {
@@ -230,6 +237,13 @@ class ActionBar extends Component {
         return;
       }
       if (receipients.length > 0) {
+        
+        trackEvent("Send Crate Button", {
+          "text": this.state.localText,
+          "image": (store.newCratePhoto == '') ? null : store.newCratePhoto,
+          "crateColor": store.newCrateColor
+        });
+        
         receipients.map(users => {
           var crate = {
             key: reff.push().key(),
@@ -258,7 +272,7 @@ class ActionBar extends Component {
             incrementGiftedCount();
           });
         })
-        this.closeAction();
+        this.closeAction(false);
       } else {
         notie.alert(3, 'Your crate needs a receipient!', 2);
       }
@@ -293,6 +307,7 @@ class ActionBar extends Component {
     this.setState({localText: event.target.value})
   }
   editCrate = () => {
+    trackEvent("Edit Crate Button");
     this.props.actions.editNewCrate();
     // $('#message').focus();
   }
@@ -432,7 +447,7 @@ class ActionBar extends Component {
                   </Motion>
                   <Motion style={this.setBtnPosition(2)}>
                     {({left, opacity}) =>
-                    <Hammer onTap={this.closeAction}>
+                    <Hammer onTap={() => this.closeAction(true)}>
                       <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
                         <div className="actionIcon">
                           <CancelIcon />
@@ -465,7 +480,7 @@ class ActionBar extends Component {
                   </Motion>
                   <Motion style={this.setBtnPosition(3)}>
                     {({left, opacity}) =>
-                    <Hammer onTap={this.closeAction}>
+                    <Hammer onTap={() => this.closeAction(true)}>
                       <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
                         <div className="actionIcon">
                           <CancelIcon />

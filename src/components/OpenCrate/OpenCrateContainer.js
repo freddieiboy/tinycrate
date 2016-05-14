@@ -16,6 +16,7 @@ import EXIF from 'exif-js';
 import { CancelIcon, ClockIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 import { colors } from '../Crates/CrateTemplate';
+import { trackEvent } from '../AnalyticsUtil';
 
 import ControlsView from './ControlsView';
 import DefaultControlsView from './DefaultControlsView';
@@ -108,11 +109,15 @@ class OpenCrateContainer extends Component {
 
   }
   collectCrateButton = () => {
+    trackEvent("Save Crate Button");
     collectCrate(this.props.store, this.state.openedCrate);
   }
   viewSenderProfile = () => {
     getUserByUid(this.state.openedCrate.authorUId, (user) => {
       setTimeout(() => {
+        trackEvent("Open Crate Profile Button", {
+          "username": user.username
+        });
         this.props.actions.push("/user/" + user.username);
       }, 700)
     });
@@ -151,6 +156,7 @@ class OpenCrateContainer extends Component {
     });
   }
   regiftCrate = () => {
+    trackEvent("Regift Crate Button");
     this.props.actions.selectCrateColor(this.state.openedCrate.crateColor);
     this.props.actions.addRegiftCrateText(this.state.openedCrate.text);
     this.props.actions.addNewCratePhoto((this.state.openedCrate.image) ? this.state.openedCrate.image : '');
@@ -169,6 +175,7 @@ class OpenCrateContainer extends Component {
     this.props.actions.push("/crate/" + crateId);
   }
   closePreview = () => {
+    trackEvent("Close Open Crate Button");
     this.props.actions.push("/");
   }
   render() {
