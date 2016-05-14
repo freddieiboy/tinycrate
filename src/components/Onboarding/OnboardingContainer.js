@@ -125,9 +125,16 @@ class SlideContainer extends Component {
       profileName = ''
       profileUsername = ''
     } else {
-      profileImage = store.userAuth.data.twitter.profileImageURL
-      profileName = store.userAuth.data.twitter.displayName
-      profileUsername = store.userAuth.data.twitter.username
+      var provider = store.userauth.data.provider;
+      if(provider === "twitter") {
+        profileimage = store.userauth.data.twitter.profileimageurl
+        profilename = store.userauth.data.twitter.displayname
+        profileusername = store.userauth.data.twitter.username
+      } else {
+        profileimage = store.userauth.data.facebook.profileimageurl
+        profilename = store.userauth.data.facebook.displayname
+        profileusername = store.userauth.data.facebook.username
+      }
     }
     this.props.mode === 'settings' ? finish = this.leaveSettings : finish = this.attemptSignup
     return (
