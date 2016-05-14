@@ -108,11 +108,15 @@ class OpenCrateContainer extends Component {
 
   }
   collectCrateButton = () => {
+    mixpanel.track("Save Crate Button");
     collectCrate(this.props.store, this.state.openedCrate);
   }
   viewSenderProfile = () => {
     getUserByUid(this.state.openedCrate.authorUId, (user) => {
       setTimeout(() => {
+        mixpanel.track("Open Crate Profile Button", {
+          "username": user.username
+        });
         this.props.actions.push("/user/" + user.username);
       }, 700)
     });
@@ -151,6 +155,7 @@ class OpenCrateContainer extends Component {
     });
   }
   regiftCrate = () => {
+    mixpanel.track("Regift Crate Button");
     this.props.actions.selectCrateColor(this.state.openedCrate.crateColor);
     this.props.actions.addRegiftCrateText(this.state.openedCrate.text);
     this.props.actions.addNewCratePhoto((this.state.openedCrate.image) ? this.state.openedCrate.image : '');
@@ -169,6 +174,7 @@ class OpenCrateContainer extends Component {
     this.props.actions.push("/crate/" + crateId);
   }
   closePreview = () => {
+    mixpanel.track("Close Open Crate Button");
     this.props.actions.push("/");
   }
   render() {
