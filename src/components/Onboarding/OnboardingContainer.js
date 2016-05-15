@@ -132,8 +132,8 @@ class SlideContainer extends Component {
         profileUsername = this.state.isSettingsMode ? store.userAuth.user.username : store.userAuth.data.twitter.username
       } else {
         profileImage = this.state.isSettingsMode ? store.userAuth.user.profileImageURL : store.userAuth.data.facebook.profileImageURL
-        profileName = this.state.isSettingsMode ? store.userAuth.user.name : ''
-        profileUsername = this.state.isSettingsMode ? store.userAuth.user.username : ''
+        profileName = this.state.isSettingsMode ? store.userAuth.user.name : store.userAuth.data.facebook.displayName
+        profileUsername = this.state.isSettingsMode ? store.userAuth.user.username : store.userAuth.data.facebook.displayName.replace(/ /g,'')
       }
     }
     this.props.mode === 'settings' ? finish = this.leaveSettings : finish = this.attemptSignup

@@ -79,7 +79,7 @@ export function getUsername (authData) {
     case 'twitter':
     return authData.twitter.username
     case 'facebook':
-    return authData.facebook.displayName.replace(/ /g,'')
+    return authData.data.facebook.displayName.replace(/ /g,'')
   }
 }
 

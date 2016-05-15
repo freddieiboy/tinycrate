@@ -81,9 +81,13 @@ class UserInfoView extends Component {
               </div>
             </div>
 
-            <div className="instructions Grid Grid--center-content">
-              <div className="Grid-cell">
-                <h6>Your info is pulled from {providerTitle}.</h6>
+            <div className="instructions Grid Grid--center-content" style={styles.instructions}>
+              <div className="Grid-cell" style={{padding: '0px 2em'}}>
+                {isSettingsMode ?
+                  <h6>Usernames can't be changed.</h6>
+                :
+                  <h6>You can only change your username here.</h6>
+                }
               </div>
             </div>
             <div className="inputContainer Grid Grid--center-content">
