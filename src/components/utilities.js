@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 //UTILITIES!
 
 // 1. ifStyle(styles)
@@ -81,3 +83,17 @@ Object {
 }
 
 */
+
+
+// Returns the element used by PhotoSwipe
+export function getPswpElement(callback) {
+  // if photoswipe element exists, return it
+  if($('#pswp').length) {
+    callback(document.getElementById('pswp'));
+  } else {
+    // photoswipe element doesn't exist, inject it
+    $("#pswpContainer").load("../photoswipe.html", function() {
+      callback(document.getElementById('pswp'));
+    });
+  }
+}

@@ -1,19 +1,34 @@
 import React, {Component} from 'react';
-import Modal from 'react-modal';
 import { uncollectCrate } from './Crates/CrateUtils';
+import { getPswpElement } from './utilities';
 
 class Comment extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      modalIsOpen: false
-    }
   }
-  openModal = () => {
-    this.setState({modalIsOpen: true});
-  }
-  closeModal = () => {
-    this.setState({modalIsOpen: false});
+  viewPhoto = () => {
+    var itself = this;
+    
+    getPswpElement(function(pswpElement) {      
+      var img = document.getElementById('collectedCrateImageThumbnail');
+
+      var slides = [
+        {
+          src: itself.props.image,
+          msrc: itself.props.image,
+          w: img.naturalWidth,
+          h: img.naturalHeight
+        }
+      ];
+      
+      var options = {
+        closeOnScroll: false,
+        shareEl: false
+      };
+      
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
+      gallery.init();
+    });
   }
   uncollectCrateButton = () => {
     if(confirm("Are you sure you want to remove this crate from your collection?")) {
@@ -21,27 +36,10 @@ class Comment extends Component {
     }
   }
   render() {
-    const modalStyles = {
-      content : {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight : '-50%',
-        transform: 'translate(-50%, -50%)'
-      }
-    }
     return (
       <div className="comment">
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          style={modalStyles} >
-          <img src={this.props.image} onClick={this.closeModal}/>
-        </Modal>
-          {/*<img src={this.props.authorProfilePicture} className="inventoryFeedAvatar"/>*/}
           <div className="name">{this.props.name}</div>
-          <img src={this.props.image} className="inventoryFeedImage" onClick={this.openModal}/>
+          <img id="collectedCrateImageThumbnail" src={this.props.image} className="inventoryFeedImage" onClick={this.viewPhoto}/>
           <div className="name" style={{color: 'red', cursor: 'pointer'}} onClick={this.uncollectCrateButton}>[x]</div>
           <p className="commentAuthor">
             {this.props.children}

@@ -16,6 +16,7 @@ import EXIF from 'exif-js';
 import { CancelIcon, ClockIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 import { colors } from '../Crates/CrateTemplate';
+import { getPswpElement } from '../utilities';
 import { trackEvent } from '../AnalyticsUtil';
 
 import ControlsView from './ControlsView';
@@ -122,21 +123,10 @@ class OpenCrateContainer extends Component {
       }, 700)
     });
   }
-  getPswpElement = (callback) => {
-    // if photoswipe element exists, return it
-    if($('#pswp').length) {
-      callback(document.getElementById('pswp'));
-    } else {
-      // photoswipe element doesn't exist, inject it
-      $("#pswpContainer").load("../photoswipe.html", function() {
-        callback(document.getElementById('pswp'));
-      });
-    }
-  }
   viewPhoto = () => {
     var itself = this;
 
-    this.getPswpElement(function(pswpElement) {
+    getPswpElement(function(pswpElement) {
       var slides = [
         {
           src: itself.state.openedCrate.image,
