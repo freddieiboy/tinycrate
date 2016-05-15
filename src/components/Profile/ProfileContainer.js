@@ -53,7 +53,7 @@ class ProfileContainer extends Component {
     const loggedIn = this.props.store.userAuth.currently !== nextProps.store.userAuth.currently;
     const currentData = this.state.user !== nextState.user
     const hasSubData = this.state.subscriptionData !== nextState.subscriptionData;
-    const hasColData = this.state.collectionCrateData !== nextState.collectionCrateData;
+    const hasColData = this.state.collectionCrateData === nextState.collectionCrateData;
     const tab = this.state.currentTab !== nextState.currentTab
     return loggedIn || currentData || hasSubData || hasColData || tab || isBlocked
   }
