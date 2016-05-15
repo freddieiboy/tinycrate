@@ -181,6 +181,8 @@ class ActionBar extends Component {
   }
   uploadFile = (file, imageBlob) => {
     var itself = this;
+    
+    notie.alert(4, 'Uploading image...');
 
     // generate key for S3 image file
     // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
@@ -193,6 +195,8 @@ class ActionBar extends Component {
 
     xhr.onreadystatechange = function() {
       if (xhr.readyState == XMLHttpRequest.DONE) {
+        // programatically remove the "Uploading image..." alert
+        $("#notie-alert-outer").click();
         itself.props.actions.addNewCratePhoto('https://s3-us-west-2.amazonaws.com/tinycrate/' + key);
       }
     }
