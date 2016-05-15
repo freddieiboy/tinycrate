@@ -154,19 +154,35 @@ class ActionBar extends Component {
     var itself = this;
     // $('#message').blur();
     FilePicker({ accept: [ 'image/*'] }, (files) => {
-      var reader = new FileReader();
       var file = files[0];
-      reader.onload = (upload) => {
-        var image = new Image();
-        image.onload = function() {
-          // compress image before uploading
-          itself.compressFile(image, function(compressedImageBlob) {
-            itself.uploadFile(file, compressedImageBlob);
-          });
-        };
-        image.src = upload.target.result;
+      // generate key for S3 image file
+      // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
+      // should use a different key generating method in the future
+      
+      notie.alert(4, 'Uploading image...');
+      
+      var salt = this.props.store.userAuth.uid.split("").reverse().join("");
+      var hashids = new Hashids(salt, 16);
+      var key = hashids.encode(moment().unix()) + '-' + file.name;
+      
+      var xhr = new XMLHttpRequest();
+      
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          // programatically remove the "Uploading image..." alert
+          $("#notie-alert-outer").click();
+          itself.props.actions.addNewCratePhoto('https://s3-us-west-2.amazonaws.com/tinycrate/' + key);
+        }
       }
-      reader.readAsDataURL(file);
+
+      // create form data which contains the S3 key and image to upload
+      var formData = new FormData();
+      formData.append("key", key);
+      formData.append("imageFile", file);
+      
+      // make internal server request to upload image to Amazon S3
+      xhr.open("POST", './api/upload/image', true);
+      xhr.send(formData);
     });
   }
   compressFile = (image, callback) => {
