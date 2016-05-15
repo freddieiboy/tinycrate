@@ -88,6 +88,6 @@ export function getProfileImageURL(authData) {
     case 'twitter':
     return authData.twitter.profileImageURL.replace("_normal", "")
     case 'facebook':
-    return authData.facebook.profileImageURL
+    return 'http://graph.facebook.com/' + authData.uid.replace('facebook:', '') + '/picture?width=1000&height=1000&type=square'
   }
 }
