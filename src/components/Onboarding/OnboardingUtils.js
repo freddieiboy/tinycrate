@@ -11,7 +11,7 @@ export function registerUser(authData, username, profileColor, callback) {
     if (currentData === null) {
       return {
         provider: authData.provider,
-        name: getName(authData),
+        name: $('#Full-Name').val(),
         username: username,
         profileColor: profileColor,
         didTutorial: true,
