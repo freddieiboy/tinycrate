@@ -91,7 +91,9 @@ class OpenCrateContainer extends Component {
                 styleCrateHeroImage($('canvas'));
               },
               {
-                orientation: EXIF.getTag(image, "Orientation")}
+                orientation: EXIF.getTag(image, "Orientation"),
+                crossOrigin: "anonymous"
+              }
               );
             } else {
               // if there is no orientation data, append the <img> directly into the container
@@ -130,26 +132,45 @@ class OpenCrateContainer extends Component {
       }, 700)
     });
   }
+  // returns the image object injected by loadImage which is either in a <img> or canvas
+  getCrateImage = () => {
+    return new Promise(function(resolve, reject) {
+      var crateHeroImage = $("#crateHeroImage").children();
+      if(crateHeroImage.is("canvas")) {
+        var image = new Image();
+        // get base64 string of rotated image inside canvas
+        image.src = crateHeroImage[0].toDataURL('image/jpeg', 0.5);
+        image.onload = function() {
+          resolve(image);
+        };
+      } else {
+        // return normal <img> object
+        resolve(crateHeroImage[0]);
+      }
+    });
+  }
   viewPhoto = () => {
     var itself = this;
-
+    
     getPswpElement(function(pswpElement) {
-      var slides = [
-        {
-          src: itself.state.openedCrate.image,
-          msrc: itself.state.openedCrate.image,
-          w: itself.state.openedCrate.imageWidth,
-          h: itself.state.openedCrate.imageHeight
-        }
-      ];
-
-      var options = {
-        closeOnScroll: false,
-        shareEl: false
-      };
-
-      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
-      gallery.init();
+      return itself.getCrateImage().then(function(image) {
+        var slides = [
+          {
+            src: image.src,
+            msrc: image.src,
+            w: image.naturalWidth,
+            h: image.naturalHeight
+          }
+        ];
+        
+        var options = {
+          closeOnScroll: false,
+          shareEl: false
+        };
+        
+        var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
+        gallery.init();
+      });
     });
   }
   regiftCrate = () => {
