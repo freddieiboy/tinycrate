@@ -19,7 +19,7 @@ class SubscribersList extends Component {
         myProfileColor={myProfileColor}/>
     });
     return (
-      <div className="SubscribersList scroll full-width">
+      <div className="SubscribersList scroll full-container">
         {subNodes}
       </div>
     )

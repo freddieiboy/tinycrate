@@ -52,7 +52,7 @@ class NewCrate extends Component {
     let newCratePageTitle;
     let newCratePageBody;
     if (store.isCreatingCrate) {
-      newCratePageTitle = store.regiftCrateText.length > 0 ? 'Regift Crate' : 'New Crate' 
+      newCratePageTitle = store.regiftCrateText.length > 0 ? 'Regift Crate' : 'New Crate'
       newCratePageBody = <div className="flex-1 newCratePageBody relative">
         <Hammer onTap={() => this.onNewCrateTap()}>
         <div className="Grid Grid--full-center absolute full-container">
@@ -71,8 +71,8 @@ class NewCrate extends Component {
       </div>
     } else if (store.isSelectingUsers) {
       newCratePageTitle = 'Send To...'
-      newCratePageBody = <div className="flex-1 newCratePageBody">
-        <div className="Grid Grid--full-center full-width">
+      newCratePageBody = <div className="flex-1 newCratePageBody relative">
+        <div className="Grid Grid--full-center full-height absolute">
           <SubscribersList
             subscribers={store.subscribers}
             newGifteeAction={actions.newGiftee}
