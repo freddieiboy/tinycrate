@@ -17,6 +17,7 @@ export const startListeningToAuth = () => {
 				var userRef = fireRef.child('users').child(authData.uid);
 				userRef.once('value', (snap) => {
 					// dispatch the state again with the newly fetched Firebase user object
+					console.log(snap.val())
 					dispatchUserState(dispatch, authData, snap.val());
 				});
 				//NOTE: Any push from here results in infinite loop.
@@ -35,9 +36,6 @@ function dispatchUserState(dispatch, authData, firebaseUserObj) {
 		type: 'LOGIN_USER',
 		uid: authData.uid,
 		provider: authData.provider,
-		// name: getName(authData),
-		// username: getUsername(authData),
-		// profileImageURL: getProfileImageURL(authData),
 		data: authData,
 		user: firebaseUserObj
 	});

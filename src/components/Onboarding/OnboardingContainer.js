@@ -10,7 +10,7 @@ import ControlsView from './ControlsView';
 import SlideView from './SlideView';
 import UserInfoView from './UserInfoView';
 import $ from 'jquery';
-import {registerUser, isUsernameAvailable, getProfileColor, updateProfileColor} from './OnboardingUtils';
+import {registerUser, isUsernameAvailable, getProfileColor, updateSettings} from './OnboardingUtils';
 import { trackEvent } from '../AnalyticsUtil';
 
 class SlideContainer extends Component {
@@ -75,7 +75,7 @@ class SlideContainer extends Component {
   }
   leaveSettings = () => {
     var itself = this;
-    updateProfileColor(this.state.selectedColor, function(error) {
+    updateSettings(this.state.selectedColor, function(error) {
       if(error) {
         console.log(error);
       } else {
@@ -127,13 +127,13 @@ class SlideContainer extends Component {
     } else {
       var provider = store.userAuth.data.provider;
       if(provider === "twitter") {
-        profileImage = store.userAuth.data.twitter.profileImageURL
-        profileName = store.userAuth.data.twitter.displayName
-        profileUsername = store.userAuth.data.twitter.username
+        profileImage = this.state.isSettingsMode ? store.userAuth.user.profileImageURL : store.userAuth.data.twitter.profileImageURL
+        profileName = this.state.isSettingsMode ? store.userAuth.user.name : store.userAuth.data.twitter.displayName
+        profileUsername = this.state.isSettingsMode ? store.userAuth.user.username : store.userAuth.data.twitter.username
       } else {
-        profileImage = store.userAuth.data.facebook.profileImageURL
-        profileName = store.userAuth.data.facebook.displayName
-        profileUsername = store.userAuth.data.facebook.username
+        profileImage = this.state.isSettingsMode ? store.userAuth.user.profileImageURL : store.userAuth.data.facebook.profileImageURL
+        profileName = this.state.isSettingsMode ? store.userAuth.user.name : ''
+        profileUsername = this.state.isSettingsMode ? store.userAuth.user.username : ''
       }
     }
     this.props.mode === 'settings' ? finish = this.leaveSettings : finish = this.attemptSignup
@@ -146,7 +146,9 @@ class SlideContainer extends Component {
             username={profileUsername}
             isUsernameAvailable={this.state.isUsernameAvailable}
             selectedColor={this.state.selectedColor}
-            provider={store.userAuth.provider}/>
+            provider={store.userAuth.provider}
+            isSettingsMode={this.state.isSettingsMode}
+            />
         ) : (
           <SlideView
             mode={this.props.mode}
@@ -167,7 +169,8 @@ class SlideContainer extends Component {
             selectedColor={this.state.selectedColor}
             userImage={profileImage}
             finish={finish}
-            isSelectingColor={this.state.isSelectingColor}/>
+            isSelectingColor={this.state.isSelectingColor}
+            />
         </div>
       </div>
     )

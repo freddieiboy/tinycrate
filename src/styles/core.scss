@@ -188,6 +188,11 @@
     pointer-events: none;
   }
 
+  .disabled-input {
+    pointer-events: none;
+    opacity: .3; 
+  }
+
   .emojiPressed {
     margin-top: 23px;
     transform:  scale(1, .8) translate(-50%, -50%) !important;

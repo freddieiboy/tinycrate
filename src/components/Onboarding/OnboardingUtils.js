@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import * as userAuth from '../../redux/modules/userAuth';
+import $ from 'jquery';
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -41,10 +42,11 @@ export function registerUser(authData, username, profileColor, callback) {
   });
 }
 
-export function updateProfileColor(newProfileColor, callback) {
+export function updateSettings(newProfileColor, callback) {
   var userRef = ref.child('users').child(ref.getAuth().uid);
   userRef.update({
-    "profileColor": newProfileColor
+    "profileColor": newProfileColor,
+    "name": $('#Full-Name').val()
   }, (error) => {
     callback(error);
   });

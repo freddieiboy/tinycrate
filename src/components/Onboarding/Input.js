@@ -166,8 +166,11 @@ class Input extends Component {
     } else {
       phoneNumberErrorAlert = ''
     }
+
+    let ifDisabled;
+    this.props.isDisabled ? ifDisabled = 'disabled-input' : ifDisabled = ''
     return (
-      <div className="Input" style={styles.Input}>
+      <div className={"Input " + ifDisabled} style={styles.Input}>
         <Motion style={this.labelPosChecker()}>
           {({bottom, opacity}) =>
             <div className="label noTouch" style={Object.assign({}, styles.label, {bottom, opacity})}>
@@ -179,7 +182,7 @@ class Input extends Component {
           {isSuccessIcon}
           {isErrorIcon}
         </div>
-        <input id={this.props.label} type="text" style={ifStyle(
+        <input id={(this.props.label) === "Full Name" ? "Full-Name" : this.props.label} type="text" style={ifStyle(
             styles.input,
             this.state.isFocused && styles.inputFocus,
             this.state.isError && styles.inputFocusError
