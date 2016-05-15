@@ -193,10 +193,7 @@ class ActionBar extends Component {
 
     xhr.onreadystatechange = function() {
       if (xhr.readyState == XMLHttpRequest.DONE) {
-        // TODO: should use server callback instead of arbitrary timeout (as file upload time varies)
-        setTimeout(() => {
-          itself.props.actions.addNewCratePhoto('https://s3-us-west-2.amazonaws.com/tinycrate/' + key);
-        }, 1000);
+        itself.props.actions.addNewCratePhoto('https://s3-us-west-2.amazonaws.com/tinycrate/' + key);
       }
     }
 
