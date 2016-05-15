@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { uncollectCrate } from './Crates/CrateUtils';
 import { getPswpElement } from './utilities';
+import $ from 'jquery';
 
 class Comment extends Component {
   constructor(props) {
@@ -8,24 +9,24 @@ class Comment extends Component {
   }
   viewPhoto = () => {
     var itself = this;
-    
-    getPswpElement(function(pswpElement) {      
-      var img = document.getElementById('collectedCrateImageThumbnail');
+
+    getPswpElement(function(pswpElement) {
+      var image = new Image();
+      image.src = itself.props.image;
 
       var slides = [
         {
           src: itself.props.image,
           msrc: itself.props.image,
-          w: img.naturalWidth,
-          h: img.naturalHeight
+          w: image.naturalWidth,
+          h: image.naturalHeight
         }
       ];
-      
       var options = {
         closeOnScroll: false,
         shareEl: false
       };
-      
+
       var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
       gallery.init();
     });
