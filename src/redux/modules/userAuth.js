@@ -79,11 +79,8 @@ export const changeProfileColor = (color) => {
 
 const initialAuthState = {
   currently: 'ANONYMOUS',
-  // username: null,
   uid: null,
   provider: null,
-  // name: null,
-  // profileImageURL: null,
 	data: null,
 	user: null
 }
