@@ -110,6 +110,13 @@ class OpenCrateContainer extends Component {
 
   }
   collectCrateButton = () => {
+    if(this.state.openedCrate.type) {
+      // prevent collecting notification crates
+      if(this.state.openedCrate.type === "notification") {
+        notie.alert(3, 'You cannot save notification crates.', 2);
+        return;
+      };
+    }
     trackEvent("Save Crate Button");
     collectCrate(this.props.store, this.state.openedCrate);
   }
