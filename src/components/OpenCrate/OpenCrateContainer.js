@@ -77,8 +77,8 @@ class OpenCrateContainer extends Component {
       image.onload = function() {
         var crate = itself.state.openedCrate;
         // set the crate image width and height, used by PhotoSwipe
-        crate.imageWidth = this.naturalWidth;
-        crate.imageHeight = this.naturalHeight;
+        crate.imageWidth = image.naturalWidth;
+        crate.imageHeight = image.naturalHeight;
         itself.setState({openedCrate: crate});
         EXIF.getData(image, function() {
           // if image has orientation data, use library to load and rotate it correctly
@@ -321,7 +321,6 @@ function styleCrateHeroImage(image) {
   setTimeout(() => {
     let width = $('#crateHeroImage > img').width();
     let height = $('#crateHeroImage > img').height();
-    console.log(width, height, width > height)
 
     if (width > height) {
       $(image).css('width', '100%');
