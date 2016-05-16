@@ -97,3 +97,8 @@ export function getPswpElement(callback) {
     });
   }
 }
+
+// Returns true if the url is an image
+export function isPhoto(url) {
+  return(url.match(/\.(jpeg|jpg|gif|png|bmp)$/) != null);
+}

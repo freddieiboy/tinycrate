@@ -11,7 +11,7 @@ import { trackEvent } from '../AnalyticsUtil';
 
 import FilePicker from 'component-file-picker';
 import EXIF from 'exif-js'
-import {flattenObject, ifStyle} from '../utilities';
+import {flattenObject, ifStyle, isPhoto} from '../utilities';
 import $ from 'jquery';
 import FlexCrateTemplate, { colors } from 'components/Crates/FlexCrateTemplate';
 import {green, pink, incrementGiftedCount} from 'components/Crates/CrateUtils';
@@ -141,13 +141,14 @@ class ActionBar extends Component {
     trackEvent("Add Photo Button");
     var itself = this;
     // $('#message').blur();
-    FilePicker({ accept: [ 'image/*'] }, (files) => {
+    FilePicker({ accept: [ 'image/*', 'video/*', '.mp4', '.mov'] }, (files) => {
       var file = files[0];
       // generate key for S3 image file
       // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
       // should use a different key generating method in the future
-
-      notie.alert(4, 'Uploading image...');
+      
+      var uploadAlertText = 'Uploading ' + (isPhoto(file.name) ? 'image...' : 'video...');
+      notie.alert(4, uploadAlertText);
 
       var salt = this.props.store.userAuth.uid.split("").reverse().join("");
       var hashids = new Hashids(salt, 16);
