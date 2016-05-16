@@ -117,14 +117,6 @@ class ProfileView extends Component {
     }
     return (
       <div className="ProfileView" style={styles.ProfileView}>
-        {/*<div className="homeHeader" style={styles.homeHeader}>
-          <h5 className="logoType">Back</h5>
-          <div className="inventoryAction float-right" onClick={showInventory}>
-            <div className="up-label float-right" style={{ color: 'white', padding: '5px 20px 0 0' }}>
-              <p style={{color: '#000'}}>X</p>
-            </div>
-          </div>
-        </div>*/}
         <header>
           <div className="profileHeadeContainer center-relative" style={styles.profileHeaderContainer}>
             <div className="profileHeader Grid Grid--fit">

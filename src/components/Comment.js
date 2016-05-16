@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { uncollectCrate } from './Crates/CrateUtils';
-import { getPswpElement } from './utilities';
+import { getPswpElement, ifStyle } from './utilities';
 import $ from 'jquery';
 
 class Comment extends Component {
@@ -37,12 +37,27 @@ class Comment extends Component {
     }
   }
   render() {
+    const styles = {
+      extraPadding: {
+        paddingRight: '7em'
+      },
+      none: {
+        display: 'none'
+      }
+    }
     return (
       <div className="comment">
           <div className="name">{this.props.name}</div>
-          <img id="collectedCrateImageThumbnail" src={this.props.image} className="inventoryFeedImage" onClick={this.viewPhoto}/>
+          <img
+            id="collectedCrateImageThumbnail"
+            style={ifStyle(
+              !this.props.image && styles.none
+            )}
+            src={this.props.image} className="inventoryFeedImage" onClick={this.viewPhoto}/>
           <div className="name" style={{color: 'red', cursor: 'pointer'}} onClick={this.uncollectCrateButton}>[x]</div>
-          <p className="commentAuthor">
+          <p className="commentAuthor" style={ifStyle(
+              this.props.image  && styles.extraPadding
+            )}>
             {this.props.children}
           </p>
       </div>

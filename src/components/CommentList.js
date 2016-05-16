@@ -7,7 +7,7 @@ class CommentList extends Component {
     var commentNodes = this.props.data.map(comment => {
       var imageUrl = comment.image;
       if(!imageUrl) {
-        imageUrl = "http://www-cdr.stanford.edu/~petrie/blank.gif";
+        imageUrl = "";
       }
       return (
         <Comment name={comment.authorDisplayName} id={comment.id} key={comment.id} image={imageUrl} authorProfilePicture={comment.authorProfileImageURL}>
@@ -16,7 +16,7 @@ class CommentList extends Component {
       );
     });
     return (
-      <div className="commentList" style={{padding: '15px'}}>
+      <div className="commentList">
         {commentNodes}
       </div>
     );

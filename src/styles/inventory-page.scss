@@ -105,7 +105,7 @@
 .comment {
   border-bottom: 2px solid $lightBg;
   padding: 10px;
-  font-size: 22px;
+  font-size: 1.2m;
   min-height: 117px;
   .name {
     display: inline;
@@ -116,7 +116,7 @@
 }
 
 .commentAuthor {
-  // padding-left: 50px;
+  margin: 0;
 }
 
 .goBackInventory {

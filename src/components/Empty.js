@@ -10,7 +10,7 @@ import Hammer from 'react-hammerjs';
 import FlexCrateTemplate from './Crates/FlexCrateTemplate';
 
 const Empty = ({ actions, store }) => {
-  const style = {
+  const styles = {
 
   }
   let userColor;
