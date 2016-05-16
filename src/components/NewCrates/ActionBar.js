@@ -143,35 +143,31 @@ class ActionBar extends Component {
     // $('#message').blur();
     FilePicker({ accept: [ 'image/*', 'video/*', '.mp4', '.mov'] }, (files) => {
       var file = files[0];
-      // generate key for S3 image file
-      // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
-      // should use a different key generating method in the future
-      
-      var uploadAlertText = 'Uploading ' + (isPhoto(file.name) ? 'image...' : 'video...');
-      notie.alert(4, uploadAlertText);
-
-      var salt = this.props.store.userAuth.uid.split("").reverse().join("");
-      var hashids = new Hashids(salt, 16);
-      var key = hashids.encode(moment().unix()) + '-' + file.name;
-
-      var xhr = new XMLHttpRequest();
-
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
-          // programatically remove the "Uploading image..." alert
-          $("#notie-alert-outer").click();
-          itself.props.actions.addNewCratePhoto('https://s3-us-west-2.amazonaws.com/tinycrate/' + key);
+      if(isPhoto(file.name)) {
+        itself.uploadFile(file);
+      } else {
+        itself.validateVideoDuration(file).then(function(success) {
+          itself.uploadFile(file);
+        }, function(error) {
+          notie.alert(3, "The max duration for videos is 15 seconds.", 2.1);
+        });
+      }
+    });
+  }
+  validateVideoDuration = (videoFile) => {
+    return new Promise(function(resolve, reject) {
+      var video = document.createElement('video');
+      video.preload = 'metadata';
+      video.onloadedmetadata = function() {
+        window.URL.revokeObjectURL(this.src)
+        var duration = video.duration;
+        if(duration <= 15) {
+          resolve();
+        } else {
+          reject();
         }
       }
-
-      // create form data which contains the S3 key and image to upload
-      var formData = new FormData();
-      formData.append("key", key);
-      formData.append("imageFile", file);
-
-      // make internal server request to upload image to Amazon S3
-      xhr.open("POST", './api/upload/image', true);
-      xhr.send(formData);
+      video.src = URL.createObjectURL(videoFile);;
     });
   }
   compressFile = (image, callback) => {
@@ -184,20 +180,21 @@ class ActionBar extends Component {
     var blob = dataURItoBlob(dataURL);
     callback(blob);
   }
-  uploadFile = (file, imageBlob) => {
+  uploadFile = (file) => {
     var itself = this;
 
-    notie.alert(4, 'Uploading image...');
-
+    var uploadAlertText = 'Uploading ' + (isPhoto(file.name) ? 'image...' : 'video...');
+    notie.alert(4, uploadAlertText);
+    
     // generate key for S3 image file
     // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
     // should use a different key generating method in the future
     var salt = this.props.store.userAuth.uid.split("").reverse().join("");
     var hashids = new Hashids(salt, 16);
     var key = hashids.encode(moment().unix()) + '-' + file.name;
-
+    
     var xhr = new XMLHttpRequest();
-
+    
     xhr.onreadystatechange = function() {
       if (xhr.readyState == XMLHttpRequest.DONE) {
         // programatically remove the "Uploading image..." alert
@@ -205,12 +202,12 @@ class ActionBar extends Component {
         itself.props.actions.addNewCratePhoto('https://s3-us-west-2.amazonaws.com/tinycrate/' + key);
       }
     }
-
+    
     // create form data which contains the S3 key and image to upload
     var formData = new FormData();
     formData.append("key", key);
-    formData.append("imageFile", imageBlob);
-
+    formData.append("imageFile", file);
+    
     // make internal server request to upload image to Amazon S3
     xhr.open("POST", './api/upload/image', true);
     xhr.send(formData);
