@@ -422,7 +422,7 @@ export const colors = (color) => {
       return {
         lightColor: '#403B3B',
         darkColor: '#1D1919',
-        compliment: '#FAFEFF',
+        compliment: '#FF5DFA',
         complimentName: 'purple'
       }
     case empty:
