@@ -73,47 +73,48 @@ class OpenCrateContainer extends Component {
     getCrateById(crateId, crate => {
       this.setState({openedCrate: crate});
       var itself = this;
-
-      if(isPhoto(crate.image)) {
-        var image = new Image();
-        image.onload = function() {
-          var crate = itself.state.openedCrate;
-          // set the crate image width and height, used by PhotoSwipe
-          crate.imageWidth = image.naturalWidth;
-          crate.imageHeight = image.naturalHeight;
-          itself.setState({openedCrate: crate});
-          styleCrateHeroImage(image);
-          $("#crateHeroImage").append(image);
-          // TODO: the EXIF.getData was used to rotate the image properly on desktop; disabled for now
-          // EXIF.getData(image, function() {
-          //   // if image has orientation data, use library to load and rotate it correctly
-          //   if(EXIF.getTag(image, "Orientation")) {
-          //     loadImage(
-          //       crate.image,
-          //       function (canvas) {
-          //         // canvas loaded with base64 string of rotated image is returned by library
-          //         $("#crateHeroImage").append(canvas);
-          //         styleCrateHeroImage($('canvas'));
-          //       },
-          //       {
-          //         orientation: EXIF.getTag(image, "Orientation"),
-          //         crossOrigin: "anonymous"
-          //       }
-          //       );
-          //     } else {
-          //       // if there is no orientation data, append the <img> directly into the container
-          //       styleCrateHeroImage(image);
-          //       $("#crateHeroImage").append(image);
-          //     }
-          //   });
-        };
-        // image.crossOrigin = "anonymous";
-        image.src = crate.image;
-      } else {
-        itself.getCrateVideo(crate.image).then(function(video) {
-          styleCrateHeroImage(video);
-          $("#crateHeroImage").append(video);
-        });
+      if(crate.image) {
+        if(isPhoto(crate.image)) {
+          var image = new Image();
+          image.onload = function() {
+            var crate = itself.state.openedCrate;
+            // set the crate image width and height, used by PhotoSwipe
+            crate.imageWidth = image.naturalWidth;
+            crate.imageHeight = image.naturalHeight;
+            itself.setState({openedCrate: crate});
+            styleCrateHeroImage(image);
+            $("#crateHeroImage").append(image);
+            // TODO: the EXIF.getData was used to rotate the image properly on desktop; disabled for now
+            // EXIF.getData(image, function() {
+            //   // if image has orientation data, use library to load and rotate it correctly
+            //   if(EXIF.getTag(image, "Orientation")) {
+            //     loadImage(
+            //       crate.image,
+            //       function (canvas) {
+            //         // canvas loaded with base64 string of rotated image is returned by library
+            //         $("#crateHeroImage").append(canvas);
+            //         styleCrateHeroImage($('canvas'));
+            //       },
+            //       {
+            //         orientation: EXIF.getTag(image, "Orientation"),
+            //         crossOrigin: "anonymous"
+            //       }
+            //       );
+            //     } else {
+            //       // if there is no orientation data, append the <img> directly into the container
+            //       styleCrateHeroImage(image);
+            //       $("#crateHeroImage").append(image);
+            //     }
+            //   });
+          };
+          // image.crossOrigin = "anonymous";
+          image.src = crate.image;
+        } else {
+          itself.getCrateVideo(crate.image).then(function(video) {
+            styleCrateHeroImage(video);
+            $("#crateHeroImage").append(video);
+          });
+        }
       }
     });
 
