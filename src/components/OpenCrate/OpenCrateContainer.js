@@ -80,31 +80,34 @@ class OpenCrateContainer extends Component {
         crate.imageWidth = image.naturalWidth;
         crate.imageHeight = image.naturalHeight;
         itself.setState({openedCrate: crate});
-        EXIF.getData(image, function() {
-          // if image has orientation data, use library to load and rotate it correctly
-          if(EXIF.getTag(image, "Orientation")) {
-            loadImage(
-              crate.image,
-              function (canvas) {
-                // canvas loaded with base64 string of rotated image is returned by library
-                $("#crateHeroImage").append(canvas);
-                styleCrateHeroImage($('canvas'));
-              },
-              {
-                orientation: EXIF.getTag(image, "Orientation"),
-                crossOrigin: "anonymous"
-              }
-              );
-            } else {
-              // if there is no orientation data, append the <img> directly into the container
-              styleCrateHeroImage(image);
-              $("#crateHeroImage").append(image);
-            }
-          });
-        };
-        image.crossOrigin = "anonymous";
-        image.src = crate.image;
-      });
+        styleCrateHeroImage(image);
+        $("#crateHeroImage").append(image);
+        // TODO: the EXIF.getData was used to rotate the image properly on desktop; disabled for now
+        // EXIF.getData(image, function() {
+        //   // if image has orientation data, use library to load and rotate it correctly
+        //   if(EXIF.getTag(image, "Orientation")) {
+        //     loadImage(
+        //       crate.image,
+        //       function (canvas) {
+        //         // canvas loaded with base64 string of rotated image is returned by library
+        //         $("#crateHeroImage").append(canvas);
+        //         styleCrateHeroImage($('canvas'));
+        //       },
+        //       {
+        //         orientation: EXIF.getTag(image, "Orientation"),
+        //         crossOrigin: "anonymous"
+        //       }
+        //       );
+        //     } else {
+        //       // if there is no orientation data, append the <img> directly into the container
+        //       styleCrateHeroImage(image);
+        //       $("#crateHeroImage").append(image);
+        //     }
+        //   });
+      };
+      // image.crossOrigin = "anonymous";
+      image.src = crate.image;
+    });
 
       getUnopenedCrates(this.props.store.userAuth.uid, () => {
         this.setState({data: unopenedCratesList});
