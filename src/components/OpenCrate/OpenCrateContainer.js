@@ -16,7 +16,7 @@ import EXIF from 'exif-js';
 import { CancelIcon, ClockIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 import { colors } from '../Crates/CrateTemplate';
-import { getPswpElement } from '../utilities';
+import { getPswpElement, isPhoto } from '../utilities';
 import { trackEvent } from '../AnalyticsUtil';
 
 import ControlsView from './ControlsView';
@@ -73,40 +73,48 @@ class OpenCrateContainer extends Component {
     getCrateById(crateId, crate => {
       this.setState({openedCrate: crate});
       var itself = this;
-      var image = new Image();
-      image.onload = function() {
-        var crate = itself.state.openedCrate;
-        // set the crate image width and height, used by PhotoSwipe
-        crate.imageWidth = image.naturalWidth;
-        crate.imageHeight = image.naturalHeight;
-        itself.setState({openedCrate: crate});
-        styleCrateHeroImage(image);
-        $("#crateHeroImage").append(image);
-        // TODO: the EXIF.getData was used to rotate the image properly on desktop; disabled for now
-        // EXIF.getData(image, function() {
-        //   // if image has orientation data, use library to load and rotate it correctly
-        //   if(EXIF.getTag(image, "Orientation")) {
-        //     loadImage(
-        //       crate.image,
-        //       function (canvas) {
-        //         // canvas loaded with base64 string of rotated image is returned by library
-        //         $("#crateHeroImage").append(canvas);
-        //         styleCrateHeroImage($('canvas'));
-        //       },
-        //       {
-        //         orientation: EXIF.getTag(image, "Orientation"),
-        //         crossOrigin: "anonymous"
-        //       }
-        //       );
-        //     } else {
-        //       // if there is no orientation data, append the <img> directly into the container
-        //       styleCrateHeroImage(image);
-        //       $("#crateHeroImage").append(image);
-        //     }
-        //   });
-      };
-      // image.crossOrigin = "anonymous";
-      image.src = crate.image;
+
+      if(isPhoto(crate.image)) {
+        var image = new Image();
+        image.onload = function() {
+          var crate = itself.state.openedCrate;
+          // set the crate image width and height, used by PhotoSwipe
+          crate.imageWidth = image.naturalWidth;
+          crate.imageHeight = image.naturalHeight;
+          itself.setState({openedCrate: crate});
+          styleCrateHeroImage(image);
+          $("#crateHeroImage").append(image);
+          // TODO: the EXIF.getData was used to rotate the image properly on desktop; disabled for now
+          // EXIF.getData(image, function() {
+          //   // if image has orientation data, use library to load and rotate it correctly
+          //   if(EXIF.getTag(image, "Orientation")) {
+          //     loadImage(
+          //       crate.image,
+          //       function (canvas) {
+          //         // canvas loaded with base64 string of rotated image is returned by library
+          //         $("#crateHeroImage").append(canvas);
+          //         styleCrateHeroImage($('canvas'));
+          //       },
+          //       {
+          //         orientation: EXIF.getTag(image, "Orientation"),
+          //         crossOrigin: "anonymous"
+          //       }
+          //       );
+          //     } else {
+          //       // if there is no orientation data, append the <img> directly into the container
+          //       styleCrateHeroImage(image);
+          //       $("#crateHeroImage").append(image);
+          //     }
+          //   });
+        };
+        // image.crossOrigin = "anonymous";
+        image.src = crate.image;
+      } else {
+        itself.getCrateVideo(crate.image).then(function(video) {
+          styleCrateHeroImage(video);
+          $("#crateHeroImage").append(video);
+        });
+      }
     });
 
       getUnopenedCrates(this.props.store.userAuth.uid, () => {
@@ -135,6 +143,18 @@ class OpenCrateContainer extends Component {
       }, 700)
     });
   }
+  // returns a video object using the src of the crate video url
+  getCrateVideo = (videoUrl) => {
+    return new Promise(function(resolve, reject) {
+      var video = document.createElement('video');
+      var source = document.createElement("source"); 
+      video.setAttribute("autoplay", true);
+      video.setAttribute("loop", true);
+      source.src = videoUrl;
+      video.appendChild(source);
+      resolve(video);
+    });
+  }
   // returns the image object injected by loadImage which is either in a <img> or canvas
   getCrateImage = () => {
     return new Promise(function(resolve, reject) {
@@ -156,24 +176,43 @@ class OpenCrateContainer extends Component {
     var itself = this;
     
     getPswpElement(function(pswpElement) {
-      return itself.getCrateImage().then(function(image) {
-        var slides = [
-          {
-            src: image.src,
-            msrc: image.src,
-            w: image.naturalWidth,
-            h: image.naturalHeight
-          }
-        ];
-        
-        var options = {
-          closeOnScroll: false,
-          shareEl: false
-        };
-        
-        var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
-        gallery.init();
-      });
+      if(isPhoto(itself.state.openedCrate.image)) {
+        return itself.getCrateImage().then(function(image) {
+          var slides = [
+            {
+              src: image.src,
+              msrc: image.src,
+              w: image.naturalWidth,
+              h: image.naturalHeight
+            }
+          ];
+          
+          var options = {
+            closeOnScroll: false,
+            shareEl: false
+          };
+          
+          var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
+          gallery.init();
+        });
+      } else {
+        return itself.getCrateVideo(itself.state.openedCrate.image).then(function(video) {
+          styleCrateHeroImage(video)
+          var slides = [
+            {
+              html: video,
+            }
+          ];
+          
+          var options = {
+            closeOnScroll: false,
+            shareEl: false
+          };
+          
+          var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
+          gallery.init();
+        });
+      }
     });
   }
   regiftCrate = () => {
