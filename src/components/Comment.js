@@ -12,23 +12,25 @@ class Comment extends Component {
   }
   componentDidMount = () => {
     var thumbnail;
-    if(isPhoto(this.props.image)) {
-      thumbnail = (
-        <img
-          id="collectedCrateThumbnail"
-          style={ifStyle(
-            !this.props.image && styles.none
-          )}
-          src={this.props.image} className="inventoryFeedImage" onClick={this.viewPhoto}/>
-      );
-    } else {
-      thumbnail = (
-        <video id="collectedCrateVideoThumbnail" className="inventoryFeedImage" onClick={this.viewVideo} loop>
-          <source src={this.props.image}></source>
-        </video>
-      );
+    if(this.props.image) {
+      if(isPhoto(this.props.image)) {
+        thumbnail = (
+          <img
+            id="collectedCrateThumbnail"
+            style={ifStyle(
+              !this.props.image && styles.none
+            )}
+            src={this.props.image} className="inventoryFeedImage" onClick={this.viewPhoto}/>
+        );
+      } else {
+        thumbnail = (
+          <video id="collectedCrateVideoThumbnail" className="inventoryFeedImage" onClick={this.viewVideo} loop>
+            <source src={this.props.image}></source>
+          </video>
+        );
+      }
+      this.setState({collectedCrateThumbnail: thumbnail});
     }
-    this.setState({collectedCrateThumbnail: thumbnail});
   }
   viewVideo = () => {
     var videoThumbnail = document.getElementById("collectedCrateVideoThumbnail");
