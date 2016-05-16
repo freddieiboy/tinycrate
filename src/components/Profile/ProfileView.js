@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import CrateTemplate, { colors } from '../Crates/CrateTemplate';
+import FlexCrateTemplate, { colors } from '../Crates/FlexCrateTemplate';
 import Empty from '../Empty';
 import CommentList from '../CommentList';
 import ProfileCrateList from '../Crates/ProfileCrateList';
@@ -58,7 +58,7 @@ class ProfileView extends Component {
         padding: '22px'
       },
       activeTab: {
-        color: '#8F9393'
+        color: user.profileColor === undefined ? '#D7D9DA' : colors(user.profileColor).compliment
       },
       inactiveTab: {
         color: '#D7D9DA'
@@ -89,6 +89,7 @@ class ProfileView extends Component {
     let emptyState;
     let emptyStateCol;
     let profileTabContent;
+    console.log(user.profileColor)
 
     if (subscriptionData.length === 0) {
       emptyState = <div className="full-container"><Empty /></div>
@@ -126,14 +127,13 @@ class ProfileView extends Component {
                     <NextIcon />
                   </div>
                   <div className="userAvatar" style={styles.userAvatar}>
-                    <CrateTemplate
+                    <FlexCrateTemplate
                       color={user === null ? 'empty' : user.profileColor}
-                      crateSize={60}
-                      cratePreview={user.profileImageURL}
-                      crateType={'profile'}
-                      pop={'true'}
-                      popType={'2'}
-                      shadow={'true'}/>
+                      size={60}
+                      preview={user.profileImageURL}
+                      type={'profile'}
+                      pop={2}
+                      shadow={true}/>
                   </div>
                 </div>
               </Hammer>
@@ -146,25 +146,23 @@ class ProfileView extends Component {
               <div className="Grid-cell Grid--center-content profileOptions" style={styles.profileOptions}>
                 <div className="settingCrate" style={styles.settingCrate}
                   onTouchEnd={profileButton}>
-                  <CrateTemplate
-                    crateSize={60}
+                  <FlexCrateTemplate
+                    size={60}
                     color={user === null ? 'empty' : user.profileColor}
-                    crateType={isMe ? 'settings' : 'settings-follow'}
-                    shadow={'yes'}
-                    pop={'true'}
-                    popType={'1'}
+                    type={isMe ? 'settings' : 'settings-follow'}
+                    shadow={'true'}
+                    pop={1}
                     />
                 </div>
                 {isMe ?
                   <div className="logoutCrate" style={styles.logoutCrate}
                   onTouchEnd={logout}>
-                    <CrateTemplate
-                      crateSize={60}
+                    <FlexCrateTemplate
+                      size={60}
                       color={user === null ? 'empty' : colors(user.profileColor).complimentName}
-                      crateType={'settings-logout'}
-                      shadow={'yes'}
-                      pop={'true'}
-                      popType={'1'}
+                      type={'settings-logout'}
+                      shadow={true}
+                      pop={1}
                       />
                   </div>
                   : ''
@@ -172,13 +170,12 @@ class ProfileView extends Component {
                 {!isMe ?
                   <div className="settingCrate" style={styles.settingCrate}
                     onTouchEnd={blockButton}>
-                    <CrateTemplate
-                      crateSize={60}
+                    <FlexCrateTemplate
+                      size={60}
                       color={isBlocked ? 'pink' : 'green'}
-                      crateType={isBlocked ? 'settings-unblock' : 'settings-block'}
-                      shadow={'yes'}
-                      pop={'true'}
-                      popType={'1'}
+                      type={isBlocked ? 'settings-unblock' : 'settings-block'}
+                      shadow={true}
+                      pop={1}
                       />
                   </div>
                   : ''

@@ -104,14 +104,13 @@
 
 .comment {
   border-bottom: 2px solid $lightBg;
-  padding: 10px;
   font-size: 1.2m;
   min-height: 117px;
   .name {
     display: inline;
     // padding-left: 17px;
     font-weight: bold;
-    color: #b1b1b1;
+    color: #000;
   }
 }
 

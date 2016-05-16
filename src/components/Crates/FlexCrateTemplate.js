@@ -406,7 +406,7 @@ export const colors = (color) => {
       }
     case purple:
       return {
-        lightColor: '#FAFEFF',
+        lightColor: '#FF5DFA',
         darkColor: '#C746E9',
         compliment: yellow.darkColor,
         complimentName: 'yellow'
