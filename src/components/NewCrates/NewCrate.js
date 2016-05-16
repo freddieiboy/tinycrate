@@ -28,9 +28,11 @@ class NewCrate extends Component {
       "orange",
       "blue",
       "pink",
-      "purple"
+      "purple",
+      "snow",
+      "obsidian"
     ];
-    this.props.actions.selectCrateColor(coolors[Math.floor(Math.random() * 6)]);
+    this.props.actions.selectCrateColor(coolors[Math.floor(Math.random() * coolors.length)]);
   }
   render() {
     let {
