@@ -7,25 +7,33 @@ import {Emojis, randomEmojiNumber} from './Emojis';
 import {DefaultCrate, PressedCrate, pop1, pop2} from './Crates/CrateUtils';
 import $ from 'jquery';
 import Hammer from 'react-hammerjs';
-import CrateTemplate from './Crates/CrateTemplate';
+import FlexCrateTemplate from './Crates/FlexCrateTemplate';
 
 const Empty = ({ actions, store }) => {
   const style = {
 
   }
+  let userColor;
+  if (store.user === null) {
+    userColor = 'empty'
+  } else {
+    userColor = store.user.profileColor
+  }
   return (
-    <div className="empty" style={{height: '100%', position: 'relative'}}>
-      <div className="emptyCrate center"
-        onTouchEnd={() => actions.setEmojiNumber(randomEmojiNumber())}>
-        <CrateTemplate
-          color={'empty'}
-          crateSize={80}
-          cratePreview={'NOTHING_YET'}
-          pop={true}
-          popType={'2'}
-          crateType={'empty'}
-          shadow={'true'}
-          />
+    <div className="empty Grid full-container">
+      <div className="flex-1 relative">
+        <div className="Grid Grid--center-content absolute full-container">
+          <div onTouchEnd={() => actions.setEmojiNumber(randomEmojiNumber())}>
+            <FlexCrateTemplate
+              color={userColor}
+              size={80}
+              pop={2}
+              type={'empty'}
+              shadow={true}
+              />
+          </div>
+          {/*<p style={{opacity: '.5'}}>Empty Dashboard</p>*/}
+        </div>
       </div>
     </div>
   )
@@ -37,7 +45,8 @@ Empty.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   store: {
-    emoji: state.crates.emoji
+    emoji: state.crates.emoji,
+    user: state.userAuth.user
   }
 })
 

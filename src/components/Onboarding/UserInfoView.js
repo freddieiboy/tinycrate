@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { colors } from '../Crates/CrateTemplate';
+import { colors } from '../Crates/FlexCrateTemplate';
 import { TwitterIcon, FacebookIcon, CrateOutline } from '../NewCrates/Icons';
 import Input from './Input';
 

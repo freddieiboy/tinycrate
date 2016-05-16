@@ -1,5 +1,5 @@
 import React from 'react';
-import CrateTemplate, { colors } from '../Crates/CrateTemplate';
+import FlexCrateTemplate, { colors } from '../Crates/FlexCrateTemplate';
 import { ifStyle } from '../utilities';
 import { NextIcon, RegiftIcon, StarIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
@@ -89,7 +89,14 @@ const ControlsView = ({userImage, saveToProfile, regift, viewSenderProfile, user
               <div className="buttonIcon" style={styles.buttonIcon}>
                 <div className="userImage" style={styles.userImage}>
                   <div className="center">
-                    <CrateTemplate crateSize={80} color={colors(userColor)} cratePreview={userImage} crateType={'profile'} popType={'1'} pop={'true'} shadow={'false'}/>
+                    <FlexCrateTemplate
+                      size={80}
+                      color={colors(userColor)}
+                      preview={userImage}
+                      type={'profile'}
+                      pop={1}
+                      shadow={false}
+                      />
                   </div>
                 </div>
               </div>

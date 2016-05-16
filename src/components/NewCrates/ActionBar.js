@@ -13,7 +13,7 @@ import FilePicker from 'component-file-picker';
 import EXIF from 'exif-js'
 import {flattenObject, ifStyle} from '../utilities';
 import $ from 'jquery';
-import CrateTemplate, { colors } from 'components/Crates/CrateTemplate';
+import FlexCrateTemplate, { colors } from 'components/Crates/FlexCrateTemplate';
 import {green, pink, incrementGiftedCount} from 'components/Crates/CrateUtils';
 import SubscribersList from 'components/NewCrates/SubscribersList';
 
@@ -34,7 +34,6 @@ const FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 class ActionBar extends Component {
   constructor(props) {
     super(props);
-    this.randomColor();
     this.state = {
       localText: ''
     }
@@ -138,17 +137,6 @@ class ActionBar extends Component {
       this.props.store.isSelectingUsers && this.footerHeight0()
     )
   }
-  randomColor = () => {
-    const colors = [
-      "green",
-      "yellow",
-      "orange",
-      "blue",
-      "pink",
-      "purple"
-    ];
-    this.props.actions.selectCrateColor(colors[Math.floor(Math.random() * 6)]);
-  }
   selectFile = () => {
     trackEvent("Add Photo Button");
     var itself = this;
@@ -158,15 +146,15 @@ class ActionBar extends Component {
       // generate key for S3 image file
       // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
       // should use a different key generating method in the future
-      
+
       notie.alert(4, 'Uploading image...');
-      
+
       var salt = this.props.store.userAuth.uid.split("").reverse().join("");
       var hashids = new Hashids(salt, 16);
       var key = hashids.encode(moment().unix()) + '-' + file.name;
-      
+
       var xhr = new XMLHttpRequest();
-      
+
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           // programatically remove the "Uploading image..." alert
@@ -179,7 +167,7 @@ class ActionBar extends Component {
       var formData = new FormData();
       formData.append("key", key);
       formData.append("imageFile", file);
-      
+
       // make internal server request to upload image to Amazon S3
       xhr.open("POST", './api/upload/image', true);
       xhr.send(formData);
@@ -197,7 +185,7 @@ class ActionBar extends Component {
   }
   uploadFile = (file, imageBlob) => {
     var itself = this;
-    
+
     notie.alert(4, 'Uploading image...');
 
     // generate key for S3 image file
@@ -254,13 +242,13 @@ class ActionBar extends Component {
         return;
       }
       if (receipients.length > 0) {
-        
+
         trackEvent("Send Crate Button", {
           "text": this.state.localText,
           "image": (store.newCratePhoto == '') ? null : store.newCratePhoto,
           "crateColor": store.newCrateColor
         });
-        
+
         receipients.map(users => {
           var crate = {
             key: reff.push().key(),
@@ -381,6 +369,10 @@ class ActionBar extends Component {
       },
       hide: {
         visibility: 'hidden'
+      },
+      backIcon: {
+        transform: 'rotate(180deg)',
+        margin: '-12px 6px 0 0'
       }
     }
     const ifSelected = store.giftee.length > 0 ? thisColor.compliment : undefined;
@@ -457,7 +449,15 @@ class ActionBar extends Component {
                       <Hammer onTap={this.editCrate}>
                         <div className="actionButton" style={{left: left, opacity: opacity}} >
                           <div className="actionIcon noTouch" style={{top: '2.2em'}}>
-                            <CrateTemplate color={store.newCrateColor} crateSize={30} pop={true} crateType={'pop'} shadow={'false'}/>
+                            {/*<FlexCrateTemplate
+                              color={store.newCrateColor}
+                              size={30}
+                              pop={true}
+                              type={'pop'}
+                              shadow={false}/>*/}
+                              <div style={styles.backIcon}>
+                                <NextIcon color={'#C1C9D0'}/>
+                              </div>
                           </div>
                         </div>
                       </Hammer>}
@@ -487,13 +487,11 @@ class ActionBar extends Component {
                   </Motion>
                   <Motion style={this.setBtnPosition(2)}>
                     {({left, opacity}) =>
-                      <Hammer onTap={this.randomColor}>
-                        <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
-                          <div className="actionIcon">
-                            <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={profileImage}/>
-                          </div>
+                      <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
+                        <div className="actionIcon">
+                          <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={profileImage}/>
                         </div>
-                      </Hammer>}
+                      </div>}
                   </Motion>
                   <Motion style={this.setBtnPosition(3)}>
                     {({left, opacity}) =>

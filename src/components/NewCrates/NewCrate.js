@@ -10,12 +10,27 @@ import Hammer from 'react-hammerjs';
 import { trackEvent } from '../AnalyticsUtil';
 
 class NewCrate extends Component {
+  constructor(props) {
+    super(props);
+  }
   componentDidMount = () => {
+    this.randomColor();
     this.props.actions.showActionBar();
     this.props.actions.openActionBar();
   }
   onNewCrateTap = () => {
     trackEvent("Tap New Crate");
+  }
+  randomColor = () => {
+    const coolors = [
+      "green",
+      "yellow",
+      "orange",
+      "blue",
+      "pink",
+      "purple"
+    ];
+    this.props.actions.selectCrateColor(coolors[Math.floor(Math.random() * 6)]);
   }
   render() {
     let {
@@ -55,7 +70,7 @@ class NewCrate extends Component {
       newCratePageTitle = store.regiftCrateText.length > 0 ? 'Regift Crate' : 'New Crate'
       newCratePageBody = <div className="flex-1 newCratePageBody relative">
         <Hammer onTap={() => this.onNewCrateTap()}>
-        <div className="Grid Grid--full-center absolute full-container">
+        <div className="Grid Grid--full-center absolute full-container" onTouchStart={this.randomColor}>
           <FlexCrateTemplate
             color={store.newCrateColor}
             size={120}

@@ -216,7 +216,7 @@ class FlexCrateTemplate extends Component {
       if (preview) {
         previewVar = <div className="emojiContainer" style={styles.emojiContainer}>{preview}</div>
       } else {
-        previewVar = <div className="emojiContainer" style={styles.emojiContainer}>{EmojiContainer[this.props.store.emoji]}</div>
+        previewVar = <div className="emojiContainer" style={styles.emojiContainer}>{CrateEmojis(thisColor, this.props.store.emoji)}</div>
       }
     } else if (type === 'login-twitter') {
       previewVar = <div className="socialIcon" style={styles.socialIcon}><TwitterIcon /></div>
@@ -225,7 +225,7 @@ class FlexCrateTemplate extends Component {
       previewVar = <div className="socialIcon" style={styles.socialIcon}><FacebookIcon /></div>
       profileImage = null;
     } else if (type === 'tutorial') {
-      previewVar = <div className="emojiContainer" style={styles.emojiContainer}><CrateEmojis color={eval(thisColor).darkColor} visible={'1'}/></div>
+      previewVar = <div className="emojiContainer" style={styles.emojiContainer}>{CrateEmojis(thisColor, 0)}</div>
       profileImage = null;
     } else if (type === 'profile') {
       previewVar = <img className="userImage noTouch" src={this.props.preview} style={styles.previewProfile} align="middle"></img>
@@ -340,11 +340,11 @@ const purple = {
   darkColor: '#C746E9',
 }
 const empty = {
-  lightColor: '#E9FAFD',
-  darkColor: '#CBEBF0'
+  lightColor: '#F1F1F1',
+  darkColor: '#CECECE',
 }
 const emptyAlt = {
-  lightColor: '#CBEBF0'
+  lightColor: '#CECECE'
 }
 const productHunt = {
   lightColor: '#DA552F',
@@ -357,6 +357,14 @@ const twitter = {
 const facebook = {
   lightColor: '#3B5998',
   darkColor: '#24468B'
+}
+const snow = {
+  lightColor: '#E9FAFD',
+  darkColor: '#8CE3F7'
+}
+const obsidian = {
+  lightColor: '#403B3B',
+  darkColor: '#1D1919'
 }
 
 export const colors = (color) => {
@@ -398,16 +406,30 @@ export const colors = (color) => {
       }
     case purple:
       return {
-        lightColor: '#FF5DFA',
+        lightColor: '#FAFEFF',
         darkColor: '#C746E9',
         compliment: yellow.darkColor,
         complimentName: 'yellow'
       }
-    case empty:
+    case snow:
       return {
         lightColor: '#E9FAFD',
-        darkColor: '#CBEBF0',
-        compliment: '#CBEBF0',
+        darkColor: '#8CE3F7',
+        compliment: '#FD9C44',
+        complimentName: 'orange'
+      }
+    case obsidian:
+      return {
+        lightColor: '#403B3B',
+        darkColor: '#1D1919',
+        compliment: '#FAFEFF',
+        complimentName: 'purple'
+      }
+    case empty:
+      return {
+        lightColor: '#F1F1F1',
+        darkColor: '#CECECE',
+        compliment: '#CECECE',
         complimentName: 'empty'
       }
     case productHunt:

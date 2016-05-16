@@ -353,6 +353,14 @@ const facebook = {
   lightColor: '#3B5998',
   darkColor: '#24468B'
 }
+const snow = {
+  lightColor: '#E9FAFD',
+  darkColor: '#8CE3F7'
+}
+const obsidian = {
+  lightColor: '#403B3B',
+  darkColor: '#1D1919'
+}
 
 export const colors = (color) => {
   switch(eval(color)) {
@@ -397,6 +405,20 @@ export const colors = (color) => {
         darkColor: '#C746E9',
         compliment: yellow.darkColor,
         complimentName: 'yellow'
+      }
+    case snow:
+      return {
+        lightColor: '#E9FAFD',
+        darkColor: '#8CE3F7',
+        compliment: '#FD9C44',
+        complimentName: 'orange'
+      }
+    case obsidian:
+      return {
+        lightColor: '#403B3B',
+        darkColor: '#1D1919',
+        compliment: '#FF5DFA',
+        complimentName: 'purple'
       }
     case empty:
       return {

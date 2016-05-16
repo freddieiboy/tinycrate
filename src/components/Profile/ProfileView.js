@@ -91,25 +91,25 @@ class ProfileView extends Component {
     let profileTabContent;
 
     if (subscriptionData.length === 0) {
-      emptyState = <div className="center"><Empty /></div>
+      emptyState = <div className="full-container"><Empty /></div>
     } else {
       emptyState = '';
     }
 
     if (collectionCrateData.length === 0) {
-      emptyStateCol = <div className="center"><Empty /></div>
+      emptyStateCol = <div className="full-container"><Empty /></div>
     } else {
       emptyStateCol = '';
     }
 
 
     if(currentTab == ProfileTabs.SUBSCRIPTIONS) {
-      profileTabContent = <div className="profileTabContent">
+      profileTabContent = <div className="profileTabContent full-container">
         <AbsoluteGrid items={subscriptionData} displayObject={(<ProfileCrateList onOpen={onOpen} />)} responsive={true} itemHeight={100} itemWidth={92} />
         {emptyState}
       </div>
     } else if(currentTab == ProfileTabs.MY_COLLECTION) {
-      profileTabContent = <div className="profileTabContent">
+      profileTabContent = <div className="profileTabContent full-container">
           <CommentList data={collectionCrateData} />
           {emptyStateCol}
         </div>
@@ -231,7 +231,7 @@ class ProfileView extends Component {
 
         <div className="profileColSubs container-fluid body-content" style={styles.profileColSubsSection}>
 
-          <div className="Grid Grid--gutters">
+          <div className="Grid">
             {isMe ?
             <div className="Grid-cell">
               <h5 style={ifStyle(

@@ -1,5 +1,5 @@
 import React from 'react';
-import CrateTemplate, { colors } from '../Crates/CrateTemplate';
+import FlexCrateTemplate, { colors } from '../Crates/FlexCrateTemplate';
 import { ifStyle } from '../utilities';
 import { NextIcon, CheckIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
@@ -105,7 +105,13 @@ const ControlsView = ({mode, userImage, slide, back, next, selectedColor, finish
               {/*<img className="userImage" style={styles.userImage} src={userImage}></img>*/}
               <div className="userImage" style={styles.userImage}>
                 <div className="center">
-                  <CrateTemplate crateSize={80} color={colors(selectedColor)} crateType={'tutorial'} pop={'true'} popType={'2'} shadow={'false'}/>
+                  <FlexCrateTemplate
+                    size={80}
+                    color={selectedColor}
+                    type={'tutorial'}
+                    pop={2}
+                    shadow={false}
+                    />
                 </div>
               </div>
             </div>

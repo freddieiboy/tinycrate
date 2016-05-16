@@ -1,4 +1,5 @@
 import React from 'react';
+import { colors } from './Crates/FlexCrateTemplate';
 
 const Frog = () =>
   <svg viewBox="0 0 64 64" enable-background="new 0 0 64 64">
@@ -263,14 +264,57 @@ export const EmojiContainer = [
   <VideoGames />
 ]
 
-//TODO: turn EmojiContainer into this new switch functional component in the future
-export const CrateEmojis = ({color, visible}) => {
-  switch(visible) {
-    case '1':
-      return <Heart color={color}/>;
-    case '2':
+export const CrateEmojis = (color, number) => {
+  switch(number) {
+    case 0:
+      return <Heart color={colors(color).darkColor}/>;
+      break;
+    case 1:
       return <Happy />;
+      break;
+    case 2:
+      return <Frog />;
+      break;
+    case 3:
+      return <Bomb />;
+      break;
+    case 4:
+      return <Dog />;
+      break;
+    case 5:
+      return <HappyCatCrying />;
+      break;
+    case 6:
+      return <HappyCatHeart />;
+      break;
+    case 7:
+      return <HappyHeart />;
+      break;
+    case 8:
+      return <HeartSparkle />;
+      break;
+    case 9:
+      return <Kiss />;
+      break;
+    case 10:
+      return <Lips />;
+      break;
+    case 11:
+      return <Nuclear />;
+      break;
+    case 12:
+      return <Poop />;
+      break;
+    case 13:
+      return <Smile />;
+      break;
+    case 14:
+      return <Star />;
+      break;
+    case 15:
+      return <VideoGames />;
+      break;
   }
 }
 
-export const randomEmojiNumber = () => Math.floor(Math.random()*EmojiContainer.length);
+export const randomEmojiNumber = () => Math.floor(Math.random()*16);
