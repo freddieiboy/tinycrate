@@ -13,14 +13,25 @@ class ReactionCrateList extends Component {
     super(props);
     this.state = {
       isOpened: false,
-      isSelected: false,
+      // isSelected: false,
       emojis: []
     }
   }
   componentDidMount = () => {
     this.shuffleEmojis();
   }
+  shouldComponentUpdate = (nextProps, nextState) => {
+    // const isSelected = nextState.isSelected !== this.state.isSelected;
+    const isOpened = nextState.isOpened !== this.state.isOpened;
+    const localEmojis = nextState.emojis !== this.state.emojis;
+    const setReactionEmoji = nextProps.store.emoji !== this.props.store.emoji;
+    const thisPropsColor = nextProps.color !== this.props.color;
 
+    return isOpened || localEmojis || setReactionEmoji || thisPropsColor
+  }
+  componentDidUpdate = () => {
+    console.log('reactioncratelist updated')
+  }
   toggleReaction = () => {
     if (this.state.isOpened) {
       if (this.props.store.emoji.length > 0) {
