@@ -124,9 +124,13 @@ const DefaultCrateView = ({
   } else {
     if(isSaveNotification && contextCrateHasImage) {
       if(contextCrate.image && !$("#contextCrateImage").length) {
+        var uploadAlertText = 'Loading ' + (isPhoto(contextCrate.image) ? 'image...' : 'video...');
+        notie.alert(4, uploadAlertText);
         if(isPhoto(contextCrate.image)) {
           var image = new Image();
           image.onload = function() {
+            // programatically remove the "Loading image..." alert
+            $("#notie-alert-outer").click();
             let width = image.width;
             let height = image.height;
             styleCrateHeroImage(image, width, height);
@@ -155,6 +159,10 @@ const DefaultCrateView = ({
             }
             $(".inner").css("background-color", result);
             $(".topContainer").css("opacity", "0.9");
+            video.onloadeddata = function() {
+              // programatically remove the "Loading video..." alert
+              $("#notie-alert-outer").click();
+            };
             $("#crateHeroImageContainer").append(video);
           });
         }
