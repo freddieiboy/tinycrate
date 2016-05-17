@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { RegiftIcon, AirplaneIcon, ReactionIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
+import $ from 'jquery';
+import { ifStyle } from '../utilities';
+import ReactionEmojis from './ReactionEmojis';
 
-class ReactionCrate extends Component {
+class ReactionCrateList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpened: false
+      isOpened: false,
+      isSelected: false,
+      selectedReaction: ''
     }
   }
   toggleReaction = () => {
@@ -16,15 +21,23 @@ class ReactionCrate extends Component {
       this.setState({isOpened: true})
     }
   }
+  selectReaction = (event) => {
+    // if (!this.state.isSelected) {
+    //   this.setState({
+    //     isSelected: true,
+    //     selectedReaction: event.target
+    //   })
+    // }
+  }
   render() {
     const styles = {
-      ReactionCrate: {
+      ReactionCrateList: {
         justifyContent: 'center',
         alignItems: 'center'
       },
       emojiPicker: {
         height: '15em',
-        width: '4em',
+        width: '5em',
         bottom: '100%',
         left: '50%',
         backgroundColor: '#000',
@@ -39,31 +52,35 @@ class ReactionCrate extends Component {
         // transform: 'translate(-50%, 0)'
         opacity: '.4'
       },
+      sendIconReady: {
+        opacity: '1'
+      },
       reactionIcon: {
         transform: 'scale(2.3)'
       }
     }
+    const types = ['1', '2', '3']
+    const emojis = types.map((emoji, key) => {
+      return <ReactionEmojis key={key} emoji={emoji} />
+    })
+    // console.log(this.state.selectedReaction)
     return (
-      <div className="ReactionCrate Grid full-container" style={styles.ReactionCrate}>
+      <div className="ReactionCrateList Grid full-container" style={styles.ReactionCrateList}>
         {this.state.isOpened ?
-          <div className="full-container">
+          <div className="full-container animated-fast fadeIn">
             <div className="Grid-cell">
               <div className="emojiPicker Grid Grid--columns absolute" style={styles.emojiPicker}>
-                <div className="emoji Grid-cell relative">
-                  <div className="Grid Grid--center-content absolute-container">🐞</div>
-                </div>
-                <div className="emoji Grid-cell relative">
-                  <div className="Grid Grid--center-content absolute-container">🍻</div>
-                </div>
-                <div className="emoji Grid-cell relative">
-                  <div className="Grid Grid--center-content absolute-container">😁</div>
-                </div>
+                {emojis}
               </div>
             </div>
-            <div className="Grid-cell full-container relative" style={styles.sendIcon}>
+            <div className="Grid-cell full-container relative"
+              style={ifStyle(
+                styles.sendIcon,
+                this.state.selectedReaction && styles.sendIconReady
+              )}>
               <Hammer onTap={this.toggleReaction}>
                 <div className="Grid Grid--center-content absolute-container">
-                  <AirplaneIcon color={'#fff'} />
+                  <AirplaneIcon color={this.state.selectedReaction ? this.props.color : '#fff'} />
                 </div>
               </Hammer>
             </div>
@@ -82,4 +99,4 @@ class ReactionCrate extends Component {
   }
 }
 
-export default ReactionCrate;
+export default ReactionCrateList;

@@ -3,7 +3,7 @@ import { StarIcon, RegiftIcon, CancelIcon } from '../NewCrates/Icons';
 import FlexCrateTemplate, { colors } from '../Crates/FlexCrateTemplate';
 import { ifStyle } from '../utilities';
 import Hammer from 'react-hammerjs';
-import ReactionCrate from './ReactionCrate';
+import ReactionCrateList from './ReactionCrateList';
 
 const DefaultControlsView = ({
   userImage,
@@ -98,7 +98,7 @@ const DefaultControlsView = ({
         <div className="controlContents" style={styles.controlContents}>
           <div className="regiftIcon full-container" style={styles.regiftIcon}>
             {/*<RegiftIcon color={color} />*/}
-            <ReactionCrate color={color} />
+            <ReactionCrateList color={color} />
           </div>
         </div>
       </div>
