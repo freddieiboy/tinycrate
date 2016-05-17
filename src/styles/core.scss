@@ -190,7 +190,7 @@
 
   .disabled-input {
     pointer-events: none;
-    opacity: .3; 
+    opacity: .3;
   }
 
   .emojiPressed {
@@ -266,6 +266,12 @@
 
   .absolute {
     position: absolute;
+  }
+
+  .absolute-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
   }
 
 }

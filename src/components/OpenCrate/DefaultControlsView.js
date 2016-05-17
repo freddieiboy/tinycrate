@@ -3,6 +3,7 @@ import { StarIcon, RegiftIcon, CancelIcon } from '../NewCrates/Icons';
 import FlexCrateTemplate, { colors } from '../Crates/FlexCrateTemplate';
 import { ifStyle } from '../utilities';
 import Hammer from 'react-hammerjs';
+import ReactionCrate from './ReactionCrate';
 
 const DefaultControlsView = ({
   userImage,
@@ -49,8 +50,8 @@ const DefaultControlsView = ({
     //   flex: '0 50%'
     // },
     regiftIcon:  {
-      transform: 'rotate(90deg)',
-      marginLeft: '-5px'
+      // transform: 'rotate(90deg)',
+      // marginLeft: '-5px'
     },
     cancel: {
       marginTop: '1px'
@@ -94,13 +95,12 @@ const DefaultControlsView = ({
         </div>
       </div>
       <div className="regiftContainer" style={styles.controlBox}>
-        <Hammer onTap={regift}>
-          <div className="controlContents" style={styles.controlContents}>
-            <div className="regiftIcon" style={styles.regiftIcon}>
-              <RegiftIcon color={color} />
-            </div>
+        <div className="controlContents" style={styles.controlContents}>
+          <div className="regiftIcon full-container" style={styles.regiftIcon}>
+            {/*<RegiftIcon color={color} />*/}
+            <ReactionCrate />
           </div>
-        </Hammer>
+        </div>
       </div>
       {/*<div className="closeContainer" style={styles.controlBox}>
         <Hammer onTap={closePreview}>

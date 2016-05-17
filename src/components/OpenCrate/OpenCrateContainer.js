@@ -148,7 +148,7 @@ class OpenCrateContainer extends Component {
   getCrateVideo = (videoUrl) => {
     return new Promise(function(resolve, reject) {
       var video = document.createElement('video');
-      var source = document.createElement("source"); 
+      var source = document.createElement("source");
       video.setAttribute("autoplay", true);
       video.setAttribute("loop", true);
       source.src = videoUrl;
@@ -175,7 +175,7 @@ class OpenCrateContainer extends Component {
   }
   viewPhoto = () => {
     var itself = this;
-    
+
     getPswpElement(function(pswpElement) {
       if(isPhoto(itself.state.openedCrate.image)) {
         return itself.getCrateImage().then(function(image) {
@@ -187,12 +187,12 @@ class OpenCrateContainer extends Component {
               h: image.naturalHeight
             }
           ];
-          
+
           var options = {
             closeOnScroll: false,
             shareEl: false
           };
-          
+
           var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
           gallery.init();
         });
@@ -204,12 +204,12 @@ class OpenCrateContainer extends Component {
               html: video,
             }
           ];
-          
+
           var options = {
             closeOnScroll: false,
             shareEl: false
           };
-          
+
           var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
           gallery.init();
         });
@@ -320,7 +320,6 @@ class OpenCrateContainer extends Component {
               author={this.state.openedCrate.authorDisplayName}
               viewSenderProfile={this.viewSenderProfile}
               saveToProfile={this.collectCrateButton}
-              regift={this.regiftCrate}
               closePreview={this.closePreview}
               />
           :
@@ -330,7 +329,6 @@ class OpenCrateContainer extends Component {
               author={this.state.openedCrate.authorDisplayName}
               viewSenderProfile={this.viewSenderProfile}
               saveToProfile={this.collectCrateButton}
-              regift={this.regiftCrate}
               closePreview={this.closePreview}
               />
           }
