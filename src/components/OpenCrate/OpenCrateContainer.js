@@ -9,7 +9,7 @@ import $ from 'jquery';
 import ReactDOM from 'react-dom';
 import Empty from '../Empty';
 import CommentList from '../CommentList';
-import { collectCrate } from '../Crates/CrateUtils';
+import { collectCrate, styleCrateHeroImage, getCrateVideo } from '../Crates/CrateUtils';
 import ProfileCrateList from '../Crates/ProfileCrateList';
 import AbsoluteGrid from 'react-absolute-grid';
 import EXIF from 'exif-js';
@@ -37,6 +37,7 @@ class OpenCrateContainer extends Component {
     this.state = {
       data: [],
       openedCrate: {},
+      contextCrate: {},
       isDefaultCrate: true
     };
   }
@@ -70,7 +71,7 @@ class OpenCrateContainer extends Component {
     this.props.actions.hideActionBar();
     // $('.actionButtons').css("visibility", "hidden");
 
-    getCrateById(crateId, crate => {
+    getCrateById(crateId, ref.getAuth().uid, crate => {
       this.setState({openedCrate: crate});
       var itself = this;
       if(crate.image) {
@@ -82,7 +83,9 @@ class OpenCrateContainer extends Component {
             crate.imageWidth = image.naturalWidth;
             crate.imageHeight = image.naturalHeight;
             itself.setState({openedCrate: crate});
-            styleCrateHeroImage(image);
+            let width = $('#crateHeroImage > img').width();
+            let height = $('#crateHeroImage > img').height();
+            styleCrateHeroImage(image, width, height);
             $("#crateHeroImage").append(image);
             // TODO: the EXIF.getData was used to rotate the image properly on desktop; disabled for now
             // EXIF.getData(image, function() {
@@ -110,11 +113,18 @@ class OpenCrateContainer extends Component {
           // image.crossOrigin = "anonymous";
           image.src = crate.image;
         } else {
-          itself.getCrateVideo(crate.image).then(function(video) {
-            styleCrateHeroImage(video);
+          getCrateVideo(crate.image).then(function(video) {
+            let width = $('#crateHeroImage > img').width();
+            let height = $('#crateHeroImage > img').height();
+            styleCrateHeroImage(video, width, height);
             $("#crateHeroImage").append(video);
           });
         }
+      }
+      if(crate.contextCrateKey) {
+        getCrateById(crate.contextCrateKey, crate.authorUId, crate => {
+          itself.setState({contextCrate: crate});
+        });
       }
     });
 
@@ -142,18 +152,6 @@ class OpenCrateContainer extends Component {
         });
         this.props.actions.push("/user/" + user.username);
       }, 700)
-    });
-  }
-  // returns a video object using the src of the crate video url
-  getCrateVideo = (videoUrl) => {
-    return new Promise(function(resolve, reject) {
-      var video = document.createElement('video');
-      var source = document.createElement("source");
-      video.setAttribute("autoplay", true);
-      video.setAttribute("loop", true);
-      source.src = videoUrl;
-      video.appendChild(source);
-      resolve(video);
     });
   }
   // returns the image object injected by loadImage which is either in a <img> or canvas
@@ -197,8 +195,10 @@ class OpenCrateContainer extends Component {
           gallery.init();
         });
       } else {
-        return itself.getCrateVideo(itself.state.openedCrate.image).then(function(video) {
-          styleCrateHeroImage(video)
+        return getCrateVideo(itself.state.openedCrate.image).then(function(video) {
+          let width = $('#crateHeroImage > img').width();
+          let height = $('#crateHeroImage > img').height();
+          styleCrateHeroImage(video, width, height)
           var slides = [
             {
               html: video,
@@ -305,6 +305,7 @@ class OpenCrateContainer extends Component {
             />*/}
             <DefaultCrateView
               openedCrate={this.state.openedCrate}
+              contextCrate={this.state.contextCrate}
               currentCrateColor={currentCrateColor}
               viewPhoto={this.viewPhoto}
               timestamp={timestamp}
@@ -359,8 +360,8 @@ function getUserByUid (uid, callback) {
   });
 }
 
-function getCrateById(id, callback) {
-  ref.child('crateFeed').child(ref.getAuth().uid).child(id).once('value', (snap) => {
+function getCrateById(id, uid, callback) {
+  ref.child('crateFeed').child(uid).child(id).once('value', (snap) => {
     var crate = snap.val();
     crate.key = id;
     callback(crate);
@@ -377,32 +378,6 @@ function getUnopenedCrates(uid, callback) {
     unopenedCratesList.push(crate);
     callback();
   })
-}
-
-function styleCrateHeroImage(image) {
-  setTimeout(() => {
-    let width = $('#crateHeroImage > img').width();
-    let height = $('#crateHeroImage > img').height();
-
-    if (width > height) {
-      $(image).css('width', '100%');
-      $(image).css('height', 'auto');
-      $(image).css('left', '0px');
-      $(image).css('top', '50%');
-      $(image).css('transform', 'translate(0, -50%)');
-    } else {
-      $(image).css('width', 'auto');
-      $(image).css('height', '100%');
-      $(image).css('left', '50%');
-      $(image).css('top', '0px');
-      $(image).css('transform', 'translate(-50%, 0)');
-    }
-    $(image).css('position', 'absolute');
-    $(image).css('margin', '0px');
-    $(image).css('padding', '0px');
-    $(image).css('border', '0px');
-    $(image).css('bottom', '0px');
-  }, 1)
 }
 
 const mapStateToProps = (state) => ({

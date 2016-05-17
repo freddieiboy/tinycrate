@@ -215,7 +215,7 @@ function subscribeToUser(store, user, authUid) {
     } else {
       notie.alert(1, 'You are now subscribed to ' + user.username + "!", 2);
       var notificationCrateText = store.userAuth.username + ' has subscribed to your crates.';
-      sendNotificationCrate(store, user.uid, notificationCrateText, 'green');
+      sendNotificationCrate(store, user.uid, notificationCrateText, 'green', "subscribe", null);
     }
   });
 }

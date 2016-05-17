@@ -103,5 +103,5 @@ export function isPhoto(url) {
   if(url == null) {
     return false;
   }
-  return(url.match(/\.(jpeg|jpg|gif|png|bmp)$/) != null);
+  return(url.toLowerCase().match(/\.(jpeg|jpg|gif|png|bmp)$/) != null);
 }
