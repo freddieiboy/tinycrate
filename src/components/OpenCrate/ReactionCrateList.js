@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RegiftIcon, AirplaneIcon, ReactionIcon } from '../NewCrates/Icons';
+import { RegiftIcon, AirplaneIcon, ReactionIcon, CancelIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 import $ from 'jquery';
 import { ifStyle } from '../utilities';
@@ -14,22 +14,36 @@ class ReactionCrateList extends Component {
     this.state = {
       isOpened: false,
       isSelected: false,
+      emojis: []
     }
   }
+  componentDidMount = () => {
+    this.shuffleEmojis();
+  }
+
   toggleReaction = () => {
     if (this.state.isOpened) {
+      if (this.props.store.emoji.length > 0) {
+        notie.alert(4, 'You reacted with a ' + this.props.store.emoji + '  !', 2);
+        this.props.actions.setReactionEmoji('');
+      }
       this.setState({isOpened: false})
     } else {
       this.setState({isOpened: true})
     }
   }
-  selectReaction = (event) => {
-    // if (!this.state.isSelected) {
-    //   this.setState({
-    //     isSelected: true,
-    //     selectedReaction: event.target
-    //   })
-    // }
+  shuffleEmojis = () => {
+    const emojis = ['💛', '😱', '💩', '😰', '⬛️', '⬜️', '🍔', '🐈']
+    let emojiArray = []
+    for (var i = 0; i < 4;) {
+      const randomEmoji = emojis[Math.floor(Math.random()*emojis.length)];
+      if (emojiArray.indexOf(randomEmoji) < 0) {
+        emojiArray.push(randomEmoji)
+        i++
+      }
+    }
+    this.setState({ emojis: emojiArray })
+    this.props.actions.setReactionEmoji('');
   }
   render() {
     const styles = {
@@ -38,13 +52,13 @@ class ReactionCrateList extends Component {
         alignItems: 'center'
       },
       emojiPicker: {
-        height: '15em',
+        height: '18em',
         width: '5em',
         bottom: '100%',
         left: '50%',
         backgroundColor: '#000',
-        borderTopLeftRadius: '4em',
-        borderTopRightRadius: '4em',
+        borderTopLeftRadius: '1em',
+        borderTopRightRadius: '1em',
         transform: 'translate(-50%, 0)'
       },
       emojiPressed: {
@@ -59,32 +73,50 @@ class ReactionCrateList extends Component {
       },
       reactionIcon: {
         transform: 'scale(2.3)'
+      },
+      reload: {
+        // borderBottom: '.1em dashed' + this.props.color,
+      },
+      newEmojis: {
+        transform: 'scale(.7)'
       }
     }
-    const types = ['😁', '🍻', '🐞']
-    const emojis = types.map((emoji, key) => {
+    const emojis = this.state.emojis.map((emoji, key) => {
       return (
-        <ReactionEmojis key={key} emoji={emoji} />
+        <ReactionEmojis key={key} emoji={emoji} color={this.props.color} />
       )
     })
-    const selectedEmoji = this.props.store.reactionEmoji;
+    const selectedEmoji = this.props.store.emoji.length > 0 ? this.props.color : '#fff'
+    console.log(typeof this.state.emojis, this.state.emojis)
     return (
       <div className="ReactionCrateList Grid full-container" style={styles.ReactionCrateList}>
         {this.state.isOpened ?
           <div className="full-container animated-fast fadeIn">
             <div className="Grid-cell">
               <div className="emojiPicker Grid Grid--columns absolute" style={styles.emojiPicker}>
+
+                <div className="reload Grid-cell relative" style={styles.reload} onTouchEnd={this.shuffleEmojis}>
+                  <div className="Grid Grid--center-content absolute-container">
+                    <div className="newEmojis relative" style={styles.newEmojis}>
+                      <RegiftIcon color={this.props.color} />
+                    </div>
+                  </div>
+                </div>
                 {emojis}
               </div>
             </div>
             <div className="Grid-cell full-container relative"
               style={ifStyle(
                 styles.sendIcon,
-                this.state.selectedReaction && styles.sendIconReady
+                this.props.store.emoji.length > 0 && styles.sendIconReady
               )}>
               <Hammer onTap={this.toggleReaction}>
                 <div className="Grid Grid--center-content absolute-container">
-                  <AirplaneIcon color={selectedEmoji ? this.props.color : '#fff'} />
+                  {this.props.store.emoji.length > 0 ?
+                    <AirplaneIcon color={selectedEmoji} />
+                    :
+                    <CancelIcon color={'#fff'} />
+                  }
                 </div>
               </Hammer>
             </div>
@@ -109,4 +141,8 @@ const mapStateToProps = (state) => ({
   }
 })
 
-export default connect(mapStateToProps)(ReactionCrateList)
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(crates, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReactionCrateList)

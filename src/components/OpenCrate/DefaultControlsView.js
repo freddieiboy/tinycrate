@@ -81,17 +81,17 @@ const DefaultControlsView = ({
         </Hammer>
       </div>
       <div className="crateContainer" style={styles.controlBox}>
-        <div className="controlContents" style={styles.crateControlContents}
-          onTouchEnd={viewSenderProfile}>
-          <FlexCrateTemplate
-            color={thisCrateColor}
-            size={60}
-            type={'profile'}
-            preview={userImage}
-            pop={1}
-            shadow={true}
-            />
-          {/*<p style={styles.author}>{author}</p>*/}
+        <div className="controlContents" style={styles.crateControlContents}>
+          <div onTouchEnd={viewSenderProfile}>
+            <FlexCrateTemplate
+              color={thisCrateColor}
+              size={60}
+              type={'profile'}
+              preview={userImage}
+              pop={1}
+              shadow={true}
+              />
+          </div>
         </div>
       </div>
       <div className="regiftContainer" style={styles.controlBox}>
