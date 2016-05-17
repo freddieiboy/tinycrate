@@ -4,6 +4,9 @@ import Hammer from 'react-hammerjs';
 import $ from 'jquery';
 import { ifStyle } from '../utilities';
 import ReactionEmojis from './ReactionEmojis';
+import * as crates from '../../redux/modules/crates';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 class ReactionCrateList extends Component {
   constructor(props) {
@@ -11,7 +14,6 @@ class ReactionCrateList extends Component {
     this.state = {
       isOpened: false,
       isSelected: false,
-      selectedReaction: ''
     }
   }
   toggleReaction = () => {
@@ -41,8 +43,8 @@ class ReactionCrateList extends Component {
         bottom: '100%',
         left: '50%',
         backgroundColor: '#000',
-        borderTopLeftRadius: '1em',
-        borderTopRightRadius: '1em',
+        borderTopLeftRadius: '4em',
+        borderTopRightRadius: '4em',
         transform: 'translate(-50%, 0)'
       },
       emojiPressed: {
@@ -59,11 +61,13 @@ class ReactionCrateList extends Component {
         transform: 'scale(2.3)'
       }
     }
-    const types = ['1', '2', '3']
+    const types = ['😁', '🍻', '🐞']
     const emojis = types.map((emoji, key) => {
-      return <ReactionEmojis key={key} emoji={emoji} />
+      return (
+        <ReactionEmojis key={key} emoji={emoji} />
+      )
     })
-    // console.log(this.state.selectedReaction)
+    const selectedEmoji = this.props.store.reactionEmoji;
     return (
       <div className="ReactionCrateList Grid full-container" style={styles.ReactionCrateList}>
         {this.state.isOpened ?
@@ -80,7 +84,7 @@ class ReactionCrateList extends Component {
               )}>
               <Hammer onTap={this.toggleReaction}>
                 <div className="Grid Grid--center-content absolute-container">
-                  <AirplaneIcon color={this.state.selectedReaction ? this.props.color : '#fff'} />
+                  <AirplaneIcon color={selectedEmoji ? this.props.color : '#fff'} />
                 </div>
               </Hammer>
             </div>
@@ -99,4 +103,10 @@ class ReactionCrateList extends Component {
   }
 }
 
-export default ReactionCrateList;
+const mapStateToProps = (state) => ({
+  store: {
+    emoji: state.crates.reactionEmoji
+  }
+})
+
+export default connect(mapStateToProps)(ReactionCrateList)

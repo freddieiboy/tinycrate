@@ -14,10 +14,18 @@ export const setupCratesList = (data) => {
   }
 }
 
+export const setReactionEmoji = (emoji) => {
+  return {
+    type: 'SET_REACTION_EMOJI',
+    reactionEmoji: emoji
+  }
+}
+
 // REDUCERS + INITITAL STATE
 const initialState = {
   emoji: 0,
-  cratesList: []
+  cratesList: [],
+  reactionEmoji: ''
 }
 export default function crates (state = initialState, action) {
   switch (action.type) {
@@ -30,6 +38,11 @@ export default function crates (state = initialState, action) {
       return {
         ...state,
         cratesList: action.cratesList
+      }
+    case 'SET_REACTION_EMOJI':
+      return {
+        ...state,
+        reactionEmoji: action.reactionEmoji
       }
     default:
       return state;
