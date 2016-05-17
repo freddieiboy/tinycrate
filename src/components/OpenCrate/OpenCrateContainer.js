@@ -299,8 +299,6 @@ class OpenCrateContainer extends Component {
         zIndex: '0'
       }
     }
-
-
     return (
       <div className="profile-page-holder" style={styles.OpenCrateContainer}>
         <div className="TextImageCrateView" style={styles.TextImageCrateView}>
@@ -330,6 +328,7 @@ class OpenCrateContainer extends Component {
               viewSenderProfile={this.viewSenderProfile}
               saveToProfile={this.collectCrateButton}
               closePreview={this.closePreview}
+              openedCrate={this.state.openedCrate}
               />
           :
             <CondensedControlsView

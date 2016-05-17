@@ -7,6 +7,7 @@ import ReactionEmojis from './ReactionEmojis';
 import * as crates from '../../redux/modules/crates';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { sendNotificationCrate } from '../Crates/CrateUtils';
 
 class ReactionCrateList extends Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class ReactionCrateList extends Component {
   toggleReaction = () => {
     if (this.state.isOpened) {
       if (this.props.store.emoji.length > 0) {
+        this.sendReaction();
         notie.alert(4, 'You reacted with a ' + this.props.store.emoji + '  !', 2);
         this.props.actions.setReactionEmoji('');
       }
@@ -53,6 +55,11 @@ class ReactionCrateList extends Component {
     }
     this.setState({ emojis: emojiArray })
     this.props.actions.setReactionEmoji('');
+  }
+  sendReaction = () => {
+    const reactionText = this.props.store.user.username + "'s reaction to your crate: " + this.props.store.emoji;
+    const crate = this.props.openedCrate;
+    sendNotificationCrate(this.props.store, crate.authorUId, reactionText, crate.crateColor, "reactions", crate);
   }
   render() {
     const styles = {
@@ -96,6 +103,9 @@ class ReactionCrateList extends Component {
       )
     })
     const selectedEmoji = this.props.store.emoji.length > 0 ? this.props.color : '#fff'
+
+    console.log(this.props.openedCrate)
+
     return (
       <div className="ReactionCrateList Grid full-container" style={styles.ReactionCrateList}>
         {this.state.isOpened ?
@@ -145,7 +155,9 @@ class ReactionCrateList extends Component {
 
 const mapStateToProps = (state) => ({
   store: {
-    emoji: state.crates.reactionEmoji
+    emoji: state.crates.reactionEmoji,
+    user: state.userAuth.user,
+    userAuth: state.userAuth
   }
 })
 

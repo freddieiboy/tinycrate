@@ -13,7 +13,8 @@ const DefaultControlsView = ({
   thisCrateColor,
   crateContentsSaved,
   author,
-  closePreview
+  closePreview,
+  openedCrate
 }) => {
   const styles = {
     DefaultControlsView: {
@@ -98,7 +99,7 @@ const DefaultControlsView = ({
         <div className="controlContents" style={styles.controlContents}>
           <div className="regiftIcon full-container" style={styles.regiftIcon}>
             {/*<RegiftIcon color={color} />*/}
-            <ReactionCrateList color={color} />
+            <ReactionCrateList color={color} openedCrate={openedCrate}/>
           </div>
         </div>
       </div>
