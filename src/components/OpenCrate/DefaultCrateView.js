@@ -1,11 +1,14 @@
 import React from 'react';
 import { colors } from '../Crates/CrateTemplate';
 import { ClockIcon, CancelIcon } from '../NewCrates/Icons';
+import { styleCrateHeroImage, getCrateVideo } from '../Crates/CrateUtils';
 import Hammer from 'react-hammerjs';
-import { ifStyle } from '../utilities';
+import { ifStyle, isPhoto } from '../utilities';
+import $ from 'jquery';
 
 const DefaultCrateView = ({
   openedCrate,
+  contextCrate,
   currentCrateColor,
   closePreview,
   viewPhoto,
@@ -14,6 +17,9 @@ const DefaultCrateView = ({
 }) => {
   const hasImage = openedCrate.image;
   const hasText = openedCrate.text;
+  const contextCrateHasImage = contextCrate !== null && contextCrate.image;
+  const contextCrateHasText = contextCrate !== null && contextCrate.text;
+  const isSaveNotification = openedCrate.type && openedCrate.type === "notification" && openedCrate.subtype && openedCrate.subtype === "save";
   let topFlexBoxStyle;
   if (hasText && hasImage) {
     topFlexBoxStyle = '0 70%'
@@ -116,7 +122,50 @@ const DefaultCrateView = ({
   if (openedCrate.image) {
     topContent = <Hammer onTap={viewPhoto}><div id="crateHeroImage" style={styles.crateHeroImage} /></Hammer>
   } else {
-    topContent = <h4>{openedCrate.text}</h4>
+    if(isSaveNotification && contextCrateHasImage) {
+      if(contextCrate.image && !$("#contextCrateImage").length) {
+        if(isPhoto(contextCrate.image)) {
+          var image = new Image();
+          image.onload = function() {
+            let width = image.width;
+            let height = image.height;
+            styleCrateHeroImage(image, width, height);
+            $(image).css("z-index", "-1");
+            $(image).css("-webkit-filter", "blur(1.5px)");
+            var topContainerBackgroundColor = $(".topContainer").css('background-color');
+            if(topContainerBackgroundColor.indexOf('a') == -1){
+              var result = topContainerBackgroundColor.replace(')', ', 0.8)').replace('rgb', 'rgba');
+            }
+            $(".inner").css("background-color", result);
+            $(".topContainer").css("opacity", "0.9");
+            $("#crateHeroImageContainer").append(image);
+          }
+          image.id = "contextCrateImage";
+          image.src = contextCrate.image;
+        } else {
+          getCrateVideo(contextCrate.image).then(function(video) {
+            let width = video.width;
+            let height = video.height;
+            styleCrateHeroImage(video, width, height);
+            $(video).css("z-index", "-1");
+            var topContainerBackgroundColor = $(".topContainer").css('background-color');
+            if(topContainerBackgroundColor.indexOf('a') == -1){
+              var result = topContainerBackgroundColor.replace(')', ', 0.8)').replace('rgb', 'rgba');
+            }
+            $(".inner").css("background-color", result);
+            $(".topContainer").css("opacity", "0.9");
+            $("#crateHeroImageContainer").append(video);
+          });
+        }
+      }
+      topContent = (
+        <div id="crateHeroImageContainer">
+          <h4>{openedCrate.text}</h4>
+        </div>
+      );
+    } else {
+      topContent = <h4>{openedCrate.text}</h4>
+    }
   }
   return (
     <div className="DefaultCrateView" style={styles.DefaultCrateView}>
@@ -149,9 +198,15 @@ const DefaultCrateView = ({
         </div>
         <div className="crateText" style={styles.crateText}>
           <div className="crateTextBody" style={styles.crateTextBody}>
-            {hasImage && hasText ?
+            {!isSaveNotification && hasImage && hasText ?
               <h5 style={{margin: '0px'}}>
                 {openedCrate.text}
+              </h5>
+              : ''
+            }
+            {isSaveNotification && contextCrateHasText ?
+              <h5 style={{margin: '0px'}}>
+                {'"' + contextCrate.text + '"'}
               </h5>
               : ''
             }
