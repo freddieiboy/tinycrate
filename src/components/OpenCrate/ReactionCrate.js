@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { RegiftIcon, AirplaneIcon } from '../NewCrates/Icons';
+import { RegiftIcon, AirplaneIcon, ReactionIcon } from '../NewCrates/Icons';
 import Hammer from 'react-hammerjs';
 
 class ReactionCrate extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isOpened: false
     }
@@ -32,9 +32,15 @@ class ReactionCrate extends Component {
         borderTopRightRadius: '1em',
         transform: 'translate(-50%, 0)'
       },
+      emojiPressed: {
+        backgroundColor: '#232323'
+      },
       sendIcon: {
         // transform: 'translate(-50%, 0)'
         opacity: '.4'
+      },
+      reactionIcon: {
+        transform: 'scale(2.3)'
       }
     }
     return (
@@ -63,10 +69,10 @@ class ReactionCrate extends Component {
             </div>
           </div>
         :
-          <div className="Grid-cell full-height relative">
+          <div className="Grid-cell full-height relative" style={styles.reactionIcon}>
             <Hammer onTap={this.toggleReaction}>
               <div className="Grid Grid--center-content absolute-container">
-                <RegiftIcon color={'#E81D1D'} />
+                <ReactionIcon color={this.props.color} />
               </div>
             </Hammer>
           </div>

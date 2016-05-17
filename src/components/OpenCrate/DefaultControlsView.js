@@ -98,7 +98,7 @@ const DefaultControlsView = ({
         <div className="controlContents" style={styles.controlContents}>
           <div className="regiftIcon full-container" style={styles.regiftIcon}>
             {/*<RegiftIcon color={color} />*/}
-            <ReactionCrate />
+            <ReactionCrate color={color} />
           </div>
         </div>
       </div>

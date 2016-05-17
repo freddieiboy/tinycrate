@@ -86,7 +86,7 @@ export const RegiftIcon = ({color = '#fff'}) =>
 
 export const StarIcon = ({color = '#fff', fill = 'none'}) =>
   <svg width="33px" height="31px" viewBox="17 41 33 31" version="1.1">
-    <polygon points="33.1679608 66.5 23.1756115 71.7532889 25.0839804 60.6266445 17 52.7467111 28.1717861 51.1233555 33.1679608 41 38.1641354 51.1233555 49.3359216 52.7467111 41.2519412 60.6266445 43.1603101 71.7532889" stroke={color} strokeWidth="1.2" fill={fill}></polygon>
+    <polygon points="33.1679608 66.5 23.1756115 71.7532889 25.0839804 60.6266445 17 52.7467111 28.1717861 51.1233555 33.1679608 41 38.1641354 51.1233555 49.3359216 52.7467111 41.2519412 60.6266445 43.1603101 71.7532889" stroke={color} strokeWidth="2" fill={fill}></polygon>
   </svg>
 
 export const TextIcon = ({color = '#fff'}) =>
@@ -149,4 +149,9 @@ export const AlertIcon = ({color = '#000'}) =>
       <rect fill={color} x="0" y="0" width="4" height="16"></rect>
       <rect fill={color} x="0" y="20" width="4" height="4"></rect>
     </g>
+  </svg>
+
+export const ReactionIcon = ({color = '#000'}) =>
+  <svg width="16px" height="13px" viewBox="396 256 16 13" version="1.1">
+    <path d="M403.571727,265.991716 C401.320887,267.738694 398.270185,267.932763 398.270185,267.932763 C398.270185,267.932763 399.030705,266.94136 399.731981,265.291489 C397.567185,264.526195 397,263.200385 397,261.5 C397,259.014719 400.134007,257 404,257 C407.865993,257 411,259.014719 411,261.5 C411,263.985281 407.865993,266 404,266 C403.856188,266 403.713389,265.997212 403.571727,265.991716 Z" stroke={color} strokeWidth="1" fill="none"></path>
   </svg>
