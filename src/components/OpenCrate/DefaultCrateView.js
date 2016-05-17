@@ -144,7 +144,7 @@ const DefaultCrateView = ({
           image.src = contextCrate.image;
         } else {
           getCrateVideo(contextCrate.image).then(function(video) {
-            video.removeAttribute("autoplay");
+            video.setAttribute("webkit-playsinline", true);
             let width = video.width;
             let height = video.height;
             styleCrateHeroImage(video, width, height);
