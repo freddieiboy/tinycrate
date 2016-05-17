@@ -71,7 +71,7 @@ class OpenCrateContainer extends Component {
     this.props.actions.hideActionBar();
     // $('.actionButtons').css("visibility", "hidden");
 
-    getCrateById(crateId, crate => {
+    getCrateById(crateId, ref.getAuth().uid, crate => {
       this.setState({openedCrate: crate});
       var itself = this;
       if(crate.image) {
@@ -122,7 +122,7 @@ class OpenCrateContainer extends Component {
         }
       }
       if(crate.contextCrateKey) {
-        getCrateById(crate.contextCrateKey, crate => {
+        getCrateById(crate.contextCrateKey, crate.authorUId, crate => {
           itself.setState({contextCrate: crate});
         });
       }
@@ -362,8 +362,8 @@ function getUserByUid (uid, callback) {
   });
 }
 
-function getCrateById(id, callback) {
-  ref.child('crateFeed').child(ref.getAuth().uid).child(id).once('value', (snap) => {
+function getCrateById(id, uid, callback) {
+  ref.child('crateFeed').child(uid).child(id).once('value', (snap) => {
     var crate = snap.val();
     crate.key = id;
     callback(crate);
