@@ -30,11 +30,17 @@ class Comment extends Component {
         );
       }
       this.setState({collectedCrateThumbnail: thumbnail});
+      setTimeout(() => {
+        var video = $("#collectedCrateVideoThumbnail");
+        $(video).attr("autoplay", true);
+        $(video).attr("webkit-playsinline", true);
+      }, 200);
     }
   }
   viewVideo = () => {
     var videoThumbnail = document.getElementById("collectedCrateVideoThumbnail");
     if(videoThumbnail.paused) {
+      videoThumbnail.removeAttribute("webkit-playsinline");
       videoThumbnail.play();
     } else {
       videoThumbnail.pause();

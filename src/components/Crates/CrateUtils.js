@@ -1,6 +1,7 @@
 import React from 'react';
 import mojs from 'mo-js';
 import firebase from 'firebase';
+import $ from 'jquery';
 
 var FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
 var ref = new Firebase(FIREBASE_URL);
@@ -79,10 +80,12 @@ export function openCrate(crate, callback) {
   });
 }
 
-export function sendNotificationCrate(store, recipientUId, text, crateColor) {
+export function sendNotificationCrate(store, recipientUId, text, crateColor, subtype, contextCrate) {
 var notificationCrate = {
     key: ref.push().key(),
+    contextCrateKey: (contextCrate) ? contextCrate.key : null,
     type: 'notification',
+    subtype: subtype,
     authorUId: store.userAuth.uid,
     authorDisplayName: store.userAuth.user.name,
     authorProfileImageURL: store.userAuth.user.profileImageURL,
@@ -128,7 +131,7 @@ export function collectCrate(store, crate) {
         } else {
           notie.alert(1, 'This crate was saved to your collection!', 2);
           var notificationCrateText = store.userAuth.user.username + ' saved your crate to their collection.';
-          sendNotificationCrate(store, crate.authorUId, notificationCrateText, crate.crateColor);
+          sendNotificationCrate(store, crate.authorUId, notificationCrateText, crate.crateColor, "save", crate);
         }
       });
     }
@@ -314,6 +317,42 @@ export function pop2(crateRefs, color, preview) {
 
       return timeline.start()
   /* Icon 7 */
+}
+
+// returns a video object using the src of the crate video url
+export function getCrateVideo (videoUrl) {
+  return new Promise(function(resolve, reject) {
+    var video = document.createElement('video');
+    var source = document.createElement("source"); 
+    video.setAttribute("autoplay", true);
+    video.setAttribute("loop", true);
+    source.src = videoUrl;
+    video.appendChild(source);
+    resolve(video);
+  });
+}
+
+export function styleCrateHeroImage(image, width, height) {
+  setTimeout(() => {
+    if (width > height) {
+      $(image).css('width', '100%');
+      $(image).css('height', 'auto');
+      $(image).css('left', '0px');
+      $(image).css('top', '50%');
+      $(image).css('transform', 'translate(0, -50%)');
+    } else {
+      $(image).css('width', 'auto');
+      $(image).css('height', '100%');
+      $(image).css('left', '50%');
+      $(image).css('top', '0px');
+      $(image).css('transform', 'translate(-50%, 0)');
+    }
+    $(image).css('position', 'absolute');
+    $(image).css('margin', '0px');
+    $(image).css('padding', '0px');
+    $(image).css('border', '0px');
+    $(image).css('bottom', '0px');
+  }, 1)
 }
 
 // Crate Color Properties Objects
