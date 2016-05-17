@@ -75,9 +75,13 @@ class OpenCrateContainer extends Component {
       this.setState({openedCrate: crate});
       var itself = this;
       if(crate.image) {
+        var uploadAlertText = 'Loading ' + (isPhoto(crate.image) ? 'image...' : 'video...');
+        notie.alert(4, uploadAlertText);
         if(isPhoto(crate.image)) {
           var image = new Image();
           image.onload = function() {
+            // programatically remove the "Loading image..." alert
+            $("#notie-alert-outer").click();
             var crate = itself.state.openedCrate;
             // set the crate image width and height, used by PhotoSwipe
             crate.imageWidth = image.naturalWidth;
@@ -117,6 +121,10 @@ class OpenCrateContainer extends Component {
             let width = $('#crateHeroImage > img').width();
             let height = $('#crateHeroImage > img').height();
             styleCrateHeroImage(video, width, height);
+            video.onloadeddata = function() {
+              // programatically remove the "Loading video..." alert
+              $("#notie-alert-outer").click();
+            };
             $("#crateHeroImage").append(video);
           });
         }
