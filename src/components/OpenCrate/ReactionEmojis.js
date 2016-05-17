@@ -13,9 +13,10 @@ class ReactionEmojis extends Component {
   }
   shouldComponentUpdate = (nextProps, nextState) => {
     const isSelected = nextState.isSelected !== this.state.isSelected;
-    const newEmojis = nextProps.store.emoji !== this.props.store.emoji;
+    const setReactionEmoji = nextProps.store.emoji !== this.props.store.emoji;
+    const thisEmoji = nextProps.emoji !== this.props.store.emoji;
 
-    return isSelected || newEmojis
+    return isSelected || setReactionEmoji || thisEmoji
   }
   setReactionEmoji = () => {
     const {store, actions} = this.props;

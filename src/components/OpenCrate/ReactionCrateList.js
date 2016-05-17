@@ -13,7 +13,6 @@ class ReactionCrateList extends Component {
     super(props);
     this.state = {
       isOpened: false,
-      // isSelected: false,
       emojis: []
     }
   }
@@ -21,7 +20,6 @@ class ReactionCrateList extends Component {
     this.shuffleEmojis();
   }
   shouldComponentUpdate = (nextProps, nextState) => {
-    // const isSelected = nextState.isSelected !== this.state.isSelected;
     const isOpened = nextState.isOpened !== this.state.isOpened;
     const localEmojis = nextState.emojis !== this.state.emojis;
     const setReactionEmoji = nextProps.store.emoji !== this.props.store.emoji;
@@ -30,7 +28,7 @@ class ReactionCrateList extends Component {
     return isOpened || localEmojis || setReactionEmoji || thisPropsColor
   }
   componentDidUpdate = () => {
-    console.log('reactioncratelist updated')
+    console.log('list did update')
   }
   toggleReaction = () => {
     if (this.state.isOpened) {
@@ -98,7 +96,6 @@ class ReactionCrateList extends Component {
       )
     })
     const selectedEmoji = this.props.store.emoji.length > 0 ? this.props.color : '#fff'
-    console.log(typeof this.state.emojis, this.state.emojis)
     return (
       <div className="ReactionCrateList Grid full-container" style={styles.ReactionCrateList}>
         {this.state.isOpened ?
