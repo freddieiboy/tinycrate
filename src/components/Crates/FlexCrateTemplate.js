@@ -133,6 +133,9 @@ class FlexCrateTemplate extends Component {
         marginTop: size/9 + 'px',
         transform: 'scale(1, .8) translate(-50%, -50%)',
       },
+      crateImagePopped: {
+        marginTop: '0px',
+      },
       preview: {
         height: size/1.7,
         padding: '0px',
@@ -232,12 +235,14 @@ class FlexCrateTemplate extends Component {
       profileImage = null;
     } else if (type === 'normal') {
       if (this.props.preview === undefined) {
+        console.log(this.props.preview)
         previewVar = <div className="textIcon" style={styles.textIcon}>
             <TextIcon color={eval(thisColor).darkColor}/>
         </div>
         profileImage = <img className="userImage noTouch" src={this.props.crateOwnerImage} style={ifStyle(
             styles.profileImage,
-            this.state.isPressed && styles.profileImagePressed
+            this.state.isPressed && styles.profileImagePressed,
+            this.state.isDeleted && styles.hide
           )} align="middle"></img>
       } else {
         previewVar = <img className="userImage noTouch" src={this.props.preview} style={styles.preview} align="middle"></img>
@@ -270,18 +275,21 @@ class FlexCrateTemplate extends Component {
         <div className="popContainer noTouch" ref="popContainer" style={styles.popContainer}></div>
         <div className="imageAndCrate" style={ifStyle(
             styles.imageAndCrate,
-            this.state.isDeleted && styles.hide
           )}>
           {profileImage}
           <div className="crateImage noTouch center" style={ifStyle(
               styles.crateImage,
               this.state.isPressed && styles.crateImagePressed,
+              this.state.isDeleted && styles.crateImagePopped
             )} ref="thisEmptyImage">
             <div className="preview" ref="thispreview" style={styles.center}>
               {previewVar}
             </div>
           </div>
-          <div style={styles.size}
+          <div style={ifStyle(
+              styles.size,
+              this.state.isDeleted && styles.hide
+            )}
             className="thisEmptyCrate"
             onTouchStart={this.pressCrate}
             onTouchEnd={this.setupPop}>

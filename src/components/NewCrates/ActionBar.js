@@ -86,7 +86,10 @@ class ActionBar extends Component {
     let {store, actions} = this.props;
     if (this.state.localText.length > 0 || store.newCratePhoto.length > 0) {
       actions.selectGiftees();
-      // $('#message').blur();
+      if (store.newCrateColor === 'empty') {
+        actions.selectCrateColor(store.userAuth.user.profileColor)
+        console.log('changing colors')
+      }
     } else {
       notie.alert(3, 'Your message cannot be empty!', 2);
     }
@@ -185,16 +188,16 @@ class ActionBar extends Component {
 
     var uploadAlertText = 'Uploading ' + (isPhoto(file.name) ? 'image...' : 'video...');
     notie.alert(4, uploadAlertText);
-    
+
     // generate key for S3 image file
     // currently generate a 16 digit hash of the current time in milliseconds using the user's reversed uid as a salt
     // should use a different key generating method in the future
     var salt = this.props.store.userAuth.uid.split("").reverse().join("");
     var hashids = new Hashids(salt, 16);
     var key = hashids.encode(moment().unix()) + '-' + file.name;
-    
+
     var xhr = new XMLHttpRequest();
-    
+
     xhr.onreadystatechange = function() {
       if (xhr.readyState == XMLHttpRequest.DONE) {
         // programatically remove the "Uploading image..." alert
@@ -202,12 +205,12 @@ class ActionBar extends Component {
         itself.props.actions.addNewCratePhoto('https://s3-us-west-2.amazonaws.com/tinycrate/' + key);
       }
     }
-    
+
     // create form data which contains the S3 key and image to upload
     var formData = new FormData();
     formData.append("key", key);
     formData.append("imageFile", file);
-    
+
     // make internal server request to upload image to Amazon S3
     xhr.open("POST", './api/upload/image', true);
     xhr.send(formData);
@@ -297,6 +300,10 @@ class ActionBar extends Component {
       } else if (noGifteeButContent) {
         if (!store.isSelectingUsers) {
           this.selectUsers();
+          if (store.newCrateColor === 'empty') {
+            actions.selectCrateColor(store.userAuth.user.profileColor)
+            console.log('changing colors')
+          }
         } else {
           notie.alert(3, 'Your crate needs a receipient!', 2);
         }
@@ -391,38 +398,6 @@ class ActionBar extends Component {
       <div style={ifStyle(
           store.isHidden && styles.hide
         )}>
-        {/*<div className="newCrateHolder">
-          {store.isCreatingCrate ? (
-            <div className="container-fluid body-content-create">
-              <div className="centerCrate" style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-                <CrateTemplate
-                  color={store.newCrateColor}
-                  crateSize={150}
-                  pop={true}
-                  popType={'2'}
-                  crateType={'normal'}
-                  cratePreview={store.newCratePhoto}
-                  shadow={'true'}
-                  crateOwnerImage={profileImage}
-                  animation={'animated bounceInUp'}
-                  />
-              </div>
-            </div>
-          ) : null}
-          {store.isSelectingUsers ? (
-            <div className="container-fluid body-content-create">
-              <div className="title" style={{textAlign: 'center'}}>
-                <h4>Select Giftees</h4>
-              </div>
-              <SubscribersList
-                userColor={thisColor}
-                subscribers={this.props.store.subscribers}
-                newGifteeAction={this.props.actions.newGiftee}
-                removeGifteeAction={this.props.actions.removeGiftee}/>
-            </div>
-          ) : null}
-        </div>*/}
-
         <div className="actionButtons">
           <Motion style={this.loaded()}>
             {({height}) =>

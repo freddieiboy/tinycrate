@@ -53,8 +53,9 @@ class ProfileContainer extends Component {
     const loggedIn = this.props.store.userAuth.currently !== nextProps.store.userAuth.currently;
     const currentData = this.state.user !== nextState.user
     const hasSubData = this.state.subscriptionData !== nextState.subscriptionData;
-    const hasColData = this.state.collectionCrateData === nextState.collectionCrateData;
+    const hasColData = nextState.collectionCrateData.length !== this.state.collectionCrateData.length;
     const tab = this.state.currentTab !== nextState.currentTab
+
     return loggedIn || currentData || hasSubData || hasColData || tab || isBlocked
   }
   componentWillUpdate = (nextProps) => {
@@ -89,7 +90,9 @@ class ProfileContainer extends Component {
       if(user.uid === this.props.store.userAuth.uid) {
         isMe = true;
         getCollectionCrates(user.uid, () => {
-          this.setState({collectionCrateData: collectionCratesList});
+          setTimeout(() => {
+            this.setState({collectionCrateData: collectionCratesList});
+          }, 10)
         });
       }
 

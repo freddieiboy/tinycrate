@@ -86,14 +86,14 @@ class Comment extends Component {
     }
     return (
       <div className="comment">
-          <div className="name">{this.props.name}</div>
-          {this.state.collectedCrateThumbnail}
-          <div className="name" style={{color: 'red', cursor: 'pointer'}} onClick={this.uncollectCrateButton}>[x]</div>
-          <p className="commentAuthor" style={ifStyle(
-              this.props.image  && styles.extraPadding
-            )}>
-            {this.props.children}
-          </p>
+        <div className="name">{this.props.name}</div>
+        {this.state.collectedCrateThumbnail}
+        <div className="name" style={{color: '#DEDEDE', cursor: 'pointer'}} onClick={this.uncollectCrateButton}> [Delete]</div>
+        <p className="commentAuthor" style={ifStyle(
+            this.props.image  && styles.extraPadding
+          )}>
+          {this.props.children}
+        </p>
       </div>
     );
   }

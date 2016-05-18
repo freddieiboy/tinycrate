@@ -79,7 +79,6 @@ const DefaultControlsView = ({
   if (thisCrateColor === 'obsidian') {
     color = colors(thisCrateColor).compliment
   }
-  console.log(color)
   return (
     <div className="DefaultControlsView" style={styles.DefaultControlsView}>
       <div className="saveContainer" style={styles.controlBox}>

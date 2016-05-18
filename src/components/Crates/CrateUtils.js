@@ -185,10 +185,11 @@ const incrementUnwrappedCount = () => {
   });
 }
 
-export function pop1(el, color) {
+export function pop1(el, color, preview) {
   // var el = this.refs.thisCrate,
     // mo.js timeline obj
     const evalColor = eval(color);
+    const bounceItem = preview;
     var removeEl = function removeEl (node) { node.parentNode.removeChild(node); }
     var timeline = new mojs.Timeline(),
 
@@ -232,6 +233,13 @@ export function pop1(el, color) {
     tween3 = new mojs.Tween({
       duration : 700,
       onUpdate: function(progress) {
+        if(progress > 0.3) {
+          var elasticOutProgress = mojs.easing.elastic.out(1.43*progress-0.43);
+          bounceItem.style.WebkitTransform = bounceItem.style.transform = 'scale3d(' + '1,' + elasticOutProgress + ',1)';
+        }
+        else {
+          bounceItem.style.WebkitTransform = bounceItem.style.transform = 'scale3d(0,0,1)';
+        }
       }
     });
 
@@ -323,7 +331,7 @@ export function pop2(crateRefs, color, preview) {
 export function getCrateVideo (videoUrl) {
   return new Promise(function(resolve, reject) {
     var video = document.createElement('video');
-    var source = document.createElement("source"); 
+    var source = document.createElement("source");
     video.setAttribute("autoplay", true);
     video.setAttribute("loop", true);
     source.src = videoUrl;

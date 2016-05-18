@@ -78,7 +78,7 @@ class NewCrate extends Component {
         position: 'relative'
       }
     }
-
+    console.log(this.props.store.newCrateColor)
     let newCratePageTitle;
     let newCratePageBody;
     if (store.isCreatingCrate) {
