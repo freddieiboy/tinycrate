@@ -14,7 +14,8 @@ class ReactionCrateList extends Component {
     super(props);
     this.state = {
       isOpened: false,
-      emojis: []
+      emojis: [],
+      hasSentReaction: false
     }
   }
   componentDidMount = () => {
@@ -32,15 +33,20 @@ class ReactionCrateList extends Component {
     console.log('list did update')
   }
   toggleReaction = () => {
-    if (this.state.isOpened) {
-      if (this.props.store.emoji.length > 0) {
-        this.sendReaction();
-        notie.alert(4, 'You reacted with a ' + this.props.store.emoji + '  !', 2);
-        this.props.actions.setReactionEmoji('');
+    if(!this.state.hasSentReaction) {
+      if (this.state.isOpened) {
+        if (this.props.store.emoji.length > 0) {
+          this.sendReaction();
+          notie.alert(4, 'You reacted with a ' + this.props.store.emoji + '  !', 2);
+          this.props.actions.setReactionEmoji('');
+          this.setState({hasSentReaction: true});
+        }
+        this.setState({isOpened: false})
+      } else {
+        this.setState({isOpened: true})
       }
-      this.setState({isOpened: false})
     } else {
-      this.setState({isOpened: true})
+      notie.alert(3, 'You already reacted to this crate.', 2);
     }
   }
   shuffleEmojis = () => {
