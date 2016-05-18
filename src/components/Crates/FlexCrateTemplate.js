@@ -247,7 +247,8 @@ class FlexCrateTemplate extends Component {
         previewVar = <img className="userImage noTouch" src={this.props.preview} style={styles.preview} align="middle"></img>
         profileImage = <img className="userImage noTouch" src={this.props.crateOwnerImage} style={ifStyle(
             styles.profileImage,
-            this.state.isPressed && styles.profileImagePressed
+            this.state.isPressed && styles.profileImagePressed,
+            this.state.isDeleted && styles.hide
           )} align="middle"></img>
       }
     } else if (type === 'settings') {
