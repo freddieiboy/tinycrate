@@ -21,10 +21,14 @@ class ReactionEmojis extends Component {
   setReactionEmoji = () => {
     const {store, actions} = this.props;
     actions.setReactionEmoji(this.props.emoji);
+
     if (!this.state.isSelected) {
       this.setState({isSelected: true})
+      console.log('selecting emoji')
     } else {
       this.setState({isSelected: false})
+      actions.setReactionEmoji('');
+      console.log('unselecting emoji')
     }
   }
   componentWillUpdate = () => {
@@ -49,6 +53,7 @@ class ReactionEmojis extends Component {
         right: '-0.6em'
       }
     }
+    console.log(this.state.isSelected, this.props.store.emoji)
     return (
       <Hammer onTap={this.setReactionEmoji}>
         <div className="ReactionEmojis Grid-cell relative" style={styles.ReactionEmojis}>
