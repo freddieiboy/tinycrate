@@ -20,6 +20,7 @@ const DefaultCrateView = ({
   const contextCrateHasImage = contextCrate !== null && contextCrate.image;
   const contextCrateHasText = contextCrate !== null && contextCrate.text;
   const isSaveNotification = openedCrate.type && openedCrate.type === "notification" && openedCrate.subtype && openedCrate.subtype === "save";
+  const isReactionNotification = openedCrate.type && openedCrate.type === "notification" && openedCrate.subtype && openedCrate.subtype === "reactions";
   let topFlexBoxStyle;
   if (hasText && hasImage) {
     topFlexBoxStyle = '0 70%'
@@ -122,7 +123,7 @@ const DefaultCrateView = ({
   if (openedCrate.image) {
     topContent = <Hammer onTap={viewPhoto}><div id="crateHeroImage" style={styles.crateHeroImage} /></Hammer>
   } else {
-    if(isSaveNotification && contextCrateHasImage) {
+    if((isSaveNotification || isReactionNotification) && contextCrateHasImage) {
       if(contextCrate.image && !$("#contextCrateImage").length) {
         var uploadAlertText = 'Loading ' + (isPhoto(contextCrate.image) ? 'image...' : 'video...');
         notie.alert(4, uploadAlertText);
@@ -207,13 +208,13 @@ const DefaultCrateView = ({
         </div>
         <div className="crateText" style={styles.crateText}>
           <div className="crateTextBody" style={styles.crateTextBody}>
-            {!isSaveNotification && hasImage && hasText ?
+            {!isSaveNotification && !isReactionNotification && hasImage && hasText ?
               <h5 style={{margin: '0px'}}>
                 {openedCrate.text}
               </h5>
               : ''
             }
-            {isSaveNotification && contextCrateHasText ?
+            {(isSaveNotification || isReactionNotification) && contextCrateHasText ?
               <h5 style={{margin: '0px'}}>
                 {'"' + contextCrate.text + '"'}
               </h5>
