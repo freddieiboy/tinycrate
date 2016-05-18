@@ -217,7 +217,7 @@ class Dashboard extends Component {
                 </div>
               </div>
             </Hammer>
-            <div style={{padding: '22px'}} className="container-fluid body-content-home">
+            <div style={{padding: '22px'}} className="container-fluid body-content-home scroll">
               <AbsoluteGrid
                 items={this.state.data}
                 displayObject={(<CrateList comment={this.state.data} onDelete={this.deleteObj} color={this.pickColor}/>)}
