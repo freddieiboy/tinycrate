@@ -235,7 +235,6 @@ class FlexCrateTemplate extends Component {
       profileImage = null;
     } else if (type === 'normal') {
       if (this.props.preview === undefined) {
-        console.log(this.props.preview)
         previewVar = <div className="textIcon" style={styles.textIcon}>
             <TextIcon color={eval(thisColor).darkColor}/>
         </div>

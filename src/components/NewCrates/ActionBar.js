@@ -318,6 +318,7 @@ class ActionBar extends Component {
   }
   editCrate = () => {
     trackEvent("Edit Crate Button");
+    this.props.actions.flushGiftees();
     this.props.actions.editNewCrate();
     // $('#message').focus();
   }

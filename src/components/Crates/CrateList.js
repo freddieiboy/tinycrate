@@ -7,7 +7,6 @@ const CrateList = ({onDelete, item, index, itemsLength, color}) => {
   // const { item, index, itemsLength, color} = this.props;
   // return <Crate msg={item} id={item.key} onDelete={onDelete} color={item.crateColor}></Crate>
   // console.log(item.image)
-  console.log(item.crateColor)
   return <FlexCrateTemplate
       id={item.key}
       size={80}

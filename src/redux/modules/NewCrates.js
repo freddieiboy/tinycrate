@@ -88,6 +88,13 @@ export const removeGiftee = (uid) => {
   }
 }
 
+export const flushGiftees = () => {
+  return {
+    type: 'FLUSH_GIFTEES',
+    giftee: ''
+  }
+}
+
 export const flushNewCrateState = () => {
   return {
     type: 'FLUSH_NEW_CRATE_STATE',
@@ -201,6 +208,11 @@ export default function NewCrates (state = initialState, action) {
          ...state.giftee.slice(0, index),
          ...state.giftee.slice(index + 1)
        ]
+      }
+    case 'FLUSH_GIFTEES':
+      return {
+        ...state,
+        giftee: action.giftee
       }
     case 'FLUSH_NEW_CRATE_STATE':
       return {
