@@ -14,12 +14,25 @@ class NewCrate extends Component {
     super(props);
   }
   componentDidMount = () => {
-    this.randomColor();
-    this.props.actions.showActionBar();
-    this.props.actions.openActionBar();
+    let {store, actions} = this.props;
+
+    this.initColor();
+    actions.showActionBar();
+    actions.openActionBar();
+  }
+  shouldComponentUpdate = (nextProps, nextState) => {
+    const crateColor = nextProps.store.newCrateColor !== this.props.store.newCrateColor
+    const profile = nextProps.store.userAuth.user !== this.props.store.userAuth.user
+    
+    return crateColor || profile
   }
   onNewCrateTap = () => {
     trackEvent("Tap New Crate");
+  }
+  initColor = () => {
+    let {store, actions} = this.props;
+
+    actions.selectCrateColor(store.userAuth.user == null ? 'empty' : store.userAuth.user.profileColor)
   }
   randomColor = () => {
     const coolors = [
@@ -72,17 +85,19 @@ class NewCrate extends Component {
       newCratePageTitle = store.regiftCrateText.length > 0 ? 'Regift Crate' : 'New Crate'
       newCratePageBody = <div className="flex-1 newCratePageBody relative">
         <Hammer onTap={() => this.onNewCrateTap()}>
-        <div className="Grid Grid--full-center absolute full-container" onTouchStart={this.randomColor}>
-          <FlexCrateTemplate
-            color={store.newCrateColor}
-            size={120}
-            pop={2}
-            type={'normal'}
-            preview={store.newCratePhoto}
-            shadow={true}
-            crateOwnerImage={profileImage}
-            animation={'animated bounceInUp'}
-            />
+        <div className="Grid Grid--full-center absolute full-container">
+          <div onTouchStart={this.randomColor}>
+            <FlexCrateTemplate
+              color={store.newCrateColor === 'empty' ? thisColor : store.newCrateColor}
+              size={120}
+              pop={2}
+              type={'normal'}
+              preview={store.newCratePhoto}
+              shadow={true}
+              crateOwnerImage={profileImage}
+              animation={'animated bounceInUp'}
+              />
+          </div>
         </div>
         </Hammer>
       </div>
