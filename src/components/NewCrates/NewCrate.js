@@ -23,8 +23,8 @@ class NewCrate extends Component {
   shouldComponentUpdate = (nextProps, nextState) => {
     const crateColor = nextProps.store.newCrateColor !== this.props.store.newCrateColor
     const profile = nextProps.store.userAuth.user !== this.props.store.userAuth.user
-    
-    return crateColor || profile
+
+    return crateColor || profile || true
   }
   onNewCrateTap = () => {
     trackEvent("Tap New Crate");
