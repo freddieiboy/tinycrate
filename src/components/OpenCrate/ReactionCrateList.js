@@ -30,7 +30,7 @@ class ReactionCrateList extends Component {
     return isOpened || localEmojis || setReactionEmoji || thisPropsColor
   }
   componentDidUpdate = () => {
-    console.log('list did update')
+    // console.log('list did update')
   }
   toggleReaction = () => {
     if(!this.state.hasSentReaction) {
