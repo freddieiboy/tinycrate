@@ -107,7 +107,8 @@ const DefaultCrateView = ({
       margin: '-2px 0 0 4px'
     },
     reactionEmoji: {
-      transform: 'scale(2)',
+      transform: 'scale(5)',
+      // fontSize: '6em'
     },
     reactionAuthor: {
       marginTop: '2em'
@@ -181,7 +182,7 @@ const DefaultCrateView = ({
           var attr = oldtext.slice(3);
           // text = nextText;
           topContent = <div id="crateHeroImageContainer" className='center-text'>
-              <h1 className="reactionEmoji" style={styles.reactionEmoji}>{emoji}</h1>
+              <div className="reactionEmoji" style={styles.reactionEmoji}>{emoji}</div>
               <h4 style={styles.reactionAuthor}>{attr}</h4>
             </div>
           }
@@ -197,7 +198,7 @@ const DefaultCrateView = ({
         var attr = oldtext.slice(3);
         // text = nextText;
         topContent = <div className='center-text'>
-            <h1 className="reactionEmoji" style={styles.reactionEmoji}>{emoji}</h1>
+            <div className="reactionEmoji" style={styles.reactionEmoji}>{emoji}</div>
             <h4 style={styles.reactionAuthor}>{attr}</h4>
           </div>
       } else {

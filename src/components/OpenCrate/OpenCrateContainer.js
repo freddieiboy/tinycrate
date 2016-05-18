@@ -285,7 +285,8 @@ class OpenCrateContainer extends Component {
         // backgroundColor: '#000'
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        overflow: 'hidden'
       },
       TextImageCrateView: {
         flex: '1',

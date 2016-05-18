@@ -50,7 +50,7 @@ class ReactionCrateList extends Component {
     }
   }
   shuffleEmojis = () => {
-    const emojis = ['💛', '😱', '💩', '😰', '⬛️', '⬜️', '🍔', '🐈']
+    const emojis = ['💛', '😱', '💩', '😰', '⬛️', '⬜️', '🍔', '🐈', '🔑', '😡', '😤', '🤖', '👏', '😴', '😍', '🐕']
     let emojiArray = []
     for (var i = 0; i < 4;) {
       const randomEmoji = emojis[Math.floor(Math.random()*emojis.length)];
