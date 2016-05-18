@@ -14,7 +14,8 @@ const DefaultControlsView = ({
   crateContentsSaved,
   author,
   closePreview,
-  openedCrate
+  openedCrate,
+  hasSavedCrate
 }) => {
   const styles = {
     DefaultControlsView: {
@@ -70,14 +71,20 @@ const DefaultControlsView = ({
       transform: 'translate(-50%, -50%)',
       boxShadow: '0px 2px 3px 0px rgba(0,0,0,0.2)'
     },
+    hasSavedCrate: {
+      opacity: '.3'
+    }
   }
   const color = colors(thisCrateColor).lightColor;
   return (
     <div className="DefaultControlsView" style={styles.DefaultControlsView}>
       <div className="saveContainer" style={styles.controlBox}>
         <Hammer onTap={saveToProfile}>
-          <div className="controlContents" style={styles.controlContents}>
-            <StarIcon color={color} />
+          <div className="controlContents" style={ifStyle(
+              styles.controlContents,
+              hasSavedCrate && styles.hasSavedCrate
+            )}>
+            <StarIcon color={color} fill={hasSavedCrate ? 'transparent' : color} />
           </div>
         </Hammer>
       </div>

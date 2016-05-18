@@ -38,7 +38,8 @@ class OpenCrateContainer extends Component {
       data: [],
       openedCrate: {},
       contextCrate: {},
-      isDefaultCrate: true
+      isDefaultCrate: true,
+      hasSavedCrate: false
     };
   }
   componentDidMount = () => {
@@ -151,6 +152,7 @@ class OpenCrateContainer extends Component {
     }
     trackEvent("Save Crate Button");
     collectCrate(this.props.store, this.state.openedCrate);
+    this.setState({hasSavedCrate: true});
   }
   viewSenderProfile = () => {
     getUserByUid(this.state.openedCrate.authorUId, (user) => {
@@ -329,6 +331,7 @@ class OpenCrateContainer extends Component {
               saveToProfile={this.collectCrateButton}
               closePreview={this.closePreview}
               openedCrate={this.state.openedCrate}
+              hasSavedCrate={this.state.hasSavedCrate}
               />
           :
             <CondensedControlsView

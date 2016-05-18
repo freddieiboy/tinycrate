@@ -106,6 +106,12 @@ const DefaultCrateView = ({
       transform: 'scale(.7)',
       margin: '-2px 0 0 4px'
     },
+    reactionEmoji: {
+      transform: 'scale(2)',
+    },
+    reactionAuthor: {
+      marginTop: '2em'
+    }
   }
   let closeAction;
   if (isDefaultCrate) {
@@ -168,15 +174,39 @@ const DefaultCrateView = ({
           });
         }
       }
-      topContent = (
-        <div id="crateHeroImageContainer">
+        let text;
+        if (openedCrate.subtype === 'reactions') {
+          const oldtext = openedCrate.text;
+          var emoji = oldtext.slice(0, 2);
+          var attr = oldtext.slice(3);
+          // text = nextText;
+          topContent = <div id="crateHeroImageContainer" className='center-text'>
+              <h1 className="reactionEmoji" style={styles.reactionEmoji}>{emoji}</h1>
+              <h4 style={styles.reactionAuthor}>{attr}</h4>
+            </div>
+          }
+        {/*<div id="crateHeroImageContainer">
           <h4>{openedCrate.text}</h4>
-        </div>
-      );
+        </div>*/}
     } else {
-      topContent = <h4>{openedCrate.text}</h4>
+
+      let text;
+      if (openedCrate.subtype === 'reactions') {
+        const oldtext = openedCrate.text;
+        var emoji = oldtext.slice(0, 2);
+        var attr = oldtext.slice(3);
+        // text = nextText;
+        topContent = <div className='center-text'>
+            <h1 className="reactionEmoji" style={styles.reactionEmoji}>{emoji}</h1>
+            <h4 style={styles.reactionAuthor}>{attr}</h4>
+          </div>
+      } else {
+        text = openedCrate.text;
+        topContent = <h4>{text}</h4>
+      }
     }
   }
+
   return (
     <div className="DefaultCrateView" style={styles.DefaultCrateView}>
       <div className="topContainer" style={styles.topContainer}>

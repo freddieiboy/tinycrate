@@ -63,7 +63,8 @@ class ReactionCrateList extends Component {
     this.props.actions.setReactionEmoji('');
   }
   sendReaction = () => {
-    const reactionText = this.props.store.user.username + "'s reaction to your crate: " + this.props.store.emoji;
+    // const reactionText = this.props.store.user.username + "'s reaction to your crate: " + this.props.store.emoji;
+    const reactionText = this.props.store.emoji + ' ' + this.props.store.user.username + "'s reaction";
     const crate = this.props.openedCrate;
     sendNotificationCrate(this.props.store, crate.authorUId, reactionText, crate.crateColor, "reactions", crate);
   }
@@ -101,6 +102,9 @@ class ReactionCrateList extends Component {
       },
       newEmojis: {
         transform: 'scale(.7)'
+      },
+      reactionSent: {
+        opacity: '.3'
       }
     }
     const emojis = this.state.emojis.map((emoji, key) => {
@@ -110,7 +114,7 @@ class ReactionCrateList extends Component {
     })
     const selectedEmoji = this.props.store.emoji.length > 0 ? this.props.color : '#fff'
 
-    console.log(this.props.openedCrate)
+    // console.log(this.props.openedCrate)
 
     return (
       <div className="ReactionCrateList Grid full-container" style={styles.ReactionCrateList}>
@@ -146,10 +150,16 @@ class ReactionCrateList extends Component {
             </div>
           </div>
         :
-          <div className="Grid-cell full-height relative" style={styles.reactionIcon}>
+          <div className="Grid-cell full-height relative" style={ifStyle(
+              styles.reactionIcon,
+              this.state.hasSentReaction && styles.reactionSent
+            )}>
             <Hammer onTap={this.toggleReaction}>
               <div className="Grid Grid--center-content absolute-container">
-                <ReactionIcon color={this.props.color} />
+                <ReactionIcon
+                  color={this.props.color}
+                  fill={this.state.hasSentReaction ? 'transparent' : this.props.color}
+                  />
               </div>
             </Hammer>
           </div>
