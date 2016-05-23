@@ -334,8 +334,10 @@ export function getCrateVideo (videoUrl) {
     var source = document.createElement("source");
     video.setAttribute("autoplay", true);
     video.setAttribute("loop", true);
+    video.setAttribute("controls", true)
     source.src = videoUrl;
     video.appendChild(source);
+    console.log(video)
     resolve(video);
   });
 }

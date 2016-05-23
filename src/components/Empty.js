@@ -32,7 +32,6 @@ const Empty = ({ actions, store }) => {
               shadow={true}
               />
           </div>
-          {/*<p style={{opacity: '.5'}}>Empty Dashboard</p>*/}
         </div>
       </div>
     </div>
