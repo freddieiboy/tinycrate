@@ -60,7 +60,15 @@ const DefaultCrateView = ({
       overflowY: 'scroll',
       borderBottomRightRadius: isDefaultCrate ? '15px' : '0px',
       borderBottomLeftRadius: isDefaultCrate ? '15px' : '0px',
-      zIndex: 1
+      zIndex: '0'
+    },
+    crateHeroImageContainer: {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      zIndex: '-1',
+      height: '100%'
     },
     crateHeroImage: {
       zIndex: 0,
@@ -196,7 +204,7 @@ const DefaultCrateView = ({
             </div>
           } else {
             text = <h4>{openedCrate.text}</h4>;
-            topContent = <div id="crateHeroImageContainer"></div>
+            topContent = <div id="crateHeroImageContainer" style={styles.crateHeroImageContainer}></div>
           }
     } else {
 
