@@ -62,6 +62,12 @@ const DefaultCrateView = ({
       borderBottomLeftRadius: isDefaultCrate ? '15px' : '0px',
       zIndex: 1
     },
+    crateHeroImage: {
+      zIndex: 0,
+      position: 'relative',
+      width: '100%',
+      height: '100%'
+    },
     attribution: {
       display: 'flex',
       opacity: '.5'
@@ -145,7 +151,6 @@ const DefaultCrateView = ({
             let width = image.width;
             let height = image.height;
             console.log(width, height)
-            styleCrateHeroImage(image, width, height);
             $(image).css("z-index", "-1");
             $(image).css("-webkit-filter", "blur(1.5px)");
             var topContainerBackgroundColor = $(".topContainer").css('background-color');

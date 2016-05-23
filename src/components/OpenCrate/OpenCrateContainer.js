@@ -123,9 +123,16 @@ class OpenCrateContainer extends Component {
           image.src = crate.image;
         } else {
           getCrateVideo(crate.image).then(function(video) {
-            let width = $('#crateHeroImage > img').width();
-            let height = $('#crateHeroImage > img').height();
-            styleCrateHeroImage(video, width, height);
+            // let width = $('#crateHeroImage > img').width();
+            // let height = $('#crateHeroImage > img').height();
+
+            $(video).bind("loadedmetadata", function () {
+              var width = this.videoWidth;
+              var height = this.videoHeight;
+              console.log(width, height)
+              styleCrateHeroImage(video, width, height);
+            });
+
             video.onloadeddata = function() {
               // programatically remove the "Loading video..." alert
               $("#notie-alert-outer").click();
