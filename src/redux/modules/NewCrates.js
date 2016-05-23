@@ -12,6 +12,7 @@ export const closeActionBar = () => {
     type: 'CLOSE_ACTION_BAR',
     isOpened: false,
     isCreatingCrate: false,
+    isSelectingGif: false,
     isSelectingUsers: false
   }
 }
@@ -20,7 +21,17 @@ export const selectGiftees = () => {
   return {
     type: 'SELECTING_GIFTEES',
     isCreatingCrate: false,
+    isSelectingGif: false,
     isSelectingUsers: true
+  }
+}
+
+export const selectGif = () => {
+  return {
+    type: 'SELECTING_GIF',
+    isCreatingCrate: true,
+    isSelectingGif: true,
+    isSelectingUsers: false
   }
 }
 
@@ -28,6 +39,7 @@ export const editNewCrate = () => {
   return {
     type: 'EDIT_NEW_CRATE',
     isCreatingCrate: true,
+    isSelectingGif: false,
     isSelectingUsers: false
   }
 }
@@ -100,6 +112,7 @@ export const flushNewCrateState = () => {
     type: 'FLUSH_NEW_CRATE_STATE',
     isOpened: false,
     isCreatingCrate: false,
+    isSelectingGif: false,
     isSelectingUsers: false,
     newCratePhoto: '',
     regiftCrateText: '',
@@ -125,6 +138,7 @@ const initialState = {
   isHidden: true,
   isOpened: false,
   isCreatingCrate: false,
+  isSelectingGif: false,
   isSelectingUsers: false,
   mainButtonPosition: 0,
   mainButtonWidth: 0,
@@ -148,18 +162,28 @@ export default function NewCrates (state = initialState, action) {
         ...state,
         isOpened: action.isOpened,
         isCreatingCrate: action.isCreatingCrate,
+        isSelectingGif: action.isSelectingGif,
         isSelectingUsers: action.isSelectingUsers
       }
     case 'SELECTING_GIFTEES':
       return {
         ...state,
         isCreatingCrate: action.isCreatingCrate,
+        isSelectingGif: action.isSelectingGif,
+        isSelectingUsers: action.isSelectingUsers
+      }
+    case 'SELECTING_GIF':
+      return {
+        ...state,
+        isCreatingCrate: action.isCreatingCrate,
+        isSelectingGif: action.isSelectingGif,
         isSelectingUsers: action.isSelectingUsers
       }
     case 'EDIT_NEW_CRATE':
       return {
         ...state,
         isCreatingCrate: action.isCreatingCrate,
+        isSelectingGif: action.isSelectingGif,
         isSelectingUsers: action.isSelectingUsers
       }
     case 'SELECT_CRATE_COLOR':
@@ -219,6 +243,7 @@ export default function NewCrates (state = initialState, action) {
         ...state,
         isOpened: action.isOpened,
         isCreatingCrate: action.isCreatingCrate,
+        isSelectingGif: action.isSelectingGif,
         isSelectingUsers: action.isSelectingUsers,
         newCratePhoto: action.newCratePhoto,
         newCrateText: action.newCrateText,

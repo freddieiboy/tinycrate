@@ -140,6 +140,10 @@ class ActionBar extends Component {
       this.props.store.isSelectingUsers && this.footerHeight0()
     )
   }
+  selectGif = () => {
+    let {store, actions} = this.props;
+    actions.selectGif();
+  }
   selectFile = () => {
     trackEvent("Add Photo Button");
     var itself = this;
@@ -461,11 +465,13 @@ class ActionBar extends Component {
                   </Motion>
                   <Motion style={this.setBtnPosition(2)}>
                     {({left, opacity}) =>
+                    <Hammer onTap={this.selectGif}>
                       <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
                         <div className="actionIcon">
                           <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={profileImage}/>
                         </div>
-                      </div>}
+                      </div>
+                    </Hammer>}
                   </Motion>
                   <Motion style={this.setBtnPosition(3)}>
                     {({left, opacity}) =>
