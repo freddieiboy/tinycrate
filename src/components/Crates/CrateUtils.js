@@ -350,12 +350,19 @@ export function styleCrateHeroImage(image, width, height) {
       $(image).css('left', '0px');
       $(image).css('top', '50%');
       $(image).css('transform', 'translate(0, -50%)');
-    } else {
+    } else if (width < height) {
       $(image).css('width', 'auto');
       $(image).css('height', '100%');
       $(image).css('left', '50%');
-      $(image).css('top', '0px');
-      $(image).css('transform', 'translate(-50%, 0)');
+      $(image).css('top', '50%');
+      $(image).css('transform', 'translate(-50%, -50%)');
+    } else {
+      //NOTE: check for video size in the future
+      $(image).css('width', '100%');
+      $(image).css('height', 'auto');
+      $(image).css('left', '0px');
+      $(image).css('top', '50%');
+      $(image).css('transform', 'translate(0, -50%)');
     }
     $(image).css('position', 'absolute');
     $(image).css('margin', '0px');

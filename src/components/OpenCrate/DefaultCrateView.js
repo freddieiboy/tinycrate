@@ -59,7 +59,8 @@ const DefaultCrateView = ({
       backgroundColor: '#EBEEF5',
       overflowY: 'scroll',
       borderBottomRightRadius: isDefaultCrate ? '15px' : '0px',
-      borderBottomLeftRadius: isDefaultCrate ? '15px' : '0px'
+      borderBottomLeftRadius: isDefaultCrate ? '15px' : '0px',
+      zIndex: 1
     },
     attribution: {
       display: 'flex',
@@ -130,10 +131,12 @@ const DefaultCrateView = ({
   if (openedCrate.image) {
     topContent = <Hammer onTap={viewPhoto}><div id="crateHeroImage" style={styles.crateHeroImage} /></Hammer>
   } else {
+
     if((isSaveNotification || isReactionNotification) && contextCrateHasImage) {
       if(contextCrate.image && !$("#contextCrateImage").length) {
         var uploadAlertText = 'Loading ' + (isPhoto(contextCrate.image) ? 'image...' : 'video...');
         notie.alert(4, uploadAlertText);
+
         if(isPhoto(contextCrate.image)) {
           var image = new Image();
           image.onload = function() {
@@ -141,6 +144,7 @@ const DefaultCrateView = ({
             $("#notie-alert-outer").click();
             let width = image.width;
             let height = image.height;
+            console.log(width, height)
             styleCrateHeroImage(image, width, height);
             $(image).css("z-index", "-1");
             $(image).css("-webkit-filter", "blur(1.5px)");
@@ -175,7 +179,7 @@ const DefaultCrateView = ({
           });
         }
       }
-        let text;
+        var text;
         if (openedCrate.subtype === 'reactions') {
           const oldtext = openedCrate.text;
           var emoji = oldtext.slice(0, 2);
@@ -185,10 +189,10 @@ const DefaultCrateView = ({
               <div className="reactionEmoji" style={styles.reactionEmoji}>{emoji}</div>
               <h4 style={styles.reactionAuthor}>{attr}</h4>
             </div>
+          } else {
+            text = <h4>{openedCrate.text}</h4>;
+            topContent = <div id="crateHeroImageContainer"></div>
           }
-        {/*<div id="crateHeroImageContainer">
-          <h4>{openedCrate.text}</h4>
-        </div>*/}
     } else {
 
       let text;
@@ -211,9 +215,10 @@ const DefaultCrateView = ({
   return (
     <div className="DefaultCrateView" style={styles.DefaultCrateView}>
       <div className="topContainer" style={styles.topContainer}>
-        <div className="inner" style={ifStyle(
+        <div className="inner absolute full-container" style={ifStyle(
             !hasImage && styles.topTextStyle
           )}>
+          {text}
           {topContent}
           {closeAction}
         </div>

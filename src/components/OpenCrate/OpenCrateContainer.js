@@ -74,6 +74,12 @@ class OpenCrateContainer extends Component {
 
     getCrateById(crateId, ref.getAuth().uid, crate => {
       this.setState({openedCrate: crate});
+      // var width;
+      // var height;
+      // setTimeout(() => {
+      //   width = $('#crateHeroImage > img').width();
+      //   height = $('#crateHeroImage > img').height();
+      // }, 1000)
       var itself = this;
       if(crate.image) {
         var uploadAlertText = 'Loading ' + (isPhoto(crate.image) ? 'image...' : 'video...');
@@ -88,9 +94,7 @@ class OpenCrateContainer extends Component {
             crate.imageWidth = image.naturalWidth;
             crate.imageHeight = image.naturalHeight;
             itself.setState({openedCrate: crate});
-            let width = $('#crateHeroImage > img').width();
-            let height = $('#crateHeroImage > img').height();
-            styleCrateHeroImage(image, width, height);
+            styleCrateHeroImage(image, crate.imageWidth, crate.imageHeight);
             $("#crateHeroImage").append(image);
             // TODO: the EXIF.getData was used to rotate the image properly on desktop; disabled for now
             // EXIF.getData(image, function() {
@@ -205,24 +209,24 @@ class OpenCrateContainer extends Component {
           gallery.init();
         });
       } else {
-        return getCrateVideo(itself.state.openedCrate.image).then(function(video) {
-          let width = $('#crateHeroImage > img').width();
-          let height = $('#crateHeroImage > img').height();
-          styleCrateHeroImage(video, width, height)
-          var slides = [
-            {
-              html: video,
-            }
-          ];
-
-          var options = {
-            closeOnScroll: false,
-            shareEl: false
-          };
-
-          var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
-          gallery.init();
-        });
+        // return getCrateVideo(itself.state.openedCrate.image).then(function(video) {
+        //   let width = $('#crateHeroImage > img').width();
+        //   let height = $('#crateHeroImage > img').height();
+        //   styleCrateHeroImage(video, width, height)
+        //   var slides = [
+        //     {
+        //       html: video,
+        //     }
+        //   ];
+        //
+        //   var options = {
+        //     closeOnScroll: false,
+        //     shareEl: false
+        //   };
+        //
+        //   var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, slides, options);
+        //   gallery.init();
+        // });
       }
     });
   }
