@@ -30,6 +30,7 @@ import {
 } from 'components/NewCrates/Icons';
 
 const FIREBASE_URL = "https://burning-heat-5122.firebaseio.com";
+var gifSearchTimeout = null;  
 
 class ActionBar extends Component {
   constructor(props) {
@@ -139,6 +140,10 @@ class ActionBar extends Component {
       !isOpened && this.footerHeight1(),
       this.props.store.isSelectingUsers && this.footerHeight0()
     )
+  }
+  selectGif = () => {
+    let {store, actions} = this.props;
+    actions.selectGif();
   }
   selectFile = () => {
     trackEvent("Add Photo Button");
@@ -285,6 +290,7 @@ class ActionBar extends Component {
     });
   }
   handleSend = (e) => {
+    let itself = this;
     let {store, actions} = this.props;
     let text = this.state.localText.length;
     let photo = store.newCratePhoto.length;
@@ -293,6 +299,17 @@ class ActionBar extends Component {
     let hasContentAndGiftee = giftee > 0 && (text > 0 || photo > 0);
     let noGifteeButContent = giftee <= 0 && (text > 0 || photo > 0);
     let noContentButGiftee = giftee > 0 && (text <= 0 && photo <= 0);
+    
+    // search for gifs after a delay, to prevent spamming the API for each key stroke
+    if (store.isSelectingGif) {
+      if (gifSearchTimeout != null) {
+        clearTimeout(gifSearchTimeout);
+      }
+      gifSearchTimeout = setTimeout(function() {
+        gifSearchTimeout = null;  
+        itself.searchGifs(itself.state.localText);
+      }, 1000);  
+    }
 
     if (e.which == 13 || e.which == undefined) {
       if (hasContentAndGiftee) {
@@ -315,6 +332,29 @@ class ActionBar extends Component {
   handleChange = (event) => {
     // this.props.actions.addNewCrateText(event.target.value);
     this.setState({localText: event.target.value})
+  }
+  searchGifs = (searchQuery) => {
+    var itself = this;
+    var xhr = new XMLHttpRequest();
+    
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        var giphyData = JSON.parse(xhr.responseText)['data'];
+        giphyData.forEach(function(item, index) {
+          item.key = item.id;
+          giphyData[index] = item;
+        });
+        itself.props.actions.setGifSearchResponseData(giphyData);
+      }
+    }
+    
+    // if the searchQuery is empty, revert to searching for trending gifs
+    if(searchQuery === "") {
+      xhr.open("GET", 'http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC', true);
+    } else {
+      xhr.open("GET", 'http://api.giphy.com/v1/gifs/search?q=' + searchQuery + '&api_key=dc6zaTOxFJmzC', true);
+    }
+    xhr.send();
   }
   editCrate = () => {
     trackEvent("Edit Crate Button");
@@ -461,11 +501,13 @@ class ActionBar extends Component {
                   </Motion>
                   <Motion style={this.setBtnPosition(2)}>
                     {({left, opacity}) =>
+                    <Hammer onTap={this.selectGif}>
                       <div className="userButton actionButton" style={{left: left, opacity: opacity}}>
                         <div className="actionIcon">
                           <img className="user-avatar" style={{height: 50, borderRadius: '50%', marginTop: 7}} src={profileImage}/>
                         </div>
-                      </div>}
+                      </div>
+                    </Hammer>}
                   </Motion>
                   <Motion style={this.setBtnPosition(3)}>
                     {({left, opacity}) =>
@@ -483,7 +525,7 @@ class ActionBar extends Component {
               {/*NOTE: This input shows up after init click.*/}
               { store.isCreatingCrate ? (
                 <div className="clearfix" style={{padding: '0 20px 0 20px'}}>
-                  <input id="message" placeholder='crate message...' className="inputSend" style={styles.inputSend} value={this.state.localText} onChange={this.handleChange} onKeyUp={this.handleSend}></input>
+                  <input id="message" placeholder={store.isSelectingGif ? 'search gifs...' : 'crate message...'} className="inputSend" style={styles.inputSend} value={this.state.localText} onChange={this.handleChange} onKeyUp={this.handleSend}></input>
                 </div>
               ) : (
                 null
@@ -511,6 +553,7 @@ const mapStateToProps = (state) => ({
   store: {
     isOpened: state.NewCrates.isOpened,
     isCreatingCrate: state.NewCrates.isCreatingCrate,
+    isSelectingGif: state.NewCrates.isSelectingGif,
     isSelectingUsers: state.NewCrates.isSelectingUsers,
     mainButtonPosition: state.NewCrates.mainButtonPosition,
     mainButtonWidth: state.NewCrates.mainButtonWidth,

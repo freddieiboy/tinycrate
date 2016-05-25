@@ -8,6 +8,8 @@ import FlexCrateTemplate, { colors } from '../Crates/FlexCrateTemplate';
 import SubscribersList from './SubscribersList'
 import Hammer from 'react-hammerjs';
 import { trackEvent } from '../AnalyticsUtil';
+import AbsoluteGrid from 'react-absolute-grid';
+import GifTile from './GifTile';
 
 class NewCrate extends Component {
   constructor(props) {
@@ -19,6 +21,25 @@ class NewCrate extends Component {
     this.initColor();
     actions.showActionBar();
     actions.openActionBar();
+    this.fetchTrendingGifs();
+  }
+  fetchTrendingGifs = () => {
+    var itself = this;
+    var xhr = new XMLHttpRequest();
+    
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == XMLHttpRequest.DONE) {
+        var giphyData = JSON.parse(xhr.responseText)['data'];
+        giphyData.forEach(function(item, index) {
+          item.key = item.id;
+          giphyData[index] = item;
+        });
+        itself.props.actions.setGifSearchResponseData(giphyData);
+      }
+    }
+    
+    xhr.open("GET", 'http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC', true);
+    xhr.send();
   }
   shouldComponentUpdate = (nextProps, nextState) => {
     const crateColor = nextProps.store.newCrateColor !== this.props.store.newCrateColor
@@ -63,7 +84,6 @@ class NewCrate extends Component {
       thisColor = colors(store.userAuth.user.profileColor)
     }
 
-
     const styles = {
       NewCrate: {
         // height: '100%'
@@ -80,7 +100,7 @@ class NewCrate extends Component {
     }
     let newCratePageTitle;
     let newCratePageBody;
-    if (store.isCreatingCrate) {
+    if (store.isCreatingCrate && !store.isSelectingGif) {
       newCratePageTitle = store.regiftCrateText.length > 0 ? 'Regift Crate' : 'New Crate'
       newCratePageBody = <div className="flex-1 newCratePageBody relative">
         <Hammer onTap={() => this.onNewCrateTap()}>
@@ -112,6 +132,16 @@ class NewCrate extends Component {
             />
         </div>
       </div>
+    } else if (store.isSelectingGif) {
+      newCratePageTitle = 'Select a Gif...'
+      newCratePageBody = <div className="flex-1 newCratePageBody relative">
+          <AbsoluteGrid
+            items={store.gifSearchResponseData}
+            displayObject={(<GifTile />)}
+            responsive={false}
+            itemWidth={90} 
+            itemHeight={50} />
+      </div>
     }
     return (
       <div className="NewCrate full-height Grid Grid--columns" styles={styles.NewCrate}>
@@ -130,7 +160,9 @@ class NewCrate extends Component {
 const mapStateToProps = (state) => ({
   store: {
     isCreatingCrate: state.NewCrates.isCreatingCrate,
+    isSelectingGif: state.NewCrates.isSelectingGif,
     isSelectingUsers: state.NewCrates.isSelectingUsers,
+    gifSearchResponseData: state.NewCrates.gifSearchResponseData,
     userAuth: state.userAuth,
     newCrateColor: state.NewCrates.newCrateColor,
     newCratePhoto: state.NewCrates.newCratePhoto,
