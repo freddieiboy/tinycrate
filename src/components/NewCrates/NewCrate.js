@@ -14,9 +14,6 @@ import GifTile from './GifTile';
 class NewCrate extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      gifData: []
-    }
   }
   componentDidMount = () => {
     let {store, actions} = this.props;
@@ -37,7 +34,7 @@ class NewCrate extends Component {
           item.key = item.id;
           giphyData[index] = item;
         });
-        itself.setState({gifData: giphyData});
+        itself.props.actions.setGifSearchResponseData(giphyData);
       }
     }
     
@@ -139,7 +136,7 @@ class NewCrate extends Component {
       newCratePageTitle = 'Select a Gif...'
       newCratePageBody = <div className="flex-1 newCratePageBody relative">
           <AbsoluteGrid
-            items={this.state.gifData}
+            items={store.gifSearchResponseData}
             displayObject={(<GifTile />)}
             responsive={false}
             itemWidth={90} 
@@ -165,6 +162,7 @@ const mapStateToProps = (state) => ({
     isCreatingCrate: state.NewCrates.isCreatingCrate,
     isSelectingGif: state.NewCrates.isSelectingGif,
     isSelectingUsers: state.NewCrates.isSelectingUsers,
+    gifSearchResponseData: state.NewCrates.gifSearchResponseData,
     userAuth: state.userAuth,
     newCrateColor: state.NewCrates.newCrateColor,
     newCratePhoto: state.NewCrates.newCratePhoto,

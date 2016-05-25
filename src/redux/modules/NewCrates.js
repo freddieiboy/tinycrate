@@ -35,6 +35,13 @@ export const selectGif = () => {
   }
 }
 
+export const setGifSearchResponseData = (data) => {
+  return {
+    type: 'SET_GIF_SEARCH_RESPONSE_DATA',
+    gifSearchResponseData: data
+  }
+}
+
 export const editNewCrate = () => {
   return {
     type: 'EDIT_NEW_CRATE',
@@ -146,7 +153,8 @@ const initialState = {
   regiftCrateText: '',
   newCratePhoto: '',
   subscribers: {},
-  giftee: []
+  giftee: [],
+  gifSearchResponseData:[]
 }
 
 export default function NewCrates (state = initialState, action) {
@@ -178,6 +186,11 @@ export default function NewCrates (state = initialState, action) {
         isCreatingCrate: action.isCreatingCrate,
         isSelectingGif: action.isSelectingGif,
         isSelectingUsers: action.isSelectingUsers
+      }
+    case 'SET_GIF_SEARCH_RESPONSE_DATA':
+      return {
+        ...state,
+        gifSearchResponseData: action.gifSearchResponseData
       }
     case 'EDIT_NEW_CRATE':
       return {
