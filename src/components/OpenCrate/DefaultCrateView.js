@@ -60,7 +60,22 @@ const DefaultCrateView = ({
       overflowY: 'scroll',
       borderBottomRightRadius: isDefaultCrate ? '15px' : '0px',
       borderBottomLeftRadius: isDefaultCrate ? '15px' : '0px',
-      zIndex: 1
+      // zIndex: '0'
+    },
+    crateHeroImageContainer: {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      zIndex: '-1',
+      height: '100%',
+      width: '100%'
+    },
+    crateHeroImage: {
+      zIndex: 0,
+      position: 'relative',
+      width: '100%',
+      height: '100%'
     },
     attribution: {
       display: 'flex',
@@ -144,7 +159,6 @@ const DefaultCrateView = ({
             $("#notie-alert-outer").click();
             let width = image.width;
             let height = image.height;
-            console.log(width, height)
             styleCrateHeroImage(image, width, height);
             $(image).css("z-index", "-1");
             $(image).css("-webkit-filter", "blur(1.5px)");
@@ -160,10 +174,13 @@ const DefaultCrateView = ({
           image.src = contextCrate.image;
         } else {
           getCrateVideo(contextCrate.image).then(function(video) {
+            $(video).bind("loadedmetadata", function () {
+              var width = this.videoWidth;
+              var height = this.videoHeight;
+              console.log(width, height)
+              styleCrateHeroImage(video, width, height);
+            });
             video.setAttribute("webkit-playsinline", true);
-            let width = video.width;
-            let height = video.height;
-            styleCrateHeroImage(video, width, height);
             $(video).css("z-index", "-1");
             var topContainerBackgroundColor = $(".topContainer").css('background-color');
             if(topContainerBackgroundColor.indexOf('a') == -1){
@@ -191,7 +208,7 @@ const DefaultCrateView = ({
             </div>
           } else {
             text = <h4>{openedCrate.text}</h4>;
-            topContent = <div id="crateHeroImageContainer"></div>
+            topContent = <div id="crateHeroImageContainer" style={styles.crateHeroImageContainer}></div>
           }
     } else {
 

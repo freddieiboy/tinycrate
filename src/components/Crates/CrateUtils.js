@@ -337,7 +337,6 @@ export function getCrateVideo (videoUrl) {
     video.setAttribute("controls", true)
     source.src = videoUrl;
     video.appendChild(source);
-    console.log(video)
     resolve(video);
   });
 }
