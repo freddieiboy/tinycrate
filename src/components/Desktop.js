@@ -117,6 +117,10 @@ class Desktop extends Component {
       },
       checkLabel: {
         margin: '0px'
+      },
+      thankyou: {
+        borderTop: '1px dashed grey',
+        paddingTop: '1.5em'
       }
     }
     const test = 'test';
@@ -149,7 +153,12 @@ class Desktop extends Component {
               We call it a Loot Messenger.
             </p>
           </div>
-          <div className="signup flex-1" style={styles.signup}>
+          <div className="flex-1 thankyou" style={styles.thankyou}>
+            <h4>Alpha is over but Tinycrate isn't.</h4>
+            <p>Thank you for everything, Zero One.</p>
+            <p>-Freddie Iboy &  Alec Garcia</p>
+          </div>
+          {/*<div className="signup flex-1" style={styles.signup}>
             {this.state.isSigningUp ?
               <div className="signupInput" style={styles.signupInput}>
                 <div className="animated fadeIn">
@@ -182,7 +191,7 @@ class Desktop extends Component {
                 <div className="button" onClick={this.startForm}>Join the Alpha Webapp</div>
               </div>
             }
-          </div>
+          </div>*/}
         </div>
       </div>
     )
