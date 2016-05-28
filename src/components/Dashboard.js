@@ -52,7 +52,8 @@ class Dashboard extends Component {
     // console.log('dashboard will mount')
     if (this.props.store.userAuth.currently === 'ANONYMOUS') {
       this.setState({isMounted: false})
-      this.props.actions.push('login');
+      // this.props.actions.push('login');
+      this.props.actions.push('desktop');
     } else {
       this.setState({isMounted: true})
       this.props.actions.showActionBar();

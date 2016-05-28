@@ -105,3 +105,14 @@ export function isPhoto(url) {
   }
   return(url.toLowerCase().match(/\.(jpeg|jpg|gif|png|bmp)$/) != null);
 }
+
+export function isWhitelisted(uid) {
+  const whitelist = [
+    'twitter:53613040',
+    'twitter:48171141'
+  ];
+  if(whitelist.indexOf(uid) > -1) {
+    return true;
+  }
+  return false;
+}
