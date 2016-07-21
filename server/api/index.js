@@ -1,5 +1,6 @@
 import Router from 'koa-router'
 import uploadApi from './upload'
+import notificationApi from './notification'
 var client = require('twilio')('AC57b3e4757050faf347be594c087072ac', '99c1785f890738c5a9dae9c1d7026818');
 
 import mailchimp from 'mailchimp-v3';
@@ -10,6 +11,7 @@ const api = new Router({
 })
 
 api.use('/upload', uploadApi.routes())
+api.use('/notification', notificationApi.routes())
 api.post('/sendSMS', (ctx, next) => {
   const phoneNumber = ctx.request.fields.phoneNumber
   client.sendMessage({
