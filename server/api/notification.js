@@ -6,15 +6,15 @@ const notification = new Router()
 const firebaseCloudMessagingServerKey = 'AIzaSyBo1AoInaY_mufYPBDe6S3vmPbIz0MkYZA'
 const firebaseCloudMessagingApiUrl = 'https://fcm.googleapis.com/fcm/send'
 
-function sendFcm(fcmToken) {
+export function sendFcm(fcmToken, body) {
   return new Promise(function(resolve, reject) {
     
     var requestBody = {
       'to' : fcmToken,
       'content_available': true,
       "notification": {
-        "title": "Test Title",
-        "body": "Test Body",
+        "title": "Tinycrate",
+        "body": body,
         "click_action": "fcm.ACTION.HELLO"
       },
       "data": {
@@ -47,7 +47,7 @@ function sendFcm(fcmToken) {
 // send message via Firebase Cloud Messaging
 notification.post('/send', function (ctx, next)  {
   var fcmToken = ctx.request.fields.fcmToken;
-  return sendFcm(fcmToken).then(function(success) {
+  return sendFcm(fcmToken, 'Test Body').then(function(success) {
     ctx.body = success;
   }, function(error) {
     ctx.body = error;

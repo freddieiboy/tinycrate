@@ -99,7 +99,7 @@
     "exif-js": "^2.1.1",
     "extract-text-webpack-plugin": "^1.0.0",
     "file-loader": "^0.8.4",
-    "firebase": "2.4.2",
+    "firebase": "^3.1.0",
     "fs-extra": "^0.27.0",
     "hashids": "^1.0.2",
     "history": "^2.0.0",
