@@ -12,27 +12,16 @@ import webpackDevMiddleware from './middleware/webpack-dev'
 import webpackHMRMiddleware from './middleware/webpack-hmr'
 import api from './api'
 import { sendFcm } from './api/notification'
-import firebase from 'firebase'
-
-firebase.initializeApp({
-  serviceAccount: {
-    projectId: "firebase-testingtc",
-    clientEmail: "tinycrate-server@firebase-testingtc.iam.gserviceaccount.com",
-    privateKey: "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCYspOlQvAj8es7\nB1N2ru7+cxWI6gBOPJC5Ff7rTd9iRvHhiWLqqgtgy1DEh1Lupx+30o+zcLkEG/Mf\nK8RjReIoy2IbOxSl6/W8ugAuSdRpRXZ86AlleWHfJ0lx9Tg2G+ppDWLn4HqkF73L\njLwv35DR378XjZ6pfjt5/oNjwnxyVNnrEvNpy/0Gb4bV9xmjKS9I9JzBH42khRx1\nYsc/iAjvt8Ottqy29BeGwbr44W6dM8oUbtSeb2++gr2I/qci7lkvryzhz1aju2MM\nhD0+CxLJ76ys8PZlVBmG/p+SzsLER0gC1v46VE8tiTE77VXmEEyCSe7ZDjkiF45r\n4V/k7CS1AgMBAAECggEALcT5NIQH7v5If/0GK4Dr6iEcx1k8ljbZOmE5c9Z3qsGR\nJwVDPQuTNYQ7xWy6kwZNH5BhumuDSZQHH8TCrO75hzjPQ1JGMiW0Fsm53CYNITDM\n/0ud5WioyXbBMQNLwgxECxEUIGTM3fqvzR92GPNuOTpT0P+GG0/XDA4Z3AEjxDDr\nkx7hSgcplpNZGb8fLRDsltxY8ETSt8BmLlbIkHcbOrxa4gvn+2o0kBNnmYTnf2kf\ngpeHs+rjlA1MQmKR4hdz6na7mciDmR/RkSRVkv4yKS426Kso6PcjuJFZQf209yya\nSWY1Ld9osxdR0M8Ae2T+p8bQbJIrqr/fwqB0XlTX0QKBgQDcpmwMVeGE+9hlBXPG\nvcYpKBH4Rc5ntD2P9qdmqeFIbSBS25gol6SFrSp/CQSVFonclZXzNgm5DcGJ9Bmw\nCuyr25LsdjkY0wEEsiAKKVACXDSfbYYWLINtaSsjB9zwC+oUmNELL8XhXms/GWFu\nI9zRyI9PBgiM8QBQB4V+WPgxhwKBgQCxKTNhxmVW3YooDjq/8fLFY3C+5wrXRSe5\nwiw/mPCRrN9ogEtR0+fIjfQhVvcOiTW/rcZYXu2rcdMueisFhkqum1WrbpvacDHc\n2tyhtIFypUtJ1boxpOAlNqADMpny+dD1MxLyn4e5GeuUGDbriF89dxcmD8T6lIEv\n3i3QJtx24wKBgQCtlsQ0ZDA69gNFXqe5+Dz4zgxtHUYIMjWol+0VCJsy5p9icF5h\nuQN3I0fmj0qqnAOzpX9FywKVMqxLgt3esImHnwQUweGjlQUdE6G/PMc0RCQmNP0j\nXru7DN0h/yKjO0xaDeuP+HKeHjETgD01cENeS4HrMpzxfPy4+WHdh9Mi6wKBgG11\nc1W56uscvju5bvshVko3AnYw8jXHeKABJK22pQycrvw2KFNKhi8X5fqjbMoCZL8l\ncyMuo9IF5eEVgndLXeE8AFaHZKw2HdjDMQaILGLVVgssjnoV0JethHf1T8EcMMsO\n32ogvw7SwQcjXutvusiTSC4wGBhqoNceg1fUaurZAoGBAJ01iwW6h4HfFxJMhpNj\nRPTfWzDvGajQCXaq1Up01JUeruZEsXFGccocpKjbZEe4/THniQ3iIMDbpSZSpXiy\nDbh3OVItGfG1bIs33CnyxJATVJYHhG26pn+r7fFOwSwFfSdnUzwAf8t7pXfVci83\ntC4SaPW3e01hsV5PytX3xorx\n-----END PRIVATE KEY-----\n"
-  },
-  databaseURL: "https://testingtc.firebaseio.com"
-});
-
-var db = firebase.database();
+import { Firebase, FirebaseAuth, FirebaseDb } from './modules/Firebase.js';
 
 // listen for new additions to the notification queue
-var ref = db.ref("notificationQueue");
+var ref = FirebaseDb.ref("notificationQueue");
 ref.on("child_added", function(snapshot) {
   var notificationQueueSnapshot = snapshot;
   var notificationData = snapshot.val();
   
   // find the FCM token associated with the recipient's UID
-  var userFcmTokenRef = db.ref('fcmTokens/' + notificationData.recipientUId);
+  var userFcmTokenRef = FirebaseDb.ref('fcmTokens/' + notificationData.recipientUId);
   userFcmTokenRef.on("value", function(snapshot) {
     var userFcmToken = snapshot.val();
     return sendFcm(userFcmToken, notificationData.message).then(function(success) {
